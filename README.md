@@ -1,5 +1,7 @@
 # Montanari Tech — Sistema de Gestión Contable
 
+[![CI](https://github.com/montanaritech/montanari-accounting/actions/workflows/ci.yml/badge.svg)](https://github.com/montanaritech/montanari-accounting/actions/workflows/ci.yml)
+
 Sistema web de gestión contable, financiera, impositiva y operativa para Montanari Tech. Ver [CLAUDE.md](CLAUDE.md) y `./plan` para el proceso de desarrollo orquestado; este README es sobre el **sistema en sí** (`./backend`, `./frontend`).
 
 ## Estructura
@@ -96,3 +98,8 @@ npm test        # Vitest + Testing Library
 ### Nota sobre el endpoint 401 por defecto
 
 Cualquier endpoint que no sea Actuator health/info, Swagger o `/api/v1/auth/{login,refresh,logout}` requiere un access token válido (401 si falta o venció); los que además exigen rol admin devuelven 403 si el token es válido pero el rol no alcanza.
+
+**F1.7 — CI básico:**
+- ✅ GitHub Actions workflow (`.github/workflows/ci.yml`) en cada PR: build backend + tests, build frontend + tests.
+- ✅ Cache de dependencias (Maven, npm) para acelerar CI.
+- ✅ Badge de estado en el README.
