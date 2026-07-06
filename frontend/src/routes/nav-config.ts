@@ -20,6 +20,8 @@ import {
   Wrench,
   Users,
   Truck,
+  Wallet,
+  CreditCard,
 } from "lucide-react"
 
 export type NavItem = {
@@ -44,6 +46,8 @@ export const NAV_ITEMS: NavItem[] = [
   { to: "/rubros", label: "Rubros", icon: ListTree },
   { to: "/conceptos", label: "Conceptos recurrentes", icon: Repeat },
   { to: "/tipos-costo", label: "Tipos de costo", icon: Wrench },
+  { to: "/cuentas-bancarias", label: "Cuentas bancarias", icon: Wallet },
+  { to: "/tarjetas-credito", label: "Tarjetas de crédito", icon: CreditCard },
   { to: "/contabilidad", label: "Contabilidad", icon: BookOpenText },
   { to: "/facturacion", label: "Facturación, cobros y pagos", icon: Receipt },
   { to: "/bancos", label: "Bancos, tarjetas y conciliaciones", icon: Landmark },

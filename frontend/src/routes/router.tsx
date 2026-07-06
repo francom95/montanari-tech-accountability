@@ -6,6 +6,7 @@ import { AuditoriaPage } from "@/pages/auditoria-page"
 import { CategoriasPage } from "@/pages/categorias-page"
 import { ClientesPage } from "@/pages/clientes-page"
 import { ConceptosPage } from "@/pages/conceptos-page"
+import { CuentasBancariasPage } from "@/pages/cuentas-bancarias-page"
 import { DashboardPage } from "@/pages/dashboard-page"
 import { EjemploFormularioPage } from "@/pages/ejemplo-formulario-page"
 import { JurisdiccionesPage } from "@/pages/jurisdicciones-page"
@@ -14,6 +15,7 @@ import { MonedasPage } from "@/pages/monedas-page"
 import { PlaceholderPage } from "@/pages/placeholder-page"
 import { ProveedoresPage } from "@/pages/proveedores-page"
 import { RubrosPage } from "@/pages/rubros-page"
+import { TarjetasCreditoPage } from "@/pages/tarjetas-credito-page"
 import { TiposCambioPage } from "@/pages/tipos-cambio-page"
 import { TiposCostoPage } from "@/pages/tipos-costo-page"
 import { UsuariosPage } from "@/pages/usuarios-page"
@@ -38,6 +40,8 @@ export const router = createBrowserRouter([
       { path: "rubros", element: <RubrosPage /> },
       { path: "conceptos", element: <ConceptosPage /> },
       { path: "tipos-costo", element: <TiposCostoPage /> },
+      { path: "cuentas-bancarias", element: <CuentasBancariasPage /> },
+      { path: "tarjetas-credito", element: <TarjetasCreditoPage /> },
       { path: "contabilidad", element: <PlaceholderPage title="Contabilidad" /> },
       {
         path: "facturacion",
