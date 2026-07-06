@@ -1,6 +1,14 @@
-# Placeholder de F1.3: sirve una página estática mientras F1.4 scaffoldea la
-# app real (React + Vite + TS). F1.4 debe reemplazar este Dockerfile por un
-# build multi-stage (node build -> nginx serve) sobre el proyecto Vite real.
+FROM node:22-alpine AS build
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN npm ci
+
+COPY . .
+RUN npm run build
+
 FROM nginx:1.27-alpine
-COPY index.html /usr/share/nginx/html/index.html
+COPY --from=build /app/dist /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
 EXPOSE 80

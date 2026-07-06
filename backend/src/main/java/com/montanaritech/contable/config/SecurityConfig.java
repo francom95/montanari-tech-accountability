@@ -1,7 +1,12 @@
 package com.montanaritech.contable.config;
 
+import com.montanaritech.contable.auth.JwtAuthenticationFilter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -10,21 +15,18 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
-import org.springframework.http.HttpStatus;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
- * Cadena de seguridad mínima de scaffolding: solo Actuator health/info y
- * Swagger quedan públicos. NO hay mecanismo de autenticación todavía (JWT
- * llega en F1.5) — por eso {@code anyRequest().authenticated()} sin ningún
- * filtro que autentique significa que, hasta F1.5, cualquier otro endpoint
- * responde 401. Es el comportamiento esperado en este paso, no un bug.
- *
- * <p>El {@link PasswordEncoder} (BCrypt, fijado por el stack en F1.1) se
- * declara acá porque es una decisión ya tomada, no un diseño nuevo; F1.5 lo
- * inyecta para hashear/verificar contraseñas.
+ * Cadena de seguridad JWT (F1.5). Login/refresh/logout son públicos; todo lo
+ * demás requiere un access token válido, salvo Actuator health/info y
+ * Swagger. El {@link JwtAuthenticationFilter} corre antes que
+ * {@link UsernamePasswordAuthenticationFilter} y arma la autenticación
+ * desde los claims del JWT; no hay sesión (STATELESS).
  */
 @Configuration
 @EnableMethodSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
     private static final String[] RUTAS_PUBLICAS = {
@@ -32,8 +34,14 @@ public class SecurityConfig {
             "/actuator/info",
             "/v3/api-docs/**",
             "/swagger-ui/**",
-            "/swagger-ui.html"
+            "/swagger-ui.html",
+            "/api/v1/auth/login",
+            "/api/v1/auth/refresh",
+            "/api/v1/auth/logout"
     };
+
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JsonAccessDeniedHandler jsonAccessDeniedHandler;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -45,14 +53,18 @@ public class SecurityConfig {
                         .anyRequest().authenticated())
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
-                // Sin este entry point explícito, Spring Security responde 403
-                // (no 401) ante un request no autenticado cuando no hay ningún
-                // mecanismo de challenge (httpBasic/formLogin) configurado.
-                // 401 es lo semánticamente correcto acá: "no autenticado", no
-                // "autenticado pero sin permiso". F1.5 puede reemplazarlo por
-                // uno que devuelva el mismo formato ProblemDetail del resto de errores.
-                .exceptionHandling(ex -> ex.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)));
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling(ex -> ex
+                        // 401: no autenticado (sin token, token inválido o vencido).
+                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+                        // 403: autenticado pero sin el rol requerido (@PreAuthorize).
+                        .accessDeniedHandler(jsonAccessDeniedHandler));
         return http.build();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
     }
 
     @Bean

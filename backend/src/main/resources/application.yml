@@ -55,3 +55,10 @@ app:
   # técnicos se guardan en UTC (F1.1 §1.4); esta zona es solo de presentación
   # y de cálculo de fechas de negocio.
   timezone-negocio: America/Argentina/Buenos_Aires
+  jwt:
+    # Sin default acá a propósito: JWT_SECRET es obligatoria en todo perfil
+    # (dev incluido tiene la suya propia en application-dev.yml, para no
+    # obligar a setearla a mano en desarrollo local sin Docker).
+    secret: ${JWT_SECRET}
+    access-token-ttl-minutes: ${JWT_ACCESS_TTL_MINUTES:15}
+    refresh-token-ttl-days: ${JWT_REFRESH_TTL_DAYS:7}

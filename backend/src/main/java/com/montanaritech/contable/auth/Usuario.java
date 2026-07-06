@@ -1,5 +1,6 @@
 package com.montanaritech.contable.auth;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.montanaritech.contable.common.tenant.EntidadNegocio;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,6 +30,7 @@ public class Usuario extends EntidadNegocio {
     @Column(nullable = false, length = 160)
     private String nombre;
 
+    @JsonIgnore
     @Column(name = "password_hash", nullable = false, length = 100)
     private String passwordHash;
 

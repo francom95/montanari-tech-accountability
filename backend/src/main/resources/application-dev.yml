@@ -10,6 +10,12 @@ spring:
   jpa:
     show-sql: true
 
+app:
+  jwt:
+    # Default de conveniencia SOLO para dev local sin Docker Compose (que ya
+    # trae su propio JWT_SECRET vía .env). Nunca usar este valor en prod.
+    secret: ${JWT_SECRET:dev-only-secret-nunca-usar-en-produccion-cambiar-32bytes}
+
 logging:
   level:
     com.montanaritech: DEBUG

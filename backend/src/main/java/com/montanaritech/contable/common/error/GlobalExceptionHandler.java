@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -47,6 +49,35 @@ public class GlobalExceptionHandler {
     public ProblemDetail manejarAccesoDenegado(AccesoDenegadoException ex) {
         ProblemDetail problema = ProblemDetail.forStatusAndDetail(HttpStatus.FORBIDDEN, ex.getMessage());
         problema.setProperty("codigo", ex.getCodigo());
+        return problema;
+    }
+
+    /**
+     * {@code @PreAuthorize} deniega lanzando
+     * {@code org.springframework.security.authorization.AuthorizationDeniedException},
+     * que extiende esta clase. Sin este handler, el catch-all de abajo la
+     * agarra primero (matchea {@code Exception}) y la convierte en un 500
+     * antes de que el {@code AccessDeniedHandler} de {@code SecurityConfig}
+     * llegue siquiera a verla.
+     */
+    @ExceptionHandler(AccessDeniedException.class)
+    public ProblemDetail manejarAccesoDenegadoSeguridad(AccessDeniedException ex) {
+        ProblemDetail problema = ProblemDetail.forStatusAndDetail(
+                HttpStatus.FORBIDDEN, "No tenés permisos para esta operación");
+        problema.setProperty("codigo", "ACCESO_DENEGADO");
+        return problema;
+    }
+
+    /**
+     * {@code authenticationManager.authenticate(...)} en {@code AuthService.login}
+     * lanza esto (subclases como BadCredentialsException) cuando el email o la
+     * contraseña no matchean. No es un error del servidor: es un 401 más.
+     */
+    @ExceptionHandler(AuthenticationException.class)
+    public ProblemDetail manejarAutenticacion(AuthenticationException ex) {
+        ProblemDetail problema = ProblemDetail.forStatusAndDetail(
+                HttpStatus.UNAUTHORIZED, "Email o contraseña incorrectos");
+        problema.setProperty("codigo", "CREDENCIALES_INVALIDAS");
         return problema;
     }
 

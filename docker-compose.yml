@@ -31,6 +31,9 @@ services:
       DB_NAME: ${DB_NAME:-montanari_contable}
       DB_USERNAME: ${DB_USERNAME:-montanari}
       DB_PASSWORD: ${DB_PASSWORD:-montanari}
+      JWT_SECRET: ${JWT_SECRET:?falta JWT_SECRET en .env}
+      JWT_ACCESS_TTL_MINUTES: ${JWT_ACCESS_TTL_MINUTES:-15}
+      JWT_REFRESH_TTL_DAYS: ${JWT_REFRESH_TTL_DAYS:-7}
     ports:
       - "8081:8080"
     healthcheck:
