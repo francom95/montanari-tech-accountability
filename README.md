@@ -103,3 +103,13 @@ Cualquier endpoint que no sea Actuator health/info, Swagger o `/api/v1/auth/{log
 - ✅ GitHub Actions workflow (`.github/workflows/ci.yml`) en cada PR: build backend + tests, build frontend + tests.
 - ✅ Cache de dependencias (Maven, npm) para acelerar CI.
 - ✅ Badge de estado en el README.
+
+**F1.8 — Molde de referencia (PL-1 a PL-5), checkpoint humano pendiente:**
+- ✅ Guía de aplicación: [plan/00_plantillas_guia_aplicacion.md](plan/00_plantillas_guia_aplicacion.md) — léela antes de replicar el molde.
+- ✅ PL-1/PL-2: CRUD completo de **Moneda** (backend `maestros/moneda/`, frontend `pages/monedas-page.tsx` con TanStack Table, ruta `/monedas`). Migración V3, tests unitarios (Mockito) + integración (Testcontainers) verdes, ciclo de vida completo verificado en vivo (crear, 409 por código duplicado, editar, activar/desactivar, eliminar, 400 por validación).
+- ✅ PL-3: `ReportExportService` genérico (Excel vía POI streaming, PDF vía OpenPDF) + `ReporteMonedasController` de ejemplo. Excel y PDF verificados en vivo (`file` confirma ambos formatos válidos).
+- ✅ PL-4: esqueleto `AsientoGenerator` (`common/asiento/`) — interfaz, líneas debe/haber, validador de balance, numerador (placeholder en memoria) + un generador de prueba que NO es una regla de negocio real.
+- ✅ PL-5: `EstadoDocumento` (borrador/confirmado/anulado) + `TransicionEstadoValidator` (`common/estado/`), con tests de las 5 transiciones válidas/inválidas.
+- ⚠️ **Checkpoint humano pendiente** (F1.8 lo exige): el equipo tiene que revisar el molde antes de que F2+ lo replique ~15 veces.
+
+Un bug encontrado en la verificación en vivo (no en compilación ni en los tests con Testcontainers, que no corren en este entorno — ver nota más abajo): `HttpMessageNotReadableException` (body JSON inválido, p. ej. bytes no-UTF-8) caía en el catch-all genérico y devolvía 500 en vez de 400. Corregido en `GlobalExceptionHandler`.

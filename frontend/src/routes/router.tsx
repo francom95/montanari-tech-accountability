@@ -6,6 +6,7 @@ import { AuditoriaPage } from "@/pages/auditoria-page"
 import { DashboardPage } from "@/pages/dashboard-page"
 import { EjemploFormularioPage } from "@/pages/ejemplo-formulario-page"
 import { LoginPage } from "@/pages/login-page"
+import { MonedasPage } from "@/pages/monedas-page"
 import { PlaceholderPage } from "@/pages/placeholder-page"
 import { UsuariosPage } from "@/pages/usuarios-page"
 
@@ -43,6 +44,7 @@ export const router = createBrowserRouter([
       { path: "seguridad", element: <UsuariosPage /> },
       { path: "auditoria", element: <AuditoriaPage /> },
       { path: "ejemplo-formulario", element: <EjemploFormularioPage /> },
+      { path: "monedas", element: <MonedasPage /> },
     ],
   },
 ])

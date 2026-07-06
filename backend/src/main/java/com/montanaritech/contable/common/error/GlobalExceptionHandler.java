@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -91,6 +92,19 @@ public class GlobalExceptionHandler {
                         "mensaje", Objects.requireNonNullElse(fe.getDefaultMessage(), "inválido")))
                 .toList();
         problema.setProperty("detalles", detalles);
+        return problema;
+    }
+
+    /**
+     * Body inexistente, JSON sintácticamente inválido, o bytes que no son
+     * UTF-8 válido (p. ej. un símbolo mal codificado por el cliente que lo
+     * envió). Es un error del request, no del servidor.
+     */
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ProblemDetail manejarBodyIlegible(HttpMessageNotReadableException ex) {
+        ProblemDetail problema = ProblemDetail.forStatusAndDetail(
+                HttpStatus.BAD_REQUEST, "El cuerpo del request no es JSON válido");
+        problema.setProperty("codigo", "BODY_INVALIDO");
         return problema;
     }
 

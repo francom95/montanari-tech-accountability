@@ -12,6 +12,7 @@ import {
   ShieldCheck,
   ScrollText,
   FormInput,
+  Coins,
 } from "lucide-react"
 
 export type NavItem = {
@@ -38,4 +39,5 @@ export const NAV_ITEMS: NavItem[] = [
   { to: "/seguridad", label: "Usuarios", icon: ShieldCheck },
   { to: "/auditoria", label: "Auditoría", icon: ScrollText },
   { to: "/ejemplo-formulario", label: "Ejemplo de formulario (F1.4)", icon: FormInput },
+  { to: "/monedas", label: "Monedas (molde F1.8)", icon: Coins },
 ]
