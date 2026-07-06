@@ -3,6 +3,8 @@ import com.montanaritech.contable.common.audit.AuditoriaService;
 import com.montanaritech.contable.common.audit.Auditado;
 import com.montanaritech.contable.common.audit.AccionAuditoria;
 import com.montanaritech.contable.common.error.RecursoNoEncontradoException;
+import com.montanaritech.contable.maestros.moneda.Moneda;
+import com.montanaritech.contable.maestros.moneda.MonedaRepository;
 import com.montanaritech.contable.maestros.tipocambio.dto.TipoCambioCrearRequest;
 import com.montanaritech.contable.maestros.tipocambio.dto.TipoCambioEditarRequest;
 import com.montanaritech.contable.maestros.tipocambio.dto.TipoCambioResponse;
@@ -15,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class TipoCambioService {
     private final TipoCambioRepository repo;
+    private final MonedaRepository monedaRepository;
     private final TipoCambioMapper mapper;
     private final AuditoriaService auditoria;
     @Transactional(readOnly = true)
@@ -28,9 +31,11 @@ public class TipoCambioService {
     @Auditado(accion = AccionAuditoria.CREAR, entidadTipo = "TipoCambio")
     @Transactional
     public TipoCambio crear(TipoCambioCrearRequest req) {
+        Moneda moneda = monedaRepository.findById(req.monedaId())
+                .orElseThrow(() -> new RecursoNoEncontradoException("Moneda " + req.monedaId() + " no encontrada"));
         TipoCambio tc = new TipoCambio();
         tc.setFecha(req.fecha());
-        tc.setMonedaId(req.monedaId());
+        tc.setMoneda(moneda);
         tc.setCriterio(req.criterio());
         tc.setValorCompra(req.valorCompra());
         tc.setValorVenta(req.valorVenta());

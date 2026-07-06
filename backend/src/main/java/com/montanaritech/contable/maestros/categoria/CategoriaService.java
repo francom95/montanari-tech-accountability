@@ -27,6 +27,7 @@ public class CategoriaService {
         Categoria e = new Categoria();
         e.setNombre(req.nombre());
         e.setDescripcion(req.descripcion());
+        e.setTipo(Categoria.TipoCategoria.valueOf(req.tipo()));
         e.setActivo(true);
         return repo.save(e);
     }
@@ -36,6 +37,7 @@ public class CategoriaService {
         var antes = mapper.aResponse(e);
         e.setNombre(req.nombre());
         e.setDescripcion(req.descripcion());
+        e.setTipo(Categoria.TipoCategoria.valueOf(req.tipo()));
         auditoria.registrar(AccionAuditoria.EDITAR, "Categoria", id, antes, mapper.aResponse(e));
         return e;
     }

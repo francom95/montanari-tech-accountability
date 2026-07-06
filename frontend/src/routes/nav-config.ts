@@ -1,7 +1,6 @@
 import type { LucideIcon } from "lucide-react"
 import {
   LayoutDashboard,
-  Users,
   BookOpenText,
   Receipt,
   Landmark,
@@ -13,6 +12,12 @@ import {
   ScrollText,
   FormInput,
   Coins,
+  TrendingUp,
+  MapPin,
+  Tags,
+  ListTree,
+  Repeat,
+  Wrench,
 } from "lucide-react"
 
 export type NavItem = {
@@ -28,7 +33,13 @@ export type NavItem = {
  */
 export const NAV_ITEMS: NavItem[] = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard },
-  { to: "/maestros", label: "Maestros", icon: Users },
+  { to: "/monedas", label: "Monedas", icon: Coins },
+  { to: "/tipos-cambio", label: "Tipos de cambio", icon: TrendingUp },
+  { to: "/jurisdicciones", label: "Jurisdicciones", icon: MapPin },
+  { to: "/categorias", label: "Categorías contables", icon: Tags },
+  { to: "/rubros", label: "Rubros", icon: ListTree },
+  { to: "/conceptos", label: "Conceptos recurrentes", icon: Repeat },
+  { to: "/tipos-costo", label: "Tipos de costo", icon: Wrench },
   { to: "/contabilidad", label: "Contabilidad", icon: BookOpenText },
   { to: "/facturacion", label: "Facturación, cobros y pagos", icon: Receipt },
   { to: "/bancos", label: "Bancos, tarjetas y conciliaciones", icon: Landmark },
@@ -39,5 +50,4 @@ export const NAV_ITEMS: NavItem[] = [
   { to: "/seguridad", label: "Usuarios", icon: ShieldCheck },
   { to: "/auditoria", label: "Auditoría", icon: ScrollText },
   { to: "/ejemplo-formulario", label: "Ejemplo de formulario (F1.4)", icon: FormInput },
-  { to: "/monedas", label: "Monedas (molde F1.8)", icon: Coins },
 ]

@@ -113,3 +113,16 @@ Cualquier endpoint que no sea Actuator health/info, Swagger o `/api/v1/auth/{log
 - ⚠️ **Checkpoint humano pendiente** (F1.8 lo exige): el equipo tiene que revisar el molde antes de que F2+ lo replique ~15 veces.
 
 Un bug encontrado en la verificación en vivo (no en compilación ni en los tests con Testcontainers, que no corren en este entorno — ver nota más abajo): `HttpMessageNotReadableException` (body JSON inválido, p. ej. bytes no-UTF-8) caía en el catch-all genérico y devolvía 500 en vez de 400. Corregido en `GlobalExceptionHandler`.
+
+**F2.1 — CRUDs simples en lote (batch 1 de maestros):**
+- ✅ 6 CRUDs completos: TipoCambio (FK a Moneda), Jurisdiccion, Categoria (con enum tipo), Rubro (FK a Categoria), Concepto (FK opcional a Moneda), TipoCosto. Migraciones V4-V9.
+- ✅ Backend: entidades/repositorios/DTOs/mappers/services/controllers, 23 tests unitarios (Mockito) verdes.
+- ✅ Frontend: 6 páginas con TanStack Table + RHF/Zod + React Query, rutas y nav agregadas (reemplaza el placeholder genérico de "Maestros").
+- ✅ Ciclo de vida completo (crear/listar/editar/activar-desactivar/eliminar) y las dos FKs (Rubro→Categoria, TipoCambio→Moneda) verificados en vivo, incluyendo 404 con FK inexistente.
+
+Esta ronda la corrió primero Haiku 4.5 (según el plan) y quedó con **3 bugs de compilación reales** que Sonnet 5 tuvo que encontrar y corregir antes del primer build exitoso — quedan documentados porque son la clase de error que se repetirá si el molde se sigue aplicando sin revisar la salida real del compilador:
+- `JurisdiccionService`/`RubroService` llamaban a `req.descripcion()`/`e.setDescripcion(...)` que no existen en esos DTOs/entidades (el generador copió el cuerpo genérico del molde sin adaptarlo a los campos reales de cada entidad — Jurisdiccion no tiene descripción, tiene código y alícuota; Rubro no tiene descripción, tiene categoría FK y orden).
+- `TipoCambioService` llamaba a `tc.setMonedaId(...)`, pero `TipoCambio.moneda` es una relación `@ManyToOne`, no un campo `Long` — había que resolver la entidad `Moneda` vía su repositorio antes de asignarla.
+- `Jurisdiccion.alicuotaIIBB` (acrónimo en mayúsculas) generaba un nombre de columna físico distinto al de la migración SQL bajo la estrategia de naming por defecto de Hibernate — solo se manifestó como `SchemaManagementException` al levantar el contenedor real, no en `mvn compile`. Se corrigió con `@Column(name = "alicuota_iibb")` explícito.
+
+En el frontend, `z.coerce.number()` (Zod v4) resultó incompatible con la inferencia de tipos de `useForm` (`@hookform/resolvers` v5 + `react-hook-form` v7): rompía el build de TypeScript en las 3 páginas con selects de FK numérica. Se resolvió modelando esos campos como `string` en el schema de Zod y convirtiendo a `Number(...)` recién en el `onSubmit`, evitando el desajuste de tipos input/output que introduce `coerce`.

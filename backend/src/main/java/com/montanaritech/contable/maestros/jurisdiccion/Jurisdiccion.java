@@ -24,7 +24,7 @@ public class Jurisdiccion extends EntidadNegocio {
     @Column(nullable = false, length = 20)
     private String codigo;
 
-    @Column(nullable = false, precision = 5, scale = 2)
+    @Column(name = "alicuota_iibb", nullable = false, precision = 5, scale = 2)
     private BigDecimal alicuotaIIBB;
 
     @Column(nullable = false)

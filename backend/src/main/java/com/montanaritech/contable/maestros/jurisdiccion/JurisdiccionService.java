@@ -26,7 +26,8 @@ public class JurisdiccionService {
     public Jurisdiccion crear(JurisdiccionCrearRequest req) {
         Jurisdiccion e = new Jurisdiccion();
         e.setNombre(req.nombre());
-        e.setDescripcion(req.descripcion());
+        e.setCodigo(req.codigo());
+        e.setAlicuotaIIBB(req.alicuotaIIBB());
         e.setActivo(true);
         return repo.save(e);
     }
@@ -35,7 +36,7 @@ public class JurisdiccionService {
         Jurisdiccion e = obtener(id);
         var antes = mapper.aResponse(e);
         e.setNombre(req.nombre());
-        e.setDescripcion(req.descripcion());
+        e.setAlicuotaIIBB(req.alicuotaIIBB());
         auditoria.registrar(AccionAuditoria.EDITAR, "Jurisdiccion", id, antes, mapper.aResponse(e));
         return e;
     }

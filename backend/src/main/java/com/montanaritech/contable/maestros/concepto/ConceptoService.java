@@ -2,6 +2,8 @@ package com.montanaritech.contable.maestros.concepto;
 import com.montanaritech.contable.common.audit.*;
 import com.montanaritech.contable.common.error.RecursoNoEncontradoException;
 import com.montanaritech.contable.maestros.concepto.dto.*;
+import com.montanaritech.contable.maestros.moneda.Moneda;
+import com.montanaritech.contable.maestros.moneda.MonedaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ConceptoService {
     private final ConceptoRepository repo;
+    private final MonedaRepository monedaRepository;
     private final ConceptoMapper mapper;
     private final AuditoriaService auditoria;
     @Transactional(readOnly = true)
@@ -27,6 +30,10 @@ public class ConceptoService {
         Concepto e = new Concepto();
         e.setNombre(req.nombre());
         e.setDescripcion(req.descripcion());
+        e.setCuentaSugerida(req.cuentaSugerida());
+        e.setPeriodicidad(req.periodicidad());
+        e.setImporte(req.importe());
+        e.setMoneda(resolverMoneda(req.monedaId()));
         e.setActivo(true);
         return repo.save(e);
     }
@@ -36,8 +43,20 @@ public class ConceptoService {
         var antes = mapper.aResponse(e);
         e.setNombre(req.nombre());
         e.setDescripcion(req.descripcion());
+        e.setCuentaSugerida(req.cuentaSugerida());
+        e.setPeriodicidad(req.periodicidad());
+        e.setImporte(req.importe());
+        e.setMoneda(resolverMoneda(req.monedaId()));
         auditoria.registrar(AccionAuditoria.EDITAR, "Concepto", id, antes, mapper.aResponse(e));
         return e;
+    }
+
+    private Moneda resolverMoneda(Long monedaId) {
+        if (monedaId == null) {
+            return null;
+        }
+        return monedaRepository.findById(monedaId)
+                .orElseThrow(() -> new RecursoNoEncontradoException("Moneda " + monedaId + " no encontrada"));
     }
     @Transactional
     public Concepto desactivar(Long id) {

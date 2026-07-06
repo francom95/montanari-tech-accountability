@@ -8,14 +8,14 @@ const QUERY_KEY = ["tipocosto"]
 export function useTipoCostos(params: { texto?: string; activo?: boolean; page?: number; size?: number }) {
   return useQuery({
     queryKey: [...QUERY_KEY, params],
-    queryFn: async () => (await http.get<PageResponse<TipoCosto>>("/api/v1/tipo-costos", { params: { texto: params.texto || undefined, activo: params.activo, page: params.page ?? 0, size: params.size ?? 10 } })).data,
+    queryFn: async () => (await http.get<PageResponse<TipoCosto>>("/tipo-costos", { params: { texto: params.texto || undefined, activo: params.activo, page: params.page ?? 0, size: params.size ?? 10 } })).data,
   })
 }
 
 export function useCrearTipoCosto() {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: async (v: TipoCostoCrearInput) => (await http.post<TipoCosto>("/api/v1/tipo-costos", v)).data,
+    mutationFn: async (v: TipoCostoCrearInput) => (await http.post<TipoCosto>("/tipo-costos", v)).data,
     onSuccess: async () => { await qc.invalidateQueries({ queryKey: QUERY_KEY }) },
   })
 }
@@ -23,7 +23,7 @@ export function useCrearTipoCosto() {
 export function useEditarTipoCosto() {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: async ({ id, valores }: { id: number; valores: TipoCostoEditarInput }) => (await http.put<TipoCosto>(`/api/v1/tipo-costos/${id}`, valores)).data,
+    mutationFn: async ({ id, valores }: { id: number; valores: TipoCostoEditarInput }) => (await http.put<TipoCosto>(`/tipo-costos/${id}`, valores)).data,
     onSuccess: async () => { await qc.invalidateQueries({ queryKey: QUERY_KEY }) },
   })
 }
@@ -31,7 +31,7 @@ export function useEditarTipoCosto() {
 export function useCambiarEstadoTipoCosto() {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: async ({ id, activo }: { id: number; activo: boolean }) => (await http.patch<TipoCosto>(`/api/v1/tipo-costos/${id}/${activo ? "desactivar" : "activar"}`)).data,
+    mutationFn: async ({ id, activo }: { id: number; activo: boolean }) => (await http.patch<TipoCosto>(`/tipo-costos/${id}/${activo ? "desactivar" : "activar"}`)).data,
     onSuccess: async () => { await qc.invalidateQueries({ queryKey: QUERY_KEY }) },
   })
 }
@@ -39,7 +39,7 @@ export function useCambiarEstadoTipoCosto() {
 export function useEliminarTipoCosto() {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: async (id: number) => { await http.delete(`/api/v1/tipo-costos/${id}`) },
+    mutationFn: async (id: number) => { await http.delete(`/tipo-costos/${id}`) },
     onSuccess: async () => { await qc.invalidateQueries({ queryKey: QUERY_KEY }) },
   })
 }

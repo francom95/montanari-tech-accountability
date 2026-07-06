@@ -1,6 +1,8 @@
 package com.montanaritech.contable.maestros.rubro;
 import com.montanaritech.contable.common.audit.*;
 import com.montanaritech.contable.common.error.RecursoNoEncontradoException;
+import com.montanaritech.contable.maestros.categoria.Categoria;
+import com.montanaritech.contable.maestros.categoria.CategoriaRepository;
 import com.montanaritech.contable.maestros.rubro.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -11,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class RubroService {
     private final RubroRepository repo;
+    private final CategoriaRepository categoriaRepository;
     private final RubroMapper mapper;
     private final AuditoriaService auditoria;
     @Transactional(readOnly = true)
@@ -24,9 +27,12 @@ public class RubroService {
     @Auditado(accion = AccionAuditoria.CREAR, entidadTipo = "Rubro")
     @Transactional
     public Rubro crear(RubroCrearRequest req) {
+        Categoria categoria = categoriaRepository.findById(req.categoriaId())
+                .orElseThrow(() -> new RecursoNoEncontradoException("Categoria " + req.categoriaId() + " no encontrada"));
         Rubro e = new Rubro();
         e.setNombre(req.nombre());
-        e.setDescripcion(req.descripcion());
+        e.setCategoria(categoria);
+        e.setOrden(req.orden());
         e.setActivo(true);
         return repo.save(e);
     }
@@ -34,8 +40,11 @@ public class RubroService {
     public Rubro editar(Long id, RubroEditarRequest req) {
         Rubro e = obtener(id);
         var antes = mapper.aResponse(e);
+        Categoria categoria = categoriaRepository.findById(req.categoriaId())
+                .orElseThrow(() -> new RecursoNoEncontradoException("Categoria " + req.categoriaId() + " no encontrada"));
         e.setNombre(req.nombre());
-        e.setDescripcion(req.descripcion());
+        e.setCategoria(categoria);
+        e.setOrden(req.orden());
         auditoria.registrar(AccionAuditoria.EDITAR, "Rubro", id, antes, mapper.aResponse(e));
         return e;
     }
