@@ -1,0 +1,57 @@
+spring:
+  application:
+    name: contable
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+  autoconfigure:
+    # No usamos el usuario in-memory autogenerado por Spring Boot (httpBasic y
+    # formLogin están deshabilitados en SecurityConfig); sin este exclude,
+    # arranca igual pero logueando una contraseña generada que nunca se usa.
+    exclude: org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
+  jackson:
+    time-zone: America/Argentina/Buenos_Aires
+    default-property-inclusion: non_null
+  jpa:
+    # Requerido por TenantFilterInterceptor (common/tenant): necesita una
+    # sesión de Hibernate abierta y ligada al hilo antes de que corran las
+    # queries del controller/service, para poder habilitar el filtro
+    # tenantFilter en preHandle.
+    open-in-view: true
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+        format_sql: false
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: when-authorized
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
+
+app:
+  # Zona horaria de negocio (vencimientos, "hoy", períodos). Los timestamps
+  # técnicos se guardan en UTC (F1.1 §1.4); esta zona es solo de presentación
+  # y de cálculo de fechas de negocio.
+  timezone-negocio: America/Argentina/Buenos_Aires

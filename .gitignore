@@ -1,0 +1,8 @@
+# Sistema (backend/frontend) — cada uno tiene además su propio .gitignore
+.env
+
+# Editor / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
