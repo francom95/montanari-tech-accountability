@@ -18,6 +18,8 @@ import {
   ListTree,
   Repeat,
   Wrench,
+  Users,
+  Truck,
 } from "lucide-react"
 
 export type NavItem = {
@@ -36,6 +38,8 @@ export const NAV_ITEMS: NavItem[] = [
   { to: "/monedas", label: "Monedas", icon: Coins },
   { to: "/tipos-cambio", label: "Tipos de cambio", icon: TrendingUp },
   { to: "/jurisdicciones", label: "Jurisdicciones", icon: MapPin },
+  { to: "/clientes", label: "Clientes", icon: Users },
+  { to: "/proveedores", label: "Proveedores", icon: Truck },
   { to: "/categorias", label: "Categorías contables", icon: Tags },
   { to: "/rubros", label: "Rubros", icon: ListTree },
   { to: "/conceptos", label: "Conceptos recurrentes", icon: Repeat },
