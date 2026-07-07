@@ -14,6 +14,8 @@ import { LoginPage } from "@/pages/login-page"
 import { MonedasPage } from "@/pages/monedas-page"
 import { PlaceholderPage } from "@/pages/placeholder-page"
 import { ProveedoresPage } from "@/pages/proveedores-page"
+import { ProyectoDetallePage } from "@/pages/proyecto-detalle-page"
+import { ProyectosPage } from "@/pages/proyectos-page"
 import { RubrosPage } from "@/pages/rubros-page"
 import { TarjetasCreditoPage } from "@/pages/tarjetas-credito-page"
 import { TiposCambioPage } from "@/pages/tipos-cambio-page"
@@ -36,6 +38,8 @@ export const router = createBrowserRouter([
       { path: "jurisdicciones", element: <JurisdiccionesPage /> },
       { path: "clientes", element: <ClientesPage /> },
       { path: "proveedores", element: <ProveedoresPage /> },
+      { path: "proyectos", element: <ProyectosPage /> },
+      { path: "proyectos/:id", element: <ProyectoDetallePage /> },
       { path: "categorias", element: <CategoriasPage /> },
       { path: "rubros", element: <RubrosPage /> },
       { path: "conceptos", element: <ConceptosPage /> },

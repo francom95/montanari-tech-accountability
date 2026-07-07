@@ -22,6 +22,7 @@ import {
   Truck,
   Wallet,
   CreditCard,
+  FolderKanban,
 } from "lucide-react"
 
 export type NavItem = {
@@ -42,6 +43,7 @@ export const NAV_ITEMS: NavItem[] = [
   { to: "/jurisdicciones", label: "Jurisdicciones", icon: MapPin },
   { to: "/clientes", label: "Clientes", icon: Users },
   { to: "/proveedores", label: "Proveedores", icon: Truck },
+  { to: "/proyectos", label: "Proyectos", icon: FolderKanban },
   { to: "/categorias", label: "Categorías contables", icon: Tags },
   { to: "/rubros", label: "Rubros", icon: ListTree },
   { to: "/conceptos", label: "Conceptos recurrentes", icon: Repeat },
