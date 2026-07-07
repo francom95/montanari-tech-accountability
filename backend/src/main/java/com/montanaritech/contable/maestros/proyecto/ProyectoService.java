@@ -11,6 +11,7 @@ import com.montanaritech.contable.maestros.cliente.Cliente;
 import com.montanaritech.contable.maestros.cliente.ClienteRepository;
 import com.montanaritech.contable.maestros.moneda.Moneda;
 import com.montanaritech.contable.maestros.moneda.MonedaRepository;
+import com.montanaritech.contable.maestros.proyecto.comision.ComisionProyectoService;
 import com.montanaritech.contable.maestros.proyecto.dto.CuotaRequest;
 import com.montanaritech.contable.maestros.proyecto.dto.ProyectoCrearRequest;
 import com.montanaritech.contable.maestros.proyecto.dto.ProyectoEditarRequest;
@@ -33,6 +34,7 @@ public class ProyectoService {
     private final UsuarioRepository usuarioRepo;
     private final MonedaRepository monedaRepo;
     private final EtapaRepository etapaRepo;
+    private final ComisionProyectoService comisionProyectoService;
 
     @Transactional(readOnly = true)
     public Page<Proyecto> listar(String texto, Boolean activo, Long clienteId, Pageable p) {
@@ -89,6 +91,7 @@ public class ProyectoService {
         p.setFechaEstimadaFinalizacion(req.fechaEstimadaFinalizacion());
         p.setFechaRealFinalizacion(req.fechaRealFinalizacion());
         reemplazarCuotas(p, req.cuotas());
+        comisionProyectoService.recalcularEstimadosDeProyecto(p);
 
         auditoria.registrar(AccionAuditoria.EDITAR, "Proyecto", id, antes, mapper.aResponse(p));
         return p;

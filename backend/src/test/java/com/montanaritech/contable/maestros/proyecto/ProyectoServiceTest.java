@@ -17,6 +17,7 @@ import com.montanaritech.contable.maestros.cliente.Cliente;
 import com.montanaritech.contable.maestros.cliente.ClienteRepository;
 import com.montanaritech.contable.maestros.moneda.Moneda;
 import com.montanaritech.contable.maestros.moneda.MonedaRepository;
+import com.montanaritech.contable.maestros.proyecto.comision.ComisionProyectoService;
 import com.montanaritech.contable.maestros.proyecto.dto.CuotaRequest;
 import com.montanaritech.contable.maestros.proyecto.dto.ProyectoCrearRequest;
 import com.montanaritech.contable.maestros.proyecto.dto.ProyectoEditarRequest;
@@ -56,6 +57,9 @@ class ProyectoServiceTest {
 
     @Mock
     private EtapaRepository etapaRepo;
+
+    @Mock
+    private ComisionProyectoService comisionProyectoService;
 
     @InjectMocks
     private ProyectoService service;
@@ -195,6 +199,7 @@ class ProyectoServiceTest {
         assertThat(entidad.getEstado()).isEqualTo(Proyecto.EstadoProyecto.EN_CURSO);
         assertThat(entidad.getEstadoComercial()).isEqualTo(Proyecto.EstadoComercial.GANADO);
         assertThat(entidad.getCuotas()).hasSize(1);
+        verify(comisionProyectoService).recalcularEstimadosDeProyecto(entidad);
         verify(auditoria).registrar(
                 eq(AccionAuditoria.EDITAR), eq("Proyecto"), eq(1L), any(ProyectoResponse.class), any(ProyectoResponse.class));
     }

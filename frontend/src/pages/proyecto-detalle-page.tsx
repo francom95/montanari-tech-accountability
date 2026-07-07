@@ -13,6 +13,7 @@ import { useMonedas } from "@/hooks/use-monedas"
 import { useEditarProyecto, useProyecto } from "@/hooks/use-proyecto"
 import { useUsuarios } from "@/hooks/use-usuario"
 import type { Proyecto } from "@/types/proyecto"
+import { ComisionesTab } from "@/pages/proyecto-comisiones-tab"
 import { EtapasTab } from "@/pages/proyecto-etapas-tab"
 
 const ESTADOS_PROYECTO = ["PROSPECTO", "EN_CURSO", "PAUSADO", "FINALIZADO", "CANCELADO"] as const
@@ -64,7 +65,7 @@ function proyectoAValores(p: Proyecto): Valores {
   }
 }
 
-type Pestaña = "datos" | "cuotas" | "etapas" | "presupuesto" | "reporte"
+type Pestaña = "datos" | "cuotas" | "etapas" | "comisiones" | "presupuesto" | "reporte"
 
 export function ProyectoDetallePage() {
   const { id } = useParams()
@@ -77,7 +78,7 @@ export function ProyectoDetallePage() {
       <div>
         <Link to="/proyectos" className="text-sm text-muted-foreground hover:underline">← Volver a proyectos</Link>
         <h1 className="text-lg font-semibold text-foreground">{proyecto.data?.nombre ?? "Proyecto"}</h1>
-        <p className="text-sm text-muted-foreground">Ficha de proyecto (F2.5): datos, cuotas y etapas.</p>
+        <p className="text-sm text-muted-foreground">Ficha de proyecto: datos, cuotas, etapas y comisiones (F2.5/F2.7).</p>
       </div>
 
       <div className="flex gap-2 border-b border-border">
@@ -85,6 +86,7 @@ export function ProyectoDetallePage() {
           ["datos", "Datos"],
           ["cuotas", "Cuotas"],
           ["etapas", "Etapas"],
+          ["comisiones", "Comisiones"],
           ["presupuesto", "Presupuesto"],
           ["reporte", "Reporte"],
         ] as [Pestaña, string][]).map(([clave, etiqueta]) => (
@@ -105,6 +107,8 @@ export function ProyectoDetallePage() {
         <FichaProyectoForm proyecto={proyecto.data} pestaña={pestaña} />
       ) : pestaña === "etapas" ? (
         <EtapasTab proyectoId={proyectoId} />
+      ) : pestaña === "comisiones" ? (
+        <ComisionesTab proyectoId={proyectoId} />
       ) : pestaña === "presupuesto" ? (
         <Placeholder texto="El presupuesto estimado por proyecto se implementa en F2.6." />
       ) : (

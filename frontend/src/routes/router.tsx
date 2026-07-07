@@ -5,6 +5,7 @@ import { AppLayout } from "@/layouts/app-layout"
 import { AuditoriaPage } from "@/pages/auditoria-page"
 import { CategoriasPage } from "@/pages/categorias-page"
 import { ClientesPage } from "@/pages/clientes-page"
+import { ComisionistasPage } from "@/pages/comisionistas-page"
 import { ConceptosPage } from "@/pages/conceptos-page"
 import { CuentasBancariasPage } from "@/pages/cuentas-bancarias-page"
 import { DashboardPage } from "@/pages/dashboard-page"
@@ -40,6 +41,7 @@ export const router = createBrowserRouter([
       { path: "proveedores", element: <ProveedoresPage /> },
       { path: "proyectos", element: <ProyectosPage /> },
       { path: "proyectos/:id", element: <ProyectoDetallePage /> },
+      { path: "comisionistas", element: <ComisionistasPage /> },
       { path: "categorias", element: <CategoriasPage /> },
       { path: "rubros", element: <RubrosPage /> },
       { path: "conceptos", element: <ConceptosPage /> },

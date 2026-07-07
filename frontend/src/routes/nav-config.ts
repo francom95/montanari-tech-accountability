@@ -23,6 +23,7 @@ import {
   Wallet,
   CreditCard,
   FolderKanban,
+  HandCoins,
 } from "lucide-react"
 
 export type NavItem = {
@@ -44,6 +45,7 @@ export const NAV_ITEMS: NavItem[] = [
   { to: "/clientes", label: "Clientes", icon: Users },
   { to: "/proveedores", label: "Proveedores", icon: Truck },
   { to: "/proyectos", label: "Proyectos", icon: FolderKanban },
+  { to: "/comisionistas", label: "Comisionistas", icon: HandCoins },
   { to: "/categorias", label: "Categorías contables", icon: Tags },
   { to: "/rubros", label: "Rubros", icon: ListTree },
   { to: "/conceptos", label: "Conceptos recurrentes", icon: Repeat },
