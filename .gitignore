@@ -6,3 +6,9 @@
 .vscode/
 .DS_Store
 Thumbs.db
+
+# graphify — cache y punteros locales (rutas absolutas de esta máquina); el
+# grafo en sí (graph.json/graph.html/GRAPH_REPORT.md) sí se versiona.
+graphify-out/cache/
+graphify-out/.graphify_python
+graphify-out/.graphify_root
