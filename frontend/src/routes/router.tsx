@@ -14,6 +14,7 @@ import { JurisdiccionesPage } from "@/pages/jurisdicciones-page"
 import { LoginPage } from "@/pages/login-page"
 import { MonedasPage } from "@/pages/monedas-page"
 import { PlaceholderPage } from "@/pages/placeholder-page"
+import { PlanDeCuentasPage } from "@/pages/plan-de-cuentas-page"
 import { ProveedoresPage } from "@/pages/proveedores-page"
 import { ProyectoDetallePage } from "@/pages/proyecto-detalle-page"
 import { ProyectosPage } from "@/pages/proyectos-page"
@@ -48,7 +49,7 @@ export const router = createBrowserRouter([
       { path: "tipos-costo", element: <TiposCostoPage /> },
       { path: "cuentas-bancarias", element: <CuentasBancariasPage /> },
       { path: "tarjetas-credito", element: <TarjetasCreditoPage /> },
-      { path: "contabilidad", element: <PlaceholderPage title="Contabilidad" /> },
+      { path: "contabilidad", element: <PlanDeCuentasPage /> },
       {
         path: "facturacion",
         element: <PlaceholderPage title="Facturación, cobros y pagos" />,
