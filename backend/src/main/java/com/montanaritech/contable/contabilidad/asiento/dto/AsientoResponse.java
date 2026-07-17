@@ -14,6 +14,7 @@ public record AsientoResponse(
         String origenTipo,
         Long origenId,
         String observaciones,
+        String motivoAnulacion,
         BigDecimal totalDebe,
         BigDecimal totalHaber,
         List<LineaResponse> lineas

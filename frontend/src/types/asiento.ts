@@ -38,6 +38,7 @@ export type Asiento = {
   origenTipo: string | null
   origenId: number | null
   observaciones: string | null
+  motivoAnulacion: string | null
   totalDebe: number
   totalHaber: number
   lineas: AsientoLinea[]
@@ -66,3 +67,27 @@ export type AsientoCrearInput = {
 }
 
 export type AsientoEditarInput = AsientoCrearInput
+
+/** Línea de {@link AsientoEditarConfirmadoInput}: id null = línea manual nueva; id existente = edición/mantención. */
+export type AsientoLineaEditarConfirmadoInput = AsientoLineaInput & { id: number | null }
+
+export type AsientoEditarConfirmadoInput = {
+  fecha: string
+  descripcion: string
+  observaciones?: string
+  lineas: AsientoLineaEditarConfirmadoInput[]
+}
+
+export type AsientoBusquedaFiltros = {
+  texto?: string
+  estado?: EstadoAsiento
+  origen?: string
+  numero?: number
+  fechaDesde?: string
+  fechaHasta?: string
+  cuentaContableId?: number
+  importe?: number
+  proyectoId?: number
+  clienteId?: number
+  proveedorId?: number
+}

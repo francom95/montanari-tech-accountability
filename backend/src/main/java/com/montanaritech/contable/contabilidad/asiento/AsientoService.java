@@ -10,8 +10,11 @@ import com.montanaritech.contable.common.estado.EstadoDocumento;
 import com.montanaritech.contable.common.estado.TransicionEstadoValidator;
 import com.montanaritech.contable.common.error.NegocioException;
 import com.montanaritech.contable.common.error.RecursoNoEncontradoException;
+import com.montanaritech.contable.common.tenant.EntidadNegocio;
 import com.montanaritech.contable.contabilidad.asiento.dto.AsientoCrearRequest;
+import com.montanaritech.contable.contabilidad.asiento.dto.AsientoEditarConfirmadoRequest;
 import com.montanaritech.contable.contabilidad.asiento.dto.AsientoEditarRequest;
+import com.montanaritech.contable.contabilidad.asiento.dto.AsientoLineaEditarRequest;
 import com.montanaritech.contable.contabilidad.asiento.dto.AsientoLineaRequest;
 import com.montanaritech.contable.contabilidad.cuentacontable.CuentaContable;
 import com.montanaritech.contable.contabilidad.cuentacontable.CuentaContableRepository;
@@ -32,35 +35,49 @@ import com.montanaritech.contable.maestros.tipocambio.TipoCambioRepository;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Motor de asientos manuales (F3.4, sobre el diseño de F3.1 §3-§4). Único
- * punto de escritura de {@code asiento}/{@code asiento_linea} para carga
- * manual (ADR-07 de F3.1); los generadores automáticos de F4.x son un paso
- * futuro que reutiliza el mismo {@link ValidadorBalanceAsiento} y
- * {@link NumeradorAsiento}, no este service.
+ * Motor de asientos, carga manual y ciclo de vida completo (F3.4/F3.5,
+ * sobre el diseño de F3.1 §3-§4). Único punto de escritura de
+ * {@code asiento}/{@code asiento_linea} (ADR-07 de F3.1); los generadores
+ * automáticos de F4.x son un paso futuro que reutiliza el mismo
+ * {@link ValidadorBalanceAsiento} y {@link NumeradorAsiento}, no este
+ * service.
  *
- * <p><b>Alcance de este paso</b> (no todo lo que describe F3.1 §3-§4 es
- * F3.4): crear/editar/eliminar borrador y confirmar. La búsqueda avanzada,
- * duplicación, edición de confirmados y anulación son F3.5; los mayores y
- * saldos con su advertencia de "saldo contrario al esperado" son F3.6;
- * los generadores automáticos (factura/cobro/pago con diferencia de
- * cambio) son F4.x; el {@code PeriodoGuard} de escritura sobre período
- * cerrado es F9.3 (todavía no existe la entidad {@code Periodo}, así que el
- * ítem 5 del checklist de F3.1 §3.4 no aplica todavía — no hay período que
- * pueda estar cerrado).
+ * <p><b>Alcance de F3.5</b> sobre lo que dejó F3.4: búsqueda avanzada,
+ * duplicación, edición de confirmados (con la restricción de F3.1 §4.2 de
+ * que solo ADMIN toca líneas {@code generada_auto = true} — hoy no las
+ * produce nadie todavía, pero la regla ya es correcta y testeable) y
+ * anulación por marca. <b>Deliberadamente fuera de alcance</b> (F9.3,
+ * todavía no existe la entidad {@code Periodo}): el contra-asiento de
+ * F3.1 §4.4 para fechas en período cerrado — sin esa entidad no hay forma
+ * de determinar "período cerrado", así que hoy toda anulación es por
+ * marca (el único camino posible mientras ningún período pueda estarlo);
+ * el admin-override reforzado sobre período cerrado tampoco aplica
+ * todavía por la misma razón. Los mayores/saldos con la advertencia de
+ * "saldo contrario al esperado" son F3.6.
  */
 @Service
 @RequiredArgsConstructor
 public class AsientoService {
 
     private static final String MONEDA_LIBRO = "ARS";
+
+    /** F3.1 §4.4 D-3: estos orígenes se anulan desde su documento, no acá. */
+    private static final Set<OrigenAsiento> ORIGENES_ANULABLES_DIRECTO = Set.of(
+            OrigenAsiento.MANUAL, OrigenAsiento.AJUSTE, OrigenAsiento.APERTURA, OrigenAsiento.IMPORTACION);
 
     private final AsientoRepository repo;
     private final AsientoMapper mapper;
@@ -76,8 +93,12 @@ public class AsientoService {
     private final TipoCambioRepository tipoCambioRepo;
 
     @Transactional(readOnly = true)
-    public Page<Asiento> listar(String texto, EstadoDocumento estado, Pageable p) {
-        return repo.buscar(texto, estado, p);
+    public Page<Asiento> listar(
+            String texto, EstadoDocumento estado, OrigenAsiento origen, Long numero,
+            LocalDate fechaDesde, LocalDate fechaHasta, Long cuentaContableId, BigDecimal importe,
+            Long proyectoId, Long clienteId, Long proveedorId, Pageable p) {
+        return repo.buscar(texto, estado, origen, numero, fechaDesde, fechaHasta, cuentaContableId, importe,
+                proyectoId, clienteId, proveedorId, p);
     }
 
     @Transactional(readOnly = true)
@@ -132,7 +153,177 @@ public class AsientoService {
         var antes = mapper.aResponse(a);
 
         TransicionEstadoValidator.validar(a.getEstado(), EstadoDocumento.CONFIRMADO);
+        validarChecklistDeAsiento(a);
 
+        a.setNumero(numerador.siguienteNumero());
+        a.setEstado(EstadoDocumento.CONFIRMADO);
+
+        auditoria.registrar(AccionAuditoria.CONFIRMAR, "Asiento", id, antes, mapper.aResponse(a));
+        return a;
+    }
+
+    /**
+     * Edita un asiento ya {@code CONFIRMADO} (F3.1 §4.2): el asiento sigue
+     * impactando reportes, así que el rebalanceo re-corre el mismo checklist
+     * de {@link #confirmar}, sin renumerar ni cambiar de estado. Líneas
+     * {@code generada_auto = true}: cualquier usuario puede dejarlas
+     * intactas; solo ADMIN puede quitarlas o modificarlas (F3.1 §4.6).
+     */
+    @Transactional
+    public Asiento editarConfirmado(Long id, AsientoEditarConfirmadoRequest req) {
+        Asiento a = obtenerConfirmado(id);
+        var antes = mapper.aResponse(a);
+        boolean esAdmin = esAdmin();
+
+        Map<Long, AsientoLinea> existentesPorId = a.getLineas().stream()
+                .collect(Collectors.toMap(EntidadNegocio::getId, l -> l));
+        Set<Long> idsEnRequest = req.lineas().stream()
+                .map(AsientoLineaEditarRequest::id)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+
+        boolean tocoLineaAutomatica = false;
+        for (AsientoLinea existente : a.getLineas()) {
+            if (existente.isGeneradaAuto() && !idsEnRequest.contains(existente.getId())) {
+                if (!esAdmin) {
+                    throw new NegocioException("SOLO_ADMIN_EDITA_LINEAS_AUTOMATICAS",
+                            "Solo un administrador puede quitar líneas generadas automáticamente");
+                }
+                tocoLineaAutomatica = true;
+            }
+        }
+
+        List<AsientoLinea> nuevasLineas = new ArrayList<>();
+        int orden = 1;
+        for (AsientoLineaEditarRequest r : req.lineas()) {
+            AsientoLinea linea = r.id() != null ? existentesPorId.get(r.id()) : null;
+            if (linea != null && linea.isGeneradaAuto()) {
+                if (!lineaIgual(linea, r)) {
+                    if (!esAdmin) {
+                        throw new NegocioException("SOLO_ADMIN_EDITA_LINEAS_AUTOMATICAS",
+                                "Solo un administrador puede modificar líneas generadas automáticamente");
+                    }
+                    aplicarDatosLinea(linea, r);
+                    tocoLineaAutomatica = true;
+                }
+            } else if (linea != null) {
+                aplicarDatosLinea(linea, r);
+            } else {
+                linea = new AsientoLinea();
+                linea.setAsiento(a);
+                linea.setGeneradaAuto(false);
+                aplicarDatosLinea(linea, r);
+            }
+            linea.setOrden(orden++);
+            nuevasLineas.add(linea);
+        }
+
+        a.setFecha(req.fecha());
+        a.setDescripcion(req.descripcion());
+        a.setObservaciones(req.observaciones());
+        a.getLineas().clear();
+        a.getLineas().addAll(nuevasLineas);
+
+        validarChecklistDeAsiento(a);
+
+        auditoria.registrar(AccionAuditoria.EDITAR, "Asiento", id, antes, mapper.aResponse(a),
+                false, tocoLineaAutomatica ? "edición de líneas autogeneradas" : null);
+        return a;
+    }
+
+    /**
+     * Duplica un asiento en cualquier estado (F3.1 §4.3): siempre crea un
+     * BORRADOR nuevo, sin número, con fecha de hoy y origen {@code MANUAL}
+     * — aunque la fuente sea un asiento automático, el duplicado es una
+     * operación nueva del usuario, así que sus líneas también quedan
+     * {@code generada_auto = false}.
+     */
+    @Transactional
+    public Asiento duplicar(Long id) {
+        Asiento fuente = obtener(id);
+
+        Asiento nuevo = new Asiento();
+        nuevo.setFecha(LocalDate.now());
+        nuevo.setDescripcion(fuente.getDescripcion());
+        nuevo.setObservaciones(fuente.getObservaciones());
+        nuevo.setEstado(EstadoDocumento.BORRADOR);
+        nuevo.setOrigen(OrigenAsiento.MANUAL);
+
+        int orden = 1;
+        for (AsientoLinea l : fuente.getLineas()) {
+            AsientoLinea copia = new AsientoLinea();
+            copia.setAsiento(nuevo);
+            copia.setOrden(orden++);
+            copia.setCuentaContable(l.getCuentaContable());
+            copia.setDebe(l.getDebe());
+            copia.setHaber(l.getHaber());
+            copia.setMoneda(l.getMoneda());
+            copia.setTipoCambio(l.getTipoCambio());
+            copia.setImporteOriginal(l.getImporteOriginal());
+            copia.setFuenteTc(l.getFuenteTc());
+            copia.setLeyenda(l.getLeyenda());
+            copia.setProyecto(l.getProyecto());
+            copia.setEtapa(l.getEtapa());
+            copia.setCliente(l.getCliente());
+            copia.setProveedor(l.getProveedor());
+            copia.setCuentaBancaria(l.getCuentaBancaria());
+            copia.setGeneradaAuto(false);
+            nuevo.getLineas().add(copia);
+        }
+
+        Asiento guardado = repo.save(nuevo);
+        auditoria.registrar(AccionAuditoria.DUPLICAR, "Asiento", fuente.getId(), null, null,
+                false, "Duplicado como asiento id=" + guardado.getId());
+        return guardado;
+    }
+
+    /**
+     * Anula por marca (F3.1 §4.4): el único camino posible hoy, ver Javadoc
+     * de la clase. Rechaza los orígenes de documento (D-3: se anulan desde
+     * el comprobante, no directo) para evitar que el asiento y el
+     * comprobante diverjan.
+     */
+    @Transactional
+    public Asiento anular(Long id, String motivo) {
+        Asiento a = obtener(id);
+        if (!ORIGENES_ANULABLES_DIRECTO.contains(a.getOrigen())) {
+            throw new NegocioException("ANULACION_VIA_DOCUMENTO",
+                    "Este asiento fue generado por un comprobante: anulalo desde ahí, no directamente");
+        }
+        var antes = mapper.aResponse(a);
+        TransicionEstadoValidator.validar(a.getEstado(), EstadoDocumento.ANULADO);
+
+        a.setEstado(EstadoDocumento.ANULADO);
+        a.setMotivoAnulacion(motivo);
+
+        auditoria.registrar(AccionAuditoria.ANULAR, "Asiento", id, antes, mapper.aResponse(a));
+        return a;
+    }
+
+    private Asiento obtenerBorrador(Long id) {
+        Asiento a = obtener(id);
+        if (a.getEstado() != EstadoDocumento.BORRADOR) {
+            throw new NegocioException("TRANSICION_ESTADO_INVALIDA", "Solo se pueden editar o eliminar asientos en borrador");
+        }
+        return a;
+    }
+
+    private Asiento obtenerConfirmado(Long id) {
+        Asiento a = obtener(id);
+        if (a.getEstado() != EstadoDocumento.CONFIRMADO) {
+            throw new NegocioException("ASIENTO_NO_CONFIRMADO", "Solo se pueden editar así los asientos confirmados");
+        }
+        return a;
+    }
+
+    private boolean esAdmin() {
+        var autenticacion = SecurityContextHolder.getContext().getAuthentication();
+        return autenticacion != null && autenticacion.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMINISTRADOR"));
+    }
+
+    /** Checklist de confirmación (F3.1 §3.4 ítems 2-4): 2..N líneas válidas y balance. */
+    private void validarChecklistDeAsiento(Asiento a) {
         List<AsientoLinea> lineas = a.getLineas();
         if (lineas.isEmpty()) {
             throw new NegocioException("ASIENTO_SIN_LINEAS", "El asiento no tiene líneas");
@@ -148,20 +339,40 @@ public class AsientoService {
                 .map(l -> new LineaAsientoGenerada(l.getCuentaContable().getCodigo(), l.getDebe(), l.getHaber(), l.getLeyenda()))
                 .toList();
         ValidadorBalanceAsiento.validar(paraBalance);
-
-        a.setNumero(numerador.siguienteNumero());
-        a.setEstado(EstadoDocumento.CONFIRMADO);
-
-        auditoria.registrar(AccionAuditoria.CONFIRMAR, "Asiento", id, antes, mapper.aResponse(a));
-        return a;
     }
 
-    private Asiento obtenerBorrador(Long id) {
-        Asiento a = obtener(id);
-        if (a.getEstado() != EstadoDocumento.BORRADOR) {
-            throw new NegocioException("TRANSICION_ESTADO_INVALIDA", "Solo se pueden editar o eliminar asientos en borrador");
+    /**
+     * Compara una línea existente {@code generada_auto = true} contra el
+     * pedido, para saber si el usuario intenta modificarla. En ARS,
+     * {@code tipoCambio}/{@code importeOriginal} no se comparan: el cliente
+     * nunca los reenvía (el service los recalcula siempre, §3.3), así que
+     * no son "contenido editable" para esta detección.
+     */
+    private boolean lineaIgual(AsientoLinea existente, AsientoLineaEditarRequest r) {
+        boolean esArs = MONEDA_LIBRO.equals(existente.getMoneda().getCodigo());
+        return Objects.equals(existente.getCuentaContable().getId(), r.cuentaContableId())
+                && existente.getDebe().compareTo(r.debe()) == 0
+                && existente.getHaber().compareTo(r.haber()) == 0
+                && Objects.equals(existente.getMoneda().getId(), r.monedaId())
+                && (esArs || bigDecimalIguales(existente.getTipoCambio(), r.tipoCambio()))
+                && (esArs || bigDecimalIguales(existente.getImporteOriginal(), r.importeOriginal()))
+                && Objects.equals(existente.getLeyenda(), r.leyenda())
+                && Objects.equals(idOrNull(existente.getProyecto()), r.proyectoId())
+                && Objects.equals(idOrNull(existente.getEtapa()), r.etapaId())
+                && Objects.equals(idOrNull(existente.getCliente()), r.clienteId())
+                && Objects.equals(idOrNull(existente.getProveedor()), r.proveedorId())
+                && Objects.equals(idOrNull(existente.getCuentaBancaria()), r.cuentaBancariaId());
+    }
+
+    private static boolean bigDecimalIguales(BigDecimal a, BigDecimal b) {
+        if (a == null || b == null) {
+            return a == b;
         }
-        return a;
+        return a.compareTo(b) == 0;
+    }
+
+    private static Long idOrNull(EntidadNegocio e) {
+        return e != null ? e.getId() : null;
     }
 
     /**
@@ -234,21 +445,36 @@ public class AsientoService {
             AsientoLinea l = new AsientoLinea();
             l.setAsiento(asiento);
             l.setOrden(orden++);
-            l.setCuentaContable(resolverCuenta(r.cuentaContableId()));
-            l.setDebe(r.debe());
-            l.setHaber(r.haber());
-            l.setMoneda(resolverMoneda(r.monedaId()));
-            l.setTipoCambio(r.tipoCambio());
-            l.setImporteOriginal(r.importeOriginal());
-            l.setLeyenda(r.leyenda());
-            l.setProyecto(r.proyectoId() != null ? resolverProyecto(r.proyectoId()) : null);
-            l.setEtapa(r.etapaId() != null ? resolverEtapa(r.etapaId()) : null);
-            l.setCliente(r.clienteId() != null ? resolverCliente(r.clienteId()) : null);
-            l.setProveedor(r.proveedorId() != null ? resolverProveedor(r.proveedorId()) : null);
-            l.setCuentaBancaria(r.cuentaBancariaId() != null ? resolverCuentaBancaria(r.cuentaBancariaId()) : null);
+            aplicarDatosLinea(l, r.cuentaContableId(), r.debe(), r.haber(), r.monedaId(), r.tipoCambio(),
+                    r.importeOriginal(), r.leyenda(), r.proyectoId(), r.etapaId(), r.clienteId(), r.proveedorId(),
+                    r.cuentaBancariaId());
             l.setGeneradaAuto(false);
             asiento.getLineas().add(l);
         }
+    }
+
+    private void aplicarDatosLinea(AsientoLinea l, AsientoLineaEditarRequest r) {
+        aplicarDatosLinea(l, r.cuentaContableId(), r.debe(), r.haber(), r.monedaId(), r.tipoCambio(),
+                r.importeOriginal(), r.leyenda(), r.proyectoId(), r.etapaId(), r.clienteId(), r.proveedorId(),
+                r.cuentaBancariaId());
+    }
+
+    private void aplicarDatosLinea(
+            AsientoLinea l, Long cuentaContableId, BigDecimal debe, BigDecimal haber, Long monedaId,
+            BigDecimal tipoCambio, BigDecimal importeOriginal, String leyenda, Long proyectoId, Long etapaId,
+            Long clienteId, Long proveedorId, Long cuentaBancariaId) {
+        l.setCuentaContable(resolverCuenta(cuentaContableId));
+        l.setDebe(debe);
+        l.setHaber(haber);
+        l.setMoneda(resolverMoneda(monedaId));
+        l.setTipoCambio(tipoCambio);
+        l.setImporteOriginal(importeOriginal);
+        l.setLeyenda(leyenda);
+        l.setProyecto(proyectoId != null ? resolverProyecto(proyectoId) : null);
+        l.setEtapa(etapaId != null ? resolverEtapa(etapaId) : null);
+        l.setCliente(clienteId != null ? resolverCliente(clienteId) : null);
+        l.setProveedor(proveedorId != null ? resolverProveedor(proveedorId) : null);
+        l.setCuentaBancaria(cuentaBancariaId != null ? resolverCuentaBancaria(cuentaBancariaId) : null);
     }
 
     private CuentaContable resolverCuenta(Long id) {

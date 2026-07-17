@@ -2,11 +2,17 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { http } from "@/lib/http"
 import type { PageResponse } from "@/types/auth"
-import type { Asiento, AsientoCrearInput, AsientoEditarInput, EstadoAsiento } from "@/types/asiento"
+import type {
+  Asiento,
+  AsientoBusquedaFiltros,
+  AsientoCrearInput,
+  AsientoEditarConfirmadoInput,
+  AsientoEditarInput,
+} from "@/types/asiento"
 
 const QUERY_KEY = ["asiento"]
 
-export function useAsientos(params: { texto?: string; estado?: EstadoAsiento; page?: number; size?: number }) {
+export function useAsientos(params: AsientoBusquedaFiltros & { page?: number; size?: number }) {
   return useQuery({
     queryKey: [...QUERY_KEY, params],
     queryFn: async () =>
@@ -15,6 +21,15 @@ export function useAsientos(params: { texto?: string; estado?: EstadoAsiento; pa
           params: {
             texto: params.texto || undefined,
             estado: params.estado || undefined,
+            origen: params.origen || undefined,
+            numero: params.numero ?? undefined,
+            fechaDesde: params.fechaDesde || undefined,
+            fechaHasta: params.fechaHasta || undefined,
+            cuentaContableId: params.cuentaContableId ?? undefined,
+            importe: params.importe ?? undefined,
+            proyectoId: params.proyectoId ?? undefined,
+            clienteId: params.clienteId ?? undefined,
+            proveedorId: params.proveedorId ?? undefined,
             page: params.page ?? 0,
             size: params.size ?? 10,
             sort: "fecha,desc",
@@ -49,6 +64,15 @@ export function useEditarAsiento() {
   })
 }
 
+export function useEditarAsientoConfirmado() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async ({ id, valores }: { id: number; valores: AsientoEditarConfirmadoInput }) =>
+      (await http.put<Asiento>(`/asientos/${id}/confirmado`, valores)).data,
+    onSuccess: async () => { await qc.invalidateQueries({ queryKey: QUERY_KEY }) },
+  })
+}
+
 export function useConfirmarAsiento() {
   const qc = useQueryClient()
   return useMutation({
@@ -61,6 +85,23 @@ export function useEliminarAsiento() {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: async (id: number) => { await http.delete(`/asientos/${id}`) },
+    onSuccess: async () => { await qc.invalidateQueries({ queryKey: QUERY_KEY }) },
+  })
+}
+
+export function useDuplicarAsiento() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async (id: number) => (await http.post<Asiento>(`/asientos/${id}/duplicar`)).data,
+    onSuccess: async () => { await qc.invalidateQueries({ queryKey: QUERY_KEY }) },
+  })
+}
+
+export function useAnularAsiento() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async ({ id, motivo }: { id: number; motivo: string }) =>
+      (await http.patch<Asiento>(`/asientos/${id}/anular`, { motivo })).data,
     onSuccess: async () => { await qc.invalidateQueries({ queryKey: QUERY_KEY }) },
   })
 }

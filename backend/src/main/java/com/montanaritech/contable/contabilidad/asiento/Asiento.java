@@ -59,6 +59,12 @@ public class Asiento extends EntidadNegocio {
     @Column(length = 2000)
     private String observaciones;
 
+    /** Obligatorio al anular por marca (F3.1 §4.4). Quién/cuándo anuló ya
+     * quedan en {@code actualizado_en/por} (EntidadNegocio) y en el
+     * {@code auditoria_log} (acción ANULAR); no se duplican como columnas. */
+    @Column(name = "motivo_anulacion", length = 500)
+    private String motivoAnulacion;
+
     @OneToMany(mappedBy = "asiento", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("orden ASC")
     private List<AsientoLinea> lineas = new ArrayList<>();
