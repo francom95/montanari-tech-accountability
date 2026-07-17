@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMemo, useState } from "react"
 import { useForm } from "react-hook-form"
+import { Link } from "react-router-dom"
 import { z } from "zod"
 
 import { Button } from "@/components/ui/button"
@@ -339,6 +340,9 @@ function NodoArbol({
         </span>
         {!nodo.activo && <span className="rounded bg-destructive/10 px-1.5 py-0.5 text-xs text-destructive">inactiva</span>}
         <div className="ml-auto flex gap-2">
+          <Link to={`/contabilidad/mayor/${nodo.id}`}>
+            <Button variant="outline" size="sm">Ver mayor</Button>
+          </Link>
           <Button variant="outline" size="sm" onClick={() => onNuevaHija(nodo.id)}>+ hija</Button>
           <Button variant="outline" size="sm" onClick={() => onEditar(nodo.id)}>Editar</Button>
           <Button variant="outline" size="sm" onClick={() => onCambiarEstado(nodo.id, nodo.activo)}>

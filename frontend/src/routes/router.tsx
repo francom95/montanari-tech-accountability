@@ -13,6 +13,7 @@ import { DashboardPage } from "@/pages/dashboard-page"
 import { EjemploFormularioPage } from "@/pages/ejemplo-formulario-page"
 import { JurisdiccionesPage } from "@/pages/jurisdicciones-page"
 import { LoginPage } from "@/pages/login-page"
+import { MayorPage } from "@/pages/mayor-page"
 import { MonedasPage } from "@/pages/monedas-page"
 import { PlaceholderPage } from "@/pages/placeholder-page"
 import { PlanDeCuentasPage } from "@/pages/plan-de-cuentas-page"
@@ -52,6 +53,7 @@ export const router = createBrowserRouter([
       { path: "tarjetas-credito", element: <TarjetasCreditoPage /> },
       { path: "contabilidad", element: <PlanDeCuentasPage /> },
       { path: "contabilidad/asientos", element: <AsientosPage /> },
+      { path: "contabilidad/mayor/:cuentaId", element: <MayorPage /> },
       {
         path: "facturacion",
         element: <PlaceholderPage title="Facturación, cobros y pagos" />,
