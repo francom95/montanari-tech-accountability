@@ -5,6 +5,16 @@
 
 > **Naturaleza de este paso:** es una **especificación**, no código. Sonnet implementa en F4.2 (facturas de venta), F4.3 (facturas de compra) y F4.4 (cobros y pagos) exactamente lo que está acá. Todo generator entrega un `AsientoGenerado` (molde PL-4, ya scaffoldeado en `common/asiento/`) a `AsientoService.registrarAutomatico(...)` (contrato de F3.1 §8.1), que valida balance, numera y confirma en la **misma transacción** del documento (ADR-07: el generator nunca inserta en `asiento`/`asiento_linea` directamente).
 
+> **✅ CHECKPOINT DEL CONTADOR — RESUELTO.** Las 6 decisiones abiertas (§10) fueron validadas:
+> 1. **CxC/CxP por entidad:** se **mantienen** las cuentas por cliente y por proveedor (opción A) — `Cliente.cuenta_cxc_id` / `Proveedor.cuenta_cxp_id`, con fallback a una genérica.
+> 2. **Cuentas nuevas:** dif. de cambio ganada/perdida bajo la **rama 6** (`6.4005` RP / `6.4006` RN); anticipos de clientes **PASIVO** (`2.1.2018`), anticipos a proveedores **ACTIVO** (`1.1.2013`).
+> 3. **Montanari NO es agente de percepción/retención:** se descartan los conceptos `PERCEPCION/RETENCION_PRACTICADA_A_DEPOSITAR` y los casos que los usaban. Solo quedan percepciones/retenciones **sufridas** (en compras y cobros).
+> 4. Regla de crédito fiscal condicional: OK.
+> 5. **Base de retención/percepción:** para la **comisión bancaria** (F5.x, no F4.x) se calcula sobre la **comisión neta**; para retenciones sufridas en cobros de factura, base configurable con default sobre el neto.
+> 6. Casos numéricos: validados.
+>
+> El cuerpo de este documento ya refleja estas decisiones; §10 quedó como registro histórico.
+
 ---
 
 ## 0. Principios heredados de F3.1 (innegociables acá)
@@ -66,13 +76,13 @@ CREATE TABLE mapeo_cuenta (
 | `PERCEPCION_IVA_SUFRIDA` | — | `1.1.2007` Percepcion de IVA a computar | ACTIVO |
 | `PERCEPCION_IIBB_SUFRIDA` | `JURISDICCION` (opcional) | `1.1.2008` IIBB SIRCREB a favor | ACTIVO |
 | `RETENCION_GANANCIAS_SUFRIDA` | — | `1.1.2011` Anticipo Imp. a las Ganancias | ACTIVO |
-| `RETENCION_IVA_SUFRIDA` | — | `1.1.2007` Percepcion de IVA a computar (o cuenta propia, checkpoint) | ACTIVO |
-| `DIF_CAMBIO_GANADA` | — | **falta** (ver §3) — propuesto `6.4005` | RP |
-| `DIF_CAMBIO_PERDIDA` | — | **falta** (ver §3) — propuesto `6.4006` | RN |
-| `ANTICIPO_CLIENTE` | — | **falta** (ver §3) — propuesto `2.1.2018` | PASIVO |
-| `ANTICIPO_PROVEEDOR` | — | **falta** (ver §3) — propuesto `1.1.2013` | ACTIVO |
-| `RETENCION_PRACTICADA_A_DEPOSITAR` | `TIPO_RETENCION` | **falta** (solo si Montanari es agente de retención — checkpoint) | PASIVO |
-| `PERCEPCION_PRACTICADA_A_DEPOSITAR` | `TIPO_PERCEPCION` | **falta** (solo si Montanari es agente de percepción — checkpoint) | PASIVO |
+| `RETENCION_IVA_SUFRIDA` | — | `1.1.2007` Percepcion de IVA a computar | ACTIVO |
+| `DIF_CAMBIO_GANADA` | — | **a crear (§3)** — `6.4005` Diferencia de cambio ganada | RP |
+| `DIF_CAMBIO_PERDIDA` | — | **a crear (§3)** — `6.4006` Diferencia de cambio perdida | RN |
+| `ANTICIPO_CLIENTE` | — | **a crear (§3)** — `2.1.2018` Anticipos de clientes | PASIVO |
+| `ANTICIPO_PROVEEDOR` | — | **a crear (§3)** — `1.1.2013` Anticipos a proveedores | ACTIVO |
+| ~~`RETENCION_PRACTICADA_A_DEPOSITAR`~~ | — | **descartado** (checkpoint #3: Montanari no es agente de retención) | — |
+| ~~`PERCEPCION_PRACTICADA_A_DEPOSITAR`~~ | — | **descartado** (checkpoint #3: Montanari no es agente de percepción) | — |
 
 **El medio de fondos (banco/caja/MP) NO se resuelve por este mapeo:** viene de la `cuenta_bancaria` que el usuario elige en el cobro/pago, que ya tiene su cuenta contable espejo 1:1 (F3.1 §2.3). Ver §2.3.
 
@@ -80,42 +90,42 @@ CREATE TABLE mapeo_cuenta (
 
 ## 2. Resolución de cuentas "por entidad" (CxC, CxP, fondos)
 
-Tres cuentas dependen de datos de runtime, no de config estática. Decisión de diseño (a validar en checkpoint):
+Tres cuentas dependen de datos de runtime, no de config estática. **Decisión (checkpoint #1): opción A — se mantienen las cuentas por cliente y por proveedor** del Excel, linkeadas a cada entidad (sin migración de datos, sin consolidar).
 
 ### 2.1 Créditos por Ventas (CxC) — por cliente
 Cada `Cliente` lleva un FK **opcional** `cuenta_cxc_id` (migración menor en F4.2). Resolución de `CREDITO_POR_VENTA`:
-1. Si el cliente tiene `cuenta_cxc_id` → esa cuenta.
-2. Si no → fila por defecto del mapeo (`CREDITO_POR_VENTA`, discriminador NULL) → una cuenta genérica "Deudores por servicios prestados".
-3. En todos los casos, la línea lleva `cliente_id` y `proyecto_id` como dimensión analítica: el saldo por cliente/factura se sigue del modelo de documento (factura↔cobro imputación, F4.2/F4.4), **no** de tener una cuenta contable por cliente.
+1. Si el cliente tiene `cuenta_cxc_id` → esa cuenta (ej.: Valvecchia → `1.1.2004.01`).
+2. Si no → fila por defecto del mapeo (`CREDITO_POR_VENTA`, discriminador NULL) → una cuenta genérica "Deudores por servicios prestados" (para clientes nuevos sin cuenta propia asignada aún).
+3. En todos los casos, la línea lleva `cliente_id` y `proyecto_id` como dimensión analítica: el saldo por factura se sigue del modelo de documento (factura↔cobro imputación, F4.2/F4.4).
 
-> El seed de F3.3 trae deudores per-cliente (`1.1.2004.01` Valvecchia, etc.). Recomendación: mantenerlos y linkearlos a su cliente vía `cuenta_cxc_id` (opción A, sin migración de datos), **o** consolidar en una sola "Deudores por Ventas" genérica + dimensión cliente (opción B, más escalable para clientes nuevos). **Pregunta de checkpoint #1.** Los casos numéricos de §7 usan la etiqueta genérica "Créditos por Ventas" — el importe no cambia con la decisión.
+> **F4.2 debe:** agregar el FK `cuenta_cxc_id` a `Cliente`, y una pantalla/campo para asignar a cada cliente su cuenta de deudores. Los clientes del seed que ya tienen su cuenta per-cliente (`1.1.2004.01` Valvecchia, `1.1.2004.02` Centro de Ojos, etc.) se linkean en el alta/edición del cliente. Los casos numéricos de §7 usan la etiqueta genérica "Créditos por Ventas" — el importe no cambia (la cuenta concreta depende del cliente).
 
 ### 2.2 Deudas Comerciales (CxP) — por proveedor
-Idéntico a CxC: `Proveedor.cuenta_cxp_id` opcional → fallback al default `DEUDA_COMERCIAL`. Línea lleva `proveedor_id` + `proyecto_id`.
+Idéntico a CxC (decisión A): `Proveedor.cuenta_cxp_id` opcional → fallback al default `DEUDA_COMERCIAL`. Línea lleva `proveedor_id` + `proyecto_id`. **F4.3 debe** agregar el FK a `Proveedor` y linkear los proveedores del seed a sus cuentas per-tipo (`2.1.2001` Diseñadores, `2.1.2002` Programadores, `2.1.2003` Editores).
 
 ### 2.3 Medio de fondos — por cuenta bancaria/dinero
 El cobro/pago referencia una `cuenta_bancaria` (F2.4, que incluye banco, caja y Mercado Pago vía su enum de tipo). Esa entidad tiene su **cuenta contable espejo 1:1** (F3.1 §2.3 la nombra explícitamente). La línea de fondos usa esa cuenta y setea `cuenta_bancaria_id` como dimensión. La **moneda** de la línea de fondos es la de la cuenta bancaria (Banco Galicia USD → USD).
 
 ---
 
-## 3. Cuentas requeridas que **faltan** en el seed F3.3 (gap analysis)
+## 3. Cuentas requeridas que **faltan** en el seed F3.3 (gap analysis) — CONFIRMADAS
 
-F3.1 §2.4 lista 4 cuentas "requeridas por el motor" que el seed de F3.3 debía crear, pero el Excel no las tenía, así que **no están**. F4.2/F4.3/F4.4 deben crearlas (migración de datos), o se agregan en una migración dedicada previa. Códigos propuestos (encajan en el esquema del seed):
+F3.1 §2.4 lista 4 cuentas "requeridas por el motor" que el seed de F3.3 debía crear, pero el Excel no las tenía, así que **no están**. **Checkpoint #2: confirmadas** con estos códigos, naturaleza y ubicación. La **primera de F4.2 (o F4.3/F4.4 según cuál llegue antes) las crea** en una migración de datos (mismo patrón que V17):
 
-| Concepto | Código propuesto | Nombre | Naturaleza | Rubro |
-|---|---|---|---|---|
-| `DIF_CAMBIO_GANADA` | `6.4005` | Diferencia de cambio ganada | RP | Otros Ingresos y Egresos |
-| `DIF_CAMBIO_PERDIDA` | `6.4006` | Diferencia de cambio perdida | RN | Otros Ingresos y Egresos |
-| `ANTICIPO_CLIENTE` | `2.1.2018` | Anticipos de clientes | PASIVO | 5. Otras Deudas |
-| `ANTICIPO_PROVEEDOR` | `1.1.2013` | Anticipos a proveedores | ACTIVO | 3. Otros Créditos por ventas |
+| Concepto | Código | Nombre | Naturaleza | Rubro | Padre |
+|---|---|---|---|---|---|
+| `DIF_CAMBIO_GANADA` | `6.4005` | Diferencia de cambio ganada | RP | Otros Ingresos y Egresos | `6` |
+| `DIF_CAMBIO_PERDIDA` | `6.4006` | Diferencia de cambio perdida | RN | Otros Ingresos y Egresos | `6` |
+| `ANTICIPO_CLIENTE` | `2.1.2018` | Anticipos de clientes | PASIVO | 5. Otras Deudas | `2.1` |
+| `ANTICIPO_PROVEEDOR` | `1.1.2013` | Anticipos a proveedores | ACTIVO | 3. Otros Créditos por ventas | `1.1` |
 
-Se ubican `6.4005/6.4006` bajo la rama `6 "Otros Ingresos y Egresos"` (madre `OTROS_RESULTADOS`), consistente con `6.4002 Intereses Ganados` (RP) y `6.4003 Comisiones bancarias` (RN) ya existentes de signo mixto. **Pregunta de checkpoint #2:** ¿ubicación y nombres correctos para el plan del contador? (F3.1 §2.4 sugería rubros "Resultados Financieros"/"Gastos Financieros"; acá se reusa el rubro de la rama 6 para no crear rubros nuevos).
+`6.4005/6.4006` van bajo la rama `6 "Otros Ingresos y Egresos"` (madre `OTROS_RESULTADOS`), consistente con `6.4002 Intereses Ganados` (RP) y `6.4003 Comisiones bancarias` (RN) ya existentes de signo mixto — el contador confirmó esta ubicación (reusa el rubro de la rama 6, sin crear rubros nuevos). Anticipos de clientes = PASIVO, anticipos a proveedores = ACTIVO (confirmado). Las 4 quedan `imputable = TRUE`, con su rubro correspondiente, y se mapean en `mapeo_cuenta` con su concepto.
 
 ---
 
 ## 4. Generator: Factura de venta (`origen = FACTURA_VENTA`, implementa F4.2)
 
-**Entrada:** factura de venta confirmada con: cliente, proyecto, moneda, TC, base imponible (neto), alícuota/IVA, percepciones/retenciones practicadas (opcional), total.
+**Entrada:** factura de venta confirmada con: cliente, proyecto, moneda, TC, base imponible (neto), alícuota/IVA, total.
 
 **Líneas (todas `generada_auto = true`, dimensión `cliente_id`+`proyecto_id`):**
 
@@ -124,11 +134,11 @@ Se ubican `6.4005/6.4006` bajo la rama `6 "Otros Ingresos y Egresos"` (madre `OT
 | **Debe** | `CREDITO_POR_VENTA` (CxC del cliente) | `round2(total × TC)` | siempre |
 | Haber | `INGRESO_VENTA` (VENTA u OTRA_VENTA) | `round2(neto × TC)` | siempre (1..N líneas si hay varios conceptos de ingreso) |
 | Haber | `IVA_DEBITO_FISCAL` | `round2(iva × TC)` | si la factura tiene IVA (> 0) |
-| Haber | `PERCEPCION/RETENCION_PRACTICADA_A_DEPOSITAR` | `round2(percep × TC)` | solo si Montanari es agente (checkpoint #3) |
 
-- **Balance**: `CxC(total) = ingresos(neto) + IVA + percepciones_practicadas`. Por construcción `total = neto + IVA + percep`.
+- **Balance**: `CxC(total) = ingresos(neto) + IVA`. Por construcción `total = neto + IVA`.
 - **Moneda**: cada línea en la moneda de la factura; en USD, `importe_original` = el componente en USD (neto/iva/total), `tipo_cambio` = TC de la factura, `fuente_tc = MANUAL`. No hay diferencia de cambio en la emisión de la factura (§7 sale a cobro).
 - **Sin IVA** (exportación / exento): se omite la línea de IVA.
+- **Sin percepciones practicadas** (checkpoint #3: Montanari no es agente de percepción): la factura de venta no lleva líneas de percepción/retención practicada. Las retenciones que el cliente le practique a Montanari aparecen en el **cobro** (§6.1), no en la factura.
 
 ---
 
@@ -147,13 +157,12 @@ Se ubican `6.4005/6.4006` bajo la rama `6 "Otros Ingresos y Egresos"` (madre `OT
 
 - **Balance**: `costo(neto) + IVA_CF + percepciones = CxP(total)`.
 - **Crédito fiscal condicional**: comprobante tipo C / monotributista / consumidor final → **sin** línea de IVA CF; el IVA se absorbe en el costo (`Debe costo = neto + iva`). El generator recibe del documento la bandera "computa crédito fiscal"; F4.3 la deriva de la condición IVA del proveedor + tipo de comprobante.
-- **Retenciones practicadas** (Montanari retiene al proveedor) **no** van en la factura: aparecen en el **pago** (§6).
 
 ---
 
 ## 6. Generator: Cobro y Pago (`origen = COBRO` / `PAGO`, implementa F4.4)
 
-El cobro/pago imputa a uno o más comprobantes. El asiento tiene la línea de fondos, la línea que cancela el CxC/CxP, la(s) línea(s) de diferencia de cambio (si USD y TC ≠ TC factura) y las de retenciones sufridas/practicadas.
+El cobro/pago imputa a uno o más comprobantes. El asiento tiene la línea de fondos, la línea que cancela el CxC/CxP, la(s) línea(s) de diferencia de cambio (si USD y TC ≠ TC factura) y, en el cobro, las de retenciones **sufridas** (Montanari no practica retenciones — checkpoint #3).
 
 ### 6.1 Cobro (cancela una factura de venta)
 
@@ -165,6 +174,8 @@ El cobro/pago imputa a uno o más comprobantes. El asiento tiene la línea de fo
 | Haber | `CREDITO_POR_VENTA` (CxC) | `round2(imputado_orig × TC_factura)` = lo que cancela del crédito |
 | Haber | `DIF_CAMBIO_GANADA` | `dif` si `dif > 0` (§6.3) |
 
+> **Base de la retención sufrida (checkpoint #5):** configurable por tipo, con default **sobre el neto** (no el total). Cada tipo usa su cuenta de crédito fiscal: Ganancias → `1.1.2011` Anticipo Imp. a las Ganancias; IVA → `1.1.2007`; IIBB/SIRCREB → `1.1.2008`. (La retención/percepción de la **comisión bancaria** —F5.x, no F4.x— se calcula sobre la comisión neta, según confirmó el contador; ese asiento lo genera el módulo de bancos, no estos generators.)
+
 ### 6.2 Pago (cancela una factura de compra)
 
 | Lado | Cuenta | Importe ARS |
@@ -172,8 +183,9 @@ El cobro/pago imputa a uno o más comprobantes. El asiento tiene la línea de fo
 | **Debe** | `DEUDA_COMERCIAL` (CxP) | `round2(imputado_orig × TC_factura)` = lo que cancela de la deuda |
 | Debe | `DIF_CAMBIO_PERDIDA` | `|dif|` si `dif > 0` (§6.3, signo invertido vs cobro) |
 | Haber | Fondos (cuenta bancaria) | `round2(pagado_orig × TC_pago)` = lo efectivamente egresado |
-| Haber | `RETENCION_PRACTICADA_A_DEPOSITAR` | `round2(retención × TC_pago)` (si Montanari retuvo — checkpoint #3) |
 | Haber | `DIF_CAMBIO_GANADA` | `dif` si `dif < 0` (§6.3) |
+
+> No hay línea de retención practicada: Montanari no es agente de retención (checkpoint #3). Si el proveedor exige retención, es un ajuste manual, no una línea automática del generator.
 
 ### 6.3 Algoritmo de diferencia de cambio (F3.1 §6.2, central)
 
@@ -266,8 +278,7 @@ TC en formato `1.500,000000`; ARS con 2 decimales HALF_UP. Todos verificados: ca
 **PA-3 — USD parcial, TC menor: ganancia.** Factura compra USD 200,00 @1.500 (CxP 300.000,00). Pago parcial USD 100,00 @1.460,000000.
 `Debe Deudas Comerciales 150.000,00 / Haber Banco USD 146.000,00 / Haber Diferencia de cambio ganada 4.000,00.` (saldo CxP restante USD 100,00 = 150.000,00 ARS)
 
-**PA-4 — ARS con retención de Ganancias practicada** (solo si Montanari es agente, checkpoint #3). Factura ARS 121.000,00; retiene Ganancias 2.000,00.
-`Debe Deudas Comerciales 121.000,00 / Haber Banco 119.000,00 / Haber Retenciones a depositar 2.000,00.`
+> El caso de retención **practicada** (Montanari retiene al proveedor) se descartó: no es agente de retención (checkpoint #3).
 
 ---
 
@@ -298,11 +309,11 @@ interface AsientoGenerator<T> { AsientoGenerado generar(T eventoConfirmado); }  
 
 ---
 
-## 10. Preguntas para el checkpoint del contador
+## 10. Checkpoint del contador — RESUELTO (registro histórico)
 
-1. **CxC/CxP por cliente/proveedor (§2.1/§2.2):** ¿mantener las cuentas per-cliente/per-tipo del Excel linkeadas a cada entidad (opción A), o consolidar en "Deudores por Ventas" / "Deudas Comerciales" genéricas con el cliente/proveedor como dimensión (opción B)? La contabilidad es la misma; cambia solo dónde vive el detalle por cliente.
-2. **Cuentas faltantes (§3):** validar códigos, nombres, naturaleza y ubicación de las 4 cuentas nuevas (dif. de cambio ganada/perdida, anticipos de clientes/proveedores). ¿Van bajo la rama `6`, o preferís rubros "Resultados Financieros"/"Gastos Financieros" separados?
-3. **¿Montanari es agente de percepción/retención?** Si no lo es (lo esperable en una empresa de este tamaño), se descartan `PERCEPCION/RETENCION_PRACTICADA_A_DEPOSITAR` y los casos FV-4/PA-4; solo quedan las **sufridas** (en compras y cobros). Confirmar.
-4. **Crédito fiscal condicional (§5):** validar la regla de cuándo un comprobante de compra da IVA crédito fiscal (tipo A vs B/C, condición del proveedor) — de esto depende si el IVA va a cuenta propia o se absorbe en el costo.
-5. **Retenciones sufridas en el cobro (§6.1, CO-4):** ¿sobre qué base se calcula cada retención (neto/total) y qué cuenta de crédito fiscal usa cada tipo (Ganancias → `1.1.2011`; IVA → ¿`1.1.2007` u otra?; IIBB/SIRCREB → `1.1.2008`)?
-6. Repasar los 15 casos numéricos de §7 con calculadora: son los importes exactos que F4.2-F4.4 deberán reproducir.
+1. **CxC/CxP por cliente/proveedor (§2.1/§2.2):** **opción A** — se mantienen las cuentas por cliente y por proveedor del Excel, linkeadas a cada entidad.
+2. **Cuentas faltantes (§3):** confirmadas — dif. de cambio ganada/perdida bajo la rama `6` (`6.4005` RP / `6.4006` RN); anticipos de clientes PASIVO (`2.1.2018`), anticipos a proveedores ACTIVO (`1.1.2013`).
+3. **¿Agente de percepción/retención?** No — se descartaron `PERCEPCION/RETENCION_PRACTICADA_A_DEPOSITAR` y sus casos; solo quedan las **sufridas**.
+4. **Crédito fiscal condicional (§5):** OK.
+5. **Base de retención (§6.1):** default sobre el neto, configurable por tipo; la comisión bancaria (F5.x) se calcula sobre la comisión neta.
+6. **Casos numéricos (§7):** validados — 14 casos (FV-1..3, FC-1..4, CO-1..5, PA-1..3), todos con balance exacto.
