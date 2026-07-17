@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom"
 
 import { RequireAuth } from "@/components/require-auth"
 import { AppLayout } from "@/layouts/app-layout"
+import { AsientosPage } from "@/pages/asientos-page"
 import { AuditoriaPage } from "@/pages/auditoria-page"
 import { CategoriasPage } from "@/pages/categorias-page"
 import { ClientesPage } from "@/pages/clientes-page"
@@ -50,6 +51,7 @@ export const router = createBrowserRouter([
       { path: "cuentas-bancarias", element: <CuentasBancariasPage /> },
       { path: "tarjetas-credito", element: <TarjetasCreditoPage /> },
       { path: "contabilidad", element: <PlanDeCuentasPage /> },
+      { path: "contabilidad/asientos", element: <AsientosPage /> },
       {
         path: "facturacion",
         element: <PlaceholderPage title="Facturación, cobros y pagos" />,

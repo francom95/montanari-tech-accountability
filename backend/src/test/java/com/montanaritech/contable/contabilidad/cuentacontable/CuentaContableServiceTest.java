@@ -9,6 +9,7 @@ import com.montanaritech.contable.common.error.ConflictoException;
 import com.montanaritech.contable.common.error.NegocioException;
 import com.montanaritech.contable.common.error.RecursoNoEncontradoException;
 import com.montanaritech.contable.common.audit.AuditoriaService;
+import com.montanaritech.contable.contabilidad.asiento.AsientoLineaRepository;
 import com.montanaritech.contable.contabilidad.cuentacontable.dto.CuentaContableCrearRequest;
 import com.montanaritech.contable.contabilidad.cuentacontable.dto.CuentaContableEditarRequest;
 import com.montanaritech.contable.contabilidad.cuentacontable.dto.CuentaContableNodo;
@@ -44,6 +45,9 @@ class CuentaContableServiceTest {
     @Mock
     private ProyectoRepository proyectoRepo;
 
+    @Mock
+    private AsientoLineaRepository asientoLineaRepo;
+
     private CuentaContableService service;
 
     private Categoria categoriaActivo;
@@ -51,7 +55,7 @@ class CuentaContableServiceTest {
 
     @BeforeEach
     void setUp() {
-        service = new CuentaContableService(repo, mapper, auditoria, rubroRepo, proyectoRepo);
+        service = new CuentaContableService(repo, mapper, auditoria, rubroRepo, proyectoRepo, asientoLineaRepo);
 
         categoriaActivo = new Categoria();
         categoriaActivo.setId(1L);

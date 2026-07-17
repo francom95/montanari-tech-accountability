@@ -6,6 +6,7 @@ import com.montanaritech.contable.common.audit.AuditoriaService;
 import com.montanaritech.contable.common.error.ConflictoException;
 import com.montanaritech.contable.common.error.NegocioException;
 import com.montanaritech.contable.common.error.RecursoNoEncontradoException;
+import com.montanaritech.contable.contabilidad.asiento.AsientoLineaRepository;
 import com.montanaritech.contable.contabilidad.cuentacontable.dto.CuentaContableCrearRequest;
 import com.montanaritech.contable.contabilidad.cuentacontable.dto.CuentaContableEditarRequest;
 import com.montanaritech.contable.contabilidad.cuentacontable.dto.CuentaContableNodo;
@@ -28,10 +29,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Plan de cuentas (F3.2), sobre las decisiones de F3.1 §2. {@code tieneMovimientos}
- * es el punto de extensión (mismo patrón que {@code MonedaService}): hasta que
- * exista {@code asiento_linea} (F3.4), ninguna cuenta tiene movimientos, así
- * que las restricciones asociadas nunca bloquean todavía — el código ya
- * queda correcto para cuando F3.4 complete ese método.
+ * consulta {@code asiento_linea} (F3.4): una cuenta con líneas confirmadas o
+ * en borrador ya no puede cambiar de código/naturaleza, ni eliminarse, ni
+ * su madre volver a ser imputable automáticamente.
  */
 @Service
 @RequiredArgsConstructor
@@ -44,6 +44,7 @@ public class CuentaContableService {
     private final AuditoriaService auditoria;
     private final RubroRepository rubroRepo;
     private final ProyectoRepository proyectoRepo;
+    private final AsientoLineaRepository asientoLineaRepo;
 
     @Transactional(readOnly = true)
     public Page<CuentaContable> listar(String texto, Boolean activo, Pageable p) {
@@ -289,13 +290,8 @@ public class CuentaContableService {
         return new HashSet<>(proyectoRepo.findAllById(ids));
     }
 
-    /**
-     * Punto de extensión (F3.1 §12, mismo patrón que {@code MonedaService}):
-     * hasta que exista {@code asiento_linea} (F3.4), ninguna cuenta tiene
-     * movimientos, así que nunca bloquea. Cuando F3.4 exista, este método
-     * pasa a consultar {@code asientoLineaRepository.existsByCuentaContableId(id)}.
-     */
+    /** Completa el punto de extensión que F3.1 §12 dejó pendiente para F3.4. */
     private boolean tieneMovimientos(Long cuentaId) {
-        return false;
+        return asientoLineaRepo.existsByCuentaContableId(cuentaId);
     }
 }

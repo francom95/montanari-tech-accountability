@@ -2,6 +2,7 @@ import type { LucideIcon } from "lucide-react"
 import {
   LayoutDashboard,
   BookOpenText,
+  BookText,
   Receipt,
   Landmark,
   BarChart3,
@@ -53,6 +54,7 @@ export const NAV_ITEMS: NavItem[] = [
   { to: "/cuentas-bancarias", label: "Cuentas bancarias", icon: Wallet },
   { to: "/tarjetas-credito", label: "Tarjetas de crédito", icon: CreditCard },
   { to: "/contabilidad", label: "Contabilidad", icon: BookOpenText },
+  { to: "/contabilidad/asientos", label: "Asientos contables", icon: BookText },
   { to: "/facturacion", label: "Facturación, cobros y pagos", icon: Receipt },
   { to: "/bancos", label: "Bancos, tarjetas y conciliaciones", icon: Landmark },
   { to: "/reportes", label: "Reportes", icon: BarChart3 },

@@ -1,5 +1,6 @@
 package com.montanaritech.contable.maestros.tipocambio;
 
+import java.time.LocalDate;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,4 +17,14 @@ public interface TipoCambioRepository extends JpaRepository<TipoCambio, Long> {
               AND (:activo IS NULL OR tc.activo = :activo)
             """)
     Page<TipoCambio> buscar(@Param("texto") String texto, @Param("activo") Boolean activo, Pageable pageable);
+
+    /**
+     * Resolución automática de TC (F3.1 §3.4 ítem 3, CP-19): cuando una línea
+     * en moneda extranjera no trae tipo de cambio manual, se busca una
+     * cotización cargada para (moneda, fecha). No distingue por criterio
+     * (BNA venta/compra, oficial, manual...) porque todavía no existe un
+     * parámetro de sistema de "fuente por defecto" — toma la primera activa,
+     * de forma determinística.
+     */
+    Optional<TipoCambio> findFirstByMonedaIdAndFechaAndActivoTrueOrderByIdAsc(Long monedaId, LocalDate fecha);
 }
