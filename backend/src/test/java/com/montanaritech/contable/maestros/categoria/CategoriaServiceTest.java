@@ -72,10 +72,10 @@ class CategoriaServiceTest {
             return new CategoriaResponse(c.getId(), c.getNombre(), c.getDescripcion(), c.getTipo().name(), c.isActivo());
         });
 
-        service.editar(1L, new CategoriaEditarRequest("Renombrada", "desc2", "RMINUS"));
+        service.editar(1L, new CategoriaEditarRequest("Renombrada", "desc2", "RN"));
 
         assertThat(entidad.getNombre()).isEqualTo("Renombrada");
-        assertThat(entidad.getTipo()).isEqualTo(Categoria.TipoCategoria.RMINUS);
+        assertThat(entidad.getTipo()).isEqualTo(Categoria.TipoCategoria.RN);
         verify(auditoria).registrar(
                 eq(AccionAuditoria.EDITAR), eq("Categoria"), eq(1L), any(CategoriaResponse.class), any(CategoriaResponse.class));
     }

@@ -17,7 +17,15 @@ import {
 } from "@/hooks/use-categoria"
 import type { Categoria } from "@/types/categoria"
 
-const TIPOS = ["ACTIVO", "PASIVO", "PN", "RPLUS", "RMINUS"] as const
+const TIPOS = ["ACTIVO", "PASIVO", "PN", "RP", "RN", "OTROS_RESULTADOS"] as const
+const TIPO_LABEL: Record<(typeof TIPOS)[number], string> = {
+  ACTIVO: "Activo",
+  PASIVO: "Pasivo",
+  PN: "Patrimonio Neto",
+  RP: "Resultado Positivo",
+  RN: "Resultado Negativo",
+  OTROS_RESULTADOS: "Otros Resultados",
+}
 
 const esquema = z.object({
   nombre: z.string().min(1, "El nombre es obligatorio").max(80),
@@ -115,7 +123,7 @@ export function CategoriasPage() {
                   <FormLabel>Tipo</FormLabel>
                   <FormControl>
                     <select {...field} className="h-8 w-full rounded-lg border border-input bg-transparent px-2.5 py-1 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50">
-                      {TIPOS.map((t) => <option key={t} value={t}>{t}</option>)}
+                      {TIPOS.map((t) => <option key={t} value={t}>{TIPO_LABEL[t]}</option>)}
                     </select>
                   </FormControl>
                   <FormMessage />

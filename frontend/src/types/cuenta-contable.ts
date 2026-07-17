@@ -1,4 +1,4 @@
-export type Naturaleza = "ACTIVO" | "PASIVO" | "PN" | "RPLUS" | "RMINUS"
+export type Naturaleza = "ACTIVO" | "PASIVO" | "PN" | "RP" | "RN" | "OTROS_RESULTADOS"
 export type SaldoEsperado = "DEUDOR" | "ACREEDOR"
 
 export type ProyectoUsoHabitual = {

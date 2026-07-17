@@ -36,7 +36,12 @@ public class Categoria extends EntidadNegocio {
         ACTIVO,
         PASIVO,
         PN,
-        RPLUS,
-        RMINUS
+        RP,   // Resultado Positivo
+        RN,   // Resultado Negativo
+        // Otros Resultados: sección madre que agrupa cuentas de signo mixto; sus
+        // cuentas hijas se clasifican como RP o RN según su tipo (no como
+        // OTROS_RESULTADOS). Solo la cuenta madre lleva esta categoría.
+        // (Extendido en F3.3 a pedido del negocio.)
+        OTROS_RESULTADOS
     }
 }

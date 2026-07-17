@@ -19,7 +19,15 @@ import { useProyectos } from "@/hooks/use-proyecto"
 import { useRubros } from "@/hooks/use-rubro"
 import type { CuentaContable, CuentaContableNodo, Naturaleza, SaldoEsperado } from "@/types/cuenta-contable"
 
-const NATURALEZAS: Naturaleza[] = ["ACTIVO", "PASIVO", "PN", "RPLUS", "RMINUS"]
+const NATURALEZAS: Naturaleza[] = ["ACTIVO", "PASIVO", "PN", "RP", "RN", "OTROS_RESULTADOS"]
+const NATURALEZA_LABEL: Record<Naturaleza, string> = {
+  ACTIVO: "Activo",
+  PASIVO: "Pasivo",
+  PN: "Patrimonio Neto",
+  RP: "Resultado Positivo",
+  RN: "Resultado Negativo",
+  OTROS_RESULTADOS: "Otros Resultados",
+}
 const SALDOS_ESPERADOS: SaldoEsperado[] = ["DEUDOR", "ACREEDOR"]
 
 const esquema = z.object({
@@ -177,7 +185,7 @@ export function PlanDeCuentasPage() {
                     <FormLabel>Naturaleza</FormLabel>
                     <FormControl>
                       <select {...field} className="h-8 w-full rounded-lg border border-input bg-background px-3 py-1.5 text-sm">
-                        {NATURALEZAS.map((n) => <option key={n} value={n}>{n}</option>)}
+                        {NATURALEZAS.map((n) => <option key={n} value={n}>{NATURALEZA_LABEL[n]}</option>)}
                       </select>
                     </FormControl>
                     <FormMessage />

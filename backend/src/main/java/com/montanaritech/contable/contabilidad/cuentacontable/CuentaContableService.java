@@ -228,9 +228,17 @@ public class CuentaContableService {
     }
 
     private void validarNaturalezaCoincide(Categoria.TipoCategoria naturaleza, Categoria.TipoCategoria esperada, String contra) {
-        if (!naturaleza.equals(esperada)) {
-            throw new NegocioException("NATURALEZA_INCONSISTENTE", "La naturaleza debe coincidir con la de " + contra);
+        if (naturaleza.equals(esperada)) {
+            return;
         }
+        // Excepción "Otros Resultados": esta sección agrupa a propósito cuentas de
+        // signo mixto, así que una madre (o un rubro) de categoría OTROS_RESULTADOS
+        // admite hijas/cuentas de Resultado Positivo (RP) o Negativo (RN).
+        if (esperada == Categoria.TipoCategoria.OTROS_RESULTADOS
+                && (naturaleza == Categoria.TipoCategoria.RP || naturaleza == Categoria.TipoCategoria.RN)) {
+            return;
+        }
+        throw new NegocioException("NATURALEZA_INCONSISTENTE", "La naturaleza debe coincidir con la de " + contra);
     }
 
     private void validarSinCiclo(CuentaContable cuenta, CuentaContable nuevoPadre) {
