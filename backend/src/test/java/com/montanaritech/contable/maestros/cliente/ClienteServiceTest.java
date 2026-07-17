@@ -67,7 +67,7 @@ class ClienteServiceTest {
         when(jurisdiccionRepo.findById(1L)).thenReturn(Optional.of(jurisdiccion));
         when(repo.save(any(Cliente.class))).thenAnswer(inv -> inv.getArgument(0));
 
-        Cliente creada = service.crear(new ClienteCrearRequest("Nuevo Cliente", "30-12345678-9", 1L, "Contacto", "email@test.com", "987654321"));
+        Cliente creada = service.crear(new ClienteCrearRequest("Nuevo Cliente", "30-12345678-9", 1L, "Contacto", "email@test.com", "987654321", null));
 
         assertThat(creada.getNombre()).isEqualTo("Nuevo Cliente");
         assertThat(creada.getCuit()).isEqualTo("30-12345678-9");
@@ -78,7 +78,7 @@ class ClienteServiceTest {
     void crearConJurisdictionNoExistenteThrow() {
         when(jurisdiccionRepo.findById(99L)).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> service.crear(new ClienteCrearRequest("Test", "20-12345678-9", 99L, null, null, null)))
+        assertThatThrownBy(() -> service.crear(new ClienteCrearRequest("Test", "20-12345678-9", 99L, null, null, null, null)))
                 .isInstanceOf(RecursoNoEncontradoException.class);
     }
 
@@ -109,10 +109,10 @@ class ClienteServiceTest {
         when(mapper.aResponse(any(Cliente.class))).thenAnswer(inv -> {
             Cliente c = inv.getArgument(0);
             return new ClienteResponse(c.getId(), c.getNombre(), c.getCuit(), c.getJurisdiccion().getId(),
-                    c.getJurisdiccion().getNombre(), c.getContacto(), c.getEmail(), c.getTelefono(), c.isActivo());
+                    c.getJurisdiccion().getNombre(), c.getContacto(), c.getEmail(), c.getTelefono(), null, null, c.isActivo());
         });
 
-        service.editar(1L, new ClienteEditarRequest("Cliente Editado", 2L, "Contacto New", "new@test.com", "111111111"));
+        service.editar(1L, new ClienteEditarRequest("Cliente Editado", 2L, "Contacto New", "new@test.com", "111111111", null));
 
         assertThat(entidad.getNombre()).isEqualTo("Cliente Editado");
         assertThat(entidad.getJurisdiccion().getId()).isEqualTo(2L);
@@ -125,7 +125,7 @@ class ClienteServiceTest {
         when(repo.findById(1L)).thenReturn(Optional.of(entidad));
         when(jurisdiccionRepo.findById(99L)).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> service.editar(1L, new ClienteEditarRequest("Test", 99L, null, null, null)))
+        assertThatThrownBy(() -> service.editar(1L, new ClienteEditarRequest("Test", 99L, null, null, null, null)))
                 .isInstanceOf(RecursoNoEncontradoException.class);
     }
 
@@ -135,7 +135,7 @@ class ClienteServiceTest {
         when(mapper.aResponse(any(Cliente.class))).thenAnswer(inv -> {
             Cliente c = inv.getArgument(0);
             return new ClienteResponse(c.getId(), c.getNombre(), c.getCuit(), c.getJurisdiccion().getId(),
-                    c.getJurisdiccion().getNombre(), c.getContacto(), c.getEmail(), c.getTelefono(), c.isActivo());
+                    c.getJurisdiccion().getNombre(), c.getContacto(), c.getEmail(), c.getTelefono(), null, null, c.isActivo());
         });
 
         service.desactivar(1L);
@@ -153,7 +153,7 @@ class ClienteServiceTest {
         when(mapper.aResponse(any(Cliente.class))).thenAnswer(inv -> {
             Cliente c = inv.getArgument(0);
             return new ClienteResponse(c.getId(), c.getNombre(), c.getCuit(), c.getJurisdiccion().getId(),
-                    c.getJurisdiccion().getNombre(), c.getContacto(), c.getEmail(), c.getTelefono(), c.isActivo());
+                    c.getJurisdiccion().getNombre(), c.getContacto(), c.getEmail(), c.getTelefono(), null, null, c.isActivo());
         });
 
         service.activar(1L);
@@ -169,7 +169,7 @@ class ClienteServiceTest {
         when(mapper.aResponse(any(Cliente.class))).thenAnswer(inv -> {
             Cliente c = inv.getArgument(0);
             return new ClienteResponse(c.getId(), c.getNombre(), c.getCuit(), c.getJurisdiccion().getId(),
-                    c.getJurisdiccion().getNombre(), c.getContacto(), c.getEmail(), c.getTelefono(), c.isActivo());
+                    c.getJurisdiccion().getNombre(), c.getContacto(), c.getEmail(), c.getTelefono(), null, null, c.isActivo());
         });
 
         service.eliminar(1L);
@@ -211,7 +211,7 @@ class ClienteServiceTest {
         when(jurisdiccionRepo.findById(1L)).thenReturn(Optional.of(jurisdiccion));
         when(repo.save(any(Cliente.class))).thenAnswer(inv -> inv.getArgument(0));
 
-        Cliente creada = service.crear(new ClienteCrearRequest("Test", "20-12345678-9", 1L, null, null, null));
+        Cliente creada = service.crear(new ClienteCrearRequest("Test", "20-12345678-9", 1L, null, null, null, null));
 
         assertThat(creada.getCuit()).isNotBlank();
     }
@@ -221,7 +221,7 @@ class ClienteServiceTest {
         when(jurisdiccionRepo.findById(1L)).thenReturn(Optional.of(jurisdiccion));
         when(repo.save(any(Cliente.class))).thenAnswer(inv -> inv.getArgument(0));
 
-        Cliente creada = service.crear(new ClienteCrearRequest("Test", "20-12345678-9", 1L, null, null, null));
+        Cliente creada = service.crear(new ClienteCrearRequest("Test", "20-12345678-9", 1L, null, null, null, null));
 
         assertThat(creada.getContacto()).isNull();
     }
@@ -231,7 +231,7 @@ class ClienteServiceTest {
         when(jurisdiccionRepo.findById(1L)).thenReturn(Optional.of(jurisdiccion));
         when(repo.save(any(Cliente.class))).thenAnswer(inv -> inv.getArgument(0));
 
-        Cliente creada = service.crear(new ClienteCrearRequest("Test", "20-12345678-9", 1L, null, null, null));
+        Cliente creada = service.crear(new ClienteCrearRequest("Test", "20-12345678-9", 1L, null, null, null, null));
 
         assertThat(creada.getEmail()).isNull();
     }
@@ -241,7 +241,7 @@ class ClienteServiceTest {
         when(jurisdiccionRepo.findById(1L)).thenReturn(Optional.of(jurisdiccion));
         when(repo.save(any(Cliente.class))).thenAnswer(inv -> inv.getArgument(0));
 
-        Cliente creada = service.crear(new ClienteCrearRequest("Test", "20-12345678-9", 1L, null, null, null));
+        Cliente creada = service.crear(new ClienteCrearRequest("Test", "20-12345678-9", 1L, null, null, null, null));
 
         assertThat(creada.getTelefono()).isNull();
     }

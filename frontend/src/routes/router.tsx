@@ -11,8 +11,10 @@ import { ConceptosPage } from "@/pages/conceptos-page"
 import { CuentasBancariasPage } from "@/pages/cuentas-bancarias-page"
 import { DashboardPage } from "@/pages/dashboard-page"
 import { EjemploFormularioPage } from "@/pages/ejemplo-formulario-page"
+import { FacturasVentaPage } from "@/pages/facturas-venta-page"
 import { JurisdiccionesPage } from "@/pages/jurisdicciones-page"
 import { LoginPage } from "@/pages/login-page"
+import { MapeoCuentaPage } from "@/pages/mapeo-cuenta-page"
 import { MayorPage } from "@/pages/mayor-page"
 import { MonedasPage } from "@/pages/monedas-page"
 import { PlaceholderPage } from "@/pages/placeholder-page"
@@ -58,6 +60,8 @@ export const router = createBrowserRouter([
         path: "facturacion",
         element: <PlaceholderPage title="Facturación, cobros y pagos" />,
       },
+      { path: "facturacion/ventas", element: <FacturasVentaPage /> },
+      { path: "facturacion/mapeo-cuentas", element: <MapeoCuentaPage /> },
       {
         path: "bancos",
         element: <PlaceholderPage title="Bancos, tarjetas y conciliaciones" />,

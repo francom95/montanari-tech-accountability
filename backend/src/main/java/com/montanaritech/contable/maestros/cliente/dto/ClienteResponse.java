@@ -9,5 +9,7 @@ public record ClienteResponse(
         String contacto,
         String email,
         String telefono,
+        Long cuentaCxcId,
+        String cuentaCxcCodigo,
         boolean activo
 ) {}

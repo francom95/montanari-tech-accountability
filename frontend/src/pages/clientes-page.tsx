@@ -15,6 +15,7 @@ import {
   useEliminarCliente,
   useClientes,
 } from "@/hooks/use-cliente"
+import { useCuentasContables } from "@/hooks/use-cuenta-contable"
 import { useJurisdiccions } from "@/hooks/use-jurisdiccion"
 import type { Cliente } from "@/types/cliente"
 
@@ -25,6 +26,7 @@ const esquema = z.object({
   contacto: z.string().max(100).optional(),
   email: z.union([z.string().email("Email inválido").max(100), z.literal("")]).optional(),
   telefono: z.string().max(20).optional(),
+  cuentaCxcId: z.string().optional(),
 })
 
 type Valores = z.infer<typeof esquema>
@@ -36,14 +38,18 @@ export function ClientesPage() {
 
   const query = useClientes({ texto, page, size: 10 })
   const jurisdicciones = useJurisdiccions({ page: 0, size: 100 })
+  const cuentasContables = useCuentasContables({ activo: true, page: 0, size: 500 })
+  const cuentasImputables = useMemo(() => (cuentasContables.data?.content ?? []).filter((c) => c.imputable), [cuentasContables.data])
   const crear = useCrearCliente()
   const editar = useEditarCliente()
   const cambiarEstado = useCambiarEstadoCliente()
   const eliminar = useEliminarCliente()
 
+  const VACIO: Valores = { nombre: "", cuit: "", jurisdiccionId: "", contacto: "", email: "", telefono: "", cuentaCxcId: "" }
+
   const form = useForm<Valores>({
     resolver: zodResolver(esquema),
-    defaultValues: { nombre: "", cuit: "", jurisdiccionId: "", contacto: "", email: "", telefono: "" }
+    defaultValues: VACIO,
   })
 
   function iniciarEdicion(e: Cliente) {
@@ -54,13 +60,14 @@ export function ClientesPage() {
       jurisdiccionId: e.jurisdiccionId.toString(),
       contacto: e.contacto || "",
       email: e.email || "",
-      telefono: e.telefono || ""
+      telefono: e.telefono || "",
+      cuentaCxcId: e.cuentaCxcId?.toString() || "",
     })
   }
 
   function cancelarEdicion() {
     setEditando(null)
-    form.reset({ nombre: "", cuit: "", jurisdiccionId: "", contacto: "", email: "", telefono: "" })
+    form.reset(VACIO)
   }
 
   function onSubmit(valores: Valores) {
@@ -73,6 +80,7 @@ export function ClientesPage() {
           contacto: valores.contacto,
           email: valores.email,
           telefono: valores.telefono,
+          cuentaCxcId: valores.cuentaCxcId ? Number(valores.cuentaCxcId) : undefined,
         }
       }, { onSuccess: cancelarEdicion })
     } else {
@@ -83,7 +91,8 @@ export function ClientesPage() {
         contacto: valores.contacto,
         email: valores.email,
         telefono: valores.telefono,
-      }, { onSuccess: () => form.reset({ nombre: "", cuit: "", jurisdiccionId: "", contacto: "", email: "", telefono: "" }) })
+        cuentaCxcId: valores.cuentaCxcId ? Number(valores.cuentaCxcId) : undefined,
+      }, { onSuccess: () => form.reset(VACIO) })
     }
   }
 
@@ -163,6 +172,18 @@ export function ClientesPage() {
               )} />
               <FormField control={form.control} name="telefono" render={({ field }) => (
                 <FormItem><FormLabel>Teléfono</FormLabel><FormControl><Input {...field} placeholder="1123456789" /></FormControl><FormMessage /></FormItem>
+              )} />
+              <FormField control={form.control} name="cuentaCxcId" render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Cuenta de créditos por ventas</FormLabel>
+                  <FormControl>
+                    <select {...field} disabled={cuentasContables.isLoading} className="h-8 w-full rounded-lg border border-input bg-background px-3 py-1.5 text-sm">
+                      <option value="">Sin cuenta propia (usa el mapeo por defecto)</option>
+                      {cuentasImputables.map((c) => <option key={c.id} value={c.id.toString()}>{c.codigo} — {c.nombre}</option>)}
+                    </select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
               )} />
               <div className="flex items-end gap-2">
                 <Button type="submit" disabled={crear.isPending || editar.isPending}>{editando ? "Guardar" : "Crear"}</Button>

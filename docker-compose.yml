@@ -34,8 +34,11 @@ services:
       JWT_SECRET: ${JWT_SECRET:?falta JWT_SECRET en .env}
       JWT_ACCESS_TTL_MINUTES: ${JWT_ACCESS_TTL_MINUTES:-15}
       JWT_REFRESH_TTL_DAYS: ${JWT_REFRESH_TTL_DAYS:-7}
+      ADJUNTOS_DIR: /data/adjuntos
     ports:
       - "8081:8080"
+    volumes:
+      - adjuntos_data:/data/adjuntos
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
       interval: 10s
@@ -54,3 +57,4 @@ services:
 
 volumes:
   mysql_data:
+  adjuntos_data:

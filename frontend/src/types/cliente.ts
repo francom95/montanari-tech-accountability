@@ -7,6 +7,8 @@ export type Cliente = {
   contacto: string | null
   email: string | null
   telefono: string | null
+  cuentaCxcId: number | null
+  cuentaCxcCodigo: string | null
   activo: boolean
 }
 
@@ -17,6 +19,7 @@ export type ClienteCrearInput = {
   contacto?: string
   email?: string
   telefono?: string
+  cuentaCxcId?: number
 }
 
 export type ClienteEditarInput = {
@@ -25,4 +28,5 @@ export type ClienteEditarInput = {
   contacto?: string
   email?: string
   telefono?: string
+  cuentaCxcId?: number
 }

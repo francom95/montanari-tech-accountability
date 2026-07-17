@@ -1,9 +1,12 @@
 package com.montanaritech.contable.maestros.cliente;
 
 import com.montanaritech.contable.common.tenant.EntidadNegocio;
+import com.montanaritech.contable.contabilidad.cuentacontable.CuentaContable;
 import com.montanaritech.contable.maestros.jurisdiccion.Jurisdiccion;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ForeignKey;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
@@ -33,6 +36,17 @@ public class Cliente extends EntidadNegocio {
 
     @Column(length = 20)
     private String telefono;
+
+    /**
+     * Cuenta de créditos por ventas propia del cliente (F4.1 §2.1, checkpoint
+     * confirmado: opción A — mantener cuentas por cliente en vez de una
+     * genérica). Opcional: sin ella, {@code ResolutorCuentas} cae a la fila
+     * por defecto de {@code CREDITO_POR_VENTA} en {@code mapeo_cuenta} (hoy
+     * ausente a propósito — ver F4.1).
+     */
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "cuenta_cxc_id", foreignKey = @ForeignKey(name = "fk_cliente_cuenta_cxc"))
+    private CuentaContable cuentaCxc;
 
     @Column(nullable = false)
     private boolean activo = true;

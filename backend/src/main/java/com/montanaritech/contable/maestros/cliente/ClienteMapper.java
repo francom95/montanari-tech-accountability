@@ -8,5 +8,7 @@ import org.mapstruct.Mapping;
 public interface ClienteMapper {
     @Mapping(target = "jurisdiccionId", source = "jurisdiccion.id")
     @Mapping(target = "jurisdiccionNombre", source = "jurisdiccion.nombre")
+    @Mapping(target = "cuentaCxcId", source = "cuentaCxc.id")
+    @Mapping(target = "cuentaCxcCodigo", source = "cuentaCxc.codigo")
     ClienteResponse aResponse(Cliente c);
 }

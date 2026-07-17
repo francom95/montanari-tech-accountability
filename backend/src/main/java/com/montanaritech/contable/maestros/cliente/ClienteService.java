@@ -4,6 +4,8 @@ import com.montanaritech.contable.common.audit.AccionAuditoria;
 import com.montanaritech.contable.common.audit.AuditoriaService;
 import com.montanaritech.contable.common.audit.Auditado;
 import com.montanaritech.contable.common.error.RecursoNoEncontradoException;
+import com.montanaritech.contable.contabilidad.cuentacontable.CuentaContable;
+import com.montanaritech.contable.contabilidad.cuentacontable.CuentaContableRepository;
 import com.montanaritech.contable.maestros.cliente.dto.ClienteCrearRequest;
 import com.montanaritech.contable.maestros.cliente.dto.ClienteEditarRequest;
 import com.montanaritech.contable.maestros.jurisdiccion.JurisdiccionRepository;
@@ -20,6 +22,7 @@ public class ClienteService {
     private final ClienteMapper mapper;
     private final AuditoriaService auditoria;
     private final JurisdiccionRepository jurisdiccionRepo;
+    private final CuentaContableRepository cuentaContableRepo;
 
     @Transactional(readOnly = true)
     public Page<Cliente> listar(String texto, Boolean activo, Pageable p) {
@@ -44,6 +47,7 @@ public class ClienteService {
         e.setContacto(req.contacto());
         e.setEmail(req.email());
         e.setTelefono(req.telefono());
+        e.setCuentaCxc(resolverCuentaCxc(req.cuentaCxcId()));
         e.setActivo(true);
         return repo.save(e);
     }
@@ -60,9 +64,18 @@ public class ClienteService {
         e.setContacto(req.contacto());
         e.setEmail(req.email());
         e.setTelefono(req.telefono());
+        e.setCuentaCxc(resolverCuentaCxc(req.cuentaCxcId()));
 
         auditoria.registrar(AccionAuditoria.EDITAR, "Cliente", id, antes, mapper.aResponse(e));
         return e;
+    }
+
+    private CuentaContable resolverCuentaCxc(Long cuentaCxcId) {
+        if (cuentaCxcId == null) {
+            return null;
+        }
+        return cuentaContableRepo.findById(cuentaCxcId)
+                .orElseThrow(() -> new RecursoNoEncontradoException("Cuenta contable " + cuentaCxcId + " no encontrada"));
     }
 
     @Transactional

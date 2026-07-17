@@ -1,5 +1,6 @@
 package com.montanaritech.contable.contabilidad.asiento;
 
+import com.montanaritech.contable.common.asiento.AsientoGenerado;
 import com.montanaritech.contable.common.asiento.LineaAsientoGenerada;
 import com.montanaritech.contable.common.asiento.NumeradorAsiento;
 import com.montanaritech.contable.common.asiento.ValidadorBalanceAsiento;
@@ -290,14 +291,80 @@ public class AsientoService {
             throw new NegocioException("ANULACION_VIA_DOCUMENTO",
                     "Este asiento fue generado por un comprobante: anulalo desde ahí, no directamente");
         }
+        return anularInterno(a, motivo);
+    }
+
+    /**
+     * Contraparte de {@link #anular} para los servicios de documento
+     * (F4.x): ellos SON "el comprobante" al que remite el mensaje de
+     * {@code ANULACION_VIA_DOCUMENTO}, así que no se les aplica esa
+     * restricción — la anulación del asiento va siempre atada a la
+     * anulación de su documento origen, nunca suelta.
+     */
+    @Transactional
+    public Asiento anularPorDocumento(Long id, String motivo) {
+        return anularInterno(obtener(id), motivo);
+    }
+
+    private Asiento anularInterno(Asiento a, String motivo) {
         var antes = mapper.aResponse(a);
         TransicionEstadoValidator.validar(a.getEstado(), EstadoDocumento.ANULADO);
 
         a.setEstado(EstadoDocumento.ANULADO);
         a.setMotivoAnulacion(motivo);
 
-        auditoria.registrar(AccionAuditoria.ANULAR, "Asiento", id, antes, mapper.aResponse(a));
+        auditoria.registrar(AccionAuditoria.ANULAR, "Asiento", a.getId(), antes, mapper.aResponse(a));
         return a;
+    }
+
+    /**
+     * Único punto de entrada de los generadores automáticos (F3.1 §8.1,
+     * F4.1 §9, ADR-07): los {@code AsientoGenerator} de F4.x nunca insertan
+     * en {@code asiento}/{@code asiento_linea} directamente, le entregan un
+     * {@link AsientoGenerado} a este método. Corre el mismo checklist que
+     * {@link #confirmar} (balance, XOR debe/haber, cuenta imputable/activa,
+     * consistencia ARS) y recién al final asigna el número — si algo falla,
+     * nada se persiste (ni siquiera el número de secuencia).
+     */
+    @Transactional
+    public Asiento registrarAutomatico(AsientoGenerado generado) {
+        Asiento a = new Asiento();
+        a.setFecha(generado.fecha());
+        a.setDescripcion(generado.descripcion());
+        a.setOrigen(OrigenAsiento.valueOf(generado.origen()));
+        a.setOrigenTipo(generado.documentoOrigenTipo());
+        a.setOrigenId(generado.documentoOrigenId());
+
+        int orden = 1;
+        for (LineaAsientoGenerada lg : generado.lineas()) {
+            AsientoLinea l = new AsientoLinea();
+            l.setAsiento(a);
+            l.setOrden(orden++);
+            l.setCuentaContable(resolverCuentaPorCodigo(lg.cuentaCodigo()));
+            l.setDebe(lg.debe());
+            l.setHaber(lg.haber());
+            l.setMoneda(resolverMoneda(lg.monedaId()));
+            l.setTipoCambio(lg.tipoCambio());
+            l.setImporteOriginal(lg.importeOriginal());
+            l.setFuenteTc(lg.fuenteTc() != null ? AsientoLinea.FuenteTc.valueOf(lg.fuenteTc()) : null);
+            l.setLeyenda(lg.descripcion());
+            l.setProyecto(lg.proyectoId() != null ? resolverProyecto(lg.proyectoId()) : null);
+            l.setEtapa(lg.etapaId() != null ? resolverEtapa(lg.etapaId()) : null);
+            l.setCliente(lg.clienteId() != null ? resolverCliente(lg.clienteId()) : null);
+            l.setProveedor(lg.proveedorId() != null ? resolverProveedor(lg.proveedorId()) : null);
+            l.setCuentaBancaria(lg.cuentaBancariaId() != null ? resolverCuentaBancaria(lg.cuentaBancariaId()) : null);
+            l.setGeneradaAuto(true);
+            a.getLineas().add(l);
+        }
+
+        validarChecklistDeAsiento(a);
+
+        a.setNumero(numerador.siguienteNumero());
+        a.setEstado(EstadoDocumento.CONFIRMADO);
+
+        Asiento guardado = repo.save(a);
+        auditoria.registrar(AccionAuditoria.CONFIRMAR, "Asiento", guardado.getId(), null, mapper.aResponse(guardado));
+        return guardado;
     }
 
     private Asiento obtenerBorrador(Long id) {
@@ -479,6 +546,10 @@ public class AsientoService {
 
     private CuentaContable resolverCuenta(Long id) {
         return cuentaRepo.findById(id).orElseThrow(() -> new RecursoNoEncontradoException("Cuenta contable " + id + " no encontrada"));
+    }
+
+    private CuentaContable resolverCuentaPorCodigo(String codigo) {
+        return cuentaRepo.findByCodigo(codigo).orElseThrow(() -> new RecursoNoEncontradoException("Cuenta contable " + codigo + " no encontrada"));
     }
 
     private Moneda resolverMoneda(Long id) {

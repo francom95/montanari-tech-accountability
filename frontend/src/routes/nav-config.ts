@@ -25,6 +25,8 @@ import {
   CreditCard,
   FolderKanban,
   HandCoins,
+  FileSpreadsheet,
+  Link2,
 } from "lucide-react"
 
 export type NavItem = {
@@ -56,6 +58,8 @@ export const NAV_ITEMS: NavItem[] = [
   { to: "/contabilidad", label: "Contabilidad", icon: BookOpenText },
   { to: "/contabilidad/asientos", label: "Asientos contables", icon: BookText },
   { to: "/facturacion", label: "Facturación, cobros y pagos", icon: Receipt },
+  { to: "/facturacion/ventas", label: "Facturas de venta", icon: FileSpreadsheet },
+  { to: "/facturacion/mapeo-cuentas", label: "Mapeo de cuentas", icon: Link2 },
   { to: "/bancos", label: "Bancos, tarjetas y conciliaciones", icon: Landmark },
   { to: "/reportes", label: "Reportes", icon: BarChart3 },
   { to: "/impuestos", label: "Impuestos", icon: Percent },

@@ -10,5 +10,6 @@ public record ClienteCrearRequest(
         @NotNull Long jurisdiccionId,
         String contacto,
         String email,
-        String telefono
+        String telefono,
+        Long cuentaCxcId
 ) {}
