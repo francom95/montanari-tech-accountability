@@ -106,4 +106,29 @@ public interface AsientoLineaRepository extends JpaRepository<AsientoLinea, Long
             @Param("monedaId") Long monedaId,
             @Param("fechaDesde") LocalDate fechaDesde,
             @Param("estado") EstadoDocumento estado);
+
+    /**
+     * Candidatos de match para la conciliación bancaria (F5.3): líneas de
+     * fondos (cuenta bancaria destino/origen, seteada por Cobro/Pago/
+     * MovimientoBancario al confirmar — F4.4/F5.1) de asientos confirmados
+     * en el rango de fechas, que todavía NO están asociadas a ningún
+     * {@code MovimientoBancario} (esa asociación es 1:1, F5.1). El
+     * servicio empareja en memoria contra los movimientos pendientes por
+     * fecha±tolerancia e importe exacto — volumen acotado por período,
+     * mismo criterio que {@code MayorService}.
+     */
+    @Query("""
+            SELECT l FROM AsientoLinea l
+            JOIN FETCH l.asiento a
+            WHERE a.estado = :estado
+              AND l.cuentaBancaria.id = :cuentaBancariaId
+              AND a.fecha BETWEEN :fechaDesde AND :fechaHasta
+              AND NOT EXISTS (SELECT 1 FROM MovimientoBancario m WHERE m.asiento = a)
+            ORDER BY a.fecha ASC
+            """)
+    List<AsientoLinea> buscarCandidatosConciliacion(
+            @Param("cuentaBancariaId") Long cuentaBancariaId,
+            @Param("fechaDesde") LocalDate fechaDesde,
+            @Param("fechaHasta") LocalDate fechaHasta,
+            @Param("estado") EstadoDocumento estado);
 }

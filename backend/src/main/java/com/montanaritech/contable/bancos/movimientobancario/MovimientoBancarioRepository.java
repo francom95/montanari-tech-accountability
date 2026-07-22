@@ -1,6 +1,7 @@
 package com.montanaritech.contable.bancos.movimientobancario;
 
 import java.time.LocalDate;
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,6 +23,24 @@ public interface MovimientoBancarioRepository extends JpaRepository<MovimientoBa
             @Param("fechaDesde") LocalDate fechaDesde,
             @Param("fechaHasta") LocalDate fechaHasta,
             Pageable pageable);
+
+    /**
+     * Conciliación bancaria (F5.3): todos los movimientos con fecha del
+     * período, sin paginar (el matching se calcula una vez en memoria,
+     * mismo criterio que {@code MayorService}). Los movimientos sin fecha
+     * (F5.2, ej. Galicia ARS) quedan afuera a propósito — no tienen
+     * período hasta que el usuario los completa en la bandeja de F5.1.
+     */
+    @Query("""
+            SELECT m FROM MovimientoBancario m
+            WHERE m.cuentaBancaria.id = :cuentaBancariaId
+              AND m.fecha BETWEEN :fechaDesde AND :fechaHasta
+            ORDER BY m.fecha ASC
+            """)
+    List<MovimientoBancario> buscarParaConciliacion(
+            @Param("cuentaBancariaId") Long cuentaBancariaId,
+            @Param("fechaDesde") LocalDate fechaDesde,
+            @Param("fechaHasta") LocalDate fechaHasta);
 
     long countByEstado(EstadoMovimientoBancario estado);
 

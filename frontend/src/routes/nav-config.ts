@@ -31,6 +31,7 @@ import {
   ArrowUpFromLine,
   ClipboardList,
   FileUp,
+  Scale,
 } from "lucide-react"
 
 export type NavItem = {
@@ -73,6 +74,7 @@ export const NAV_ITEMS: NavItem[] = [
   { to: "/bancos", label: "Bancos, tarjetas y conciliaciones", icon: Landmark },
   { to: "/bancos/movimientos", label: "Movimientos bancarios", icon: Wallet },
   { to: "/bancos/importacion", label: "Importación de resúmenes", icon: FileUp },
+  { to: "/bancos/conciliacion", label: "Conciliación bancaria", icon: Scale },
   { to: "/reportes", label: "Reportes", icon: BarChart3 },
   { to: "/impuestos", label: "Impuestos", icon: Percent },
   { to: "/presupuesto", label: "Presupuesto y vencimientos", icon: CalendarClock },

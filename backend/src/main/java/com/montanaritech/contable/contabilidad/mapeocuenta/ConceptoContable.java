@@ -27,5 +27,15 @@ public enum ConceptoContable {
     DIF_CAMBIO_GANADA,
     DIF_CAMBIO_PERDIDA,
     ANTICIPO_CLIENTE,
-    ANTICIPO_PROVEEDOR
+    ANTICIPO_PROVEEDOR,
+    /**
+     * Imputación rápida de movimientos bancarios sin match (F5.3 §1: comisiones,
+     * impuesto Ley 25413). SIRCREB y percepciones bancarias NO suman conceptos
+     * nuevos acá — son la misma percepción de IIBB/IVA "sufrida" que ya
+     * resuelven {@code PERCEPCION_IIBB_SUFRIDA}/{@code PERCEPCION_IVA_SUFRIDA}
+     * en facturas de compra (F4.3), solo que originada en un movimiento
+     * bancario en vez de una factura.
+     */
+    COMISION_BANCARIA,
+    IMPUESTO_DEBITOS_CREDITOS_BANCARIOS
 }

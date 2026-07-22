@@ -9,6 +9,7 @@ import { ClientesPage } from "@/pages/clientes-page"
 import { CobrosPage } from "@/pages/cobros-page"
 import { ComisionistasPage } from "@/pages/comisionistas-page"
 import { ConceptosPage } from "@/pages/conceptos-page"
+import { ConciliacionPage } from "@/pages/conciliacion-page"
 import { CuentasBancariasPage } from "@/pages/cuentas-bancarias-page"
 import { CuentasPorCobrarPage } from "@/pages/cuentas-por-cobrar-page"
 import { CuentasPorPagarPage } from "@/pages/cuentas-por-pagar-page"
@@ -82,6 +83,7 @@ export const router = createBrowserRouter([
       },
       { path: "bancos/movimientos", element: <MovimientosBancariosPage /> },
       { path: "bancos/importacion", element: <ImportacionBancariaPage /> },
+      { path: "bancos/conciliacion", element: <ConciliacionPage /> },
       { path: "reportes", element: <PlaceholderPage title="Reportes" /> },
       { path: "impuestos", element: <PlaceholderPage title="Impuestos" /> },
       {
