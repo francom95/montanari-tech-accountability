@@ -3,6 +3,7 @@ package com.montanaritech.contable.contabilidad.asiento;
 import com.montanaritech.contable.common.estado.EstadoDocumento;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,6 +11,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface AsientoRepository extends JpaRepository<Asiento, Long> {
+
+    /** Resolución por número visible para el usuario (F5.1, acción "asociar" de un movimiento bancario). */
+    Optional<Asiento> findByNumero(Long numero);
 
     /**
      * Búsqueda avanzada (F3.5): además del texto libre (descripción o leyenda

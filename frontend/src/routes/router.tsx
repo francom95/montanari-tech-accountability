@@ -22,6 +22,7 @@ import { LoginPage } from "@/pages/login-page"
 import { MapeoCuentaPage } from "@/pages/mapeo-cuenta-page"
 import { MayorPage } from "@/pages/mayor-page"
 import { MonedasPage } from "@/pages/monedas-page"
+import { MovimientosBancariosPage } from "@/pages/movimientos-bancarios-page"
 import { PagosPage } from "@/pages/pagos-page"
 import { PlaceholderPage } from "@/pages/placeholder-page"
 import { PlanDeCuentasPage } from "@/pages/plan-de-cuentas-page"
@@ -78,6 +79,7 @@ export const router = createBrowserRouter([
         path: "bancos",
         element: <PlaceholderPage title="Bancos, tarjetas y conciliaciones" />,
       },
+      { path: "bancos/movimientos", element: <MovimientosBancariosPage /> },
       { path: "reportes", element: <PlaceholderPage title="Reportes" /> },
       { path: "impuestos", element: <PlaceholderPage title="Impuestos" /> },
       {

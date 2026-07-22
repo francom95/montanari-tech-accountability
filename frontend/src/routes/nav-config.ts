@@ -71,6 +71,7 @@ export const NAV_ITEMS: NavItem[] = [
   { to: "/facturacion/mapeo-cuentas", label: "Mapeo de cuentas", icon: Link2 },
   { to: "/facturacion/importacion-historica", label: "Importación histórica", icon: FileUp },
   { to: "/bancos", label: "Bancos, tarjetas y conciliaciones", icon: Landmark },
+  { to: "/bancos/movimientos", label: "Movimientos bancarios", icon: Wallet },
   { to: "/reportes", label: "Reportes", icon: BarChart3 },
   { to: "/impuestos", label: "Impuestos", icon: Percent },
   { to: "/presupuesto", label: "Presupuesto y vencimientos", icon: CalendarClock },
