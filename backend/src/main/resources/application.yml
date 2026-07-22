@@ -66,3 +66,9 @@ app:
     # Filesystem, nunca BLOB en MySQL (F1.1 §6.5). En Docker, este directorio
     # se monta como volumen para persistir entre reinicios del contenedor.
     directorio: ${ADJUNTOS_DIR:./data/adjuntos}
+  empresa:
+    # Identidad propia de Montanari Tech (F4.6): el importador de facturas
+    # históricas la usa para distinguir venta (Montanari es el emisor) de
+    # compra (Montanari es el receptor) en el texto extraído del PDF.
+    cuit: ${EMPRESA_CUIT:30-71833486-8}
+    nombre-fantasia: ${EMPRESA_NOMBRE_FANTASIA:MONTANARI TECHNOLOGIES}

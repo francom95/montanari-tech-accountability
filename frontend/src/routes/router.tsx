@@ -16,6 +16,7 @@ import { DashboardPage } from "@/pages/dashboard-page"
 import { EjemploFormularioPage } from "@/pages/ejemplo-formulario-page"
 import { FacturasCompraPage } from "@/pages/facturas-compra-page"
 import { FacturasVentaPage } from "@/pages/facturas-venta-page"
+import { ImportacionHistoricaPage } from "@/pages/importacion-historica-page"
 import { JurisdiccionesPage } from "@/pages/jurisdicciones-page"
 import { LoginPage } from "@/pages/login-page"
 import { MapeoCuentaPage } from "@/pages/mapeo-cuenta-page"
@@ -72,6 +73,7 @@ export const router = createBrowserRouter([
       { path: "facturacion/cuentas-por-cobrar", element: <CuentasPorCobrarPage /> },
       { path: "facturacion/cuentas-por-pagar", element: <CuentasPorPagarPage /> },
       { path: "facturacion/mapeo-cuentas", element: <MapeoCuentaPage /> },
+      { path: "facturacion/importacion-historica", element: <ImportacionHistoricaPage /> },
       {
         path: "bancos",
         element: <PlaceholderPage title="Bancos, tarjetas y conciliaciones" />,

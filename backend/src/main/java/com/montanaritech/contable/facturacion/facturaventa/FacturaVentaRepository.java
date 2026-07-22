@@ -1,6 +1,7 @@
 package com.montanaritech.contable.facturacion.facturaventa;
 
 import com.montanaritech.contable.common.estado.EstadoDocumento;
+import com.montanaritech.contable.facturacion.TipoComprobante;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.data.domain.Page;
@@ -47,4 +48,8 @@ public interface FacturaVentaRepository extends JpaRepository<FacturaVenta, Long
             @Param("monedaId") Long monedaId,
             @Param("fechaDesde") LocalDate fechaDesde,
             @Param("fechaHasta") LocalDate fechaHasta);
+
+    /** Idempotencia del importador (F4.6, misma clave que el UK de la tabla: cliente+tipo+puntoVenta+numero). */
+    boolean existsByClienteIdAndTipoComprobanteAndPuntoVentaAndNumero(
+            Long clienteId, TipoComprobante tipoComprobante, String puntoVenta, String numero);
 }

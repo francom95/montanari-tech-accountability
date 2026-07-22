@@ -30,6 +30,7 @@ import {
   ArrowDownToLine,
   ArrowUpFromLine,
   ClipboardList,
+  FileUp,
 } from "lucide-react"
 
 export type NavItem = {
@@ -68,6 +69,7 @@ export const NAV_ITEMS: NavItem[] = [
   { to: "/facturacion/cuentas-por-cobrar", label: "Cuentas por cobrar", icon: ClipboardList },
   { to: "/facturacion/cuentas-por-pagar", label: "Cuentas por pagar", icon: ClipboardList },
   { to: "/facturacion/mapeo-cuentas", label: "Mapeo de cuentas", icon: Link2 },
+  { to: "/facturacion/importacion-historica", label: "Importación histórica", icon: FileUp },
   { to: "/bancos", label: "Bancos, tarjetas y conciliaciones", icon: Landmark },
   { to: "/reportes", label: "Reportes", icon: BarChart3 },
   { to: "/impuestos", label: "Impuestos", icon: Percent },

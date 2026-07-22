@@ -17,4 +17,7 @@ public interface ProveedorRepository extends JpaRepository<Proveedor, Long> {
     Page<Proveedor> buscar(@Param("texto") String texto, @Param("activo") Boolean activo, Pageable pageable);
 
     Optional<Proveedor> findByNombreIgnoreCase(String nombre);
+
+    /** Resolución por CUIT (F4.6): el importador matchea la contraparte extraída del PDF contra un proveedor existente. */
+    Optional<Proveedor> findByCuit(String cuit);
 }
