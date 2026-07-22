@@ -2,6 +2,7 @@ package com.montanaritech.contable.facturacion.facturaventa;
 
 import com.montanaritech.contable.common.estado.EstadoDocumento;
 import java.time.LocalDate;
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -28,4 +29,22 @@ public interface FacturaVentaRepository extends JpaRepository<FacturaVenta, Long
             @Param("fechaDesde") LocalDate fechaDesde,
             @Param("fechaHasta") LocalDate fechaHasta,
             Pageable pageable);
+
+    /** Facturas confirmadas para el reporte de cuentas por cobrar (F4.5) — sin paginar, mismo criterio que el Mayor (F3.6). */
+    @Query("""
+            SELECT f FROM FacturaVenta f
+            WHERE f.estado = com.montanaritech.contable.common.estado.EstadoDocumento.CONFIRMADO
+              AND (:clienteId IS NULL OR f.cliente.id = :clienteId)
+              AND (:proyectoId IS NULL OR f.proyecto.id = :proyectoId)
+              AND (:monedaId IS NULL OR f.moneda.id = :monedaId)
+              AND (:fechaDesde IS NULL OR f.fecha >= :fechaDesde)
+              AND (:fechaHasta IS NULL OR f.fecha <= :fechaHasta)
+            ORDER BY f.fecha ASC, f.id ASC
+            """)
+    List<FacturaVenta> buscarConfirmadasParaReporte(
+            @Param("clienteId") Long clienteId,
+            @Param("proyectoId") Long proyectoId,
+            @Param("monedaId") Long monedaId,
+            @Param("fechaDesde") LocalDate fechaDesde,
+            @Param("fechaHasta") LocalDate fechaHasta);
 }

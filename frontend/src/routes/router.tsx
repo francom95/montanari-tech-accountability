@@ -10,6 +10,8 @@ import { CobrosPage } from "@/pages/cobros-page"
 import { ComisionistasPage } from "@/pages/comisionistas-page"
 import { ConceptosPage } from "@/pages/conceptos-page"
 import { CuentasBancariasPage } from "@/pages/cuentas-bancarias-page"
+import { CuentasPorCobrarPage } from "@/pages/cuentas-por-cobrar-page"
+import { CuentasPorPagarPage } from "@/pages/cuentas-por-pagar-page"
 import { DashboardPage } from "@/pages/dashboard-page"
 import { EjemploFormularioPage } from "@/pages/ejemplo-formulario-page"
 import { FacturasCompraPage } from "@/pages/facturas-compra-page"
@@ -67,6 +69,8 @@ export const router = createBrowserRouter([
       { path: "facturacion/compras", element: <FacturasCompraPage /> },
       { path: "facturacion/cobros", element: <CobrosPage /> },
       { path: "facturacion/pagos", element: <PagosPage /> },
+      { path: "facturacion/cuentas-por-cobrar", element: <CuentasPorCobrarPage /> },
+      { path: "facturacion/cuentas-por-pagar", element: <CuentasPorPagarPage /> },
       { path: "facturacion/mapeo-cuentas", element: <MapeoCuentaPage /> },
       {
         path: "bancos",
