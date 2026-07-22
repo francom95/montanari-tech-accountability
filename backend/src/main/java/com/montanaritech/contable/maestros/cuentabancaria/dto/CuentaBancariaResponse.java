@@ -14,5 +14,7 @@ public record CuentaBancariaResponse(
         BigDecimal saldoInicial,
         LocalDate fechaSaldoInicial,
         BigDecimal saldoActual,
+        Long cuentaContableId,
+        String cuentaContableCodigo,
         boolean activo
 ) {}

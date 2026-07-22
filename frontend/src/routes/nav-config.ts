@@ -27,6 +27,8 @@ import {
   HandCoins,
   FileSpreadsheet,
   Link2,
+  ArrowDownToLine,
+  ArrowUpFromLine,
 } from "lucide-react"
 
 export type NavItem = {
@@ -60,6 +62,8 @@ export const NAV_ITEMS: NavItem[] = [
   { to: "/facturacion", label: "Facturación, cobros y pagos", icon: Receipt },
   { to: "/facturacion/ventas", label: "Facturas de venta", icon: FileSpreadsheet },
   { to: "/facturacion/compras", label: "Facturas de compra", icon: FileSpreadsheet },
+  { to: "/facturacion/cobros", label: "Cobros", icon: ArrowDownToLine },
+  { to: "/facturacion/pagos", label: "Pagos", icon: ArrowUpFromLine },
   { to: "/facturacion/mapeo-cuentas", label: "Mapeo de cuentas", icon: Link2 },
   { to: "/bancos", label: "Bancos, tarjetas y conciliaciones", icon: Landmark },
   { to: "/reportes", label: "Reportes", icon: BarChart3 },

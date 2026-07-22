@@ -5,6 +5,8 @@ import com.montanaritech.contable.common.audit.Auditado;
 import com.montanaritech.contable.common.audit.AuditoriaService;
 import com.montanaritech.contable.common.error.RecursoNoEncontradoException;
 import com.montanaritech.contable.common.saldo.RecalculoSaldoService;
+import com.montanaritech.contable.contabilidad.cuentacontable.CuentaContable;
+import com.montanaritech.contable.contabilidad.cuentacontable.CuentaContableRepository;
 import com.montanaritech.contable.maestros.cuentabancaria.dto.CuentaBancariaCrearRequest;
 import com.montanaritech.contable.maestros.cuentabancaria.dto.CuentaBancariaEditarRequest;
 import com.montanaritech.contable.maestros.moneda.Moneda;
@@ -21,6 +23,7 @@ public class CuentaBancariaService {
 
     private final CuentaBancariaRepository repo;
     private final MonedaRepository monedaRepository;
+    private final CuentaContableRepository cuentaContableRepository;
     private final CuentaBancariaMapper mapper;
     private final AuditoriaService auditoria;
     private final RecalculoSaldoService recalculoSaldoService;
@@ -52,6 +55,7 @@ public class CuentaBancariaService {
                         : CuentaBancaria.EstadoConciliacion.PENDIENTE);
         e.setSaldoInicial(req.saldoInicial());
         e.setFechaSaldoInicial(req.fechaSaldoInicial());
+        e.setCuentaContable(resolverCuentaContable(req.cuentaContableId()));
         e.setActivo(true);
         recalculoSaldoService.recalcular(e);
         return repo.save(e);
@@ -73,10 +77,16 @@ public class CuentaBancariaService {
                         : e.getEstadoConciliacion());
         e.setSaldoInicial(req.saldoInicial());
         e.setFechaSaldoInicial(req.fechaSaldoInicial());
+        e.setCuentaContable(resolverCuentaContable(req.cuentaContableId()));
         recalculoSaldoService.recalcular(e);
 
         auditoria.registrar(AccionAuditoria.EDITAR, "CuentaBancaria", id, antes, mapper.aResponse(e));
         return e;
+    }
+
+    private CuentaContable resolverCuentaContable(Long id) {
+        return cuentaContableRepository.findById(id)
+                .orElseThrow(() -> new RecursoNoEncontradoException("Cuenta contable " + id + " no encontrada"));
     }
 
     @Transactional

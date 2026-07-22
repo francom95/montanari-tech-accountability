@@ -12,6 +12,8 @@ export type CuentaBancaria = {
   saldoInicial: string
   fechaSaldoInicial: string
   saldoActual: string
+  cuentaContableId: number
+  cuentaContableCodigo: string
   activo: boolean
 }
 
@@ -23,6 +25,7 @@ export type CuentaBancariaCrearInput = {
   estadoConciliacion?: EstadoConciliacion
   saldoInicial: string
   fechaSaldoInicial: string
+  cuentaContableId: number
 }
 
 export type CuentaBancariaEditarInput = CuentaBancariaCrearInput

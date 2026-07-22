@@ -11,6 +11,8 @@ import com.montanaritech.contable.common.audit.AccionAuditoria;
 import com.montanaritech.contable.common.audit.AuditoriaService;
 import com.montanaritech.contable.common.error.RecursoNoEncontradoException;
 import com.montanaritech.contable.common.saldo.RecalculoSaldoService;
+import com.montanaritech.contable.contabilidad.cuentacontable.CuentaContable;
+import com.montanaritech.contable.contabilidad.cuentacontable.CuentaContableRepository;
 import com.montanaritech.contable.maestros.cuentabancaria.dto.CuentaBancariaCrearRequest;
 import com.montanaritech.contable.maestros.cuentabancaria.dto.CuentaBancariaEditarRequest;
 import com.montanaritech.contable.maestros.cuentabancaria.dto.CuentaBancariaResponse;
@@ -35,6 +37,9 @@ class CuentaBancariaServiceTest {
     private MonedaRepository monedaRepository;
 
     @Mock
+    private CuentaContableRepository cuentaContableRepository;
+
+    @Mock
     private CuentaBancariaMapper mapper;
 
     @Mock
@@ -45,15 +50,20 @@ class CuentaBancariaServiceTest {
     private CuentaBancariaService service;
 
     private Moneda ars;
+    private CuentaContable cuentaContable;
     private CuentaBancaria entidad;
 
     @BeforeEach
     void setUp() {
-        service = new CuentaBancariaService(repo, monedaRepository, mapper, auditoria, recalculoSaldoService);
+        service = new CuentaBancariaService(repo, monedaRepository, cuentaContableRepository, mapper, auditoria, recalculoSaldoService);
 
         ars = new Moneda();
         ars.setId(1L);
         ars.setCodigo("ARS");
+
+        cuentaContable = new CuentaContable();
+        cuentaContable.setId(1L);
+        cuentaContable.setCodigo("1.1.2001");
 
         entidad = new CuentaBancaria();
         entidad.setId(1L);
@@ -65,6 +75,7 @@ class CuentaBancariaServiceTest {
         entidad.setSaldoInicial(new BigDecimal("1000.00"));
         entidad.setFechaSaldoInicial(LocalDate.of(2026, 1, 1));
         entidad.setSaldoActual(new BigDecimal("1000.00"));
+        entidad.setCuentaContable(cuentaContable);
         entidad.setActivo(true);
     }
 
@@ -73,17 +84,18 @@ class CuentaBancariaServiceTest {
         when(monedaRepository.findById(99L)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> service.crear(new CuentaBancariaCrearRequest(
-                "Banco X", "Alias X", 99L, "CUENTA_CORRIENTE", null, new BigDecimal("500"), LocalDate.now())))
+                "Banco X", "Alias X", 99L, "CUENTA_CORRIENTE", null, new BigDecimal("500"), LocalDate.now(), 1L)))
                 .isInstanceOf(RecursoNoEncontradoException.class);
     }
 
     @Test
     void crearResuelveLaMonedaYCalculaElSaldoActual() {
         when(monedaRepository.findById(1L)).thenReturn(Optional.of(ars));
+        when(cuentaContableRepository.findById(1L)).thenReturn(Optional.of(cuentaContable));
         when(repo.save(any(CuentaBancaria.class))).thenAnswer(inv -> inv.getArgument(0));
 
         CuentaBancaria creada = service.crear(new CuentaBancariaCrearRequest(
-                "Mercado Pago", "Mercado Pago", 1L, "MERCADO_PAGO", "PENDIENTE", new BigDecimal("750.50"), LocalDate.of(2026, 3, 1)));
+                "Mercado Pago", "Mercado Pago", 1L, "MERCADO_PAGO", "PENDIENTE", new BigDecimal("750.50"), LocalDate.of(2026, 3, 1), 1L));
 
         assertThat(creada.getMoneda()).isEqualTo(ars);
         assertThat(creada.getSaldoInicial()).isEqualByComparingTo("750.50");
@@ -102,16 +114,18 @@ class CuentaBancariaServiceTest {
     void editarModificaElSaldoInicialYRecalculaElSaldoActual() {
         when(repo.findById(1L)).thenReturn(Optional.of(entidad));
         when(monedaRepository.findById(1L)).thenReturn(Optional.of(ars));
+        when(cuentaContableRepository.findById(1L)).thenReturn(Optional.of(cuentaContable));
         when(mapper.aResponse(any(CuentaBancaria.class))).thenAnswer(inv -> {
             CuentaBancaria c = inv.getArgument(0);
             return new CuentaBancariaResponse(c.getId(), c.getEntidad(), c.getAlias(), c.getMoneda().getId(),
                     c.getMoneda().getCodigo(), c.getTipo().name(), c.getEstadoConciliacion().name(),
-                    c.getSaldoInicial(), c.getFechaSaldoInicial(), c.getSaldoActual(), c.isActivo());
+                    c.getSaldoInicial(), c.getFechaSaldoInicial(), c.getSaldoActual(),
+                    c.getCuentaContable().getId(), c.getCuentaContable().getCodigo(), c.isActivo());
         });
 
         service.editar(1L, new CuentaBancariaEditarRequest(
                 "Banco Galicia", "Banco Galicia CC", 1L, "CUENTA_CORRIENTE", "CONCILIADA",
-                new BigDecimal("3200.75"), LocalDate.of(2026, 4, 1)));
+                new BigDecimal("3200.75"), LocalDate.of(2026, 4, 1), 1L));
 
         assertThat(entidad.getSaldoInicial()).isEqualByComparingTo("3200.75");
         assertThat(entidad.getFechaSaldoInicial()).isEqualTo(LocalDate.of(2026, 4, 1));

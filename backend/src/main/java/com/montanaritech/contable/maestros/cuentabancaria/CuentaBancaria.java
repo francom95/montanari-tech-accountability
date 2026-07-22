@@ -2,6 +2,7 @@ package com.montanaritech.contable.maestros.cuentabancaria;
 
 import com.montanaritech.contable.common.saldo.CuentaConSaldo;
 import com.montanaritech.contable.common.tenant.EntidadNegocio;
+import com.montanaritech.contable.contabilidad.cuentacontable.CuentaContable;
 import com.montanaritech.contable.maestros.moneda.Moneda;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -41,6 +42,16 @@ public class CuentaBancaria extends EntidadNegocio implements CuentaConSaldo {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private TipoCuenta tipo;
+
+    /**
+     * Cuenta contable espejo 1:1 (F3.1 §2.3, F4.1 §2.3): la línea de fondos
+     * de un cobro/pago usa esta cuenta. F2.4 nunca la agregó pese a que F3.1
+     * ya la daba por existente; F4.4 la agrega y backfillea las 3 cuentas
+     * bancarias sembradas contra sus cuentas homónimas del plan de cuentas.
+     */
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "cuenta_contable_id", nullable = false, foreignKey = @ForeignKey(name = "fk_cuenta_bancaria_cuenta_contable"))
+    private CuentaContable cuentaContable;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "estado_conciliacion", nullable = false, length = 20)

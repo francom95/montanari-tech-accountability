@@ -15,6 +15,7 @@ import {
   useEditarCuentaBancaria,
   useEliminarCuentaBancaria,
 } from "@/hooks/use-cuenta-bancaria"
+import { useCuentasContables } from "@/hooks/use-cuenta-contable"
 import { useMonedas } from "@/hooks/use-monedas"
 import type { CuentaBancaria } from "@/types/cuenta-bancaria"
 
@@ -29,6 +30,7 @@ const esquema = z.object({
   estadoConciliacion: z.enum(ESTADOS_CONCILIACION),
   saldoInicial: z.string().min(1, "El saldo inicial es obligatorio"),
   fechaSaldoInicial: z.string().min(1, "La fecha es obligatoria"),
+  cuentaContableId: z.string().min(1, "La cuenta contable espejo es obligatoria"),
 })
 
 type Valores = z.infer<typeof esquema>
@@ -41,6 +43,7 @@ const DEFAULTS: Valores = {
   estadoConciliacion: "PENDIENTE",
   saldoInicial: "",
   fechaSaldoInicial: "",
+  cuentaContableId: "",
 }
 
 export function CuentasBancariasPage() {
@@ -50,6 +53,8 @@ export function CuentasBancariasPage() {
 
   const query = useCuentasBancarias({ texto, page, size: 10 })
   const monedasQuery = useMonedas({ page: 0, size: 100, activo: true })
+  const cuentasContables = useCuentasContables({ activo: true, page: 0, size: 500 })
+  const cuentasImputables = useMemo(() => (cuentasContables.data?.content ?? []).filter((c) => c.imputable), [cuentasContables.data])
   const crear = useCrearCuentaBancaria()
   const editar = useEditarCuentaBancaria()
   const cambiarEstado = useCambiarEstadoCuentaBancaria()
@@ -67,6 +72,7 @@ export function CuentasBancariasPage() {
       estadoConciliacion: e.estadoConciliacion,
       saldoInicial: e.saldoInicial,
       fechaSaldoInicial: e.fechaSaldoInicial,
+      cuentaContableId: String(e.cuentaContableId),
     })
   }
 
@@ -76,7 +82,7 @@ export function CuentasBancariasPage() {
   }
 
   function onSubmit(valores: Valores) {
-    const normalizadas = { ...valores, monedaId: Number(valores.monedaId) }
+    const normalizadas = { ...valores, monedaId: Number(valores.monedaId), cuentaContableId: Number(valores.cuentaContableId) }
     if (editando) {
       editar.mutate({ id: editando.id, valores: normalizadas }, { onSuccess: cancelarEdicion })
     } else {
@@ -179,6 +185,18 @@ export function CuentasBancariasPage() {
               )} />
               <FormField control={form.control} name="fechaSaldoInicial" render={({ field }) => (
                 <FormItem><FormLabel>Fecha del saldo</FormLabel><FormControl><Input {...field} type="date" /></FormControl><FormMessage /></FormItem>
+              )} />
+              <FormField control={form.control} name="cuentaContableId" render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Cuenta contable espejo</FormLabel>
+                  <FormControl>
+                    <select {...field} disabled={cuentasContables.isLoading} className="h-8 w-full rounded-lg border border-input bg-transparent px-2.5 py-1 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50">
+                      <option value="">Seleccionar…</option>
+                      {cuentasImputables.map((c) => <option key={c.id} value={c.id.toString()}>{c.codigo} — {c.nombre}</option>)}
+                    </select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
               )} />
               <div className="flex items-end gap-2">
                 <Button type="submit" disabled={crear.isPending || editar.isPending}>{editando ? "Guardar" : "Crear"}</Button>

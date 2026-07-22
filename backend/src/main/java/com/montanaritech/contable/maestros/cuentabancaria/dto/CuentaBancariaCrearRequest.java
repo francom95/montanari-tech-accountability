@@ -12,5 +12,6 @@ public record CuentaBancariaCrearRequest(
         @NotBlank String tipo,
         String estadoConciliacion,
         @NotNull BigDecimal saldoInicial,
-        @NotNull LocalDate fechaSaldoInicial
+        @NotNull LocalDate fechaSaldoInicial,
+        @NotNull Long cuentaContableId
 ) {}

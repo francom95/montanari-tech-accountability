@@ -6,6 +6,7 @@ import { AsientosPage } from "@/pages/asientos-page"
 import { AuditoriaPage } from "@/pages/auditoria-page"
 import { CategoriasPage } from "@/pages/categorias-page"
 import { ClientesPage } from "@/pages/clientes-page"
+import { CobrosPage } from "@/pages/cobros-page"
 import { ComisionistasPage } from "@/pages/comisionistas-page"
 import { ConceptosPage } from "@/pages/conceptos-page"
 import { CuentasBancariasPage } from "@/pages/cuentas-bancarias-page"
@@ -18,6 +19,7 @@ import { LoginPage } from "@/pages/login-page"
 import { MapeoCuentaPage } from "@/pages/mapeo-cuenta-page"
 import { MayorPage } from "@/pages/mayor-page"
 import { MonedasPage } from "@/pages/monedas-page"
+import { PagosPage } from "@/pages/pagos-page"
 import { PlaceholderPage } from "@/pages/placeholder-page"
 import { PlanDeCuentasPage } from "@/pages/plan-de-cuentas-page"
 import { ProveedoresPage } from "@/pages/proveedores-page"
@@ -63,6 +65,8 @@ export const router = createBrowserRouter([
       },
       { path: "facturacion/ventas", element: <FacturasVentaPage /> },
       { path: "facturacion/compras", element: <FacturasCompraPage /> },
+      { path: "facturacion/cobros", element: <CobrosPage /> },
+      { path: "facturacion/pagos", element: <PagosPage /> },
       { path: "facturacion/mapeo-cuentas", element: <MapeoCuentaPage /> },
       {
         path: "bancos",
