@@ -8,7 +8,7 @@ import { useConfirmarImportacionBancaria, usePrevisualizarResumenBancario } from
 import type { FilaImportacionBancariaPreview, FilaImportacionBancariaResultado, OrigenConParser } from "@/types/importacion-bancaria"
 
 const ORIGENES: { value: OrigenConParser; label: string; accept: string }[] = [
-  { value: "GALICIA", label: "Banco Galicia (home banking, Excel)", accept: ".xlsx,.xls" },
+  { value: "GALICIA", label: "Banco Galicia (home banking, Excel o PDF)", accept: ".xlsx,.xls,.pdf,application/pdf" },
   { value: "MERCADO_PAGO", label: "Mercado Pago (resumen de cuenta, Excel)", accept: ".xlsx,.xls" },
   { value: "TARJETA_CREDITO", label: "Resumen de tarjeta de crédito (PDF)", accept: "application/pdf" },
 ]

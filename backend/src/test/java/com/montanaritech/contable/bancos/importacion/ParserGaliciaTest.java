@@ -109,6 +109,151 @@ class ParserGaliciaTest {
         assertThat(m.referencia()).isEqualTo("163839379");
     }
 
+    /**
+     * {@code TEXTO_REAL_PDF} es EXACTAMENTE el texto que devolvió PDFBox
+     * ({@code setSortByPosition(false)}) contra "Galicia ARS (1).pdf" — el
+     * mismo banco/cuenta que Galicia ARS.xlsx, pero exportado como PDF
+     * ("Movimientos de CC"), que sí trae fecha en cada fila (a diferencia
+     * del Excel). Capturado con un test temporal antes de escribir el
+     * parser, no reconstruido a ojo. El PDF no se versiona (es un resumen
+     * real del cliente); ver outputs/F5_2_parsers_de_resumenes.md.
+     */
+    private static final String TEXTO_REAL_PDF = """
+            Office Banking
+            Movimientos de CC $ 0013329-0 172-2
+            CBU: 0070172920000013329028
+            Fecha de descarga
+            02/07/26 - 18:53hs 1
+            SaldosFecha Descripción Débitos Créditos
+            01/06/2026 COMISION SERVICIO DE CUENTA $ 6.727.063,22- $ 60.000,00
+            Mayo 2026
+            01/06/2026 IVA $ 6.714.463,22- $ 12.600,00
+            Mayo 2026
+            01/06/2026 PERCEP. IVA $ 6.712.663,22- $ 1.800,00
+            Mayo 2026
+            01/06/2026 IMP. ING. BRUTOS $ 6.710.263,22- $ 2.400,00
+            Mayo 2026
+            Pcia de Bs As
+            01/06/2026 IMP. DEB. LEY 25413 GRAL. $ 6.709.802,42- $ 460,80
+            02/06/2026 TRANSF. AFIP $ 6.696.540,24- $ 13.262,18
+            0346143332
+            VEP 1633852533
+            02/06/2026 IMP. DEB. LEY 25413 GRAL. $ 6.696.460,67- $ 79,57
+            05/06/2026 SERVICIO ACREDITAMIENTO DE HABERES $ 5.696.460,67- $ 1.000.000,00
+            ACRED.HABERES
+            05/06/2026 PAGO TARJETA VISA $ 5.570.491,03- $ 125.969,64
+            OPERACION 5163937936
+            05/06/2026 IMP. DEB. LEY 25413 GRAL. $ 5.563.735,21- $ 6.755,82
+            12/06/2026 TRF INMED PROVEED $ 5.549.235,21- $ 14.500,00
+            Persona Ejemplo
+            20265221131
+            HONORARIOS
+            BANCO SANTANDER RIO S.A.
+            12/06/2026 IMP. DEB. LEY 25413 GRAL. $ 5.549.148,21- $ 87,00
+            16/06/2026 DEB. AUTOM. DE SERV. $ 4.979.568,85- $ 569.579,36
+            AFIP
+            PLANRG5321
+            R5321V566341005
+            30718334868
+            16/06/2026 TRANSF. AFIP $ 4.945.919,23- $ 33.649,62
+            3835438455
+            VEP 1636595814
+            16/06/2026 TRANSF. AFIP $ 4.502.238,08- $ 443.681,15
+            1935659148
+            VEP 1637500840
+            16/06/2026 TRANSF. AFIP $ 4.021.949,87- $ 480.288,21
+            0735767919
+            VEP 1639803592
+            16/06/2026 TRF INMED PROVEED $ 3.811.949,87- $ 210.000,00
+            Otra Persona
+            20418839296
+            HONORARIOS
+            BANCO DE GALICIA Y BUENOS AIRES SAU
+            16/06/2026 TRANSF. AFIP $ 3.811.797,59- $ 152,28
+            2836148490
+            VEP 1640413764
+            16/06/2026 SUSCRIPCION FIMA $ 111.797,59- $ 3.700.000,00
+            FIMA PREMIUM CLASE A
+            Office Banking
+            Fecha de descarga
+            02/07/26 - 18:53hs 2
+            Nro Operacion: 220058477
+            16/06/2026 IMP. DEB. LEY 25413 GRAL. $ 101.373,49- $ 10.424,10
+            23/06/2026 RESCATE FIMA $ 1.808.373,49+ $ 1.707.000,00
+            FIMA PREMIUM CLASE A
+            Nro Operacion: 221774992
+            23/06/2026 TRANSF. AFIP $ 101.820,82- $ 1.706.552,67
+            5353033420
+            VEP 1640414601
+            23/06/2026 IMP. DEB. LEY 25413 GRAL. $ 91.581,50- $ 10.239,32
+            26/06/2026 DEPOSITO EN EFECTIVO $ 14.711.581,50+ $ 14.620.000,00
+            26/06/2026 ING. BRUTOS S/ CRED $ 14.594.621,50- $ 116.960,00
+            REG.RECAU.SIRCREB
+            26/06/2026 IMP. CRE. LEY 25413 $ 14.506.901,50- $ 87.720,00
+            26/06/2026 IMP. DEB. LEY 25413 GRAL. $ 14.506.199,74- $ 701,76
+            26/06/2026 TRF INMED PROVEED $ 13.306.044,74- $ 1.200.155,00
+            Persona Tres
+            20372808005
+            HONORARIOS
+            MERCADO LIBRE SRL
+            26/06/2026 IMP. DEB. LEY 25413 GRAL. $ 13.298.843,81- $ 7.200,93
+            29/06/2026 TRF INMED PROVEED $ 11.678.243,81- $ 1.620.600,00
+            Persona Cuatro
+            20370079227
+            HONORARIOS
+            PERSONAL PAY
+            29/06/2026 TRF INMED PROVEED $ 10.228.243,81- $ 1.450.000,00
+            Persona Cuatro
+            20370079227
+            HONORARIOS
+            PERSONAL PAY
+            29/06/2026 IMP. DEB. LEY 25413 GRAL. $ 10.209.820,21- $ 18.423,60
+            """;
+
+    private final ParserGalicia parserPdf = new ParserGalicia();
+
+    @Test
+    void pdfConFechaEnTodasLasFilasClasificaDebitoYCreditoIgualQueElExcelReal() {
+        List<MovimientoParseado> movimientos = parserPdf.parsearTextoPdf(TEXTO_REAL_PDF);
+
+        assertThat(movimientos).hasSize(32);
+        assertThat(movimientos).allMatch(m -> m.fecha() != null);
+        assertThat(movimientos).allMatch(m -> m.monedaCodigo() == null);
+
+        // Únicos 2 créditos reales del archivo (confirmado contra Galicia ARS.xlsx, que sí separa Débitos/Créditos).
+        MovimientoParseado rescate = buscar(movimientos, "RESCATE FIMA");
+        assertThat(rescate.importe()).isEqualByComparingTo("1707000.00");
+        MovimientoParseado deposito = buscar(movimientos, "DEPOSITO EN EFECTIVO");
+        assertThat(deposito.importe()).isEqualByComparingTo("14620000.00");
+
+        // El resto son egresos, incluida "IVA" (la trampa: el saldo con signo del PDF "sube" en esta fila).
+        MovimientoParseado iva = buscar(movimientos, "IVA");
+        assertThat(iva.fecha()).isEqualTo(LocalDate.of(2026, 6, 1));
+        assertThat(iva.importe()).isEqualByComparingTo("-12600.00");
+
+        // Trampa verificada explícitamente: "Servicio Acreditamiento De Haberes" es un DÉBITO real (paga sueldos), no un ingreso.
+        MovimientoParseado haberes = buscar(movimientos, "SERVICIO ACREDITAMIENTO DE HABERES");
+        assertThat(haberes.importe()).isEqualByComparingTo("-1000000.00");
+
+        MovimientoParseado comision = buscar(movimientos, "COMISION SERVICIO DE CUENTA");
+        assertThat(comision.fecha()).isEqualTo(LocalDate.of(2026, 6, 1));
+        assertThat(comision.importe()).isEqualByComparingTo("-60000.00");
+        assertThat(comision.referencia()).isEqualTo("Mayo 2026");
+
+        MovimientoParseado transfAfip = movimientos.stream()
+                .filter(m -> m.descripcion().equals("TRANSF. AFIP") && "0346143332".equals(m.referencia()))
+                .findFirst().orElseThrow();
+        assertThat(transfAfip.fecha()).isEqualTo(LocalDate.of(2026, 6, 2));
+        assertThat(transfAfip.importe()).isEqualByComparingTo("-13262.18");
+    }
+
+    private MovimientoParseado buscar(List<MovimientoParseado> movimientos, String descripcion) {
+        return movimientos.stream()
+                .filter(m -> m.descripcion().equals(descripcion))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("No se encontró movimiento con descripción: " + descripcion));
+    }
+
     @Test
     void unCreditoDaImporteEnPositivo() {
         byte[] archivo = construirArchivoConCredito();
