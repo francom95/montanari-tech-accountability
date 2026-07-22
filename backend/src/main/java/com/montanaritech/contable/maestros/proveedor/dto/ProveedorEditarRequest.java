@@ -1,5 +1,6 @@
 package com.montanaritech.contable.maestros.proveedor.dto;
 
+import com.montanaritech.contable.maestros.proveedor.CondicionIva;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.util.Set;
@@ -11,5 +12,7 @@ public record ProveedorEditarRequest(
         Set<Long> tiposCostoIds,
         String contacto,
         String email,
-        String telefono
+        String telefono,
+        CondicionIva condicionIva,
+        Long cuentaCxpId
 ) {}

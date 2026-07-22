@@ -3,6 +3,9 @@ export type TipoCostoDto = {
   nombre: string
 }
 
+export const CONDICIONES_IVA = ["RESPONSABLE_INSCRIPTO", "MONOTRIBUTISTA", "EXENTO", "CONSUMIDOR_FINAL"] as const
+export type CondicionIva = (typeof CONDICIONES_IVA)[number]
+
 export type Proveedor = {
   id: number
   nombre: string
@@ -15,6 +18,9 @@ export type Proveedor = {
   contacto: string | null
   email: string | null
   telefono: string | null
+  condicionIva: CondicionIva
+  cuentaCxpId: number | null
+  cuentaCxpCodigo: string | null
   activo: boolean
 }
 
@@ -27,6 +33,8 @@ export type ProveedorCrearInput = {
   contacto?: string
   email?: string
   telefono?: string
+  condicionIva?: CondicionIva
+  cuentaCxpId?: number
 }
 
 export type ProveedorEditarInput = {
@@ -37,4 +45,6 @@ export type ProveedorEditarInput = {
   contacto?: string
   email?: string
   telefono?: string
+  condicionIva?: CondicionIva
+  cuentaCxpId?: number
 }

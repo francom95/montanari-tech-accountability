@@ -95,7 +95,7 @@ class ProveedorServiceTest {
         when(tipoCostoRepo.findAllById(any())).thenReturn(List.of(tipoCosto));
         when(repo.save(any(Proveedor.class))).thenAnswer(inv -> inv.getArgument(0));
 
-        Proveedor creada = service.crear(new ProveedorCrearRequest("Nuevo Proveedor", "30-12345678-9", 1L, 1L, Set.of(1L), "Contacto", "email@test.com", "987654321"));
+        Proveedor creada = service.crear(new ProveedorCrearRequest("Nuevo Proveedor", "30-12345678-9", 1L, 1L, Set.of(1L), "Contacto", "email@test.com", "987654321", null, null));
 
         assertThat(creada.getNombre()).isEqualTo("Nuevo Proveedor");
         assertThat(creada.getCuit()).isEqualTo("30-12345678-9");
@@ -106,7 +106,7 @@ class ProveedorServiceTest {
     void crearConJurisdictionNoExistenteThrow() {
         when(jurisdiccionRepo.findById(99L)).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> service.crear(new ProveedorCrearRequest("Test", "20-12345678-9", 99L, 1L, null, null, null, null)))
+        assertThatThrownBy(() -> service.crear(new ProveedorCrearRequest("Test", "20-12345678-9", 99L, 1L, null, null, null, null, null, null)))
                 .isInstanceOf(RecursoNoEncontradoException.class);
     }
 
@@ -115,7 +115,7 @@ class ProveedorServiceTest {
         when(jurisdiccionRepo.findById(1L)).thenReturn(Optional.of(jurisdiccion));
         when(monedaRepo.findById(99L)).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> service.crear(new ProveedorCrearRequest("Test", "20-12345678-9", 1L, 99L, null, null, null, null)))
+        assertThatThrownBy(() -> service.crear(new ProveedorCrearRequest("Test", "20-12345678-9", 1L, 99L, null, null, null, null, null, null)))
                 .isInstanceOf(RecursoNoEncontradoException.class);
     }
 
@@ -149,10 +149,10 @@ class ProveedorServiceTest {
             Proveedor p = inv.getArgument(0);
             return new ProveedorResponse(p.getId(), p.getNombre(), p.getCuit(), p.getJurisdiccion().getId(),
                     p.getJurisdiccion().getNombre(), p.getMonedaHabitual().getId(), p.getMonedaHabitual().getCodigo(),
-                    new HashSet<>(), p.getContacto(), p.getEmail(), p.getTelefono(), p.isActivo());
+                    new HashSet<>(), p.getContacto(), p.getEmail(), p.getTelefono(), p.getCondicionIva(), null, null, p.isActivo());
         });
 
-        service.editar(1L, new ProveedorEditarRequest("Proveedor Editado", 2L, 1L, Set.of(1L), "Contacto New", "new@test.com", "111111111"));
+        service.editar(1L, new ProveedorEditarRequest("Proveedor Editado", 2L, 1L, Set.of(1L), "Contacto New", "new@test.com", "111111111", null, null));
 
         assertThat(entidad.getNombre()).isEqualTo("Proveedor Editado");
         assertThat(entidad.getJurisdiccion().getId()).isEqualTo(2L);
@@ -165,7 +165,7 @@ class ProveedorServiceTest {
         when(repo.findById(1L)).thenReturn(Optional.of(entidad));
         when(jurisdiccionRepo.findById(99L)).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> service.editar(1L, new ProveedorEditarRequest("Test", 99L, 1L, null, null, null, null)))
+        assertThatThrownBy(() -> service.editar(1L, new ProveedorEditarRequest("Test", 99L, 1L, null, null, null, null, null, null)))
                 .isInstanceOf(RecursoNoEncontradoException.class);
     }
 
@@ -175,7 +175,7 @@ class ProveedorServiceTest {
         when(jurisdiccionRepo.findById(1L)).thenReturn(Optional.of(jurisdiccion));
         when(monedaRepo.findById(99L)).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> service.editar(1L, new ProveedorEditarRequest("Test", 1L, 99L, null, null, null, null)))
+        assertThatThrownBy(() -> service.editar(1L, new ProveedorEditarRequest("Test", 1L, 99L, null, null, null, null, null, null)))
                 .isInstanceOf(RecursoNoEncontradoException.class);
     }
 
@@ -186,7 +186,7 @@ class ProveedorServiceTest {
             Proveedor p = inv.getArgument(0);
             return new ProveedorResponse(p.getId(), p.getNombre(), p.getCuit(), p.getJurisdiccion().getId(),
                     p.getJurisdiccion().getNombre(), p.getMonedaHabitual().getId(), p.getMonedaHabitual().getCodigo(),
-                    new HashSet<>(), p.getContacto(), p.getEmail(), p.getTelefono(), p.isActivo());
+                    new HashSet<>(), p.getContacto(), p.getEmail(), p.getTelefono(), p.getCondicionIva(), null, null, p.isActivo());
         });
 
         service.desactivar(1L);
@@ -205,7 +205,7 @@ class ProveedorServiceTest {
             Proveedor p = inv.getArgument(0);
             return new ProveedorResponse(p.getId(), p.getNombre(), p.getCuit(), p.getJurisdiccion().getId(),
                     p.getJurisdiccion().getNombre(), p.getMonedaHabitual().getId(), p.getMonedaHabitual().getCodigo(),
-                    new HashSet<>(), p.getContacto(), p.getEmail(), p.getTelefono(), p.isActivo());
+                    new HashSet<>(), p.getContacto(), p.getEmail(), p.getTelefono(), p.getCondicionIva(), null, null, p.isActivo());
         });
 
         service.activar(1L);
@@ -222,7 +222,7 @@ class ProveedorServiceTest {
             Proveedor p = inv.getArgument(0);
             return new ProveedorResponse(p.getId(), p.getNombre(), p.getCuit(), p.getJurisdiccion().getId(),
                     p.getJurisdiccion().getNombre(), p.getMonedaHabitual().getId(), p.getMonedaHabitual().getCodigo(),
-                    new HashSet<>(), p.getContacto(), p.getEmail(), p.getTelefono(), p.isActivo());
+                    new HashSet<>(), p.getContacto(), p.getEmail(), p.getTelefono(), p.getCondicionIva(), null, null, p.isActivo());
         });
 
         service.eliminar(1L);
@@ -266,7 +266,7 @@ class ProveedorServiceTest {
         when(tipoCostoRepo.findAllById(any())).thenReturn(List.of(tipoCosto));
         when(repo.save(any(Proveedor.class))).thenAnswer(inv -> inv.getArgument(0));
 
-        Proveedor creada = service.crear(new ProveedorCrearRequest("Test", "20-12345678-9", 1L, 1L, Set.of(1L), null, null, null));
+        Proveedor creada = service.crear(new ProveedorCrearRequest("Test", "20-12345678-9", 1L, 1L, Set.of(1L), null, null, null, null, null));
 
         assertThat(creada.getCuit()).isNotBlank();
     }
@@ -278,7 +278,7 @@ class ProveedorServiceTest {
         when(tipoCostoRepo.findAllById(any())).thenReturn(List.of(tipoCosto));
         when(repo.save(any(Proveedor.class))).thenAnswer(inv -> inv.getArgument(0));
 
-        Proveedor creada = service.crear(new ProveedorCrearRequest("Test", "20-12345678-9", 1L, 1L, Set.of(1L), null, null, null));
+        Proveedor creada = service.crear(new ProveedorCrearRequest("Test", "20-12345678-9", 1L, 1L, Set.of(1L), null, null, null, null, null));
 
         assertThat(creada.getContacto()).isNull();
     }
@@ -290,7 +290,7 @@ class ProveedorServiceTest {
         when(tipoCostoRepo.findAllById(any())).thenReturn(List.of(tipoCosto));
         when(repo.save(any(Proveedor.class))).thenAnswer(inv -> inv.getArgument(0));
 
-        Proveedor creada = service.crear(new ProveedorCrearRequest("Test", "20-12345678-9", 1L, 1L, Set.of(1L), null, null, null));
+        Proveedor creada = service.crear(new ProveedorCrearRequest("Test", "20-12345678-9", 1L, 1L, Set.of(1L), null, null, null, null, null));
 
         assertThat(creada.getEmail()).isNull();
     }
@@ -302,7 +302,7 @@ class ProveedorServiceTest {
         when(tipoCostoRepo.findAllById(any())).thenReturn(List.of(tipoCosto));
         when(repo.save(any(Proveedor.class))).thenAnswer(inv -> inv.getArgument(0));
 
-        Proveedor creada = service.crear(new ProveedorCrearRequest("Test", "20-12345678-9", 1L, 1L, Set.of(1L), null, null, null));
+        Proveedor creada = service.crear(new ProveedorCrearRequest("Test", "20-12345678-9", 1L, 1L, Set.of(1L), null, null, null, null, null));
 
         assertThat(creada.getTelefono()).isNull();
     }
@@ -313,7 +313,7 @@ class ProveedorServiceTest {
         when(tipoCostoRepo.findAllById(any())).thenReturn(List.of(tipoCosto));
         when(repo.save(any(Proveedor.class))).thenAnswer(inv -> inv.getArgument(0));
 
-        Proveedor creada = service.crear(new ProveedorCrearRequest("Test", "20-12345678-9", 1L, null, Set.of(1L), null, null, null));
+        Proveedor creada = service.crear(new ProveedorCrearRequest("Test", "20-12345678-9", 1L, null, Set.of(1L), null, null, null, null, null));
 
         assertThat(creada.getMonedaHabitual()).isNull();
     }
@@ -324,7 +324,7 @@ class ProveedorServiceTest {
         when(monedaRepo.findById(1L)).thenReturn(Optional.of(moneda));
         when(repo.save(any(Proveedor.class))).thenAnswer(inv -> inv.getArgument(0));
 
-        Proveedor creada = service.crear(new ProveedorCrearRequest("Test", "20-12345678-9", 1L, 1L, null, null, null, null));
+        Proveedor creada = service.crear(new ProveedorCrearRequest("Test", "20-12345678-9", 1L, 1L, null, null, null, null, null, null));
 
         assertThat(creada.getTiposCosto()).isEmpty();
     }

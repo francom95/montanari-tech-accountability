@@ -4,6 +4,8 @@ import com.montanaritech.contable.common.audit.AccionAuditoria;
 import com.montanaritech.contable.common.audit.AuditoriaService;
 import com.montanaritech.contable.common.audit.Auditado;
 import com.montanaritech.contable.common.error.RecursoNoEncontradoException;
+import com.montanaritech.contable.contabilidad.cuentacontable.CuentaContable;
+import com.montanaritech.contable.contabilidad.cuentacontable.CuentaContableRepository;
 import com.montanaritech.contable.maestros.jurisdiccion.JurisdiccionRepository;
 import com.montanaritech.contable.maestros.moneda.MonedaRepository;
 import com.montanaritech.contable.maestros.proveedor.dto.ProveedorCrearRequest;
@@ -24,6 +26,7 @@ public class ProveedorService {
     private final JurisdiccionRepository jurisdiccionRepo;
     private final MonedaRepository monedaRepo;
     private final TipoCostoRepository tipoCostoRepo;
+    private final CuentaContableRepository cuentaContableRepo;
 
     @Transactional(readOnly = true)
     public Page<Proveedor> listar(String texto, Boolean activo, Pageable p) {
@@ -60,6 +63,8 @@ public class ProveedorService {
         e.setContacto(req.contacto());
         e.setEmail(req.email());
         e.setTelefono(req.telefono());
+        e.setCondicionIva(req.condicionIva() != null ? req.condicionIva() : CondicionIva.RESPONSABLE_INSCRIPTO);
+        e.setCuentaCxp(resolverCuentaCxp(req.cuentaCxpId()));
         e.setActivo(true);
         return repo.save(e);
     }
@@ -92,9 +97,19 @@ public class ProveedorService {
         e.setContacto(req.contacto());
         e.setEmail(req.email());
         e.setTelefono(req.telefono());
+        e.setCondicionIva(req.condicionIva() != null ? req.condicionIva() : CondicionIva.RESPONSABLE_INSCRIPTO);
+        e.setCuentaCxp(resolverCuentaCxp(req.cuentaCxpId()));
 
         auditoria.registrar(AccionAuditoria.EDITAR, "Proveedor", id, antes, mapper.aResponse(e));
         return e;
+    }
+
+    private CuentaContable resolverCuentaCxp(Long cuentaCxpId) {
+        if (cuentaCxpId == null) {
+            return null;
+        }
+        return cuentaContableRepo.findById(cuentaCxpId)
+                .orElseThrow(() -> new RecursoNoEncontradoException("Cuenta contable " + cuentaCxpId + " no encontrada"));
     }
 
     @Transactional

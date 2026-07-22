@@ -11,6 +11,7 @@ import { ConceptosPage } from "@/pages/conceptos-page"
 import { CuentasBancariasPage } from "@/pages/cuentas-bancarias-page"
 import { DashboardPage } from "@/pages/dashboard-page"
 import { EjemploFormularioPage } from "@/pages/ejemplo-formulario-page"
+import { FacturasCompraPage } from "@/pages/facturas-compra-page"
 import { FacturasVentaPage } from "@/pages/facturas-venta-page"
 import { JurisdiccionesPage } from "@/pages/jurisdicciones-page"
 import { LoginPage } from "@/pages/login-page"
@@ -61,6 +62,7 @@ export const router = createBrowserRouter([
         element: <PlaceholderPage title="Facturación, cobros y pagos" />,
       },
       { path: "facturacion/ventas", element: <FacturasVentaPage /> },
+      { path: "facturacion/compras", element: <FacturasCompraPage /> },
       { path: "facturacion/mapeo-cuentas", element: <MapeoCuentaPage /> },
       {
         path: "bancos",

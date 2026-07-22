@@ -14,6 +14,8 @@ public interface ProveedorMapper {
     @Mapping(target = "monedaHabitualId", source = "monedaHabitual.id")
     @Mapping(target = "monedaHabitualCodigo", source = "monedaHabitual.codigo")
     @Mapping(target = "tiposCosto", source = "tiposCosto")
+    @Mapping(target = "cuentaCxpId", source = "cuentaCxp.id")
+    @Mapping(target = "cuentaCxpCodigo", source = "cuentaCxp.codigo")
     ProveedorResponse aResponse(Proveedor p);
 
     default Set<ProveedorResponse.TipoCostoDto> mapTiposCosto(Set<TipoCosto> tiposCosto) {

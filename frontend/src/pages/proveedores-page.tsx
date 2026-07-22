@@ -15,11 +15,19 @@ import {
   useEliminarProveedor,
   useProveedores,
 } from "@/hooks/use-proveedor"
+import { useCuentasContables } from "@/hooks/use-cuenta-contable"
 import { useJurisdiccions } from "@/hooks/use-jurisdiccion"
 import { useMonedas } from "@/hooks/use-monedas"
 import { useTipoCostos } from "@/hooks/use-tipocosto"
-import type { Proveedor } from "@/types/proveedor"
+import { CONDICIONES_IVA, type Proveedor } from "@/types/proveedor"
 import { Checkbox } from "@/components/ui/checkbox"
+
+const CONDICION_IVA_LABEL: Record<(typeof CONDICIONES_IVA)[number], string> = {
+  RESPONSABLE_INSCRIPTO: "Responsable Inscripto",
+  MONOTRIBUTISTA: "Monotributista",
+  EXENTO: "Exento",
+  CONSUMIDOR_FINAL: "Consumidor Final",
+}
 
 const esquema = z.object({
   nombre: z.string().min(1, "El nombre es obligatorio").max(120),
@@ -30,6 +38,8 @@ const esquema = z.object({
   contacto: z.string().max(100).optional(),
   email: z.union([z.string().email("Email inválido").max(100), z.literal("")]).optional(),
   telefono: z.string().max(20).optional(),
+  condicionIva: z.string().min(1, "La condición de IVA es obligatoria"),
+  cuentaCxpId: z.string().optional(),
 })
 
 type Valores = z.infer<typeof esquema>
@@ -43,23 +53,29 @@ export function ProveedoresPage() {
   const jurisdicciones = useJurisdiccions({ page: 0, size: 100 })
   const monedas = useMonedas({ page: 0, size: 100 })
   const tiposCosto = useTipoCostos({ page: 0, size: 100 })
+  const cuentasContables = useCuentasContables({ activo: true, page: 0, size: 500 })
+  const cuentasImputables = useMemo(() => (cuentasContables.data?.content ?? []).filter((c) => c.imputable), [cuentasContables.data])
   const crear = useCrearProveedor()
   const editar = useEditarProveedor()
   const cambiarEstado = useCambiarEstadoProveedor()
   const eliminar = useEliminarProveedor()
 
+  const VACIO: Valores = {
+    nombre: "",
+    cuit: "",
+    jurisdiccionId: "",
+    monedaHabitualId: "",
+    tiposCostoIds: [],
+    contacto: "",
+    email: "",
+    telefono: "",
+    condicionIva: "RESPONSABLE_INSCRIPTO",
+    cuentaCxpId: "",
+  }
+
   const form = useForm<Valores>({
     resolver: zodResolver(esquema),
-    defaultValues: {
-      nombre: "",
-      cuit: "",
-      jurisdiccionId: "",
-      monedaHabitualId: "",
-      tiposCostoIds: [],
-      contacto: "",
-      email: "",
-      telefono: ""
-    }
+    defaultValues: VACIO,
   })
 
   function iniciarEdicion(e: Proveedor) {
@@ -72,22 +88,15 @@ export function ProveedoresPage() {
       tiposCostoIds: e.tiposCosto?.map(tc => tc.id.toString()) || [],
       contacto: e.contacto || "",
       email: e.email || "",
-      telefono: e.telefono || ""
+      telefono: e.telefono || "",
+      condicionIva: e.condicionIva,
+      cuentaCxpId: e.cuentaCxpId?.toString() || "",
     })
   }
 
   function cancelarEdicion() {
     setEditando(null)
-    form.reset({
-      nombre: "",
-      cuit: "",
-      jurisdiccionId: "",
-      monedaHabitualId: "",
-      tiposCostoIds: [],
-      contacto: "",
-      email: "",
-      telefono: ""
-    })
+    form.reset(VACIO)
   }
 
   function onSubmit(valores: Valores) {
@@ -102,6 +111,8 @@ export function ProveedoresPage() {
           contacto: valores.contacto,
           email: valores.email,
           telefono: valores.telefono,
+          condicionIva: valores.condicionIva as Proveedor["condicionIva"],
+          cuentaCxpId: valores.cuentaCxpId ? Number(valores.cuentaCxpId) : undefined,
         }
       }, { onSuccess: cancelarEdicion })
     } else {
@@ -114,16 +125,9 @@ export function ProveedoresPage() {
         contacto: valores.contacto,
         email: valores.email,
         telefono: valores.telefono,
-      }, { onSuccess: () => form.reset({
-        nombre: "",
-        cuit: "",
-        jurisdiccionId: "",
-        monedaHabitualId: "",
-        tiposCostoIds: [],
-        contacto: "",
-        email: "",
-        telefono: ""
-      }) })
+        condicionIva: valores.condicionIva as Proveedor["condicionIva"],
+        cuentaCxpId: valores.cuentaCxpId ? Number(valores.cuentaCxpId) : undefined,
+      }, { onSuccess: () => form.reset(VACIO) })
     }
   }
 
@@ -133,6 +137,7 @@ export function ProveedoresPage() {
       { header: "Nombre", accessorKey: "nombre" },
       { header: "Jurisdicción", accessorKey: "jurisdiccionNombre" },
       { header: "Moneda", accessorKey: "monedaHabitualCodigo" },
+      { header: "Condición IVA", accessorKey: "condicionIva", cell: (info) => CONDICION_IVA_LABEL[info.getValue() as keyof typeof CONDICION_IVA_LABEL] },
       { header: "Email", accessorKey: "email" },
       { header: "Estado", accessorKey: "activo", cell: (info) => (info.getValue() ? "Activo" : "Inactivo") },
       {
@@ -222,9 +227,38 @@ export function ProveedoresPage() {
                 )} />
               </div>
 
-              <FormField control={form.control} name="telefono" render={({ field }) => (
-                <FormItem><FormLabel>Teléfono</FormLabel><FormControl><Input {...field} placeholder="1123456789" /></FormControl><FormMessage /></FormItem>
-              )} />
+              <div className="grid gap-4 sm:grid-cols-3">
+                <FormField control={form.control} name="telefono" render={({ field }) => (
+                  <FormItem><FormLabel>Teléfono</FormLabel><FormControl><Input {...field} placeholder="1123456789" /></FormControl><FormMessage /></FormItem>
+                )} />
+                <FormField control={form.control} name="condicionIva" render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Condición de IVA</FormLabel>
+                    <FormControl>
+                      <select {...field} className="h-8 w-full rounded-lg border border-input bg-background px-3 py-1.5 text-sm">
+                        {CONDICIONES_IVA.map((c) => (
+                          <option key={c} value={c}>{CONDICION_IVA_LABEL[c]}</option>
+                        ))}
+                      </select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )} />
+                <FormField control={form.control} name="cuentaCxpId" render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Cuenta de deudas comerciales</FormLabel>
+                    <FormControl>
+                      <select {...field} disabled={cuentasContables.isLoading} className="h-8 w-full rounded-lg border border-input bg-background px-3 py-1.5 text-sm">
+                        <option value="">Sin cuenta propia (usa el mapeo por defecto)</option>
+                        {cuentasImputables.map((c) => (
+                          <option key={c.id} value={c.id.toString()}>{c.codigo} — {c.nombre}</option>
+                        ))}
+                      </select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )} />
+              </div>
 
               <FormItem>
                 <FormLabel>Tipos de costo</FormLabel>

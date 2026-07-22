@@ -1,5 +1,6 @@
 package com.montanaritech.contable.maestros.proveedor.dto;
 
+import com.montanaritech.contable.maestros.proveedor.CondicionIva;
 import java.util.Set;
 
 public record ProveedorResponse(
@@ -14,6 +15,9 @@ public record ProveedorResponse(
         String contacto,
         String email,
         String telefono,
+        CondicionIva condicionIva,
+        Long cuentaCxpId,
+        String cuentaCxpCodigo,
         boolean activo
 ) {
     public record TipoCostoDto(Long id, String nombre) {}
