@@ -5,7 +5,8 @@ export type MovimientoBancario = {
   id: number
   cuentaBancariaId: number
   cuentaBancariaAlias: string
-  fecha: string
+  /** Nula cuando el origen de importación (F5.2, ej. Galicia ARS) no trajo fecha en la fila — se completa acá antes de confirmar/imputar. */
+  fecha: string | null
   descripcion: string
   importe: number
   monedaId: number
@@ -25,7 +26,7 @@ export type MovimientoBancario = {
 
 export type MovimientoBancarioCrearInput = {
   cuentaBancariaId: number
-  fecha: string
+  fecha?: string
   descripcion: string
   importe: number
   monedaId: number
@@ -33,6 +34,8 @@ export type MovimientoBancarioCrearInput = {
   referencia?: string
   cuentaContableSugeridaId?: number
   observaciones?: string
+  origenImportacion?: OrigenImportacionMovimiento
+  hashImportacion?: string
 }
 
-export type MovimientoBancarioCorregirInput = MovimientoBancarioCrearInput
+export type MovimientoBancarioCorregirInput = Omit<MovimientoBancarioCrearInput, "origenImportacion" | "hashImportacion">

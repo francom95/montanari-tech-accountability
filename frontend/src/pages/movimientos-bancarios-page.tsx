@@ -93,7 +93,7 @@ export function MovimientosBancariosPage() {
     setEditando(m)
     form.reset({
       cuentaBancariaId: m.cuentaBancariaId.toString(),
-      fecha: m.fecha,
+      fecha: m.fecha ?? "",
       descripcion: m.descripcion,
       importe: m.importe.toString(),
       monedaId: m.monedaId.toString(),
@@ -113,7 +113,7 @@ export function MovimientosBancariosPage() {
   function onSubmit(valores: Valores) {
     const payload = {
       cuentaBancariaId: Number(valores.cuentaBancariaId),
-      fecha: valores.fecha,
+      fecha: valores.fecha || undefined,
       descripcion: valores.descripcion,
       importe: Number(valores.importe),
       monedaId: Number(valores.monedaId),
@@ -261,7 +261,9 @@ export function MovimientosBancariosPage() {
                   <tbody>
                     {(query.data?.content ?? []).map((m) => (
                       <tr key={m.id} className="border-b border-border last:border-0 align-top">
-                        <td className="py-2 pr-4">{m.fecha}</td>
+                        <td className="py-2 pr-4">
+                          {m.fecha ?? <span className="text-xs font-medium text-amber-600">Sin fecha</span>}
+                        </td>
                         <td className="py-2 pr-4">{m.cuentaBancariaAlias}</td>
                         <td className="py-2 pr-4">{m.descripcion}</td>
                         <td className={`py-2 pr-4 ${m.importe < 0 ? "text-destructive" : ""}`}>{m.importe.toFixed(2)} {m.monedaCodigo}</td>
@@ -294,10 +296,13 @@ export function MovimientosBancariosPage() {
                           ) : (
                             <div className="flex flex-wrap gap-2">
                               <Button variant="outline" size="sm" onClick={() => iniciarEdicion(m)}>Editar</Button>
-                              <Button variant="outline" size="sm" disabled={!m.cuentaContableSugeridaId || confirmar.isPending} onClick={() => confirmar.mutate(m.id)}>Confirmar</Button>
-                              <Button variant="outline" size="sm" onClick={() => setAccionEnCurso({ id: m.id, tipo: "imputar" })}>Imputar</Button>
+                              <Button variant="outline" size="sm" disabled={!m.fecha || !m.cuentaContableSugeridaId || confirmar.isPending} onClick={() => confirmar.mutate(m.id)}>Confirmar</Button>
+                              <Button variant="outline" size="sm" disabled={!m.fecha} onClick={() => setAccionEnCurso({ id: m.id, tipo: "imputar" })}>Imputar</Button>
                               <Button variant="outline" size="sm" onClick={() => setAccionEnCurso({ id: m.id, tipo: "asociar" })}>Asociar</Button>
                               <Button variant="outline" size="sm" onClick={() => setAccionEnCurso({ id: m.id, tipo: "descartar" })}>Descartar</Button>
+                              {!m.fecha && (
+                                <span className="text-xs text-muted-foreground">Completá la fecha con "Editar" para poder confirmar/imputar</span>
+                              )}
                             </div>
                           )}
                         </td>

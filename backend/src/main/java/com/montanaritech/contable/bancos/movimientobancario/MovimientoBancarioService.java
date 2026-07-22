@@ -69,6 +69,8 @@ public class MovimientoBancarioService {
         aplicarCampos(m, req.cuentaBancariaId(), req.fecha(), req.descripcion(), req.importe(), req.monedaId(),
                 req.tipoCambio(), req.referencia(), req.cuentaContableSugeridaId(), req.observaciones());
         m.setEstado(EstadoMovimientoBancario.PENDIENTE);
+        m.setOrigenImportacion(req.origenImportacion() != null ? req.origenImportacion() : OrigenImportacionMovimiento.MANUAL);
+        m.setHashImportacion(req.hashImportacion());
 
         MovimientoBancario guardado = repo.save(m);
         auditoria.registrar(AccionAuditoria.CREAR, "MovimientoBancario", guardado.getId(), null, mapper.aResponse(guardado));
@@ -96,6 +98,7 @@ public class MovimientoBancarioService {
             throw new NegocioException("SIN_CUENTA_SUGERIDA",
                     "Este movimiento no tiene una cuenta sugerida — usá \"imputar\" para elegir una cuenta");
         }
+        exigirFecha(m);
 
         Asiento asiento = generarYRegistrarAsiento(m, m.getCuentaContableSugerida());
         m.setAsiento(asiento);
@@ -112,6 +115,7 @@ public class MovimientoBancarioService {
 
         CuentaContable cuenta = cuentaContableRepo.findById(cuentaContableId)
                 .orElseThrow(() -> new RecursoNoEncontradoException("Cuenta contable " + cuentaContableId + " no encontrada"));
+        exigirFecha(m);
 
         Asiento asiento = generarYRegistrarAsiento(m, cuenta);
         m.setAsiento(asiento);
@@ -152,6 +156,14 @@ public class MovimientoBancarioService {
 
         auditoria.registrar(AccionAuditoria.ANULAR, "MovimientoBancario", id, antes, mapper.aResponse(m));
         return m;
+    }
+
+    /** F5.2: filas sin fecha (ej. Galicia ARS) quedan pendientes hasta completarla con "corregir". */
+    private void exigirFecha(MovimientoBancario m) {
+        if (m.getFecha() == null) {
+            throw new NegocioException("FECHA_PENDIENTE",
+                    "Este movimiento no tiene fecha cargada — completala con \"corregir\" antes de continuar");
+        }
     }
 
     private MovimientoBancario obtenerPendiente(Long id) {

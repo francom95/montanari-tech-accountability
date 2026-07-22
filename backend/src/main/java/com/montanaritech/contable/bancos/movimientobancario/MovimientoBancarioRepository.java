@@ -29,4 +29,7 @@ public interface MovimientoBancarioRepository extends JpaRepository<MovimientoBa
 
     /** Guarda de "asociar" (F5.1): un asiento ya vinculado a otro movimiento no puede reusarse. */
     boolean existsByAsiento_Id(Long asientoId);
+
+    /** Detección de duplicados al re-importar un resumen (F5.2): mismo hash ya cargado en esta cuenta. */
+    boolean existsByCuentaBancaria_IdAndHashImportacion(Long cuentaBancariaId, String hashImportacion);
 }

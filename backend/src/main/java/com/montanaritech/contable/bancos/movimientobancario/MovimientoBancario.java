@@ -38,7 +38,8 @@ public class MovimientoBancario extends EntidadNegocio {
     @JoinColumn(name = "cuenta_bancaria_id", nullable = false, foreignKey = @ForeignKey(name = "fk_movimiento_bancario_cuenta_bancaria"))
     private CuentaBancaria cuentaBancaria;
 
-    @Column(nullable = false)
+    /** Nula cuando el origen de importación (F5.2) no trae fecha en la fila (ej. Galicia ARS): se completa con "corregir". */
+    @Column
     private LocalDate fecha;
 
     @Column(nullable = false, length = 500)
@@ -67,6 +68,10 @@ public class MovimientoBancario extends EntidadNegocio {
     @Enumerated(EnumType.STRING)
     @Column(name = "origen_importacion", nullable = false, length = 20)
     private OrigenImportacionMovimiento origenImportacion = OrigenImportacionMovimiento.MANUAL;
+
+    /** Hash de fecha+importe+descripción+referencia (F5.2): único por cuenta bancaria, nulo en carga manual. Evita duplicar filas al re-importar el mismo resumen. */
+    @Column(name = "hash_importacion", length = 64)
+    private String hashImportacion;
 
     /** Cuenta propuesta al cargar el movimiento; "confirmar" la usa tal cual, "imputar" la ignora y pide otra. */
     @ManyToOne(optional = true)

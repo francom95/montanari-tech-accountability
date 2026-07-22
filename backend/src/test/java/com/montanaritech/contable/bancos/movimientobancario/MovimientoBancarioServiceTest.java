@@ -81,7 +81,7 @@ class MovimientoBancarioServiceTest {
 
     private CrearMovimientoBancarioRequest requestCrear(BigDecimal importe, Long cuentaSugeridaId) {
         return new CrearMovimientoBancarioRequest(1L, LocalDate.of(2026, 7, 1), "Deposito cliente",
-                importe, 1L, new BigDecimal("1.000000"), "REF-001", cuentaSugeridaId, null);
+                importe, 1L, new BigDecimal("1.000000"), "REF-001", cuentaSugeridaId, null, null, null);
     }
 
     // ---- Creación ----
@@ -116,6 +116,35 @@ class MovimientoBancarioServiceTest {
                 .isInstanceOf(NegocioException.class)
                 .extracting(e -> ((NegocioException) e).getCodigo())
                 .isEqualTo("SIN_CUENTA_SUGERIDA");
+    }
+
+    @Test
+    void confirmarSinFechaLanzaError() {
+        MovimientoBancario m = new MovimientoBancario();
+        m.setId(1L);
+        m.setEstado(EstadoMovimientoBancario.PENDIENTE);
+        m.setCuentaContableSugerida(cuentaSugerida);
+        m.setFecha(null);
+        when(repo.findById(1L)).thenReturn(Optional.of(m));
+
+        assertThatThrownBy(() -> service.confirmar(1L))
+                .isInstanceOf(NegocioException.class)
+                .extracting(e -> ((NegocioException) e).getCodigo())
+                .isEqualTo("FECHA_PENDIENTE");
+    }
+
+    @Test
+    void crearSinFechaQuedaPendienteDeCompletar() {
+        CrearMovimientoBancarioRequest req = new CrearMovimientoBancarioRequest(1L, null, "Movimiento sin fecha (Galicia ARS)",
+                new BigDecimal("1000.00"), 1L, new BigDecimal("1.000000"), "REF-002", null, null,
+                OrigenImportacionMovimiento.GALICIA, "hash-abc");
+
+        MovimientoBancario creado = service.crear(req);
+
+        assertThat(creado.getFecha()).isNull();
+        assertThat(creado.getEstado()).isEqualTo(EstadoMovimientoBancario.PENDIENTE);
+        assertThat(creado.getOrigenImportacion()).isEqualTo(OrigenImportacionMovimiento.GALICIA);
+        assertThat(creado.getHashImportacion()).isEqualTo("hash-abc");
     }
 
     @Test
