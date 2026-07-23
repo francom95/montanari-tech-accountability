@@ -1,13 +1,18 @@
-# Graph Report - C:/Users/Franco/Documents/Montanari Technologies/Montanari Tech Accountability  (2026-07-06)
+# Graph Report - Montanari Tech Accountability  (2026-07-23)
 
 ## Corpus Check
-- 330 files · ~83,884 words
+- 756 files · ~247,217 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1990 nodes · 3769 edges · 148 communities (112 shown, 36 thin omitted)
-- Extraction: 91% EXTRACTED · 9% INFERRED · 0% AMBIGUOUS · INFERRED: 355 edges (avg confidence: 0.81)
-- Token cost: 405,487 input · 0 output
+- 2157 nodes · 4106 edges · 176 communities (126 shown, 50 thin omitted)
+- Extraction: 91% EXTRACTED · 9% INFERRED · 0% AMBIGUOUS · INFERRED: 376 edges (avg confidence: 0.81)
+- Token cost: 0 input · 0 output
+
+## Graph Freshness
+- Built from commit: `33d13ce2`
+- Run `git rev-parse HEAD` and compare to check if the graph is stale.
+- Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - [[_COMMUNITY_Cliente CRUD|Cliente CRUD]]
@@ -142,30 +147,58 @@
 - [[_COMMUNITY_router.tsx|router.tsx]]
 - [[_COMMUNITY_Favicon (Montanari Tech Accountability a|Favicon (Montanari Tech Accountability a]]
 - [[_COMMUNITY_com.montanaritechcontable|com.montanaritech:contable]]
+- [[_COMMUNITY_RefreshTokenService|RefreshTokenService]]
+- [[_COMMUNITY_.de|.de]]
+- [[_COMMUNITY_NumeracionPaginasPdf|NumeracionPaginasPdf]]
+- [[_COMMUNITY_Qué se hizo|Qué se hizo]]
+- [[_COMMUNITY_AuditoriaService|AuditoriaService]]
+- [[_COMMUNITY_RefreshToken|RefreshToken]]
+- [[_COMMUNITY_AuditoriaAspect|AuditoriaAspect]]
+- [[_COMMUNITY_AbstractIntegrationTest|AbstractIntegrationTest]]
+- [[_COMMUNITY_JpaAuditingConfig.java|JpaAuditingConfig.java]]
+- [[_COMMUNITY_Tenant|Tenant]]
+- [[_COMMUNITY_JurisdiccionRepository|JurisdiccionRepository]]
+- [[_COMMUNITY_ProveedorRepository|ProveedorRepository]]
+- [[_COMMUNITY_Vínculo NM Proyecto-Comisionista|Vínculo N:M Proyecto-Comisionista]]
+- [[_COMMUNITY_NumeradorAsiento|NumeradorAsiento]]
+- [[_COMMUNITY_Montanari Tech — Sistema de Gestión Contable|Montanari Tech — Sistema de Gestión Contable]]
+- [[_COMMUNITY_Component|Component]]
+- [[_COMMUNITY_Moneda|Moneda]]
+- [[_COMMUNITY_Override|Override]]
+- [[_COMMUNITY_RequiredArgsConstructor|RequiredArgsConstructor]]
+- [[_COMMUNITY_Component|Component]]
+- [[_COMMUNITY_Override|Override]]
+- [[_COMMUNITY_Service|Service]]
+- [[_COMMUNITY_Entity|Entity]]
+- [[_COMMUNITY_EntityListeners|EntityListeners]]
+- [[_COMMUNITY_Getter|Getter]]
+- [[_COMMUNITY_Setter|Setter]]
+- [[_COMMUNITY_Table|Table]]
+- [[_COMMUNITY_StreamingResponseBody|StreamingResponseBody]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `AuditoriaService` - 53 edges
 2. `RecursoNoEncontradoException` - 50 edges
 3. `ProveedorServiceTest` - 34 edges
 4. `EntidadNegocio` - 32 edges
-5. `MonedaRepository` - 28 edges
-6. `ClienteServiceTest` - 26 edges
-7. `Auditado` - 23 edges
-8. `TarjetaCreditoService` - 21 edges
-9. `Moneda` - 20 edges
+5. `ReportExportService` - 28 edges
+6. `MonedaRepository` - 27 edges
+7. `ClienteServiceTest` - 26 edges
+8. `Auditado` - 23 edges
+9. `TarjetaCreditoService` - 21 edges
 10. `CuentaBancariaService` - 19 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `CI GitHub Actions Workflow` --implements--> `Paso F1.7: CI básico`  [INFERRED]
   .github/workflows/ci.yml → plan/07_F1_7_ci_basico.md
-- `Fases sugeridas del proyecto (sección 7)` --conceptually_related_to--> `Índice de pasos F1.1-F11.4 (55 pasos)`  [INFERRED]
-  inputs/brief_proyecto.md → plan/00_README.md
-- `Auditoría transversal (auditoria_log)` --implements--> `Módulo Seguridad, Usuarios y Auditoría`  [INFERRED]
-  outputs/F1_1_arquitectura_global_y_modelo_de_datos.md → inputs/documento_funcional.md
 - `PL-1 CRUD Backend (plantilla)` --shares_data_with--> `EntidadNegocio (mapped superclass)`  [INFERRED]
   plan/00_plantillas.md → outputs/F1_1_arquitectura_global_y_modelo_de_datos.md
 - `PL-5 Máquina de estados (plantilla)` --conceptually_related_to--> `Asiento automático editable sin alterar comprobante`  [INFERRED]
   plan/00_plantillas.md → outputs/F1_1_arquitectura_global_y_modelo_de_datos.md
+- `Patrón Haiku ejecuta primero, Sonnet corrige bugs` --conceptually_related_to--> `Matriz de delegación de modelos (Opus/Sonnet/Haiku)`  [INFERRED]
+  README.md → inputs/brief_proyecto.md
+- `Paso F1.3: Scaffolding backend + Docker Compose` --rationale_for--> `Docker Compose stack (mysql, backend, frontend)`  [INFERRED]
+  plan/03_F1_3_scaffolding_backend_docker_compose.md → docker-compose.yml
 
 ## Import Cycles
 - None detected.
@@ -181,23 +214,23 @@
 - **Suite de reportes consolidados sobre infraestructura de exportación F7.1** — plan_35_f7_1_infraestructura_de_exportacion_consolidada_reportexportservice, plan_36_f7_2_balance_de_sumas_y_saldos_f7_2, plan_37_f7_3_estado_de_resultados_f7_3, plan_38_f7_4_reporte_detallado_por_proyecto_rentabilidad_f7_4, plan_39_f7_5_dashboard_f7_5 [EXTRACTED 1.00]
 - **Motor de alertas alimentado por vencimientos, CxC/CxP, pendientes y flujo de caja** — plan_46_f9_1_motor_de_alertas_f9_1, plan_41_f8_1_calendario_de_vencimientos_servicio_proximos_vencimientos, plan_45_f8_5_pendientes_administrativos_query_service_por_vencer, plan_43_f8_3_flujo_de_caja_real_y_proyectado_deteccion_saldo_negativo [EXTRACTED 1.00]
 
-## Communities (148 total, 36 thin omitted)
+## Communities (176 total, 50 thin omitted)
 
 ### Community 0 - "Cliente CRUD"
-Cohesion: 0.05
-Nodes (44): ClienteController, DeleteMapping, GetMapping, Page, Pageable, PatchMapping, PostMapping, PreAuthorize (+36 more)
+Cohesion: 0.14
+Nodes (19): ClienteController, DeleteMapping, GetMapping, Page, Pageable, PatchMapping, PostMapping, PreAuthorize (+11 more)
 
 ### Community 1 - "Autenticacion y usuarios"
-Cohesion: 0.05
-Nodes (45): AuditorAware, Authentication, AuthController, GetMapping, PostMapping, RequestMapping, RequiredArgsConstructor, ResponseEntity (+37 more)
+Cohesion: 0.15
+Nodes (14): Authentication, AuthController, GetMapping, PostMapping, RequestMapping, RequiredArgsConstructor, ResponseEntity, RestController (+6 more)
 
 ### Community 2 - "TipoCosto CRUD"
-Cohesion: 0.06
-Nodes (43): AfterReturning, Aspect, AuditoriaAspect, Component, RequiredArgsConstructor, AuditoriaService, AccionAuditoria, ObjectMapper (+35 more)
+Cohesion: 0.07
+Nodes (32): TipoCostoCrearRequest, TipoCostoEditarRequest, TipoCostoResponse, DeleteMapping, GetMapping, Page, Pageable, PatchMapping (+24 more)
 
 ### Community 3 - "Gestion de usuarios (DTOs)"
-Cohesion: 0.06
-Nodes (39): CambiarPasswordRequest, RolUsuario, UsuarioCrearRequest, RolUsuario, UsuarioEditarRequest, RolUsuario, UsuarioResponse, RolUsuario (+31 more)
+Cohesion: 0.09
+Nodes (30): CambiarPasswordRequest, RolUsuario, UsuarioCrearRequest, RolUsuario, UsuarioEditarRequest, RolUsuario, UsuarioResponse, GetMapping (+22 more)
 
 ### Community 4 - "Filtro JWT y seguridad"
 Cohesion: 0.05
@@ -205,15 +238,15 @@ Nodes (46): AuthenticationConfiguration, Component, HttpServletRequest, HttpServ
 
 ### Community 5 - "Rubro CRUD"
 Cohesion: 0.06
-Nodes (39): CategoriaRepository, Categoria, Page, Pageable, Query, RubroCrearRequest, RubroEditarRequest, RubroResponse (+31 more)
+Nodes (41): Getter, RecursoNoEncontradoException, CategoriaRepository, Categoria, Page, Pageable, Query, RubroCrearRequest (+33 more)
 
 ### Community 6 - "TipoCambio CRUD"
-Cohesion: 0.06
-Nodes (39): TipoCambioCrearRequest, TipoCambioEditarRequest, TipoCambioResponse, DeleteMapping, GetMapping, Page, Pageable, PatchMapping (+31 more)
+Cohesion: 0.07
+Nodes (34): TipoCambioCrearRequest, TipoCambioEditarRequest, TipoCambioResponse, DeleteMapping, GetMapping, Page, Pageable, PatchMapping (+26 more)
 
 ### Community 7 - "UserDetails y refresh tokens"
-Cohesion: 0.05
-Nodes (45): CustomUserDetailsService, Override, RequiredArgsConstructor, Service, RefreshTokenRepository, Usuario, UsuarioRepository, AuditoriaLogRepository (+37 more)
+Cohesion: 0.06
+Nodes (39): CustomUserDetailsService, Override, RequiredArgsConstructor, Service, RefreshTokenRepository, Usuario, UsuarioRepository, AuditoriaLogRepository (+31 more)
 
 ### Community 8 - "Concepto CRUD"
 Cohesion: 0.07
@@ -228,48 +261,48 @@ Cohesion: 0.07
 Nodes (32): JurisdiccionCrearRequest, JurisdiccionEditarRequest, JurisdiccionResponse, DeleteMapping, GetMapping, Page, Pageable, PatchMapping (+24 more)
 
 ### Community 11 - "Motor de asientos (AsientoGenerator)"
-Cohesion: 0.05
-Nodes (22): AsientoGenerado, AsientoGenerator, GeneradorAsientoDePrueba, Component, Moneda, Override, RequiredArgsConstructor, LineaAsientoGenerada (+14 more)
+Cohesion: 0.07
+Nodes (13): AsientoGenerado, AsientoGenerator, LineaAsientoGenerada, ValidadorBalanceAsiento, Getter, NegocioException, PeriodoCerradoException, EstadoDocumento (+5 more)
 
 ### Community 12 - "Manejo de errores y seguridad"
 Cohesion: 0.12
 Nodes (20): AccessDeniedHandler, AuthenticationException, AccesoDenegadoException, Getter, GlobalExceptionHandler, AccessDeniedException, AccessDeniedException, Component (+12 more)
 
 ### Community 13 - "TarjetaCredito CRUD"
-Cohesion: 0.14
-Nodes (19): TarjetaCreditoResponse, DeleteMapping, GetMapping, Page, Pageable, PatchMapping, PostMapping, PreAuthorize (+11 more)
+Cohesion: 0.05
+Nodes (47): CuentaBancariaRepository, CuentaBancaria, Page, Pageable, Query, TarjetaCreditoCrearRequest, TarjetaCreditoEditarRequest, TarjetaCreditoResponse (+39 more)
 
 ### Community 14 - "Config OpenAPI / Swagger"
 Cohesion: 0.08
 Nodes (25): Bean, Configuration, OpenApiConfig, aliases, components, hooks, lib, ui (+17 more)
 
 ### Community 15 - "Proveedor CRUD (tests)"
-Cohesion: 0.16
-Nodes (7): ProveedorCrearRequest, Jurisdiccion, Moneda, Proveedor, Test, TipoCosto, ProveedorServiceTest
+Cohesion: 0.14
+Nodes (10): ProveedorCrearRequest, ProveedorEditarRequest, BeforeEach, ExtendWith, Jurisdiccion, Moneda, Proveedor, Test (+2 more)
 
 ### Community 16 - "CuentaBancaria CRUD"
-Cohesion: 0.14
-Nodes (16): CuentaBancariaController, DeleteMapping, GetMapping, Page, Pageable, PatchMapping, PostMapping, PreAuthorize (+8 more)
+Cohesion: 0.06
+Nodes (41): Service, RecalculoSaldoService, CuentaBancariaController, DeleteMapping, GetMapping, Page, Pageable, PatchMapping (+33 more)
 
 ### Community 17 - "Proveedor CRUD (DTOs)"
-Cohesion: 0.15
-Nodes (16): TipoCostoDto, ProveedorResponse, DeleteMapping, GetMapping, Page, Pageable, PatchMapping, PostMapping (+8 more)
+Cohesion: 0.11
+Nodes (17): TipoCostoDto, ProveedorResponse, TipoCostoDto, DeleteMapping, GetMapping, Page, Pageable, PatchMapping (+9 more)
 
 ### Community 18 - "Auditado y saldo de cuenta/tarjeta"
-Cohesion: 0.19
-Nodes (12): Auditado, Retention, Target, CuentaBancaria, Moneda, Page, Pageable, RequiredArgsConstructor (+4 more)
+Cohesion: 0.15
+Nodes (8): ClienteCrearRequest, ClienteEditarRequest, ClienteServiceTest, BeforeEach, Cliente, ExtendWith, Jurisdiccion, Test
 
 ### Community 19 - "CuentaBancaria mapper/service"
-Cohesion: 0.20
-Nodes (12): CuentaBancariaMapper, CuentaBancaria, Mapper, Mapping, CuentaBancariaService, CuentaBancaria, Moneda, Page (+4 more)
+Cohesion: 0.18
+Nodes (11): ContextoReporte, Document, RequiredArgsConstructor, TenantRepository, ReportExportService, Cell, CellStyle, Image (+3 more)
 
 ### Community 20 - "Moneda CRUD"
-Cohesion: 0.19
-Nodes (15): MonedaResponse, DeleteMapping, GetMapping, Page, Pageable, PatchMapping, PostMapping, PreAuthorize (+7 more)
+Cohesion: 0.06
+Nodes (43): ConflictoException, Getter, MonedaCrearRequest, MonedaEditarRequest, MonedaResponse, DeleteMapping, GetMapping, Page (+35 more)
 
 ### Community 21 - "Moneda CRUD (excepciones)"
 Cohesion: 0.21
-Nodes (10): ConflictoException, Getter, Moneda, Moneda, Page, Pageable, RequiredArgsConstructor, Service (+2 more)
+Nodes (7): RolUsuario, TestRestTemplate, AuditoriaIT, HttpEntity, HttpHeaders, Test, TestRestTemplate
 
 ### Community 22 - "Config TypeScript frontend"
 Cohesion: 0.09
@@ -280,28 +313,28 @@ Cohesion: 0.15
 Nodes (15): AccionAuditoria, AuditoriaController, AccionAuditoria, GetMapping, Page, Pageable, PreAuthorize, RequestMapping (+7 more)
 
 ### Community 24 - "Proveedor CRUD (excepciones)"
-Cohesion: 0.22
-Nodes (10): Getter, RecursoNoEncontradoException, Proveedor, Page, Pageable, Proveedor, RequiredArgsConstructor, Service (+2 more)
+Cohesion: 0.29
+Nodes (8): Proveedor, Page, Pageable, Proveedor, RequiredArgsConstructor, Service, Transactional, ProveedorService
 
 ### Community 25 - "Exportacion de reportes (Excel/PDF)"
-Cohesion: 0.21
-Nodes (10): Service, ReportExportService, GetMapping, RequestMapping, RequiredArgsConstructor, ResponseEntity, RestController, ReporteMonedasController (+2 more)
+Cohesion: 0.26
+Nodes (10): GetMapping, RequestMapping, RequiredArgsConstructor, ResponseEntity, RestController, StreamingResponseBody, ReporteMonedasController, MonedaMapper (+2 more)
 
 ### Community 26 - "CuentaBancaria CRUD (adicional)"
-Cohesion: 0.18
-Nodes (9): Service, RecalculoSaldoService, CuentaBancariaCrearRequest, CuentaBancariaServiceTest, BeforeEach, CuentaBancaria, ExtendWith, Moneda (+1 more)
+Cohesion: 0.22
+Nodes (14): ImportacionFacturaController, PreAuthorize, RequestMapping, RequiredArgsConstructor, ResponseEntity, RestController, StreamingResponseBody, Tag (+6 more)
 
 ### Community 27 - "Multimoneda y diferencia de cambio"
-Cohesion: 0.15
-Nodes (18): Multimoneda dentro del asiento y diferencia de cambio, ReportExportService, AsientoGenerator (PL-4), Regla de asiento: Cobro (con diferencia de cambio), Regla de asiento: Factura de compra confirmada, Regla de asiento: Factura de venta confirmada, Regla de asiento: Pago (con diferencia de cambio), F4.2 Facturas de venta (+10 more)
+Cohesion: 0.16
+Nodes (16): Multimoneda dentro del asiento y diferencia de cambio, ReportExportService, AsientoGenerator (PL-4), Regla de asiento: Cobro (con diferencia de cambio), Regla de asiento: Factura de compra confirmada, Regla de asiento: Factura de venta confirmada, Regla de asiento: Pago (con diferencia de cambio), F4.3 Facturas de compra (+8 more)
 
 ### Community 28 - "TarjetaCredito CRUD (adicional)"
 Cohesion: 0.21
-Nodes (8): TarjetaCreditoCrearRequest, BeforeEach, CuentaBancaria, ExtendWith, Moneda, TarjetaCredito, Test, TarjetaCreditoServiceTest
+Nodes (11): TenantActualizarRequest, TenantResponse, GetMapping, PreAuthorize, RequestMapping, RequiredArgsConstructor, RestController, Tag (+3 more)
 
 ### Community 29 - "TarjetaCredito CRUD (tests)"
-Cohesion: 0.22
-Nodes (5): TarjetaCreditoEditarRequest, CuentaFalsa, Override, Test, RecalculoSaldoServiceTest
+Cohesion: 0.25
+Nodes (12): GetMapping, RequestMapping, RequiredArgsConstructor, ResponseEntity, RestController, StreamingResponseBody, Tag, MayorController (+4 more)
 
 ### Community 30 - "Config TypeScript Node"
 Cohesion: 0.12
@@ -312,8 +345,8 @@ Cohesion: 0.15
 Nodes (17): F7.6 Exportaciones restantes en lote, Entidad Vencimiento, F8.1 Calendario de vencimientos, Generación automática de vencimientos desde liquidaciones/tarjetas/recurrentes, Servicio de 'próximos vencimientos', Entidad Compromiso de pago futuro, F8.2 Presupuesto de pagos, Query service 'compromisos por rango de fechas' (+9 more)
 
 ### Community 32 - "Docs del plan (cluster)"
-Cohesion: 0.23
-Nodes (16): Auditoría transversal (auditoria_log), ADR-22: Build tool backend Maven, ADR-23: shadcn/ui + Tailwind CSS, F1.2 Decisiones de tooling (repo, build, UI), Frontend index.html (root document), React + TypeScript + Vite template README, Errores comunes a evitar (F1.5/F1.6), 00 README: cómo ejecutar el plan (+8 more)
+Cohesion: 0.22
+Nodes (15): ADR-22: Build tool backend Maven, ADR-23: shadcn/ui + Tailwind CSS, F1.2 Decisiones de tooling (repo, build, UI), Frontend index.html (root document), React + TypeScript + Vite template README, Fases sugeridas del proyecto (sección 7), Matriz de delegación de modelos (Opus/Sonnet/Haiku), Brief de orquestación — Sistema de Gestión Contable Montanari Tech (+7 more)
 
 ### Community 33 - "Dependencias npm/frontend"
 Cohesion: 0.12
@@ -328,16 +361,16 @@ Cohesion: 0.20
 Nodes (8): CuentaConSaldo, CuentaBancaria, Entity, Getter, Moneda, Setter, Table, TarjetaCredito
 
 ### Community 36 - "Entidad Cuenta bancaria / cuenta de dine"
-Cohesion: 0.16
-Nodes (15): Entidad Cuenta bancaria / cuenta de dinero, F2.4 Cuentas bancarias, cuentas de dinero y tarjetas, Lógica de saldo inicial + recálculo de evolución de saldos, Entidad Tarjeta de crédito (maestro), Mapeo configurable concepto→cuenta contable, Bandeja 'pendiente de revisar' (flujo de estados), F5.1 Movimientos bancarios y bandeja 'pendiente de revisar', Entidad Movimiento bancario (+7 more)
+Cohesion: 0.12
+Nodes (21): Entidad Cuenta bancaria / cuenta de dinero, F2.4 Cuentas bancarias, cuentas de dinero y tarjetas, Lógica de saldo inicial + recálculo de evolución de saldos, Entidad Tarjeta de crédito (maestro), Mapeo configurable concepto→cuenta contable, Idempotencia de re-importación (clave tipo+punto de venta+número), Bandeja 'pendiente de revisar' (flujo de estados), F5.1 Movimientos bancarios y bandeja 'pendiente de revisar' (+13 more)
 
 ### Community 37 - "Moneda CRUD/logic"
 Cohesion: 0.25
-Nodes (6): MonedaCrearRequest, BeforeEach, ExtendWith, Moneda, Test, MonedaServiceTest
+Nodes (12): CuentaPorCobrarController, EstadoVencimiento, GetMapping, RequestMapping, RequiredArgsConstructor, ResponseEntity, RestController, StreamingResponseBody (+4 more)
 
 ### Community 38 - "TipoCosto CRUD/logic"
-Cohesion: 0.19
-Nodes (9): ProveedorEditarRequest, TipoCostoDto, Page, Pageable, Query, TipoCosto, TipoCostoRepository, BeforeEach (+1 more)
+Cohesion: 0.48
+Nodes (5): Page, Pageable, Query, TipoCosto, TipoCostoRepository
 
 ### Community 39 - "devDependencies"
 Cohesion: 0.14
@@ -348,16 +381,16 @@ Cohesion: 0.23
 Nodes (11): react, FormControl(), FormDescription(), FormFieldContext, FormFieldContextValue, FormItem(), FormItemContext, FormItemContextValue (+3 more)
 
 ### Community 41 - "Moneda CRUD/logic"
-Cohesion: 0.26
-Nodes (5): MonedaEditarRequest, HttpHeaders, Test, TestRestTemplate, MonedaControllerIT
+Cohesion: 0.25
+Nodes (12): CuentaPorPagarController, EstadoVencimiento, GetMapping, RequestMapping, RequiredArgsConstructor, ResponseEntity, RestController, StreamingResponseBody (+4 more)
 
 ### Community 42 - "CuitValido CRUD/logic"
 Cohesion: 0.24
 Nodes (8): CuitValido, Retention, Target, CuitValidoValidator, Override, Constraint, ConstraintValidator, ConstraintValidatorContext
 
 ### Community 43 - "Vencimiento como entidad única (calendar"
-Cohesion: 0.27
-Nodes (12): Vencimiento como entidad única (calendario, presupuesto, flujo proyectado), Documento funcional fuente — Sistema de Gestión Contable, Migración Inicial desde Excel (concepto funcional), Módulo Bancos, Tarjetas y Conciliaciones, Módulo Contabilidad, Módulo Facturación, Cobros y Pagos, Módulo Gestión Operativa y Maestros, Módulo Impuestos (+4 more)
+Cohesion: 0.31
+Nodes (11): Vencimiento como entidad única (calendario, presupuesto, flujo proyectado), Documento funcional fuente — Sistema de Gestión Contable, Migración Inicial desde Excel (concepto funcional), Módulo Bancos, Tarjetas y Conciliaciones, Módulo Contabilidad, Módulo Facturación, Cobros y Pagos, Módulo Gestión Operativa y Maestros, Módulo Impuestos (+3 more)
 
 ### Community 44 - "Crédito fiscal (IVA)"
 Cohesion: 0.20
@@ -369,7 +402,7 @@ Nodes (12): Pantalla de liquidación de IVA editable antes de confirmar, Entidad
 
 ### Community 46 - "Entidad Etapa"
 Cohesion: 0.20
-Nodes (11): Entidad Etapa, F2.5 Proyectos y etapas, Entidad Proyecto, Comparación proyectado vs real (estructura de datos), F2.6 Presupuesto estimado por proyecto, Hoja de fórmulas de referencia del Excel, Motor de presupuesto estimado por proyecto, Entidad Comisionista (+3 more)
+Nodes (12): Entidad Etapa, F2.5 Proyectos y etapas, Importación de etapas (Excel/CSV con previsualización), Entidad Proyecto, Comparación proyectado vs real (estructura de datos), F2.6 Presupuesto estimado por proyecto, Hoja de fórmulas de referencia del Excel, Motor de presupuesto estimado por proyecto (+4 more)
 
 ### Community 47 - "Estructura de Asientos multilínea"
 Cohesion: 0.24
@@ -392,8 +425,8 @@ Cohesion: 0.33
 Nodes (8): Entity, Getter, Jurisdiccion, Moneda, Setter, Table, TipoCosto, Proveedor
 
 ### Community 52 - "Plan docs cluster"
-Cohesion: 0.22
-Nodes (9): Orquestación de desarrollo (CLAUDE.md), ADR-21: Monorepo backend/frontend, CI GitHub Actions Workflow, F1.3 backend scaffolding (estado), F1.4 frontend scaffolding (estado), F1.5 autenticación, roles y autorización (estado), F1.6 infraestructura de auditoría (estado), F1.7 CI básico (estado) (+1 more)
+Cohesion: 0.27
+Nodes (10): Auditoría transversal (auditoria_log), CI GitHub Actions Workflow, Módulo Seguridad, Usuarios y Auditoría, Errores comunes a evitar (F1.5/F1.6), Paso F1.5: Autenticación, roles y autorización, Paso F1.6: Infraestructura de auditoría, F1.4 frontend scaffolding (estado), F1.5 autenticación, roles y autorización (estado) (+2 more)
 
 ### Community 53 - "F1.1 Arquitectura global y modelo de dat"
 Cohesion: 0.22
@@ -408,8 +441,8 @@ Cohesion: 0.61
 Nodes (9): Plantillas reutilizables (concepto, sección 6.3 del brief), Guía de aplicación de plantillas — molde Moneda, PL-1 CRUD Backend (plantilla), PL-2 CRUD Frontend (plantilla), PL-3 Reporte exportable (plantilla), PL-4 Asiento automático (plantilla), PL-5 Máquina de estados (plantilla), Paso F1.8: Definición formal de las 5 plantillas (código molde) (+1 more)
 
 ### Community 56 - "Importación de etapas (Excel/CSV con pre"
-Cohesion: 0.22
-Nodes (9): Importación de etapas (Excel/CSV con previsualización), F4.6 Importación de facturación histórica, Idempotencia de re-importación (clave tipo+punto de venta+número), Importador de facturas históricas (Excel/CSV/PDF), Detección de duplicados (hash fecha+importe+descripción+cuenta), F5.2 Parsers de resúmenes (Galicia, Mercado Pago, tarjetas), Parser Banco Galicia, Parser Mercado Pago (+1 more)
+Cohesion: 0.32
+Nodes (7): ClienteService, Cliente, Page, Pageable, RequiredArgsConstructor, Service, Transactional
 
 ### Community 57 - "Estilos corporativos centralizados en ex"
 Cohesion: 0.28
@@ -420,8 +453,8 @@ Cohesion: 0.22
 Nodes (9): Endpoints agregados específicos (performance dashboard), F7.5 Dashboard, Informe de hallazgos priorizados (bloqueante/alto/medio/bajo), F11.2 Fixes + performance, Tiempos objetivo de performance (reportes<3s, Lupita<500ms, dashboard<2s), Backups automáticos de MySQL + procedimiento de restore probado, F11.3 Despliegue productivo, Runbook de despliegue/restore/rotación de secretos (+1 more)
 
 ### Community 59 - "Moneda CRUD/logic"
-Cohesion: 0.43
-Nodes (5): Moneda, Page, Pageable, Query, MonedaRepository
+Cohesion: 0.22
+Nodes (4): FormatoReporte, FormatoReporteTest, Test, DecimalFormat
 
 ### Community 61 - "Interfaz AlertChannel (InApp hoy, Email "
 Cohesion: 0.25
@@ -444,8 +477,8 @@ Cohesion: 0.48
 Nodes (6): Concepto, Entity, Getter, Moneda, Setter, Table
 
 ### Community 66 - "CuentaBancaria CRUD/logic"
-Cohesion: 0.48
-Nodes (5): CuentaBancariaRepository, CuentaBancaria, Page, Pageable, Query
+Cohesion: 0.31
+Nodes (5): LoginRequest, AuthControllerIT, HttpEntity, HttpHeaders, Test
 
 ### Community 67 - "Proveedor CRUD/logic"
 Cohesion: 0.33
@@ -460,8 +493,8 @@ Cohesion: 0.48
 Nodes (6): Entity, Getter, Moneda, Setter, Table, TipoCambio
 
 ### Community 70 - "Configuración perfil dev (application-de"
-Cohesion: 0.38
-Nodes (7): Configuración perfil dev (application-dev.yml), Configuración perfil prod (application-prod.yml), Configuración base (application.yml), TenantFilterInterceptor (referencia open-in-view), Docker Compose stack (mysql, backend, frontend), EntidadNegocio (mapped superclass), Estrategia multi-tenant-ready (tenant_id + filtro Hibernate)
+Cohesion: 0.24
+Nodes (10): Configuración perfil dev (application-dev.yml), Configuración perfil prod (application-prod.yml), Configuración base (application.yml), TenantFilterInterceptor (referencia open-in-view), Docker Compose stack (mysql, backend, frontend), EntidadNegocio (mapped superclass), Estrategia multi-tenant-ready (tenant_id + filtro Hibernate), ADR-21: Monorepo backend/frontend (+2 more)
 
 ### Community 82 - "cuentas-bancarias-page.tsx"
 Cohesion: 0.29
@@ -472,8 +505,8 @@ Cohesion: 0.29
 Nodes (4): CrearUsuarioValores, esquemaCrearUsuario, ROLES, USUARIOS_QUERY_KEY
 
 ### Community 84 - "Plan docs cluster"
-Cohesion: 0.33
-Nodes (7): Fases sugeridas del proyecto (sección 7), Matriz de delegación de modelos (Opus/Sonnet/Haiku), Brief de orquestación — Sistema de Gestión Contable Montanari Tech, F2.1 CRUDs simples en lote (estado), F2.2/F2.3 Cliente y Proveedor (estado), F2.4 Cuentas bancarias y tarjetas de crédito (estado), Patrón Haiku ejecuta primero, Sonnet corrige bugs
+Cohesion: 0.67
+Nodes (4): F2.1 CRUDs simples en lote (estado), F2.2/F2.3 Cliente y Proveedor (estado), F2.4 Cuentas bancarias y tarjetas de crédito (estado), Patrón Haiku ejecuta primero, Sonnet corrige bugs
 
 ### Community 85 - "Casos de prueba contables (≥15 casos num"
 Cohesion: 0.33
@@ -567,29 +600,85 @@ Nodes (3): TipoCambio, TipoCambioCrearInput, TipoCambioEditarInput
 Cohesion: 0.50
 Nodes (3): TipoCosto, TipoCostoCrearInput, TipoCostoEditarInput
 
+### Community 121 - "Moneda CRUD/logic"
+Cohesion: 0.31
+Nodes (7): AuthService, AuthenticationManager, RequiredArgsConstructor, Service, Transactional, Usuario, TokenPairResponse
+
+### Community 148 - "RefreshTokenService"
+Cohesion: 0.31
+Nodes (6): RequiredArgsConstructor, Service, Transactional, Usuario, RefreshTokenService, SecureRandom
+
+### Community 149 - ".de"
+Cohesion: 0.31
+Nodes (5): TenantRepository, Test, ReportExportServiceTest, BeforeEach, ExtendWith
+
+### Community 150 - "NumeracionPaginasPdf"
+Cohesion: 0.38
+Nodes (7): Document, NumeracionPaginasPdf, BaseFont, Override, PdfPageEventHelper, PdfTemplate, PdfWriter
+
+### Community 151 - "Qué se hizo"
+Cohesion: 0.18
+Nodes (10): API consolidada, Bug real corregido de paso: truncado silencioso en 1000 filas, Estilos corporativos, F7.1 — Infraestructura de exportación consolidada, Formato AR, Qué se hizo, Refactor de los 5 exports existentes, Slot de logo configurable (+2 more)
+
+### Community 152 - "AuditoriaService"
+Cohesion: 0.31
+Nodes (6): AuditoriaService, AccionAuditoria, ObjectMapper, RequiredArgsConstructor, Service, Transactional
+
+### Community 153 - "RefreshToken"
+Cohesion: 0.36
+Nodes (7): Entity, Getter, PrePersist, Setter, Table, Usuario, RefreshToken
+
+### Community 154 - "AuditoriaAspect"
+Cohesion: 0.43
+Nodes (5): AfterReturning, Aspect, AuditoriaAspect, Component, RequiredArgsConstructor
+
+### Community 155 - "AbstractIntegrationTest"
+Cohesion: 0.43
+Nodes (6): AbstractIntegrationTest, DynamicPropertyRegistry, DynamicPropertySource, MySQLContainer, SpringBootTest, Testcontainers
+
+### Community 156 - "JpaAuditingConfig.java"
+Cohesion: 0.48
+Nodes (5): AuditorAware, Bean, Configuration, JpaAuditingConfig, EnableJpaAuditing
+
+### Community 157 - "Tenant"
+Cohesion: 0.52
+Nodes (6): Tenant, Entity, EntityListeners, Getter, Setter, Table
+
+### Community 158 - "JurisdiccionRepository"
+Cohesion: 0.48
+Nodes (5): Jurisdiccion, Page, Pageable, Query, JurisdiccionRepository
+
+### Community 159 - "ProveedorRepository"
+Cohesion: 0.48
+Nodes (5): Page, Pageable, Proveedor, Query, ProveedorRepository
+
+### Community 160 - "Vínculo N:M Proyecto-Comisionista"
+Cohesion: 0.50
+Nodes (4): Entidad Comisionista, F2.7 Comisionistas, Servicio de consulta de comisiones devengadas/pendientes, Vínculo N:M Proyecto-Comisionista
+
 ## Ambiguous Edges - Review These
 - `Detección de días con saldo proyectado negativo` → `F9.1 Motor de alertas`  [AMBIGUOUS]
   plan/46_F9_1_motor_de_alertas.md · relation: references
 
 ## Knowledge Gaps
-- **248 isolated node(s):** `com.montanaritech:contable`, `EstadoConciliacion`, `TipoCostoDto`, `$schema`, `plugins` (+243 more)
+- **256 isolated node(s):** `Grafo de conocimiento (graphify)`, `Estilos corporativos`, `Slot de logo configurable`, `Formato AR`, `Streaming real para volúmenes grandes` (+251 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **36 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **50 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **What is the exact relationship between `Detección de días con saldo proyectado negativo` and `F9.1 Motor de alertas`?**
   _Edge tagged AMBIGUOUS (relation: references) - confidence is low._
-- **Why does `AuditoriaService` connect `TipoCosto CRUD` to `Cliente CRUD`, `Autenticacion y usuarios`, `Gestion de usuarios (DTOs)`, `Rubro CRUD`, `TipoCambio CRUD`, `UserDetails y refresh tokens`, `Concepto CRUD`, `Categoria CRUD`, `Jurisdiccion CRUD`, `Moneda CRUD/logic`, `TipoCosto CRUD/logic`, `Proveedor CRUD (tests)`, `Auditado y saldo de cuenta/tarjeta`, `CuentaBancaria mapper/service`, `Moneda CRUD (excepciones)`, `Proveedor CRUD (excepciones)`, `CuentaBancaria CRUD (adicional)`, `TarjetaCredito CRUD (adicional)`?**
-  _High betweenness centrality (0.187) - this node is a cross-community bridge._
-- **Why does `RecursoNoEncontradoException` connect `Proveedor CRUD (excepciones)` to `Cliente CRUD`, `TipoCosto CRUD`, `Gestion de usuarios (DTOs)`, `Rubro CRUD`, `TipoCambio CRUD`, `Moneda CRUD/logic`, `Concepto CRUD`, `Categoria CRUD`, `Jurisdiccion CRUD`, `TipoCosto CRUD/logic`, `Manejo de errores y seguridad`, `Auditado y saldo de cuenta/tarjeta`, `CuentaBancaria mapper/service`, `Moneda CRUD (excepciones)`, `CuentaBancaria CRUD (adicional)`, `TarjetaCredito CRUD (adicional)`?**
-  _High betweenness centrality (0.067) - this node is a cross-community bridge._
-- **Why does `Moneda` connect `Moneda CRUD/logic` to `Concepto CRUD/logic`, `CuentaConSaldo CRUD/logic`, `TipoCambio CRUD/logic`, `TipoCosto CRUD/logic`, `TipoCambio CRUD`, `Concepto CRUD`, `Motor de asientos (AsientoGenerator)`, `EntidadNegocio CRUD/logic`, `CuentaBancaria CRUD/logic`, `CuentaBancaria mapper/service`, `Proveedor CRUD/logic`, `Auditado y saldo de cuenta/tarjeta`, `CuentaBancaria CRUD (adicional)`, `TarjetaCredito CRUD (adicional)`?**
-  _High betweenness centrality (0.043) - this node is a cross-community bridge._
-- **What connects `com.montanaritech:contable`, `EstadoConciliacion`, `TipoCostoDto` to the rest of the system?**
-  _267 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Why does `AuditoriaService` connect `AuditoriaService` to `TipoCosto CRUD`, `Gestion de usuarios (DTOs)`, `Rubro CRUD`, `TipoCambio CRUD`, `UserDetails y refresh tokens`, `Concepto CRUD`, `Categoria CRUD`, `Jurisdiccion CRUD`, `TarjetaCredito CRUD`, `Proveedor CRUD (tests)`, `CuentaBancaria CRUD`, `Auditado y saldo de cuenta/tarjeta`, `Moneda CRUD`, `Importación de etapas (Excel/CSV con pre`, `Moneda CRUD/logic`, `AuditoriaAspect`, `Proveedor CRUD (excepciones)`?**
+  _High betweenness centrality (0.151) - this node is a cross-community bridge._
+- **Why does `TenantRepository` connect `UserDetails y refresh tokens` to `Tenant`?**
+  _High betweenness centrality (0.083) - this node is a cross-community bridge._
+- **Why does `Tenant` connect `Tenant` to `CuentaBancaria mapper/service`, `TarjetaCredito CRUD (adicional)`, `.de`, `UserDetails y refresh tokens`?**
+  _High betweenness centrality (0.083) - this node is a cross-community bridge._
+- **What connects `Grafo de conocimiento (graphify)`, `Estilos corporativos`, `Slot de logo configurable` to the rest of the system?**
+  _275 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Cliente CRUD` be split into smaller, more focused modules?**
-  _Cohesion score 0.05185779203421545 - nodes in this community are weakly interconnected._
-- **Should `Autenticacion y usuarios` be split into smaller, more focused modules?**
-  _Cohesion score 0.05030864197530864 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.1354679802955665 - nodes in this community are weakly interconnected._
+- **Should `TipoCosto CRUD` be split into smaller, more focused modules?**
+  _Cohesion score 0.07305669199298656 - nodes in this community are weakly interconnected._

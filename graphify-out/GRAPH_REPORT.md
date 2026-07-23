@@ -1,16 +1,16 @@
 # Graph Report - Montanari Tech Accountability  (2026-07-23)
 
 ## Corpus Check
-- 756 files · ~247,217 words
+- 765 files · ~250,732 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2157 nodes · 4106 edges · 176 communities (126 shown, 50 thin omitted)
-- Extraction: 91% EXTRACTED · 9% INFERRED · 0% AMBIGUOUS · INFERRED: 376 edges (avg confidence: 0.81)
+- 2254 nodes · 4314 edges · 183 communities (133 shown, 50 thin omitted)
+- Extraction: 91% EXTRACTED · 9% INFERRED · 0% AMBIGUOUS · INFERRED: 390 edges (avg confidence: 0.81)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `33d13ce2`
+- Built from commit: `cb73f6c1`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -175,6 +175,13 @@
 - [[_COMMUNITY_Setter|Setter]]
 - [[_COMMUNITY_Table|Table]]
 - [[_COMMUNITY_StreamingResponseBody|StreamingResponseBody]]
+- [[_COMMUNITY_Qué se hizo|Qué se hizo]]
+- [[_COMMUNITY_CuentaBancariaRepository|CuentaBancariaRepository]]
+- [[_COMMUNITY_use-balance-sumas-y-saldos.ts|use-balance-sumas-y-saldos.ts]]
+- [[_COMMUNITY_balance-sumas-y-saldos-page.tsx|balance-sumas-y-saldos-page.tsx]]
+- [[_COMMUNITY_balance-sumas-y-saldos.ts|balance-sumas-y-saldos.ts]]
+- [[_COMMUNITY_TarjetaCreditoMapper|TarjetaCreditoMapper]]
+- [[_COMMUNITY_mayor-page.tsx|mayor-page.tsx]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `AuditoriaService` - 53 edges
@@ -186,7 +193,7 @@
 7. `ClienteServiceTest` - 26 edges
 8. `Auditado` - 23 edges
 9. `TarjetaCreditoService` - 21 edges
-10. `CuentaBancariaService` - 19 edges
+10. `BalanceSumasYSaldosServiceTest` - 20 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `CI GitHub Actions Workflow` --implements--> `Paso F1.7: CI básico`  [INFERRED]
@@ -214,7 +221,7 @@
 - **Suite de reportes consolidados sobre infraestructura de exportación F7.1** — plan_35_f7_1_infraestructura_de_exportacion_consolidada_reportexportservice, plan_36_f7_2_balance_de_sumas_y_saldos_f7_2, plan_37_f7_3_estado_de_resultados_f7_3, plan_38_f7_4_reporte_detallado_por_proyecto_rentabilidad_f7_4, plan_39_f7_5_dashboard_f7_5 [EXTRACTED 1.00]
 - **Motor de alertas alimentado por vencimientos, CxC/CxP, pendientes y flujo de caja** — plan_46_f9_1_motor_de_alertas_f9_1, plan_41_f8_1_calendario_de_vencimientos_servicio_proximos_vencimientos, plan_45_f8_5_pendientes_administrativos_query_service_por_vencer, plan_43_f8_3_flujo_de_caja_real_y_proyectado_deteccion_saldo_negativo [EXTRACTED 1.00]
 
-## Communities (176 total, 50 thin omitted)
+## Communities (183 total, 50 thin omitted)
 
 ### Community 0 - "Cliente CRUD"
 Cohesion: 0.14
@@ -229,8 +236,8 @@ Cohesion: 0.07
 Nodes (32): TipoCostoCrearRequest, TipoCostoEditarRequest, TipoCostoResponse, DeleteMapping, GetMapping, Page, Pageable, PatchMapping (+24 more)
 
 ### Community 3 - "Gestion de usuarios (DTOs)"
-Cohesion: 0.09
-Nodes (30): CambiarPasswordRequest, RolUsuario, UsuarioCrearRequest, RolUsuario, UsuarioEditarRequest, RolUsuario, UsuarioResponse, GetMapping (+22 more)
+Cohesion: 0.06
+Nodes (42): CambiarPasswordRequest, RolUsuario, UsuarioCrearRequest, RolUsuario, UsuarioEditarRequest, RolUsuario, UsuarioResponse, RolUsuario (+34 more)
 
 ### Community 4 - "Filtro JWT y seguridad"
 Cohesion: 0.05
@@ -249,8 +256,8 @@ Cohesion: 0.06
 Nodes (39): CustomUserDetailsService, Override, RequiredArgsConstructor, Service, RefreshTokenRepository, Usuario, UsuarioRepository, AuditoriaLogRepository (+31 more)
 
 ### Community 8 - "Concepto CRUD"
-Cohesion: 0.07
-Nodes (35): ConceptoController, DeleteMapping, GetMapping, Page, Pageable, PatchMapping, PostMapping, PreAuthorize (+27 more)
+Cohesion: 0.06
+Nodes (40): ConceptoController, DeleteMapping, GetMapping, Page, Pageable, PatchMapping, PostMapping, PreAuthorize (+32 more)
 
 ### Community 9 - "Categoria CRUD"
 Cohesion: 0.07
@@ -269,8 +276,8 @@ Cohesion: 0.12
 Nodes (20): AccessDeniedHandler, AuthenticationException, AccesoDenegadoException, Getter, GlobalExceptionHandler, AccessDeniedException, AccessDeniedException, Component (+12 more)
 
 ### Community 13 - "TarjetaCredito CRUD"
-Cohesion: 0.05
-Nodes (47): CuentaBancariaRepository, CuentaBancaria, Page, Pageable, Query, TarjetaCreditoCrearRequest, TarjetaCreditoEditarRequest, TarjetaCreditoResponse (+39 more)
+Cohesion: 0.14
+Nodes (16): TarjetaCreditoEditarRequest, TarjetaCreditoResponse, DeleteMapping, GetMapping, Page, Pageable, PatchMapping, PostMapping (+8 more)
 
 ### Community 14 - "Config OpenAPI / Swagger"
 Cohesion: 0.08
@@ -281,8 +288,8 @@ Cohesion: 0.14
 Nodes (10): ProveedorCrearRequest, ProveedorEditarRequest, BeforeEach, ExtendWith, Jurisdiccion, Moneda, Proveedor, Test (+2 more)
 
 ### Community 16 - "CuentaBancaria CRUD"
-Cohesion: 0.06
-Nodes (41): Service, RecalculoSaldoService, CuentaBancariaController, DeleteMapping, GetMapping, Page, Pageable, PatchMapping (+33 more)
+Cohesion: 0.07
+Nodes (37): Service, RecalculoSaldoService, CuentaBancariaController, DeleteMapping, GetMapping, Page, Pageable, PatchMapping (+29 more)
 
 ### Community 17 - "Proveedor CRUD (DTOs)"
 Cohesion: 0.11
@@ -293,16 +300,16 @@ Cohesion: 0.15
 Nodes (8): ClienteCrearRequest, ClienteEditarRequest, ClienteServiceTest, BeforeEach, Cliente, ExtendWith, Jurisdiccion, Test
 
 ### Community 19 - "CuentaBancaria mapper/service"
-Cohesion: 0.18
-Nodes (11): ContextoReporte, Document, RequiredArgsConstructor, TenantRepository, ReportExportService, Cell, CellStyle, Image (+3 more)
+Cohesion: 0.19
+Nodes (10): ContextoReporte, Document, RequiredArgsConstructor, TenantRepository, ReportExportService, Cell, CellStyle, Image (+2 more)
 
 ### Community 20 - "Moneda CRUD"
 Cohesion: 0.06
 Nodes (43): ConflictoException, Getter, MonedaCrearRequest, MonedaEditarRequest, MonedaResponse, DeleteMapping, GetMapping, Page (+35 more)
 
 ### Community 21 - "Moneda CRUD (excepciones)"
-Cohesion: 0.21
-Nodes (7): RolUsuario, TestRestTemplate, AuditoriaIT, HttpEntity, HttpHeaders, Test, TestRestTemplate
+Cohesion: 0.22
+Nodes (10): TarjetaCredito, CuentaBancaria, Moneda, Page, Pageable, RequiredArgsConstructor, Service, TarjetaCredito (+2 more)
 
 ### Community 22 - "Config TypeScript frontend"
 Cohesion: 0.09
@@ -333,8 +340,8 @@ Cohesion: 0.21
 Nodes (11): TenantActualizarRequest, TenantResponse, GetMapping, PreAuthorize, RequestMapping, RequiredArgsConstructor, RestController, Tag (+3 more)
 
 ### Community 29 - "TarjetaCredito CRUD (tests)"
-Cohesion: 0.25
-Nodes (12): GetMapping, RequestMapping, RequiredArgsConstructor, ResponseEntity, RestController, StreamingResponseBody, Tag, MayorController (+4 more)
+Cohesion: 0.24
+Nodes (11): GetMapping, RequestMapping, RequiredArgsConstructor, ResponseEntity, RestController, StreamingResponseBody, Tag, MayorController (+3 more)
 
 ### Community 30 - "Config TypeScript Node"
 Cohesion: 0.12
@@ -477,8 +484,8 @@ Cohesion: 0.48
 Nodes (6): Concepto, Entity, Getter, Moneda, Setter, Table
 
 ### Community 66 - "CuentaBancaria CRUD/logic"
-Cohesion: 0.31
-Nodes (5): LoginRequest, AuthControllerIT, HttpEntity, HttpHeaders, Test
+Cohesion: 0.26
+Nodes (6): LoginRequest, AuthControllerIT, HttpEntity, HttpHeaders, Test, TestRestTemplate
 
 ### Community 67 - "Proveedor CRUD/logic"
 Cohesion: 0.33
@@ -565,8 +572,8 @@ Cohesion: 0.40
 Nodes (4): Proveedor, ProveedorCrearInput, ProveedorEditarInput, TipoCostoDto
 
 ### Community 112 - "categoria.ts"
-Cohesion: 0.50
-Nodes (3): Categoria, CategoriaCrearInput, CategoriaEditarInput
+Cohesion: 0.07
+Nodes (36): AsientoLinea, AsientoLineaRepository, BalanceSumasYSaldosController, BalanceSumasYSaldosNodo, RequiredArgsConstructor, BalanceSumasYSaldosService, BalanceSumasYSaldosNodo, CuentaContable (+28 more)
 
 ### Community 113 - "cliente.ts"
 Cohesion: 0.50
@@ -601,11 +608,11 @@ Cohesion: 0.50
 Nodes (3): TipoCosto, TipoCostoCrearInput, TipoCostoEditarInput
 
 ### Community 121 - "Moneda CRUD/logic"
-Cohesion: 0.31
+Cohesion: 0.29
 Nodes (7): AuthService, AuthenticationManager, RequiredArgsConstructor, Service, Transactional, Usuario, TokenPairResponse
 
 ### Community 148 - "RefreshTokenService"
-Cohesion: 0.31
+Cohesion: 0.27
 Nodes (6): RequiredArgsConstructor, Service, Transactional, Usuario, RefreshTokenService, SecureRandom
 
 ### Community 149 - ".de"
@@ -633,8 +640,8 @@ Cohesion: 0.43
 Nodes (5): AfterReturning, Aspect, AuditoriaAspect, Component, RequiredArgsConstructor
 
 ### Community 155 - "AbstractIntegrationTest"
-Cohesion: 0.43
-Nodes (6): AbstractIntegrationTest, DynamicPropertyRegistry, DynamicPropertySource, MySQLContainer, SpringBootTest, Testcontainers
+Cohesion: 0.23
+Nodes (8): TarjetaCreditoCrearRequest, BeforeEach, CuentaBancaria, ExtendWith, Moneda, TarjetaCredito, Test, TarjetaCreditoServiceTest
 
 ### Community 156 - "JpaAuditingConfig.java"
 Cohesion: 0.48
@@ -656,12 +663,40 @@ Nodes (5): Page, Pageable, Proveedor, Query, ProveedorRepository
 Cohesion: 0.50
 Nodes (4): Entidad Comisionista, F2.7 Comisionistas, Servicio de consulta de comisiones devengadas/pendientes, Vínculo N:M Proyecto-Comisionista
 
+### Community 175 - "StreamingResponseBody"
+Cohesion: 0.27
+Nodes (4): CuentaFalsa, Override, Test, RecalculoSaldoServiceTest
+
+### Community 176 - "Qué se hizo"
+Cohesion: 0.20
+Nodes (9): Drill-down con los mismos filtros de período, El roll-up: madre = Σ hijas, en cualquier profundidad, Exportable (F7.1), F7.2 — Balance de sumas y saldos, Filtros: sin movimiento y nivel de jerarquía, Fuente de datos: una query agregada nueva, no una por cuenta, Qué se hizo, Verificación de balanceo global — nunca se oculta (+1 more)
+
+### Community 177 - "CuentaBancariaRepository"
+Cohesion: 0.48
+Nodes (5): CuentaBancariaRepository, CuentaBancaria, Page, Pageable, Query
+
+### Community 178 - "use-balance-sumas-y-saldos.ts"
+Cohesion: 0.47
+Nodes (4): descargar(), descargarBalanceSumasYSaldosExcel(), descargarBalanceSumasYSaldosPdf(), QUERY_KEY
+
+### Community 179 - "balance-sumas-y-saldos-page.tsx"
+Cohesion: 0.53
+Nodes (5): BalanceSumasYSaldosPage(), enlaceMayor(), ETIQUETA_CLASE, FilaBalance(), formatearNumero()
+
+### Community 180 - "balance-sumas-y-saldos.ts"
+Cohesion: 0.40
+Nodes (4): BalanceSumasYSaldos, BalanceSumasYSaldosFiltros, BalanceSumasYSaldosNodo, SaldoEtiqueta
+
+### Community 181 - "TarjetaCreditoMapper"
+Cohesion: 0.67
+Nodes (3): Mapper, Mapping, TarjetaCreditoMapper
+
 ## Ambiguous Edges - Review These
 - `Detección de días con saldo proyectado negativo` → `F9.1 Motor de alertas`  [AMBIGUOUS]
   plan/46_F9_1_motor_de_alertas.md · relation: references
 
 ## Knowledge Gaps
-- **256 isolated node(s):** `Grafo de conocimiento (graphify)`, `Estilos corporativos`, `Slot de logo configurable`, `Formato AR`, `Streaming real para volúmenes grandes` (+251 more)
+- **271 isolated node(s):** `QUERY_KEY`, `ETIQUETA_CLASE`, `ORIGENES`, `ETIQUETA_CLASE`, `NavItem` (+266 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **50 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -670,14 +705,14 @@ _Questions this graph is uniquely positioned to answer:_
 
 - **What is the exact relationship between `Detección de días con saldo proyectado negativo` and `F9.1 Motor de alertas`?**
   _Edge tagged AMBIGUOUS (relation: references) - confidence is low._
-- **Why does `AuditoriaService` connect `AuditoriaService` to `TipoCosto CRUD`, `Gestion de usuarios (DTOs)`, `Rubro CRUD`, `TipoCambio CRUD`, `UserDetails y refresh tokens`, `Concepto CRUD`, `Categoria CRUD`, `Jurisdiccion CRUD`, `TarjetaCredito CRUD`, `Proveedor CRUD (tests)`, `CuentaBancaria CRUD`, `Auditado y saldo de cuenta/tarjeta`, `Moneda CRUD`, `Importación de etapas (Excel/CSV con pre`, `Moneda CRUD/logic`, `AuditoriaAspect`, `Proveedor CRUD (excepciones)`?**
+- **Why does `AuditoriaService` connect `AuditoriaService` to `TipoCosto CRUD`, `Gestion de usuarios (DTOs)`, `Rubro CRUD`, `TipoCambio CRUD`, `UserDetails y refresh tokens`, `Concepto CRUD`, `Categoria CRUD`, `Jurisdiccion CRUD`, `Proveedor CRUD (tests)`, `CuentaBancaria CRUD`, `Auditado y saldo de cuenta/tarjeta`, `Moneda CRUD`, `Moneda CRUD (excepciones)`, `Importación de etapas (Excel/CSV con pre`, `Moneda CRUD/logic`, `AuditoriaAspect`, `AbstractIntegrationTest`, `Proveedor CRUD (excepciones)`?**
   _High betweenness centrality (0.151) - this node is a cross-community bridge._
+- **Why does `RecursoNoEncontradoException` connect `Rubro CRUD` to `TipoCosto CRUD`, `Gestion de usuarios (DTOs)`, `TipoCambio CRUD`, `Concepto CRUD`, `Categoria CRUD`, `Jurisdiccion CRUD`, `Manejo de errores y seguridad`, `Proveedor CRUD (tests)`, `CuentaBancaria CRUD`, `Auditado y saldo de cuenta/tarjeta`, `Moneda CRUD`, `Moneda CRUD (excepciones)`, `Importación de etapas (Excel/CSV con pre`, `Proveedor CRUD (excepciones)`, `AbstractIntegrationTest`?**
+  _High betweenness centrality (0.068) - this node is a cross-community bridge._
 - **Why does `TenantRepository` connect `UserDetails y refresh tokens` to `Tenant`?**
-  _High betweenness centrality (0.083) - this node is a cross-community bridge._
-- **Why does `Tenant` connect `Tenant` to `CuentaBancaria mapper/service`, `TarjetaCredito CRUD (adicional)`, `.de`, `UserDetails y refresh tokens`?**
-  _High betweenness centrality (0.083) - this node is a cross-community bridge._
-- **What connects `Grafo de conocimiento (graphify)`, `Estilos corporativos`, `Slot de logo configurable` to the rest of the system?**
-  _275 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _High betweenness centrality (0.062) - this node is a cross-community bridge._
+- **What connects `QUERY_KEY`, `ETIQUETA_CLASE`, `ORIGENES` to the rest of the system?**
+  _290 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Cliente CRUD` be split into smaller, more focused modules?**
   _Cohesion score 0.1354679802955665 - nodes in this community are weakly interconnected._
 - **Should `TipoCosto CRUD` be split into smaller, more focused modules?**
