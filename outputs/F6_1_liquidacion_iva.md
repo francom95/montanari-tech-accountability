@@ -1,7 +1,7 @@
 # F6.1 — Liquidación mensual de IVA
 
 **Paso:** 32 de 55 · **Fase:** F6 — Impuestos · **Modelo:** Opus 4.8 · **Depende de:** F4.4, F5.3
-**Checkpoint humano:** SÍ. **Estado: los tres puntos abiertos fueron respondidos y las correcciones ya están implementadas** (ver §3). Queda pendiente únicamente la calibración numérica contra una liquidación real de un mes.
+**Checkpoint humano:** SÍ. **Estado: CERRADO** — los tres puntos abiertos se implementaron (§3.1–3.3) y la calibración numérica contra la hoja real del contador coincide al centavo (§3.6).
 
 ---
 
@@ -257,6 +257,21 @@ El escenario 1 es el que prueba la corrección de las notas de crédito (el déb
 - `docker compose down -v` y puertos revertidos (3308→3307, 8083→8081) sin diff en `docker-compose.yml`.
 
 
-### 3.6 Lo único que queda pendiente del checkpoint
+### 3.6 Calibración numérica — HECHA. Checkpoint CERRADO.
 
-La **calibración numérica contra una liquidación real de un mes** hecha por el contador. Cuando esté disponible, conviene comparar renglón por renglón: débito fiscal, restitución de crédito fiscal, crédito fiscal, restitución de débito fiscal, percepciones, y los dos saldos arrastrados.
+El contador aportó su hoja real "IVA a pagar" (Excel *Contabilidad 2026*). Su estructura coincide **exactamente** con el motor de dos etapas: débito − restitución de crédito − crédito = saldo técnico (1° párrafo), y saldo técnico − percepciones = saldo a pagar (2° párrafo), con arrastres por párrafo.
+
+**Calibración E2E de JUNIO 2026** (se reprodujeron en el sistema, con asientos manuales sobre las cuentas exactas, los movimientos que implica la hoja, y se corrió la liquidación):
+
+| Componente | Hoja del contador | Motor del sistema |
+|---|---:|---:|
+| Débito fiscal | 3.148.736,006 | 3.148.736,01 |
+| Restitución de crédito fiscal (NC) | −609.000 | −609.000 (aporte) |
+| Crédito fiscal | −43.544,48 | −43.544,48 (aporte) |
+| Saldo técnico | 2.496.191,526 | 2.496.191,53 |
+| Percepciones IVA | −1.800 | −1.800 (aporte) |
+| **Saldo a pagar** | **2.494.391,526** | **2.494.391,53** |
+
+**Coinciden al centavo.** La diferencia de milésimas (…,526 vs …,53) es solo porque la hoja lleva 3 decimales sin redondear y el sistema —como la DDJJ real— redondea a centavos. El mapeo de conceptos también quedó confirmado: la "restitución de crédito fiscal" de la hoja se computa como aporte negativo en la etapa técnica, exactamente como el motor lee una NC del debe de la cuenta de débito fiscal.
+
+**Checkpoint de F6.1: cerrado.**

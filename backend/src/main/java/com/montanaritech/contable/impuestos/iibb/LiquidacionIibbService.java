@@ -88,6 +88,15 @@ public class LiquidacionIibbService {
         l.setEstado(EstadoDocumento.BORRADOR);
         l.setBaseTotal(calculo.baseTotal());
 
+        // Traer de contabilidad (F6.2 ajuste 2): si hay una sola jurisdicción con base,
+        // las percepciones/SIRCREB registradas en 1.1.2008 se le precargan; con varias,
+        // quedan en cero para repartir a mano (la advertencia del cálculo lo avisa).
+        long conBase = calculo.jurisdicciones().stream().filter(jc -> jc.baseImponible().signum() != 0).count();
+        Long jurUnicaConBase = conBase == 1
+                ? calculo.jurisdicciones().stream().filter(jc -> jc.baseImponible().signum() != 0)
+                        .findFirst().get().jurisdiccionId()
+                : null;
+
         int ordenJur = 1;
         for (CalculoIibb.JurisdiccionCalculada jc : calculo.jurisdicciones()) {
             Jurisdiccion jur = jurisdiccionRepository.findById(jc.jurisdiccionId())
@@ -103,7 +112,10 @@ public class LiquidacionIibbService {
 
             int ordenComp = 1;
             for (TipoComponenteIibb tipo : DEDUCCIONES) {
-                lj.getComponentes().add(componente(lj, tipo, BigDecimal.ZERO, false, ordenComp++));
+                BigDecimal calculado = tipo == TipoComponenteIibb.SIRCREB && jc.jurisdiccionId().equals(jurUnicaConBase)
+                        ? calculo.deduccionesDisponibles()
+                        : BigDecimal.ZERO;
+                lj.getComponentes().add(componente(lj, tipo, calculado, false, ordenComp++));
             }
             if (jc.saldoAFavorAnterior().signum() != 0) {
                 lj.getComponentes().add(componente(lj, TipoComponenteIibb.SALDO_A_FAVOR_ANTERIOR,

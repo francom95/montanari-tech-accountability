@@ -79,7 +79,28 @@ public class CalculoIibbService {
                     .formatted(escalar(sinJurisdiccion).toPlainString()));
         }
 
-        Map<Long, BigDecimal> arrastrePorJurisdiccion = arrastres(periodo, advertencias);
+        // La liquidación confirmada del mes anterior es la fuente tanto del arrastre
+        // (saldo a favor por jurisdicción) como del coeficiente de Convenio Multilateral:
+        // el coeficiente sale de la determinación anual CM05, así que es estable mes a
+        // mes y conviene traerlo del mes anterior para poder confirmar sin recargarlo.
+        YearMonth anterior = periodo.minusMonths(1);
+        Optional<LiquidacionIibb> previa = liquidacionIibbRepository.findFirstByAnioAndMesAndEstado(
+                anterior.getYear(), anterior.getMonthValue(), EstadoDocumento.CONFIRMADO);
+        Map<Long, BigDecimal> arrastrePorJurisdiccion = new HashMap<>();
+        Map<Long, BigDecimal> coeficienteAnterior = new HashMap<>();
+        if (previa.isEmpty()) {
+            advertencias.add(("No hay una liquidación de IIBB confirmada de %02d/%d, así que los saldos a favor "
+                    + "arrastrados entran en cero y el coeficiente por defecto se toma de la participación por "
+                    + "destino. Cargalos a mano si venías con saldo a favor o con un coeficiente distinto.")
+                    .formatted(anterior.getMonthValue(), anterior.getYear()));
+        } else {
+            for (LiquidacionIibbJurisdiccion lj : previa.get().getJurisdicciones()) {
+                if (lj.getSaldoAFavor().signum() != 0) {
+                    arrastrePorJurisdiccion.put(lj.getJurisdiccion().getId(), lj.getSaldoAFavor());
+                }
+                coeficienteAnterior.put(lj.getJurisdiccion().getId(), lj.getCoeficiente());
+            }
+        }
 
         List<CalculoIibb.JurisdiccionCalculada> jurisdicciones = new ArrayList<>();
         List<Jurisdiccion> activas = jurisdiccionRepository.findByActivoTrueOrderByCodigoAsc();
@@ -88,9 +109,13 @@ public class CalculoIibbService {
         }
         for (Jurisdiccion j : activas) {
             BigDecimal ventasDestino = escalar(ventasPorJurisdiccion.getOrDefault(j.getId(), BigDecimal.ZERO));
-            BigDecimal coeficiente = baseTotal.signum() == 0
-                    ? BigDecimal.ZERO
-                    : ventasDestino.divide(baseTotal, 6, RoundingMode.HALF_UP);
+            // Default: el coeficiente del mes anterior; si no hay, la participación por destino.
+            BigDecimal coeficiente = coeficienteAnterior.get(j.getId());
+            if (coeficiente == null) {
+                coeficiente = baseTotal.signum() == 0
+                        ? BigDecimal.ZERO
+                        : ventasDestino.divide(baseTotal, 6, RoundingMode.HALF_UP);
+            }
             BigDecimal baseImponible = escalar(baseTotal.multiply(coeficiente));
             BigDecimal alicuota = j.getAlicuotaIIBB();
             BigDecimal impuestoDeterminado = escalar(baseImponible.multiply(alicuota).divide(BigDecimal.valueOf(100)));
@@ -102,32 +127,15 @@ public class CalculoIibbService {
 
         BigDecimal deduccionesDisponibles = totalDeduccionesDelPeriodo(desde, hasta);
         if (deduccionesDisponibles.signum() != 0) {
-            advertencias.add(("El período tiene %s de percepciones/SIRCREB de IIBB imputadas (cuenta 1.1.2008). "
-                    + "Repartilas a mano entre las jurisdicciones como deducciones.")
-                    .formatted(deduccionesDisponibles.toPlainString()));
+            long conBase = jurisdicciones.stream().filter(jc -> jc.baseImponible().signum() != 0).count();
+            advertencias.add(conBase == 1
+                    ? ("Se trajeron %s de percepciones/SIRCREB de IIBB de contabilidad (cuenta 1.1.2008) a la única "
+                        + "jurisdicción con base. Revisá el reparto si corresponde a otra.").formatted(deduccionesDisponibles.toPlainString())
+                    : ("El período tiene %s de percepciones/SIRCREB de IIBB imputadas en contabilidad (cuenta 1.1.2008). "
+                        + "Repartilas entre las jurisdicciones como deducciones.").formatted(deduccionesDisponibles.toPlainString()));
         }
 
         return new CalculoIibb(anio, mes, desde, hasta, baseTotal, deduccionesDisponibles, jurisdicciones, advertencias);
-    }
-
-    /** Saldo a favor por jurisdicción de la liquidación confirmada del mes anterior. */
-    private Map<Long, BigDecimal> arrastres(YearMonth periodo, List<String> advertencias) {
-        YearMonth anterior = periodo.minusMonths(1);
-        Optional<LiquidacionIibb> previa = liquidacionIibbRepository.findFirstByAnioAndMesAndEstado(
-                anterior.getYear(), anterior.getMonthValue(), EstadoDocumento.CONFIRMADO);
-        if (previa.isEmpty()) {
-            advertencias.add(("No hay una liquidación de IIBB confirmada de %02d/%d, así que los saldos a favor "
-                    + "arrastrados entran en cero. Cargalos a mano si venías con saldo a favor por jurisdicción.")
-                    .formatted(anterior.getMonthValue(), anterior.getYear()));
-            return Map.of();
-        }
-        Map<Long, BigDecimal> arrastre = new HashMap<>();
-        for (LiquidacionIibbJurisdiccion lj : previa.get().getJurisdicciones()) {
-            if (lj.getSaldoAFavor().signum() != 0) {
-                arrastre.put(lj.getJurisdiccion().getId(), lj.getSaldoAFavor());
-            }
-        }
-        return arrastre;
     }
 
     /**

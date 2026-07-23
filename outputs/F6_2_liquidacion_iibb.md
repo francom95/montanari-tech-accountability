@@ -135,11 +135,20 @@ El escenario 6 prueba el coeficiente de Convenio Multilateral editable, el 7 el 
 
 ---
 
-## ⚠️ Checkpoint humano — PENDIENTE
+## Parte 3 — Ajustes del checkpoint del contador (aplicados)
 
-El paso requiere que **el contador valide una liquidación real por al menos 2 jurisdicciones**. Cuatro puntos concretos (detalle en §1.7):
+El contador validó contra su hoja real "IIBB a pagar" (Excel 2026), que confirmó el modelo: base imponible por jurisdicción = ingresos por ventas, alícuota por jurisdicción (CABA 3%, BA 5%), impuesto determinado = base × alícuota, SAF período anterior por jurisdicción, y retenciones/percepciones/pagos a cuenta como deducciones. Respondió los 4 puntos:
 
-1. **Coeficiente de Convenio Multilateral**: hoy editable por jurisdicción con default por destino. ¿Alcanza, o hace falta un maestro de coeficientes CM05 mantenido anualmente?
-2. **Deducciones manuales por jurisdicción**: ¿está bien cargarlas a mano, o se espera atribución automática (y con qué criterio)?
-3. **Pagos a cuenta / anticipos de IIBB**: hoy son una deducción contra 1.1.2008. ¿Cuenta propia de anticipos?
-4. **Base imponible = neto gravado**: ¿es correcto, o IIBB grava conceptos no gravados de IVA en alguna jurisdicción?
+1. **Coeficiente CM: que traiga el del mes anterior.** El coeficiente sale de la determinación anual CM05, así que es estable mes a mes. Ahora `CalculoIibbService` toma el coeficiente por defecto de la **liquidación confirmada del mes anterior** (por jurisdicción); si no hay anterior, cae a la participación por destino. Sigue editable. Así se puede confirmar y avanzar sin recargarlo cada mes.
+
+2. **Deducciones: agregar la opción de traerlas de contabilidad.** Como todas las deducciones se registran, al crear el borrador se **traen las percepciones/SIRCREB de la cuenta 1.1.2008** del período: si hay una sola jurisdicción con base, se precargan ahí; con varias, queda el total como advertencia para repartir. La carga manual sigue disponible.
+
+3. **Pagos a cuenta: cuenta según el caso.** Si viene del resumen bancario como "IIBB SIRCREB a favor" usa 1.1.2008 (el default de `PAGOS_A_CUENTA`); para otros casos se evalúa la cuenta, lo que se cubre con el componente `OTRO` (cuenta configurable). Sin cambio de código; queda documentado.
+
+4. **Base = neto gravado (ingresos por ventas).** Confirmado: es lo ya implementado. La base sale del `netoGravado` de las facturas de venta confirmadas, que es exactamente el "ingresos por ventas" del estado de resultados que usa la hoja. Sin cambio.
+
+### Verificación de los ajustes
+
+18 tests de IIBB en verde tras los cambios (incluye el coeficiente heredado del mes anterior y el traer-de-contabilidad). El caso de una sola jurisdicción con base (como en la hoja real, donde BA concentra toda la base) precarga la deducción automáticamente.
+
+**Checkpoint: cerrado** salvo que el contador quiera afinar el criterio de reparto de deducciones cuando haya más de una jurisdicción con base simultánea (hoy es manual).
