@@ -12,6 +12,14 @@ export function useTarjetasCredito(params: { texto?: string; activo?: boolean; p
   })
 }
 
+export function useTarjetaCredito(id: number | undefined) {
+  return useQuery({
+    queryKey: [...QUERY_KEY, id],
+    queryFn: async () => (await http.get<TarjetaCredito>(`/tarjetas-credito/${id}`)).data,
+    enabled: id !== undefined,
+  })
+}
+
 export function useCrearTarjetaCredito() {
   const qc = useQueryClient()
   return useMutation({

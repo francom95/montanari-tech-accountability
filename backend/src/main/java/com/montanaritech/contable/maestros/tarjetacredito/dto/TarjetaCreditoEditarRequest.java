@@ -13,6 +13,7 @@ public record TarjetaCreditoEditarRequest(
         @Min(1) @Max(31) int diaCierre,
         @Min(1) @Max(31) int diaVencimiento,
         @NotNull Long cuentaBancariaDebitoId,
+        @NotNull Long cuentaContableId,
         @NotNull BigDecimal saldoInicial,
         @NotNull LocalDate fechaSaldoInicial
 ) {}

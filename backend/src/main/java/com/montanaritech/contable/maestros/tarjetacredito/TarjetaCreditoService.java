@@ -5,6 +5,8 @@ import com.montanaritech.contable.common.audit.Auditado;
 import com.montanaritech.contable.common.audit.AuditoriaService;
 import com.montanaritech.contable.common.error.RecursoNoEncontradoException;
 import com.montanaritech.contable.common.saldo.RecalculoSaldoService;
+import com.montanaritech.contable.contabilidad.cuentacontable.CuentaContable;
+import com.montanaritech.contable.contabilidad.cuentacontable.CuentaContableRepository;
 import com.montanaritech.contable.maestros.cuentabancaria.CuentaBancaria;
 import com.montanaritech.contable.maestros.cuentabancaria.CuentaBancariaRepository;
 import com.montanaritech.contable.maestros.moneda.Moneda;
@@ -24,6 +26,7 @@ public class TarjetaCreditoService {
     private final TarjetaCreditoRepository repo;
     private final MonedaRepository monedaRepository;
     private final CuentaBancariaRepository cuentaBancariaRepository;
+    private final CuentaContableRepository cuentaContableRepository;
     private final TarjetaCreditoMapper mapper;
     private final AuditoriaService auditoria;
     private final RecalculoSaldoService recalculoSaldoService;
@@ -44,6 +47,7 @@ public class TarjetaCreditoService {
     public TarjetaCredito crear(TarjetaCreditoCrearRequest req) {
         Moneda moneda = resolverMoneda(req.monedaId());
         CuentaBancaria cuentaDebito = resolverCuentaDebito(req.cuentaBancariaDebitoId());
+        CuentaContable cuentaContable = resolverCuentaContable(req.cuentaContableId());
 
         TarjetaCredito e = new TarjetaCredito();
         e.setEntidad(req.entidad());
@@ -51,6 +55,7 @@ public class TarjetaCreditoService {
         e.setDiaCierre(req.diaCierre());
         e.setDiaVencimiento(req.diaVencimiento());
         e.setCuentaBancariaDebito(cuentaDebito);
+        e.setCuentaContable(cuentaContable);
         e.setSaldoInicial(req.saldoInicial());
         e.setFechaSaldoInicial(req.fechaSaldoInicial());
         e.setActivo(true);
@@ -65,12 +70,14 @@ public class TarjetaCreditoService {
 
         Moneda moneda = resolverMoneda(req.monedaId());
         CuentaBancaria cuentaDebito = resolverCuentaDebito(req.cuentaBancariaDebitoId());
+        CuentaContable cuentaContable = resolverCuentaContable(req.cuentaContableId());
 
         e.setEntidad(req.entidad());
         e.setMoneda(moneda);
         e.setDiaCierre(req.diaCierre());
         e.setDiaVencimiento(req.diaVencimiento());
         e.setCuentaBancariaDebito(cuentaDebito);
+        e.setCuentaContable(cuentaContable);
         e.setSaldoInicial(req.saldoInicial());
         e.setFechaSaldoInicial(req.fechaSaldoInicial());
         recalculoSaldoService.recalcular(e);
@@ -113,5 +120,10 @@ public class TarjetaCreditoService {
     private CuentaBancaria resolverCuentaDebito(Long cuentaBancariaId) {
         return cuentaBancariaRepository.findById(cuentaBancariaId)
                 .orElseThrow(() -> new RecursoNoEncontradoException("Cuenta bancaria " + cuentaBancariaId + " no encontrada"));
+    }
+
+    private CuentaContable resolverCuentaContable(Long cuentaContableId) {
+        return cuentaContableRepository.findById(cuentaContableId)
+                .orElseThrow(() -> new RecursoNoEncontradoException("Cuenta contable " + cuentaContableId + " no encontrada"));
     }
 }

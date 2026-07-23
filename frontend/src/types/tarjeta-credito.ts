@@ -7,6 +7,9 @@ export type TarjetaCredito = {
   diaVencimiento: number
   cuentaBancariaDebitoId: number
   cuentaBancariaDebitoAlias: string
+  /** Cuenta contable pasiva espejo de la deuda con la tarjeta (F5.4). Puede faltar en tarjetas creadas antes de F5.4 hasta que se editen. */
+  cuentaContableId: number | null
+  cuentaContableCodigo: string | null
   saldoInicial: string
   fechaSaldoInicial: string
   saldoActual: string
@@ -19,6 +22,7 @@ export type TarjetaCreditoCrearInput = {
   diaCierre: number
   diaVencimiento: number
   cuentaBancariaDebitoId: number
+  cuentaContableId: number
   saldoInicial: string
   fechaSaldoInicial: string
 }

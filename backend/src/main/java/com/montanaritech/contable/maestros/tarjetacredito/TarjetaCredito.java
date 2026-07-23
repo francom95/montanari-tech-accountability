@@ -2,6 +2,7 @@ package com.montanaritech.contable.maestros.tarjetacredito;
 
 import com.montanaritech.contable.common.saldo.CuentaConSaldo;
 import com.montanaritech.contable.common.tenant.EntidadNegocio;
+import com.montanaritech.contable.contabilidad.cuentacontable.CuentaContable;
 import com.montanaritech.contable.maestros.cuentabancaria.CuentaBancaria;
 import com.montanaritech.contable.maestros.moneda.Moneda;
 import jakarta.persistence.Column;
@@ -42,6 +43,17 @@ public class TarjetaCredito extends EntidadNegocio implements CuentaConSaldo {
     @ManyToOne(optional = false)
     @JoinColumn(name = "cuenta_bancaria_debito_id", nullable = false, foreignKey = @ForeignKey(name = "fk_tarjeta_credito_cuenta_debito"))
     private CuentaBancaria cuentaBancariaDebito;
+
+    /**
+     * Cuenta contable pasiva espejo de la deuda con la tarjeta (F5.4, mismo
+     * rol que {@code CuentaBancaria.cuentaContable} desde F4.4). Nullable:
+     * no hay forma de adivinar un backfill correcto para tarjetas ya
+     * creadas antes de este paso — el alta/edición la exige desde ahora,
+     * y {@code PagoTarjetaService} rechaza pagar el resumen si falta.
+     */
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "cuenta_contable_id", foreignKey = @ForeignKey(name = "fk_tarjeta_credito_cuenta_contable"))
+    private CuentaContable cuentaContable;
 
     @Column(name = "saldo_inicial", nullable = false, precision = 18, scale = 2)
     private BigDecimal saldoInicial;

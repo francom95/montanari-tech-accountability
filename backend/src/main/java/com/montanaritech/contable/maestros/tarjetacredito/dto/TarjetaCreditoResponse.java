@@ -12,6 +12,8 @@ public record TarjetaCreditoResponse(
         int diaVencimiento,
         Long cuentaBancariaDebitoId,
         String cuentaBancariaDebitoAlias,
+        Long cuentaContableId,
+        String cuentaContableCodigo,
         BigDecimal saldoInicial,
         LocalDate fechaSaldoInicial,
         BigDecimal saldoActual,

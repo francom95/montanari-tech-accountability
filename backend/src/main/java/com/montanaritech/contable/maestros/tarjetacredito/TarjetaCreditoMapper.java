@@ -11,5 +11,7 @@ public interface TarjetaCreditoMapper {
     @Mapping(target = "monedaCodigo", source = "moneda.codigo")
     @Mapping(target = "cuentaBancariaDebitoId", source = "cuentaBancariaDebito.id")
     @Mapping(target = "cuentaBancariaDebitoAlias", source = "cuentaBancariaDebito.alias")
+    @Mapping(target = "cuentaContableId", source = "cuentaContable.id")
+    @Mapping(target = "cuentaContableCodigo", source = "cuentaContable.codigo")
     TarjetaCreditoResponse aResponse(TarjetaCredito t);
 }

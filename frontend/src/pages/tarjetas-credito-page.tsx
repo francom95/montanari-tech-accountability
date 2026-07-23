@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from "@tanstack/react-table"
 import { useMemo, useState } from "react"
 import { useForm } from "react-hook-form"
+import { Link } from "react-router-dom"
 import { z } from "zod"
 
 import { Button } from "@/components/ui/button"
@@ -9,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useCuentasBancarias } from "@/hooks/use-cuenta-bancaria"
+import { useCuentasContables } from "@/hooks/use-cuenta-contable"
 import { useMonedas } from "@/hooks/use-monedas"
 import {
   useCambiarEstadoTarjetaCredito,
@@ -25,6 +27,7 @@ const esquema = z.object({
   diaCierre: z.string().min(1, "El día de cierre es obligatorio"),
   diaVencimiento: z.string().min(1, "El día de vencimiento es obligatorio"),
   cuentaBancariaDebitoId: z.string().min(1, "Elegí una cuenta de débito"),
+  cuentaContableId: z.string().min(1, "La cuenta contable espejo es obligatoria"),
   saldoInicial: z.string().min(1, "El saldo inicial es obligatorio"),
   fechaSaldoInicial: z.string().min(1, "La fecha es obligatoria"),
 })
@@ -37,6 +40,7 @@ const DEFAULTS: Valores = {
   diaCierre: "",
   diaVencimiento: "",
   cuentaBancariaDebitoId: "",
+  cuentaContableId: "",
   saldoInicial: "",
   fechaSaldoInicial: "",
 }
@@ -49,6 +53,8 @@ export function TarjetasCreditoPage() {
   const query = useTarjetasCredito({ texto, page, size: 10 })
   const monedasQuery = useMonedas({ page: 0, size: 100, activo: true })
   const cuentasQuery = useCuentasBancarias({ page: 0, size: 100, activo: true })
+  const cuentasContables = useCuentasContables({ activo: true, page: 0, size: 500 })
+  const cuentasImputables = useMemo(() => (cuentasContables.data?.content ?? []).filter((c) => c.imputable), [cuentasContables.data])
   const crear = useCrearTarjetaCredito()
   const editar = useEditarTarjetaCredito()
   const cambiarEstado = useCambiarEstadoTarjetaCredito()
@@ -64,6 +70,7 @@ export function TarjetasCreditoPage() {
       diaCierre: String(t.diaCierre),
       diaVencimiento: String(t.diaVencimiento),
       cuentaBancariaDebitoId: String(t.cuentaBancariaDebitoId),
+      cuentaContableId: t.cuentaContableId ? String(t.cuentaContableId) : "",
       saldoInicial: t.saldoInicial,
       fechaSaldoInicial: t.fechaSaldoInicial,
     })
@@ -81,6 +88,7 @@ export function TarjetasCreditoPage() {
       diaCierre: Number(valores.diaCierre),
       diaVencimiento: Number(valores.diaVencimiento),
       cuentaBancariaDebitoId: Number(valores.cuentaBancariaDebitoId),
+      cuentaContableId: Number(valores.cuentaContableId),
       saldoInicial: valores.saldoInicial,
       fechaSaldoInicial: valores.fechaSaldoInicial,
     }
@@ -98,6 +106,7 @@ export function TarjetasCreditoPage() {
       { header: "Cierre", accessorKey: "diaCierre" },
       { header: "Vencimiento", accessorKey: "diaVencimiento" },
       { header: "Cuenta débito", accessorKey: "cuentaBancariaDebitoAlias" },
+      { header: "Cuenta contable", accessorKey: "cuentaContableCodigo", cell: (info) => info.getValue() ?? "Sin configurar" },
       { header: "Saldo actual", accessorKey: "saldoActual" },
       { header: "Estado", accessorKey: "activo", cell: (info) => (info.getValue() ? "Activo" : "Inactivo") },
       {
@@ -107,6 +116,9 @@ export function TarjetasCreditoPage() {
           const t = row.original
           return (
             <div className="flex gap-2">
+              <Link to={`/tarjetas-credito/${t.id}`}>
+                <Button variant="outline" size="sm">Ver detalle</Button>
+              </Link>
               <Button variant="outline" size="sm" onClick={() => iniciarEdicion(t)}>Editar</Button>
               <Button variant="outline" size="sm" disabled={cambiarEstado.isPending} onClick={() => cambiarEstado.mutate({ id: t.id, activo: t.activo })}>
                 {t.activo ? "Desactivar" : "Activar"}
@@ -169,6 +181,18 @@ export function TarjetasCreditoPage() {
                     <select {...field} className="h-8 w-full rounded-lg border border-input bg-transparent px-2.5 py-1 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50">
                       <option value="">Seleccionar…</option>
                       {(cuentasQuery.data?.content ?? []).map((c) => <option key={c.id} value={String(c.id)}>{c.alias}</option>)}
+                    </select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )} />
+              <FormField control={form.control} name="cuentaContableId" render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Cuenta contable espejo</FormLabel>
+                  <FormControl>
+                    <select {...field} disabled={cuentasContables.isLoading} className="h-8 w-full rounded-lg border border-input bg-transparent px-2.5 py-1 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50">
+                      <option value="">Seleccionar…</option>
+                      {cuentasImputables.map((c) => <option key={c.id} value={c.id.toString()}>{c.codigo} — {c.nombre}</option>)}
                     </select>
                   </FormControl>
                   <FormMessage />

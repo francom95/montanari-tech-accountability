@@ -45,7 +45,8 @@ class CuentaBancariaServiceTest {
     @Mock
     private AuditoriaService auditoria;
 
-    private final RecalculoSaldoService recalculoSaldoService = new RecalculoSaldoService();
+    // CuentaBancaria no es TarjetaCredito: la rama que usa estos repos nunca se ejecuta acá.
+    private final RecalculoSaldoService recalculoSaldoService = new RecalculoSaldoService(null, null);
 
     private CuentaBancariaService service;
 

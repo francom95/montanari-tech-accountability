@@ -31,7 +31,9 @@ import { PlanDeCuentasPage } from "@/pages/plan-de-cuentas-page"
 import { ProveedoresPage } from "@/pages/proveedores-page"
 import { ProyectoDetallePage } from "@/pages/proyecto-detalle-page"
 import { ProyectosPage } from "@/pages/proyectos-page"
+import { ReglasClasificacionConsumoPage } from "@/pages/reglas-clasificacion-consumo-page"
 import { RubrosPage } from "@/pages/rubros-page"
+import { TarjetaCreditoDetallePage } from "@/pages/tarjeta-credito-detalle-page"
 import { TarjetasCreditoPage } from "@/pages/tarjetas-credito-page"
 import { TiposCambioPage } from "@/pages/tipos-cambio-page"
 import { TiposCostoPage } from "@/pages/tipos-costo-page"
@@ -62,6 +64,8 @@ export const router = createBrowserRouter([
       { path: "tipos-costo", element: <TiposCostoPage /> },
       { path: "cuentas-bancarias", element: <CuentasBancariasPage /> },
       { path: "tarjetas-credito", element: <TarjetasCreditoPage /> },
+      { path: "tarjetas-credito/:id", element: <TarjetaCreditoDetallePage /> },
+      { path: "bancos/reglas-clasificacion-consumo", element: <ReglasClasificacionConsumoPage /> },
       { path: "contabilidad", element: <PlanDeCuentasPage /> },
       { path: "contabilidad/asientos", element: <AsientosPage /> },
       { path: "contabilidad/mayor/:cuentaId", element: <MayorPage /> },

@@ -4,13 +4,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.montanaritech.contable.bancos.tarjetacredito.ConsumoTarjetaRepository;
+import com.montanaritech.contable.bancos.tarjetacredito.PagoTarjetaRepository;
 import com.montanaritech.contable.common.audit.AccionAuditoria;
 import com.montanaritech.contable.common.audit.AuditoriaService;
 import com.montanaritech.contable.common.error.RecursoNoEncontradoException;
 import com.montanaritech.contable.common.saldo.RecalculoSaldoService;
+import com.montanaritech.contable.contabilidad.cuentacontable.CuentaContable;
+import com.montanaritech.contable.contabilidad.cuentacontable.CuentaContableRepository;
 import com.montanaritech.contable.maestros.cuentabancaria.CuentaBancaria;
 import com.montanaritech.contable.maestros.cuentabancaria.CuentaBancariaRepository;
 import com.montanaritech.contable.maestros.moneda.Moneda;
@@ -40,22 +45,35 @@ class TarjetaCreditoServiceTest {
     private CuentaBancariaRepository cuentaBancariaRepository;
 
     @Mock
+    private CuentaContableRepository cuentaContableRepository;
+
+    @Mock
     private TarjetaCreditoMapper mapper;
 
     @Mock
     private AuditoriaService auditoria;
 
-    private final RecalculoSaldoService recalculoSaldoService = new RecalculoSaldoService();
+    @Mock
+    private ConsumoTarjetaRepository consumoTarjetaRepository;
+
+    @Mock
+    private PagoTarjetaRepository pagoTarjetaRepository;
+
+    private RecalculoSaldoService recalculoSaldoService;
 
     private TarjetaCreditoService service;
 
     private Moneda ars;
     private CuentaBancaria cuentaDebito;
+    private CuentaContable cuentaContable;
     private TarjetaCredito entidad;
 
     @BeforeEach
     void setUp() {
-        service = new TarjetaCreditoService(repo, monedaRepository, cuentaBancariaRepository, mapper, auditoria, recalculoSaldoService);
+        recalculoSaldoService = new RecalculoSaldoService(consumoTarjetaRepository, pagoTarjetaRepository);
+        lenient().when(consumoTarjetaRepository.findByTarjetaCredito_IdAndFechaAfter(any(), any())).thenReturn(java.util.List.of());
+        lenient().when(pagoTarjetaRepository.findByTarjetaCredito_IdAndEstadoAndFechaAfter(any(), any(), any())).thenReturn(java.util.List.of());
+        service = new TarjetaCreditoService(repo, monedaRepository, cuentaBancariaRepository, cuentaContableRepository, mapper, auditoria, recalculoSaldoService);
 
         ars = new Moneda();
         ars.setId(1L);
@@ -65,6 +83,10 @@ class TarjetaCreditoServiceTest {
         cuentaDebito.setId(5L);
         cuentaDebito.setAlias("Banco Galicia CC");
 
+        cuentaContable = new CuentaContable();
+        cuentaContable.setId(20L);
+        cuentaContable.setCodigo("2.1.2019");
+
         entidad = new TarjetaCredito();
         entidad.setId(1L);
         entidad.setEntidad("Visa Banco Galicia");
@@ -72,6 +94,7 @@ class TarjetaCreditoServiceTest {
         entidad.setDiaCierre(10);
         entidad.setDiaVencimiento(20);
         entidad.setCuentaBancariaDebito(cuentaDebito);
+        entidad.setCuentaContable(cuentaContable);
         entidad.setSaldoInicial(new BigDecimal("1000.00"));
         entidad.setFechaSaldoInicial(LocalDate.of(2026, 1, 1));
         entidad.setSaldoActual(new BigDecimal("1000.00"));
@@ -84,7 +107,7 @@ class TarjetaCreditoServiceTest {
         when(cuentaBancariaRepository.findById(99L)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> service.crear(new TarjetaCreditoCrearRequest(
-                "Visa", 1L, 10, 20, 99L, new BigDecimal("0"), LocalDate.now())))
+                "Visa", 1L, 10, 20, 99L, 20L, new BigDecimal("0"), LocalDate.now())))
                 .isInstanceOf(RecursoNoEncontradoException.class);
     }
 
@@ -92,10 +115,11 @@ class TarjetaCreditoServiceTest {
     void crearResuelveFKsYCalculaElSaldoActual() {
         when(monedaRepository.findById(1L)).thenReturn(Optional.of(ars));
         when(cuentaBancariaRepository.findById(5L)).thenReturn(Optional.of(cuentaDebito));
+        when(cuentaContableRepository.findById(20L)).thenReturn(Optional.of(cuentaContable));
         when(repo.save(any(TarjetaCredito.class))).thenAnswer(inv -> inv.getArgument(0));
 
         TarjetaCredito creada = service.crear(new TarjetaCreditoCrearRequest(
-                "Mastercard Banco Galicia", 1L, 5, 15, 5L, new BigDecimal("-1500.00"), LocalDate.of(2026, 2, 1)));
+                "Mastercard Banco Galicia", 1L, 5, 15, 5L, 20L, new BigDecimal("-1500.00"), LocalDate.of(2026, 2, 1)));
 
         assertThat(creada.getCuentaBancariaDebito()).isEqualTo(cuentaDebito);
         assertThat(creada.getSaldoActual()).isEqualByComparingTo("-1500.00");
@@ -115,16 +139,17 @@ class TarjetaCreditoServiceTest {
         when(repo.findById(1L)).thenReturn(Optional.of(entidad));
         when(monedaRepository.findById(1L)).thenReturn(Optional.of(ars));
         when(cuentaBancariaRepository.findById(5L)).thenReturn(Optional.of(cuentaDebito));
+        when(cuentaContableRepository.findById(20L)).thenReturn(Optional.of(cuentaContable));
         when(mapper.aResponse(any(TarjetaCredito.class))).thenAnswer(inv -> {
             TarjetaCredito t = inv.getArgument(0);
             return new TarjetaCreditoResponse(t.getId(), t.getEntidad(), t.getMoneda().getId(), t.getMoneda().getCodigo(),
                     t.getDiaCierre(), t.getDiaVencimiento(), t.getCuentaBancariaDebito().getId(),
-                    t.getCuentaBancariaDebito().getAlias(), t.getSaldoInicial(), t.getFechaSaldoInicial(),
-                    t.getSaldoActual(), t.isActivo());
+                    t.getCuentaBancariaDebito().getAlias(), t.getCuentaContable().getId(), t.getCuentaContable().getCodigo(),
+                    t.getSaldoInicial(), t.getFechaSaldoInicial(), t.getSaldoActual(), t.isActivo());
         });
 
         service.editar(1L, new TarjetaCreditoEditarRequest(
-                "Visa Banco Galicia", 1L, 12, 22, 5L, new BigDecimal("-4200.00"), LocalDate.of(2026, 5, 1)));
+                "Visa Banco Galicia", 1L, 12, 22, 5L, 20L, new BigDecimal("-4200.00"), LocalDate.of(2026, 5, 1)));
 
         assertThat(entidad.getSaldoInicial()).isEqualByComparingTo("-4200.00");
         assertThat(entidad.getSaldoActual()).isEqualByComparingTo("-4200.00");
