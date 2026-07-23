@@ -1,5 +1,6 @@
 package com.montanaritech.contable.facturacion.importacion;
 
+import com.montanaritech.contable.common.reporte.ContextoReporte;
 import com.montanaritech.contable.common.reporte.ReportExportService;
 import com.montanaritech.contable.facturacion.importacion.dto.FilaImportacionConfirmarRequest;
 import com.montanaritech.contable.facturacion.importacion.dto.FilaImportacionPreviewResponse;
@@ -55,7 +56,8 @@ public class ImportacionFacturaController {
         List<List<Object>> filas = rechazos.stream()
                 .<List<Object>>map(r -> List.of(r.nombreArchivo(), r.tipo(), r.numero(), r.motivoRechazo() == null ? "" : r.motivoRechazo()))
                 .toList();
-        StreamingResponseBody cuerpo = out -> reportExportService.exportarExcel("Rechazos de importación", COLUMNAS_RECHAZOS, filas, out);
+        StreamingResponseBody cuerpo = out -> reportExportService.exportarExcel(
+                ContextoReporte.de("Rechazos de importación"), COLUMNAS_RECHAZOS, filas, out);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"rechazos-importacion.xlsx\"")
                 .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))

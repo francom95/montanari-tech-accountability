@@ -1,5 +1,7 @@
 package com.montanaritech.contable.contabilidad.mayor;
 
+import com.montanaritech.contable.common.reporte.ContextoReporte;
+import com.montanaritech.contable.common.reporte.FormatoReporte;
 import com.montanaritech.contable.common.reporte.ReportExportService;
 import com.montanaritech.contable.contabilidad.asiento.OrigenAsiento;
 import com.montanaritech.contable.contabilidad.mayor.dto.MayorFilaResponse;
@@ -71,8 +73,9 @@ public class MayorController {
         var completo = service.calcular(cuentaId, rubroId, proyectoId, clienteId, proveedorId, origen, monedaId,
                 fechaDesde, fechaHasta);
         List<List<Object>> filas = aFilas(completo.filas());
-        StreamingResponseBody cuerpo = out -> reportExportService.exportarExcel(
-                "Mayor - " + completo.cuenta().getCodigo() + " " + completo.cuenta().getNombre(), COLUMNAS, filas, out);
+        ContextoReporte contexto = contexto(completo.cuenta().getCodigo(), completo.cuenta().getNombre(),
+                rubroId, proyectoId, clienteId, proveedorId, origen, monedaId, fechaDesde, fechaHasta);
+        StreamingResponseBody cuerpo = out -> reportExportService.exportarExcel(contexto, COLUMNAS, filas, out);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"mayor-" + completo.cuenta().getCodigo() + ".xlsx\"")
                 .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
@@ -93,10 +96,11 @@ public class MayorController {
         var completo = service.calcular(cuentaId, rubroId, proyectoId, clienteId, proveedorId, origen, monedaId,
                 fechaDesde, fechaHasta);
         List<List<Object>> filas = aFilas(completo.filas());
-        String titulo = "Mayor - " + completo.cuenta().getCodigo() + " " + completo.cuenta().getNombre();
+        ContextoReporte contexto = contexto(completo.cuenta().getCodigo(), completo.cuenta().getNombre(),
+                rubroId, proyectoId, clienteId, proveedorId, origen, monedaId, fechaDesde, fechaHasta);
         StreamingResponseBody cuerpo = out -> {
             try {
-                reportExportService.exportarPdf(titulo, COLUMNAS, filas, out);
+                reportExportService.exportarPdf(contexto, COLUMNAS, filas, out);
             } catch (Exception e) {
                 throw new IOException("No se pudo generar el PDF", e);
             }
@@ -110,7 +114,7 @@ public class MayorController {
     private List<List<Object>> aFilas(List<MayorFilaResponse> filas) {
         return filas.stream()
                 .<List<Object>>map(f -> List.of(
-                        f.esSaldoAnterior() ? "" : f.fecha().toString(),
+                        f.esSaldoAnterior() ? "" : f.fecha(),
                         f.esSaldoAnterior() || f.numeroAsiento() == null ? "" : f.numeroAsiento(),
                         f.descripcion(),
                         f.debe() == null ? "" : f.debe(),
@@ -121,5 +125,18 @@ public class MayorController {
                         f.tipoCambio() == null ? "" : f.tipoCambio(),
                         f.origen() == null ? "" : f.origen()))
                 .toList();
+    }
+
+    private ContextoReporte contexto(String cuentaCodigo, String cuentaNombre, Long rubroId, Long proyectoId,
+            Long clienteId, Long proveedorId, OrigenAsiento origen, Long monedaId, LocalDate fechaDesde, LocalDate fechaHasta) {
+        return ContextoReporte.de("Mayor - " + cuentaCodigo + " " + cuentaNombre,
+                rubroId == null ? null : "Rubro ID: " + rubroId,
+                proyectoId == null ? null : "Proyecto ID: " + proyectoId,
+                clienteId == null ? null : "Cliente ID: " + clienteId,
+                proveedorId == null ? null : "Proveedor ID: " + proveedorId,
+                origen == null ? null : "Origen: " + origen,
+                monedaId == null ? null : "Moneda ID: " + monedaId,
+                fechaDesde == null ? null : "Desde: " + FormatoReporte.formatearFecha(fechaDesde),
+                fechaHasta == null ? null : "Hasta: " + FormatoReporte.formatearFecha(fechaHasta));
     }
 }

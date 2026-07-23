@@ -39,6 +39,15 @@ public class Tenant {
     @Column(length = 20)
     private String cuit;
 
+    /**
+     * Slot configurable del logo para el encabezado de reportes (F7.1): ruta
+     * de un recurso en el classpath (p. ej. {@code logos/montanari.png}). El
+     * logo en sí llega en un paso posterior; hasta entonces queda en
+     * {@code null} y {@code ReportExportService} omite la imagen.
+     */
+    @Column(name = "logo_classpath", length = 255)
+    private String logoClasspath;
+
     @Column(nullable = false)
     private boolean activo = true;
 

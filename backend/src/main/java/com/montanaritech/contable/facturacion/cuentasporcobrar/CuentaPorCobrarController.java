@@ -1,6 +1,8 @@
 package com.montanaritech.contable.facturacion.cuentasporcobrar;
 
+import com.montanaritech.contable.common.reporte.ContextoReporte;
 import com.montanaritech.contable.common.reporte.EstadoVencimiento;
+import com.montanaritech.contable.common.reporte.FormatoReporte;
 import com.montanaritech.contable.common.reporte.ReportExportService;
 import com.montanaritech.contable.facturacion.cuentasporcobrar.dto.CuentaPorCobrarFilaResponse;
 import com.montanaritech.contable.facturacion.cuentasporcobrar.dto.CuentaPorCobrarResponse;
@@ -57,7 +59,8 @@ public class CuentaPorCobrarController {
             @RequestParam(required = false) EstadoVencimiento estadoVencimiento) {
         var resultado = service.calcular(clienteId, proyectoId, monedaId, fechaDesde, fechaHasta, estadoVencimiento);
         List<List<Object>> filas = aFilas(resultado.filas());
-        StreamingResponseBody cuerpo = out -> reportExportService.exportarExcel("Cuentas por cobrar", COLUMNAS, filas, out);
+        ContextoReporte contexto = contexto(clienteId, proyectoId, monedaId, fechaDesde, fechaHasta, estadoVencimiento);
+        StreamingResponseBody cuerpo = out -> reportExportService.exportarExcel(contexto, COLUMNAS, filas, out);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"cuentas-por-cobrar.xlsx\"")
                 .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
@@ -74,9 +77,10 @@ public class CuentaPorCobrarController {
             @RequestParam(required = false) EstadoVencimiento estadoVencimiento) {
         var resultado = service.calcular(clienteId, proyectoId, monedaId, fechaDesde, fechaHasta, estadoVencimiento);
         List<List<Object>> filas = aFilas(resultado.filas());
+        ContextoReporte contexto = contexto(clienteId, proyectoId, monedaId, fechaDesde, fechaHasta, estadoVencimiento);
         StreamingResponseBody cuerpo = out -> {
             try {
-                reportExportService.exportarPdf("Cuentas por cobrar", COLUMNAS, filas, out);
+                reportExportService.exportarPdf(contexto, COLUMNAS, filas, out);
             } catch (Exception e) {
                 throw new IOException("No se pudo generar el PDF", e);
             }
@@ -93,8 +97,8 @@ public class CuentaPorCobrarController {
                         f.clienteNombre(),
                         f.proyectoNombre() == null ? "" : f.proyectoNombre(),
                         f.numero(),
-                        f.fecha().toString(),
-                        f.fechaVencimiento() == null ? "" : f.fechaVencimiento().toString(),
+                        f.fecha(),
+                        f.fechaVencimiento() == null ? "" : f.fechaVencimiento(),
                         f.monedaCodigo(),
                         f.total(),
                         f.totalArs(),
@@ -102,5 +106,16 @@ public class CuentaPorCobrarController {
                         f.saldoArs(),
                         f.estadoVencimiento()))
                 .toList();
+    }
+
+    private ContextoReporte contexto(Long clienteId, Long proyectoId, Long monedaId, LocalDate fechaDesde,
+            LocalDate fechaHasta, EstadoVencimiento estadoVencimiento) {
+        return ContextoReporte.de("Cuentas por cobrar",
+                clienteId == null ? null : "Cliente ID: " + clienteId,
+                proyectoId == null ? null : "Proyecto ID: " + proyectoId,
+                monedaId == null ? null : "Moneda ID: " + monedaId,
+                fechaDesde == null ? null : "Desde: " + FormatoReporte.formatearFecha(fechaDesde),
+                fechaHasta == null ? null : "Hasta: " + FormatoReporte.formatearFecha(fechaHasta),
+                estadoVencimiento == null ? null : "Estado: " + estadoVencimiento);
     }
 }
