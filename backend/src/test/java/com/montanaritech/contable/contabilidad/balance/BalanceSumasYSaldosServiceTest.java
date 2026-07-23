@@ -79,7 +79,7 @@ class BalanceSumasYSaldosServiceTest {
     }
 
     private void stubSumas(Object[]... filas) {
-        when(lineaRepo.sumarDebeHaberPorCuenta(any(), any(), eq(EstadoDocumento.CONFIRMADO)))
+        when(lineaRepo.sumarDebeHaberPorCuenta(any(), any(), any(), eq(EstadoDocumento.CONFIRMADO)))
                 .thenReturn(List.of(filas));
     }
 

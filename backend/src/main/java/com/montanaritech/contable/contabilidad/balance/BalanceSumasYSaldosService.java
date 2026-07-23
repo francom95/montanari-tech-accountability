@@ -41,7 +41,7 @@ public class BalanceSumasYSaldosService {
         Map<Long, BigDecimal[]> sumasPorCuenta = new HashMap<>();
         BigDecimal totalDebe = BigDecimal.ZERO;
         BigDecimal totalHaber = BigDecimal.ZERO;
-        for (Object[] fila : lineaRepo.sumarDebeHaberPorCuenta(fechaDesde, fechaHasta, EstadoDocumento.CONFIRMADO)) {
+        for (Object[] fila : lineaRepo.sumarDebeHaberPorCuenta(fechaDesde, fechaHasta, null, EstadoDocumento.CONFIRMADO)) {
             Long cuentaId = (Long) fila[0];
             BigDecimal debe = (BigDecimal) fila[1];
             BigDecimal haber = (BigDecimal) fila[2];

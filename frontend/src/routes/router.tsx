@@ -16,6 +16,7 @@ import { CuentasPorCobrarPage } from "@/pages/cuentas-por-cobrar-page"
 import { CuentasPorPagarPage } from "@/pages/cuentas-por-pagar-page"
 import { DashboardPage } from "@/pages/dashboard-page"
 import { EjemploFormularioPage } from "@/pages/ejemplo-formulario-page"
+import { EstadoResultadosPage } from "@/pages/estado-resultados-page"
 import { FacturasCompraPage } from "@/pages/facturas-compra-page"
 import { FacturasVentaPage } from "@/pages/facturas-venta-page"
 import { ImportacionHistoricaPage } from "@/pages/importacion-historica-page"
@@ -24,6 +25,7 @@ import { LiquidacionIibbPage } from "@/pages/liquidacion-iibb-page"
 import { LiquidacionIvaPage } from "@/pages/liquidacion-iva-page"
 import { LoginPage } from "@/pages/login-page"
 import { MapeoCuentaPage } from "@/pages/mapeo-cuenta-page"
+import { MapeoRubroLineaErPage } from "@/pages/mapeo-rubro-linea-er-page"
 import { MayorPage } from "@/pages/mayor-page"
 import { MonedasPage } from "@/pages/monedas-page"
 import { ImportacionBancariaPage } from "@/pages/importacion-bancaria-page"
@@ -93,6 +95,8 @@ export const router = createBrowserRouter([
       { path: "bancos/conciliacion", element: <ConciliacionPage /> },
       { path: "reportes", element: <PlaceholderPage title="Reportes" /> },
       { path: "reportes/balance-sumas-y-saldos", element: <BalanceSumasYSaldosPage /> },
+      { path: "reportes/estado-resultados", element: <EstadoResultadosPage /> },
+      { path: "reportes/mapeo-rubro-linea-er", element: <MapeoRubroLineaErPage /> },
       { path: "impuestos", element: <PlaceholderPage title="Impuestos" /> },
       { path: "impuestos/iva", element: <LiquidacionIvaPage /> },
       { path: "impuestos/iibb", element: <LiquidacionIibbPage /> },

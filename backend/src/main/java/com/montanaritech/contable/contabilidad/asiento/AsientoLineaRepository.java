@@ -163,13 +163,14 @@ public interface AsientoLineaRepository extends JpaRepository<AsientoLinea, Long
 
     /**
      * Debe/haber acumulado por cuenta en el período (F7.2, balance de sumas y
-     * saldos): a diferencia de {@code sumarDebeAntesDeFecha}/{@code
+     * saldos; F7.3, estado de resultados con {@code proyectoId} para la vista
+     * por proyecto): a diferencia de {@code sumarDebeAntesDeFecha}/{@code
      * sumarHaberAntesDeFecha} (un escalar para un set de cuentas), acá es lo
      * inverso — una fila por cada cuenta imputable con movimientos, para
-     * armar el balance de todas las cuentas de una sola consulta en vez de
+     * armar el reporte de todas las cuentas de una sola consulta en vez de
      * una por cuenta. Solo cuentas imputables aparecen (F3.4 exige {@code
      * CUENTA_NO_IMPUTABLE} al confirmar), así que el rollup de las cuentas
-     * madre lo hace el service sumando estas hacia arriba por la jerarquía.
+     * madre (F7.2) o el bucketing por rubro (F7.3) lo hace cada service.
      */
     @Query("""
             SELECT l.cuentaContable.id, COALESCE(SUM(l.debe), 0), COALESCE(SUM(l.haber), 0)
@@ -178,9 +179,34 @@ public interface AsientoLineaRepository extends JpaRepository<AsientoLinea, Long
             WHERE a.estado = :estado
               AND (:fechaDesde IS NULL OR a.fecha >= :fechaDesde)
               AND (:fechaHasta IS NULL OR a.fecha <= :fechaHasta)
+              AND (:proyectoId IS NULL OR l.proyecto.id = :proyectoId)
             GROUP BY l.cuentaContable.id
             """)
     List<Object[]> sumarDebeHaberPorCuenta(
+            @Param("fechaDesde") LocalDate fechaDesde,
+            @Param("fechaHasta") LocalDate fechaHasta,
+            @Param("proyectoId") Long proyectoId,
+            @Param("estado") EstadoDocumento estado);
+
+    /**
+     * Variante "sin proyecto" de {@link #sumarDebeHaberPorCuenta} (F7.3, vista
+     * por proyecto del estado de resultados): {@code proyectoId = null} en el
+     * método de arriba significa "sin filtrar" (todas las líneas), no "solo
+     * las que no tienen proyecto" — para esa partición exacta hace falta esta
+     * consulta aparte con {@code l.proyecto IS NULL} explícito, de forma que
+     * Σ(por cada proyecto) + Σ(sin proyecto) = el total sin filtrar.
+     */
+    @Query("""
+            SELECT l.cuentaContable.id, COALESCE(SUM(l.debe), 0), COALESCE(SUM(l.haber), 0)
+            FROM AsientoLinea l
+            JOIN l.asiento a
+            WHERE a.estado = :estado
+              AND (:fechaDesde IS NULL OR a.fecha >= :fechaDesde)
+              AND (:fechaHasta IS NULL OR a.fecha <= :fechaHasta)
+              AND l.proyecto IS NULL
+            GROUP BY l.cuentaContable.id
+            """)
+    List<Object[]> sumarDebeHaberPorCuentaSinProyecto(
             @Param("fechaDesde") LocalDate fechaDesde,
             @Param("fechaHasta") LocalDate fechaHasta,
             @Param("estado") EstadoDocumento estado);
