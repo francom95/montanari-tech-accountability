@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface ProyectoRepository extends JpaRepository<Proyecto, Long> {
+    java.util.List<Proyecto> findByActivoTrueOrderByNombreAsc();
+
     @Query("""
             SELECT p FROM Proyecto p
             WHERE (:texto IS NULL OR LOWER(p.nombre) LIKE LOWER(CONCAT('%', :texto, '%')))

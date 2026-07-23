@@ -14,6 +14,7 @@ import {
   usePrevisualizacionIva,
   useRecalcularLiquidacionIva,
 } from "@/hooks/use-liquidacion-iva"
+import { AtribucionProyectos } from "@/components/atribucion-proyectos"
 import { useCuentasContables } from "@/hooks/use-cuenta-contable"
 import { ETAPA_DE } from "@/types/liquidacion-iva"
 import type {
@@ -322,6 +323,10 @@ function LiquidacionDetalle({ liquidacion }: { liquidacion: LiquidacionIva }) {
           saldoAFavor={liquidacion.saldoAFavor}
           saldoLibreDisponibilidad={liquidacion.saldoLibreDisponibilidad}
         />
+
+        {liquidacion.estado === "CONFIRMADO" && (
+          <AtribucionProyectos tipo="IVA" liquidacionId={liquidacion.id} />
+        )}
 
         {esBorrador && (
           <div className="space-y-3 rounded-lg border border-border p-3">

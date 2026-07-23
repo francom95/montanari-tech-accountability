@@ -13,6 +13,7 @@ import {
   usePrevisualizacionIibb,
   useRecalcularLiquidacionIibb,
 } from "@/hooks/use-liquidacion-iibb"
+import { AtribucionProyectos } from "@/components/atribucion-proyectos"
 import type { ComponenteIibb, JurisdiccionIibb, LiquidacionIibb } from "@/types/liquidacion-iibb"
 
 const MESES = [
@@ -189,6 +190,10 @@ function LiquidacionDetalle({ liquidacion }: { liquidacion: LiquidacionIibb }) {
             A pagar {formatearPesos(liquidacion.saldoAPagarTotal)} · A favor {formatearPesos(liquidacion.saldoAFavorTotal)}
           </span>
         </div>
+
+        {liquidacion.estado === "CONFIRMADO" && (
+          <AtribucionProyectos tipo="IIBB" liquidacionId={liquidacion.id} />
+        )}
 
         <div className="flex gap-2">
           {esBorrador && (
