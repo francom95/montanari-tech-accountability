@@ -37,5 +37,13 @@ public enum ConceptoContable {
      * bancario en vez de una factura.
      */
     COMISION_BANCARIA,
-    IMPUESTO_DEBITOS_CREDITOS_BANCARIOS
+    IMPUESTO_DEBITOS_CREDITOS_BANCARIOS,
+    /**
+     * Resultado de la liquidación mensual de IVA (F6.1). {@code IVA_SALDO_A_PAGAR}
+     * mapea a 2.1.2009, que ya existía en el seed de F3.3 sin uso esperando este
+     * paso; {@code IVA_SALDO_A_FAVOR} necesitó cuenta nueva (1.1.2014) y es el
+     * acumulador que se arrastra al período siguiente.
+     */
+    IVA_SALDO_A_PAGAR,
+    IVA_SALDO_A_FAVOR
 }

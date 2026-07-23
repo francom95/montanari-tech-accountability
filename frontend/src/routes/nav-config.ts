@@ -78,6 +78,7 @@ export const NAV_ITEMS: NavItem[] = [
   { to: "/bancos/reglas-clasificacion-consumo", label: "Reglas de clasificación (tarjeta)", icon: ListTree },
   { to: "/reportes", label: "Reportes", icon: BarChart3 },
   { to: "/impuestos", label: "Impuestos", icon: Percent },
+  { to: "/impuestos/iva", label: "Liquidación de IVA", icon: Percent },
   { to: "/presupuesto", label: "Presupuesto y vencimientos", icon: CalendarClock },
   { to: "/pendientes", label: "Pendientes administrativos", icon: ListTodo },
   { to: "/seguridad", label: "Usuarios", icon: ShieldCheck },

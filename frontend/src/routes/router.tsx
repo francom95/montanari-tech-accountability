@@ -19,6 +19,7 @@ import { FacturasCompraPage } from "@/pages/facturas-compra-page"
 import { FacturasVentaPage } from "@/pages/facturas-venta-page"
 import { ImportacionHistoricaPage } from "@/pages/importacion-historica-page"
 import { JurisdiccionesPage } from "@/pages/jurisdicciones-page"
+import { LiquidacionIvaPage } from "@/pages/liquidacion-iva-page"
 import { LoginPage } from "@/pages/login-page"
 import { MapeoCuentaPage } from "@/pages/mapeo-cuenta-page"
 import { MayorPage } from "@/pages/mayor-page"
@@ -90,6 +91,7 @@ export const router = createBrowserRouter([
       { path: "bancos/conciliacion", element: <ConciliacionPage /> },
       { path: "reportes", element: <PlaceholderPage title="Reportes" /> },
       { path: "impuestos", element: <PlaceholderPage title="Impuestos" /> },
+      { path: "impuestos/iva", element: <LiquidacionIvaPage /> },
       {
         path: "presupuesto",
         element: <PlaceholderPage title="Presupuesto y vencimientos" />,

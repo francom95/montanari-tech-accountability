@@ -131,4 +131,33 @@ public interface AsientoLineaRepository extends JpaRepository<AsientoLinea, Long
             @Param("fechaDesde") LocalDate fechaDesde,
             @Param("fechaHasta") LocalDate fechaHasta,
             @Param("estado") EstadoDocumento estado);
+
+    /**
+     * Movimientos de una cuenta impositiva en un período, para la liquidación
+     * de IVA (F6.1 §1.1). Devuelve las líneas en vez de un escalar porque la
+     * pantalla necesita además el detalle trazable (qué documento originó cada
+     * importe); el servicio suma en memoria, con el mismo criterio de volumen
+     * acotado que {@code MayorService}.
+     *
+     * <p>{@code origenExcluido} existe para dejar afuera los asientos de
+     * {@code LIQUIDACION_IVA}: esos mueven las mismas tres cuentas de IVA para
+     * cancelarlas, así que sin la exclusión una liquidación se contaría a sí
+     * misma en el período siguiente.
+     */
+    @Query("""
+            SELECT l FROM AsientoLinea l
+            JOIN FETCH l.asiento a
+            JOIN FETCH l.cuentaContable c
+            WHERE a.estado = :estado
+              AND l.cuentaContable.id IN :cuentaIds
+              AND a.fecha BETWEEN :fechaDesde AND :fechaHasta
+              AND a.origen <> :origenExcluido
+            ORDER BY a.fecha ASC, a.numero ASC, l.orden ASC
+            """)
+    List<AsientoLinea> buscarParaLiquidacionImpositiva(
+            @Param("cuentaIds") Set<Long> cuentaIds,
+            @Param("fechaDesde") LocalDate fechaDesde,
+            @Param("fechaHasta") LocalDate fechaHasta,
+            @Param("estado") EstadoDocumento estado,
+            @Param("origenExcluido") OrigenAsiento origenExcluido);
 }
