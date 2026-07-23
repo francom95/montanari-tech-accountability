@@ -242,22 +242,30 @@ public class LiquidacionIvaService {
     }
 
     /**
-     * Resultado en sus dos caras excluyentes (F6.1 §1.3): la suma de los aportes
-     * con signo cae de un lado o del otro, nunca de los dos.
+     * Resultado en dos etapas (art. 24 de la Ley 23.349, F6.1 §1.3). No es una
+     * suma lineal: cada etapa genera un saldo a favor de <b>especie distinta</b>,
+     * y por eso no se pueden compensar entre sí ni acumular en una sola cuenta.
+     *
+     * <ol>
+     *   <li><b>Técnica</b>: débito − crédito − arrastre técnico. Si sobra crédito,
+     *       ese excedente es saldo técnico: solo se computa contra débitos
+     *       fiscales de períodos siguientes.</li>
+     *   <li><b>Ingresos directos</b>: impuesto determinado − percepciones y
+     *       retenciones sufridas − arrastre de libre disponibilidad. Lo que sobra
+     *       es de libre disponibilidad: además se compensa con otros impuestos,
+     *       se transfiere y se puede pedir devuelto.</li>
+     * </ol>
+     *
+     * <p>La diferencia se ve cuando un mes tiene saldo técnico <i>y</i>
+     * percepciones a la vez: sumados en un único acumulador daban el mismo total
+     * pero volvían compensable un saldo que no lo es.
      */
     private void recalcularResultado(LiquidacionIva l) {
-        BigDecimal resultado = l.getComponentes().stream()
-                .map(LiquidacionIvaComponente::getAporte)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-        resultado = escalar(resultado);
-
-        if (resultado.signum() > 0) {
-            l.setSaldoAPagar(resultado);
-            l.setSaldoAFavor(BigDecimal.ZERO.setScale(2));
-        } else {
-            l.setSaldoAPagar(BigDecimal.ZERO.setScale(2));
-            l.setSaldoAFavor(resultado.negate());
-        }
+        ResultadoIva r = ResultadoIva.calcular(l.getComponentes(),
+                c -> c.getTipo().getEtapa(), LiquidacionIvaComponente::getAporte);
+        l.setSaldoAPagar(r.saldoAPagar());
+        l.setSaldoAFavor(r.saldoTecnico());
+        l.setSaldoLibreDisponibilidad(r.saldoLibreDisponibilidad());
     }
 
     private void exigirBorrador(LiquidacionIva l, String accion) {

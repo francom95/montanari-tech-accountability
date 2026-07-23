@@ -59,6 +59,7 @@ class LiquidacionIvaAsientoGeneratorTest {
         cuentas.put(ConceptoContable.PERCEPCION_IVA_SUFRIDA, cuenta(3L, "1.1.2007"));
         cuentas.put(ConceptoContable.IVA_SALDO_A_FAVOR, cuenta(4L, "1.1.2014"));
         cuentas.put(ConceptoContable.IVA_SALDO_A_PAGAR, cuenta(5L, "2.1.2009"));
+        cuentas.put(ConceptoContable.IVA_SALDO_LIBRE_DISPONIBILIDAD, cuenta(6L, "1.1.2015"));
         when(resolutorCuentas.resolver(any(ConceptoContable.class)))
                 .thenAnswer(inv -> cuentas.get(inv.getArgument(0)));
     }
@@ -96,16 +97,34 @@ class LiquidacionIvaAsientoGeneratorTest {
         });
     }
 
+    /**
+     * Las dos especies del art. 24 conviven: el excedente técnico (300) va a
+     * 1.1.2014 y las percepciones no absorbidas (100) a 1.1.2015. Con el
+     * acumulador único esto era una sola línea de 400, que volvía compensable un
+     * saldo que por ley no lo es.
+     */
     @Test
-    void mesConSaldoAFavorBalanceaYDebitaLaCuentaQueArrastraElProximoMes() {
-        // 200 de débito contra 500 de crédito y 100 de percepciones -> 400 a favor
+    void saldoTecnicoYLibreDisponibilidadVanACuentasDistintasYElAsientoBalancea() {
+        // 200 de débito contra 500 de crédito (técnico 300) y 100 de percepciones
         LiquidacionIva l = liquidacion("200.00", "500.00", "100.00", "0.00");
 
         AsientoGenerado a = generator.generar(l);
 
         assertBalancea(a);
-        assertThat(lineaDe(a, "1.1.2014").debe()).isEqualByComparingTo("400.00");
+        assertThat(lineaDe(a, "1.1.2014").debe()).as("saldo técnico").isEqualByComparingTo("300.00");
+        assertThat(lineaDe(a, "1.1.2015").debe()).as("libre disponibilidad").isEqualByComparingTo("100.00");
         assertThat(a.lineas()).noneMatch(x -> x.cuentaCodigo().equals("2.1.2009"));
+    }
+
+    @Test
+    void notaDeCreditoEmitidaSeImputaComoCreditoYElAsientoBalancea() {
+        // ventas 1000, NC emitida 100, compras 300 -> 600 a pagar
+        LiquidacionIva l = liquidacion("1000.00", "300.00", "0.00", "0.00", "100.00", "0.00", "0.00");
+
+        AsientoGenerado a = generator.generar(l);
+
+        assertBalancea(a);
+        assertThat(lineaDe(a, "2.1.2009").haber()).isEqualByComparingTo("600.00");
     }
 
     @Test
@@ -133,7 +152,8 @@ class LiquidacionIvaAsientoGeneratorTest {
     void unAjusteManualSeAbsorbeEnElResultadoYElAsientoSigueBalanceando() {
         LiquidacionIva l = liquidacion("1000.00", "300.00", "100.00", "0.00");
         // el contador corrige el débito fiscal a 1200: el resultado pasa de 600 a 800
-        l.getComponentes().getFirst().setImporteAjuste(new BigDecimal("200.00"));
+        l.getComponentes().stream().filter(c -> c.getTipo() == TipoComponenteIva.DEBITO_FISCAL)
+                .findFirst().orElseThrow().setImporteAjuste(new BigDecimal("200.00"));
         recalcular(l);
 
         AsientoGenerado a = generator.generar(l);
@@ -148,7 +168,7 @@ class LiquidacionIvaAsientoGeneratorTest {
         LiquidacionIva l = liquidacion("1000.00", "300.00", "100.00", "0.00");
         LiquidacionIvaComponente restitucion = new LiquidacionIvaComponente();
         restitucion.setLiquidacionIva(l);
-        restitucion.setTipo(TipoComponenteIva.RESTITUCIONES);
+        restitucion.setTipo(TipoComponenteIva.OTRO_TECNICO);
         restitucion.setDescripcion("Restitución de crédito fiscal");
         restitucion.setImporteCalculado(new BigDecimal("50.00"));
         restitucion.setCuentaContable(cuenta(9L, "5.3.2007"));
@@ -169,7 +189,7 @@ class LiquidacionIvaAsientoGeneratorTest {
         LiquidacionIva l = liquidacion("1000.00", "0.00", "0.00", "0.00");
         LiquidacionIvaComponente huerfano = new LiquidacionIvaComponente();
         huerfano.setLiquidacionIva(l);
-        huerfano.setTipo(TipoComponenteIva.OTRO);
+        huerfano.setTipo(TipoComponenteIva.OTRO_TECNICO);
         huerfano.setDescripcion("Ajuste sin cuenta");
         huerfano.setImporteCalculado(new BigDecimal("10.00"));
         huerfano.setManual(true);
@@ -215,15 +235,23 @@ class LiquidacionIvaAsientoGeneratorTest {
     }
 
     private LiquidacionIva liquidacion(String debito, String credito, String percepciones, String arrastre) {
+        return liquidacion(debito, credito, percepciones, arrastre, "0.00", "0.00", "0.00");
+    }
+
+    private LiquidacionIva liquidacion(String debito, String credito, String percepciones, String arrastreTecnico,
+                                       String ncEmitidas, String ncRecibidas, String arrastreLibre) {
         LiquidacionIva l = new LiquidacionIva();
         l.setAnio(2026);
         l.setMes(3);
         l.setFechaDesde(LocalDate.of(2026, 3, 1));
         l.setFechaHasta(LocalDate.of(2026, 3, 31));
         agregar(l, TipoComponenteIva.DEBITO_FISCAL, debito, 1);
-        agregar(l, TipoComponenteIva.CREDITO_FISCAL, credito, 2);
-        agregar(l, TipoComponenteIva.PERCEPCIONES, percepciones, 3);
-        agregar(l, TipoComponenteIva.SALDO_TECNICO_ANTERIOR, arrastre, 4);
+        agregar(l, TipoComponenteIva.RESTITUCION_CREDITO_FISCAL, ncEmitidas, 2);
+        agregar(l, TipoComponenteIva.CREDITO_FISCAL, credito, 3);
+        agregar(l, TipoComponenteIva.RESTITUCION_DEBITO_FISCAL, ncRecibidas, 4);
+        agregar(l, TipoComponenteIva.SALDO_TECNICO_ANTERIOR, arrastreTecnico, 5);
+        agregar(l, TipoComponenteIva.PERCEPCIONES, percepciones, 6);
+        agregar(l, TipoComponenteIva.SALDO_LIBRE_DISPONIBILIDAD_ANTERIOR, arrastreLibre, 7);
         recalcular(l);
         return l;
     }
@@ -238,12 +266,12 @@ class LiquidacionIvaAsientoGeneratorTest {
         l.getComponentes().add(c);
     }
 
-    /** Réplica del cálculo de resultado del service, para armar el escenario del generador. */
+    /** Mismo cálculo que aplica el service, para armar el escenario del generador. */
     private void recalcular(LiquidacionIva l) {
-        BigDecimal r = l.getComponentes().stream()
-                .map(LiquidacionIvaComponente::getAporte)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-        l.setSaldoAPagar(r.signum() > 0 ? r : BigDecimal.ZERO);
-        l.setSaldoAFavor(r.signum() < 0 ? r.negate() : BigDecimal.ZERO);
+        ResultadoIva r = ResultadoIva.calcular(l.getComponentes(),
+                c -> c.getTipo().getEtapa(), LiquidacionIvaComponente::getAporte);
+        l.setSaldoAPagar(r.saldoAPagar());
+        l.setSaldoAFavor(r.saldoTecnico());
+        l.setSaldoLibreDisponibilidad(r.saldoLibreDisponibilidad());
     }
 }

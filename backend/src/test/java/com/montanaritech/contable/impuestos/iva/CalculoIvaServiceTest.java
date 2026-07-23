@@ -55,21 +55,51 @@ class CalculoIvaServiceTest {
         when(resolutorCuentas.resolver(ConceptoContable.IVA_DEBITO_FISCAL)).thenReturn(debitoFiscal);
         when(resolutorCuentas.resolver(ConceptoContable.IVA_CREDITO_FISCAL)).thenReturn(creditoFiscal);
         when(resolutorCuentas.resolver(ConceptoContable.PERCEPCION_IVA_SUFRIDA)).thenReturn(percepciones);
+        when(resolutorCuentas.resolver(ConceptoContable.IVA_SALDO_A_FAVOR)).thenReturn(cuenta(4L, "1.1.2014", CuentaContable.SaldoEsperado.DEUDOR));
+        when(resolutorCuentas.resolver(ConceptoContable.IVA_SALDO_LIBRE_DISPONIBILIDAD)).thenReturn(cuenta(5L, "1.1.2015", CuentaContable.SaldoEsperado.DEUDOR));
         when(asientoLineaRepository.buscarParaLiquidacionImpositiva(any(), any(), any(), any(), any()))
                 .thenReturn(List.of());
         when(liquidacionIvaRepository.findFirstByAnioAndMesAndEstado(any(), any(), any()))
                 .thenReturn(Optional.empty());
     }
 
+    /**
+     * El débito fiscal toma solo el haber de su cuenta. Las notas de crédito
+     * emitidas viven del otro lado y no lo reducen: se computan aparte como
+     * crédito fiscal (art. 12 inc. b), que es lo que corrigió el contador.
+     */
     @Test
-    void cuentaAcreedoraAcumulaPorElHaberYLaNotaDeCreditoNetea() {
-        // dos ventas al haber (210 + 105) y una nota de crédito al debe (21)
+    void elDebitoFiscalTomaSoloElHaberYNoLoReducenLasNotasDeCredito() {
+        // dos ventas al haber (210 + 105) y una nota de crédito emitida al debe (21)
         mockLineas(debitoFiscal, linea("210.00", true), linea("105.00", true), linea("21.00", false));
 
         var componente = componenteDe(service.calcular(2026, 3), TipoComponenteIva.DEBITO_FISCAL);
 
-        assertThat(componente.importe()).isEqualByComparingTo("294.00");
-        assertThat(componente.detalle()).hasSize(3);
+        assertThat(componente.importe()).as("315, no 294: la NC no netea el débito")
+                .isEqualByComparingTo("315.00");
+        assertThat(componente.detalle()).hasSize(2);
+    }
+
+    @Test
+    void laNotaDeCreditoEmitidaSaleDelDebeDeLaMismaCuentaComoRestitucionDeCredito() {
+        mockLineas(debitoFiscal, linea("210.00", true), linea("105.00", true), linea("21.00", false));
+
+        var componente = componenteDe(service.calcular(2026, 3), TipoComponenteIva.RESTITUCION_CREDITO_FISCAL);
+
+        assertThat(componente.importe()).isEqualByComparingTo("21.00");
+        assertThat(componente.detalle()).hasSize(1);
+    }
+
+    @Test
+    void laNotaDeCreditoRecibidaSaleDelHaberDeLaCuentaDeCreditoYAumentaElDebito() {
+        // compras al debe (100) y una NC recibida al haber (15)
+        mockLineas(creditoFiscal, linea("100.00", false), linea("15.00", true));
+
+        CalculoIva calculo = service.calcular(2026, 3);
+
+        assertThat(componenteDe(calculo, TipoComponenteIva.CREDITO_FISCAL).importe()).isEqualByComparingTo("100.00");
+        assertThat(componenteDe(calculo, TipoComponenteIva.RESTITUCION_DEBITO_FISCAL).importe())
+                .isEqualByComparingTo("15.00");
     }
 
     @Test
@@ -96,6 +126,7 @@ class CalculoIvaServiceTest {
     void elArrastreSaleDelSaldoAFavorDeLaLiquidacionAnteriorConfirmada() {
         LiquidacionIva febrero = new LiquidacionIva();
         febrero.setSaldoAFavor(new BigDecimal("1234.56"));
+        febrero.setSaldoLibreDisponibilidad(new BigDecimal("500.00"));
         when(liquidacionIvaRepository.findFirstByAnioAndMesAndEstado(2026, 2, EstadoDocumento.CONFIRMADO))
                 .thenReturn(Optional.of(febrero));
 
@@ -103,6 +134,8 @@ class CalculoIvaServiceTest {
 
         assertThat(componenteDe(calculo, TipoComponenteIva.SALDO_TECNICO_ANTERIOR).importe())
                 .isEqualByComparingTo("1234.56");
+        assertThat(componenteDe(calculo, TipoComponenteIva.SALDO_LIBRE_DISPONIBILIDAD_ANTERIOR).importe())
+                .as("las dos especies se arrastran por separado").isEqualByComparingTo("500.00");
         assertThat(calculo.advertencias()).isEmpty();
     }
 

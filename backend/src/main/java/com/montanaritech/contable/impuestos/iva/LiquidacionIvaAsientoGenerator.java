@@ -54,15 +54,17 @@ public class LiquidacionIvaAsientoGenerator implements AsientoGenerator<Liquidac
             lineas.add(linea(cuentaDe(c), aporte, c.getDescripcion(), ars));
         }
 
-        BigDecimal saldoAPagar = liquidacion.getSaldoAPagar();
-        BigDecimal saldoAFavor = liquidacion.getSaldoAFavor();
-        if (saldoAPagar.signum() > 0) {
-            lineas.add(linea(resolutorCuentas.resolver(ConceptoContable.IVA_SALDO_A_PAGAR),
-                    saldoAPagar.negate(), descripcion + " — saldo a pagar", ars));
-        } else if (saldoAFavor.signum() > 0) {
-            lineas.add(linea(resolutorCuentas.resolver(ConceptoContable.IVA_SALDO_A_FAVOR),
-                    saldoAFavor, descripcion + " — saldo a favor a arrastrar", ars));
-        }
+        // Los tres resultados se evalúan por separado, sin else: el saldo técnico
+        // y el de libre disponibilidad pueden coexistir en un mismo mes (crédito
+        // fiscal mayor al débito y además percepciones sufridas). Lo que sí es
+        // excluyente es pagar: si hay saldo a pagar, no hay saldo a favor.
+        agregarResultado(lineas, liquidacion.getSaldoAPagar().negate(),
+                ConceptoContable.IVA_SALDO_A_PAGAR, descripcion + " — saldo a pagar", ars);
+        agregarResultado(lineas, liquidacion.getSaldoAFavor(),
+                ConceptoContable.IVA_SALDO_A_FAVOR, descripcion + " — saldo técnico a arrastrar", ars);
+        agregarResultado(lineas, liquidacion.getSaldoLibreDisponibilidad(),
+                ConceptoContable.IVA_SALDO_LIBRE_DISPONIBILIDAD,
+                descripcion + " — saldo de libre disponibilidad", ars);
 
         if (lineas.isEmpty()) {
             throw new NegocioException("LIQUIDACION_IVA_SIN_MOVIMIENTOS",
@@ -72,6 +74,13 @@ public class LiquidacionIvaAsientoGenerator implements AsientoGenerator<Liquidac
 
         return new AsientoGenerado(liquidacion.getFechaHasta(), descripcion, "LIQUIDACION_IVA", lineas,
                 "LiquidacionIva", liquidacion.getId());
+    }
+
+    private void agregarResultado(List<LineaAsientoGenerada> lineas, BigDecimal aporte,
+                                  ConceptoContable concepto, String leyenda, Moneda ars) {
+        if (aporte.signum() != 0) {
+            lineas.add(linea(resolutorCuentas.resolver(concepto), aporte, leyenda, ars));
+        }
     }
 
     /**

@@ -22,7 +22,7 @@ public class LiquidacionIvaMapper {
     public LiquidacionResponse aResponse(LiquidacionIva l, List<String> advertencias) {
         return new LiquidacionResponse(
                 l.getId(), l.getAnio(), l.getMes(), l.getFechaDesde(), l.getFechaHasta(),
-                l.getEstado().name(), l.getSaldoAPagar(), l.getSaldoAFavor(),
+                l.getEstado().name(), l.getSaldoAPagar(), l.getSaldoAFavor(), l.getSaldoLibreDisponibilidad(),
                 l.getAsiento() != null ? l.getAsiento().getId() : null,
                 l.getAsiento() != null ? l.getAsiento().getNumero() : null,
                 l.getObservaciones(),
@@ -46,14 +46,13 @@ public class LiquidacionIvaMapper {
      * calculado sin persistir nada.
      */
     public PrevisualizacionResponse aPrevisualizacion(CalculoIva calculo) {
-        BigDecimal resultado = calculo.componentes().stream()
-                .map(c -> c.importe().multiply(BigDecimal.valueOf(c.tipo().getSigno())))
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        ResultadoIva r = ResultadoIva.calcular(calculo.componentes(),
+                c -> c.tipo().getEtapa(),
+                c -> c.importe().multiply(BigDecimal.valueOf(c.tipo().getSigno())));
 
         return new PrevisualizacionResponse(
                 calculo.anio(), calculo.mes(), calculo.fechaDesde(), calculo.fechaHasta(),
-                resultado.signum() > 0 ? resultado : BigDecimal.ZERO,
-                resultado.signum() < 0 ? resultado.negate() : BigDecimal.ZERO,
+                r.saldoAPagar(), r.saldoTecnico(), r.saldoLibreDisponibilidad(),
                 calculo.componentes().stream().map(this::aComponentePrevisualizado).toList(),
                 calculo.advertencias());
     }

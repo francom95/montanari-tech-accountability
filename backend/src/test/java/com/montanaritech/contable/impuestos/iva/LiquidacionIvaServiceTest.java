@@ -106,13 +106,59 @@ class LiquidacionIvaServiceTest {
     }
 
     @Test
-    void percepcionesQueSuperanElImpuestoDeterminadoDejanSaldoAFavor() {
+    void percepcionesQueSuperanElImpuestoDeterminadoDejanLIBREDISPONIBILIDAD() {
         mockCalculo("100000.00", "40000.00", "75000.00", "0.00");
 
         LiquidacionIva l = service.crearBorrador(new CrearRequest(2026, 6));
 
         assertThat(l.getSaldoAPagar()).isEqualByComparingTo("0.00");
-        assertThat(l.getSaldoAFavor()).isEqualByComparingTo("15000.00");
+        assertThat(l.getSaldoLibreDisponibilidad()).isEqualByComparingTo("15000.00");
+        assertThat(l.getSaldoAFavor()).as("un excedente de percepciones no es saldo tecnico")
+                .isEqualByComparingTo("0.00");
+    }
+
+    @Test
+    void saldoTecnicoYLibreDisponibilidadConvivenEnElMismoMes() {
+        // credito 160.000 > debito 100.000 (tecnico 60.000) y ademas 30.000 percibidos
+        mockCalculo("100000.00", "160000.00", "30000.00", "0.00");
+
+        LiquidacionIva l = service.crearBorrador(new CrearRequest(2026, 7));
+
+        assertThat(l.getSaldoAFavor()).isEqualByComparingTo("60000.00");
+        assertThat(l.getSaldoLibreDisponibilidad()).isEqualByComparingTo("30000.00");
+    }
+
+    @Test
+    void notaDeCreditoEmitidaSumaAlCreditoFiscalYNoRestaDelDebito() {
+        // ventas 210.000, NC emitida 21.000, compras 84.000 -> 105.000 a pagar
+        mockCalculo("210000.00", "84000.00", "0.00", "0.00", "21000.00", "0.00", "0.00");
+
+        LiquidacionIva l = service.crearBorrador(new CrearRequest(2026, 8));
+
+        assertThat(l.getSaldoAPagar()).isEqualByComparingTo("105000.00");
+        assertThat(componente(l, TipoComponenteIva.RESTITUCION_CREDITO_FISCAL).getAporte())
+                .as("resta como credito fiscal").isEqualByComparingTo("-21000.00");
+    }
+
+    @Test
+    void notaDeCreditoRecibidaAumentaElDebitoFiscal() {
+        // compras 84.000 con NC recibida de 10.000 -> el credito neto baja
+        mockCalculo("210000.00", "84000.00", "0.00", "0.00", "0.00", "10000.00", "0.00");
+
+        LiquidacionIva l = service.crearBorrador(new CrearRequest(2026, 9));
+
+        assertThat(l.getSaldoAPagar()).isEqualByComparingTo("136000.00");
+        assertThat(componente(l, TipoComponenteIva.RESTITUCION_DEBITO_FISCAL).getAporte())
+                .as("suma como debito fiscal").isEqualByComparingTo("10000.00");
+    }
+
+    @Test
+    void elArrastreDeLibreDisponibilidadSeAplicaComoIngresoDirecto() {
+        mockCalculo("100000.00", "50000.00", "0.00", "0.00", "0.00", "0.00", "20000.00");
+
+        LiquidacionIva l = service.crearBorrador(new CrearRequest(2026, 10));
+
+        assertThat(l.getSaldoAPagar()).isEqualByComparingTo("30000.00");
     }
 
     @Test
@@ -189,7 +235,7 @@ class LiquidacionIvaServiceTest {
         when(cuentaContableRepository.findById(9L)).thenReturn(Optional.of(cuenta));
 
         service.agregarComponente(100L, new AgregarComponenteRequest(
-                TipoComponenteIva.RESTITUCIONES, "Restitución", new BigDecimal("5000.00"), 9L, "Ajuste del contador"));
+                TipoComponenteIva.OTRO_TECNICO, "Restitución", new BigDecimal("5000.00"), 9L, "Ajuste del contador"));
 
         assertThat(l.getSaldoAPagar()).isEqualByComparingTo("105000.00");
     }
@@ -284,14 +330,22 @@ class LiquidacionIvaServiceTest {
     // --- helpers ---
 
     private void mockCalculo(String debito, String credito, String percepciones, String arrastre) {
+        mockCalculo(debito, credito, percepciones, arrastre, "0.00", "0.00", "0.00");
+    }
+
+    private void mockCalculo(String debito, String credito, String percepciones, String arrastreTecnico,
+                             String ncEmitidas, String ncRecibidas, String arrastreLibre) {
         when(calculoIvaService.calcular(any(Integer.class), any(Integer.class))).thenAnswer(inv -> new CalculoIva(
                 inv.getArgument(0), inv.getArgument(1),
                 LocalDate.of(2026, 3, 1), LocalDate.of(2026, 3, 31),
                 List.of(
                         comp(TipoComponenteIva.DEBITO_FISCAL, debito),
+                        comp(TipoComponenteIva.RESTITUCION_CREDITO_FISCAL, ncEmitidas),
                         comp(TipoComponenteIva.CREDITO_FISCAL, credito),
+                        comp(TipoComponenteIva.RESTITUCION_DEBITO_FISCAL, ncRecibidas),
+                        comp(TipoComponenteIva.SALDO_TECNICO_ANTERIOR, arrastreTecnico),
                         comp(TipoComponenteIva.PERCEPCIONES, percepciones),
-                        comp(TipoComponenteIva.SALDO_TECNICO_ANTERIOR, arrastre)),
+                        comp(TipoComponenteIva.SALDO_LIBRE_DISPONIBILIDAD_ANTERIOR, arrastreLibre)),
                 List.of()));
     }
 

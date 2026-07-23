@@ -67,7 +67,10 @@ public final class LiquidacionIvaDtos {
             LocalDate fechaHasta,
             String estado,
             BigDecimal saldoAPagar,
+            /** Saldo técnico (art. 24, 1er párrafo): solo computable contra IVA futuro. */
             BigDecimal saldoAFavor,
+            /** Saldo de libre disponibilidad (art. 24, 2do párrafo): además compensable y devolvible. */
+            BigDecimal saldoLibreDisponibilidad,
             Long asientoId,
             Long asientoNumero,
             String observaciones,
@@ -83,6 +86,7 @@ public final class LiquidacionIvaDtos {
             LocalDate fechaHasta,
             BigDecimal saldoAPagar,
             BigDecimal saldoAFavor,
+            BigDecimal saldoLibreDisponibilidad,
             List<ComponentePrevisualizadoResponse> componentes,
             List<String> advertencias) {
     }

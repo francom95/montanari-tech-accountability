@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -52,33 +53,50 @@ public class CalculoIvaService {
         List<CalculoIva.ComponenteCalculado> componentes = new ArrayList<>();
         List<String> advertencias = new ArrayList<>();
 
-        for (TipoComponenteIva tipo : List.of(TipoComponenteIva.DEBITO_FISCAL,
-                TipoComponenteIva.CREDITO_FISCAL, TipoComponenteIva.PERCEPCIONES)) {
-            componentes.add(calcularDesdeAsientos(tipo, desde, hasta));
+        for (TipoComponenteIva tipo : TipoComponenteIva.values()) {
+            if (tipo.seCalculaDesdeAsientos()) {
+                componentes.add(calcularDesdeAsientos(tipo, desde, hasta));
+            }
         }
 
-        componentes.add(calcularArrastre(periodo, advertencias));
+        componentes.addAll(calcularArrastres(periodo, advertencias));
+        componentes.sort(Comparator.comparing(c -> c.tipo().ordinal()));
         return new CalculoIva(anio, mes, desde, hasta, componentes, advertencias);
     }
 
+    /**
+     * Suma un solo lado de la cuenta, no el neto. Las notas de crédito viven del
+     * lado contrario al de su comprobante original (los generadores de F4.2/F4.3
+     * les invierten los lados), así que el lado <i>es</i> lo que distingue una
+     * venta de una nota de crédito emitida sin tener que mirar el tipo de
+     * comprobante ni agregar una marca al asiento — misma idea que resolvió la
+     * conciliación en F5.3: preguntar qué cuenta movió, no de qué documento vino.
+     */
     private CalculoIva.ComponenteCalculado calcularDesdeAsientos(TipoComponenteIva tipo, LocalDate desde, LocalDate hasta) {
         CuentaContable cuenta = resolutorCuentas.resolver(tipo.getConcepto());
         List<AsientoLinea> lineas = asientoLineaRepository.buscarParaLiquidacionImpositiva(
                 Set.of(cuenta.getId()), desde, hasta, EstadoDocumento.CONFIRMADO, OrigenAsiento.LIQUIDACION_IVA);
 
-        boolean acumulaPorHaber = cuenta.getSaldoEsperado() == CuentaContable.SaldoEsperado.ACREEDOR;
         List<CalculoIva.DetalleImputacion> detalle = new ArrayList<>();
         BigDecimal total = BigDecimal.ZERO;
 
+        boolean acumulaPorHaber = cuenta.getSaldoEsperado() == CuentaContable.SaldoEsperado.ACREEDOR;
         for (AsientoLinea l : lineas) {
-            BigDecimal aporte = acumulaPorHaber
-                    ? l.getHaber().subtract(l.getDebe())
-                    : l.getDebe().subtract(l.getHaber());
-            total = total.add(aporte);
+            BigDecimal importe = switch (tipo.getLado()) {
+                case HABER -> l.getHaber();
+                case DEBE -> l.getDebe();
+                // sin lado declarado: el neto de la cuenta según su naturaleza, que
+                // es lo correcto para percepciones (una devolución iría del lado opuesto)
+                case null -> acumulaPorHaber ? l.getHaber().subtract(l.getDebe()) : l.getDebe().subtract(l.getHaber());
+            };
+            if (importe.signum() == 0) {
+                continue; // la línea aporta al componente del lado opuesto
+            }
+            total = total.add(importe);
             detalle.add(new CalculoIva.DetalleImputacion(
                     l.getAsiento().getId(), l.getAsiento().getNumero(), l.getAsiento().getFecha(),
                     l.getLeyenda() != null ? l.getLeyenda() : l.getAsiento().getDescripcion(),
-                    l.getAsiento().getOrigenTipo(), l.getAsiento().getOrigenId(), aporte));
+                    l.getAsiento().getOrigenTipo(), l.getAsiento().getOrigenId(), importe));
         }
 
         String descripcion = "%s (%s %s)".formatted(
@@ -87,30 +105,37 @@ public class CalculoIvaService {
     }
 
     /**
-     * Arrastre del saldo a favor del mes anterior. Se lee de la liquidación
-     * anterior confirmada y no de los asientos: es un dato explícito, auditable
-     * y ya ajustado a mano si hizo falta.
+     * Arrastres del mes anterior, uno por cada especie de saldo a favor del art.
+     * 24. Se leen de la liquidación anterior confirmada y no de los asientos: son
+     * datos explícitos, auditables y ya ajustados a mano si hizo falta.
      *
-     * <p>No liquidar el mes anterior <b>no</b> bloquea: el arrastre entra en
-     * cero y queda una advertencia visible (F6.1 §1.6). Bloquear impediría
-     * arrancar el sistema —el primer mes no tiene anterior— y chocaría con la
-     * importación histórica de F4.6.
+     * <p>No liquidar el mes anterior <b>no</b> bloquea: los arrastres entran en
+     * cero y queda una advertencia visible (F6.1 §1.6, confirmado en el
+     * checkpoint). Bloquear impediría arrancar el sistema —el primer mes no
+     * tiene anterior— y chocaría con la importación histórica de F4.6.
      */
-    private CalculoIva.ComponenteCalculado calcularArrastre(YearMonth periodo, List<String> advertencias) {
+    private List<CalculoIva.ComponenteCalculado> calcularArrastres(YearMonth periodo, List<String> advertencias) {
         YearMonth anterior = periodo.minusMonths(1);
         Optional<LiquidacionIva> previa = liquidacionIvaRepository.findFirstByAnioAndMesAndEstado(
                 anterior.getYear(), anterior.getMonthValue(), EstadoDocumento.CONFIRMADO);
 
-        BigDecimal arrastre = previa.map(LiquidacionIva::getSaldoAFavor).orElse(BigDecimal.ZERO);
         if (previa.isEmpty()) {
-            advertencias.add(("No hay una liquidación confirmada de %02d/%d, así que el saldo técnico anterior "
-                    + "entra en cero. Si venías con saldo a favor, cargalo como ajuste manual en ese componente.")
+            advertencias.add(("No hay una liquidación confirmada de %02d/%d, así que los saldos arrastrados entran "
+                    + "en cero. Si venías con saldo a favor, cargalo como ajuste manual en el componente que corresponda.")
                     .formatted(anterior.getMonthValue(), anterior.getYear()));
         }
 
-        return new CalculoIva.ComponenteCalculado(TipoComponenteIva.SALDO_TECNICO_ANTERIOR,
-                "%s (%02d/%d)".formatted(TipoComponenteIva.SALDO_TECNICO_ANTERIOR.getDescripcionPorDefecto(),
+        return List.of(
+                arrastre(TipoComponenteIva.SALDO_TECNICO_ANTERIOR, anterior,
+                        previa.map(LiquidacionIva::getSaldoAFavor).orElse(BigDecimal.ZERO)),
+                arrastre(TipoComponenteIva.SALDO_LIBRE_DISPONIBILIDAD_ANTERIOR, anterior,
+                        previa.map(LiquidacionIva::getSaldoLibreDisponibilidad).orElse(BigDecimal.ZERO)));
+    }
+
+    private CalculoIva.ComponenteCalculado arrastre(TipoComponenteIva tipo, YearMonth anterior, BigDecimal importe) {
+        return new CalculoIva.ComponenteCalculado(tipo,
+                "%s (%02d/%d)".formatted(tipo.getDescripcionPorDefecto(),
                         anterior.getMonthValue(), anterior.getYear()),
-                arrastre, List.of());
+                importe, List.of());
     }
 }

@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { Fragment, useState } from "react"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -15,6 +15,7 @@ import {
   useRecalcularLiquidacionIva,
 } from "@/hooks/use-liquidacion-iva"
 import { useCuentasContables } from "@/hooks/use-cuenta-contable"
+import { ETAPA_DE } from "@/types/liquidacion-iva"
 import type {
   ComponenteLiquidacionIva,
   LiquidacionIva,
@@ -54,8 +55,9 @@ export function LiquidacionIvaPage() {
       <div>
         <h1 className="text-lg font-semibold text-foreground">Liquidación de IVA</h1>
         <p className="text-sm text-muted-foreground">
-          Los importes se calculan desde los asientos confirmados del período. Podés ajustar cada concepto (con
-          motivo) antes de confirmar; al confirmar se genera el asiento contra el pasivo fiscal o el saldo a favor.
+          Los importes se calculan desde los asientos confirmados del período, en las dos etapas del art. 24 de la
+          Ley de IVA. Podés ajustar cada concepto (con motivo) antes de confirmar; al confirmar se genera el asiento
+          contra el pasivo fiscal o el saldo a favor que corresponda.
         </p>
       </div>
 
@@ -106,8 +108,9 @@ export function LiquidacionIvaPage() {
               <tr className="border-b border-border">
                 <th className="py-2 pr-4 font-medium">Período</th>
                 <th className="py-2 pr-4 font-medium">Estado</th>
-                <th className="py-2 pr-4 text-right font-medium">Saldo a pagar</th>
-                <th className="py-2 pr-4 text-right font-medium">Saldo a favor</th>
+                <th className="py-2 pr-4 text-right font-medium">A pagar</th>
+                <th className="py-2 pr-4 text-right font-medium">Saldo técnico</th>
+                <th className="py-2 pr-4 text-right font-medium">Libre disp.</th>
                 <th className="py-2 pr-4 font-medium">Asiento</th>
                 <th className="py-2 pr-4 font-medium"></th>
               </tr>
@@ -117,8 +120,9 @@ export function LiquidacionIvaPage() {
                 <tr key={l.id} className="border-b border-border last:border-0">
                   <td className="py-2 pr-4">{MESES[l.mes - 1]} {l.anio}</td>
                   <td className="py-2 pr-4">{l.estado}</td>
-                  <td className="py-2 pr-4 text-right">{formatearPesos(l.saldoAPagar)}</td>
-                  <td className="py-2 pr-4 text-right">{formatearPesos(l.saldoAFavor)}</td>
+                  <td className="py-2 pr-4 text-right tabular-nums">{formatearPesos(l.saldoAPagar)}</td>
+                  <td className="py-2 pr-4 text-right tabular-nums">{formatearPesos(l.saldoAFavor)}</td>
+                  <td className="py-2 pr-4 text-right tabular-nums">{formatearPesos(l.saldoLibreDisponibilidad)}</td>
                   <td className="py-2 pr-4">{l.asientoNumero ?? "—"}</td>
                   <td className="py-2 pr-4">
                     <Button variant="outline" size="sm" onClick={() => setSeleccionadaId(l.id)}>
@@ -129,7 +133,7 @@ export function LiquidacionIvaPage() {
               ))}
               {liquidaciones.data?.content.length === 0 && (
                 <tr>
-                  <td colSpan={6} className="py-4 text-center text-muted-foreground">
+                  <td colSpan={7} className="py-4 text-center text-muted-foreground">
                     Todavía no hay liquidaciones de {anio}.
                   </td>
                 </tr>
@@ -165,7 +169,7 @@ export function LiquidacionIvaPage() {
               ))}
             </tbody>
           </table>
-          <Resultado saldoAPagar={p.saldoAPagar} saldoAFavor={p.saldoAFavor} />
+          <Resultado saldoAPagar={p.saldoAPagar} saldoAFavor={p.saldoAFavor} saldoLibreDisponibilidad={p.saldoLibreDisponibilidad} />
         </CardContent>
       </Card>
     )
@@ -181,13 +185,68 @@ function Advertencias({ items }: { items: string[] }) {
   )
 }
 
-function Resultado({ saldoAPagar, saldoAFavor }: { saldoAPagar: number; saldoAFavor: number }) {
-  const aPagar = saldoAPagar > 0
+/**
+ * Los tres resultados del art. 24. El técnico y el de libre disponibilidad
+ * pueden convivir en un mismo mes, así que se muestran por separado y no como
+ * un único "saldo a favor": el técnico solo se computa contra IVA futuro,
+ * mientras que el de libre disponibilidad además se compensa con otros
+ * impuestos, se transfiere y se puede pedir devuelto.
+ */
+function Resultado({
+  saldoAPagar,
+  saldoAFavor,
+  saldoLibreDisponibilidad,
+}: {
+  saldoAPagar: number
+  saldoAFavor: number
+  saldoLibreDisponibilidad: number
+}) {
+  const nada = saldoAPagar === 0 && saldoAFavor === 0 && saldoLibreDisponibilidad === 0
   return (
-    <div className="flex items-baseline justify-between rounded-lg border border-border p-3">
-      <span className="text-sm font-medium">{aPagar ? "Saldo a pagar" : "Saldo a favor (se arrastra al mes siguiente)"}</span>
-      <span className="text-lg font-semibold tabular-nums">
-        {formatearPesos(aPagar ? saldoAPagar : saldoAFavor)}
+    <div className="space-y-2 rounded-lg border border-border p-3">
+      {saldoAPagar > 0 && (
+        <Linea titulo="Saldo a pagar" importe={saldoAPagar} destacado />
+      )}
+      {saldoAFavor > 0 && (
+        <Linea
+          titulo="Saldo técnico a favor"
+          detalle="Solo se computa contra el IVA de períodos siguientes."
+          importe={saldoAFavor}
+          destacado={saldoAPagar === 0}
+        />
+      )}
+      {saldoLibreDisponibilidad > 0 && (
+        <Linea
+          titulo="Saldo de libre disponibilidad"
+          detalle="Compensable con otros impuestos, transferible y con derecho a devolución."
+          importe={saldoLibreDisponibilidad}
+          destacado={saldoAPagar === 0 && saldoAFavor === 0}
+        />
+      )}
+      {nada && <p className="text-sm text-muted-foreground">El período no arroja saldo a pagar ni a favor.</p>}
+    </div>
+  )
+}
+
+function Linea({
+  titulo,
+  detalle,
+  importe,
+  destacado,
+}: {
+  titulo: string
+  detalle?: string
+  importe: number
+  destacado?: boolean
+}) {
+  return (
+    <div className="flex items-baseline justify-between gap-4">
+      <div>
+        <span className="text-sm font-medium">{titulo}</span>
+        {detalle && <p className="text-xs text-muted-foreground">{detalle}</p>}
+      </div>
+      <span className={destacado ? "text-lg font-semibold tabular-nums" : "text-sm font-medium tabular-nums"}>
+        {formatearPesos(importe)}
       </span>
     </div>
   )
@@ -204,7 +263,7 @@ function LiquidacionDetalle({ liquidacion }: { liquidacion: LiquidacionIva }) {
   const cuentasContables = useCuentasContables({ activo: true, page: 0, size: 500 })
   const cuentasImputables = (cuentasContables.data?.content ?? []).filter((c) => c.imputable)
 
-  const [nuevoTipo, setNuevoTipo] = useState<TipoComponenteIva>("RESTITUCIONES")
+  const [nuevoTipo, setNuevoTipo] = useState<TipoComponenteIva>("OTRO_TECNICO")
   const [nuevaDescripcion, setNuevaDescripcion] = useState("")
   const [nuevoImporte, setNuevoImporte] = useState("")
   const [nuevaCuenta, setNuevaCuenta] = useState("")
@@ -231,19 +290,38 @@ function LiquidacionDetalle({ liquidacion }: { liquidacion: LiquidacionIva }) {
             </tr>
           </thead>
           <tbody>
-            {liquidacion.componentes.map((c) => (
-              <FilaComponente
-                key={c.id}
-                liquidacionId={liquidacion.id}
-                componente={c}
-                editable={esBorrador}
-                onEliminar={() => eliminar.mutate({ id: liquidacion.id, componenteId: c.id })}
-              />
-            ))}
+            {(["TECNICA", "INGRESOS_DIRECTOS"] as const).map((etapa) => {
+              const delaEtapa = liquidacion.componentes.filter((c) => ETAPA_DE[c.tipo] === etapa)
+              if (delaEtapa.length === 0) return null
+              return (
+                <Fragment key={etapa}>
+                  <tr className="border-b border-border bg-muted/40">
+                    <td colSpan={6} className="py-1.5 pr-4 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                      {etapa === "TECNICA"
+                        ? "Etapa técnica — determina el impuesto del período"
+                        : "Ingresos directos — percepciones y retenciones sufridas"}
+                    </td>
+                  </tr>
+                  {delaEtapa.map((c) => (
+                    <FilaComponente
+                      key={c.id}
+                      liquidacionId={liquidacion.id}
+                      componente={c}
+                      editable={esBorrador}
+                      onEliminar={() => eliminar.mutate({ id: liquidacion.id, componenteId: c.id })}
+                    />
+                  ))}
+                </Fragment>
+              )
+            })}
           </tbody>
         </table>
 
-        <Resultado saldoAPagar={liquidacion.saldoAPagar} saldoAFavor={liquidacion.saldoAFavor} />
+        <Resultado
+          saldoAPagar={liquidacion.saldoAPagar}
+          saldoAFavor={liquidacion.saldoAFavor}
+          saldoLibreDisponibilidad={liquidacion.saldoLibreDisponibilidad}
+        />
 
         {esBorrador && (
           <div className="space-y-3 rounded-lg border border-border p-3">
@@ -253,8 +331,8 @@ function LiquidacionDetalle({ liquidacion }: { liquidacion: LiquidacionIva }) {
             </p>
             <div className="grid gap-2 sm:grid-cols-5">
               <select value={nuevoTipo} onChange={(e) => setNuevoTipo(e.target.value as TipoComponenteIva)} className={selectClase}>
-                <option value="RESTITUCIONES">Restituciones</option>
-                <option value="OTRO">Otro concepto</option>
+                <option value="OTRO_TECNICO">Otro concepto (etapa técnica)</option>
+                <option value="OTRO_INGRESO_DIRECTO">Otro ingreso directo (percepción/retención)</option>
               </select>
               <Input value={nuevaDescripcion} onChange={(e) => setNuevaDescripcion(e.target.value)} placeholder="Descripción" className="h-8" />
               <Input value={nuevoImporte} onChange={(e) => setNuevoImporte(e.target.value)} placeholder="Importe" type="number" className="h-8" />

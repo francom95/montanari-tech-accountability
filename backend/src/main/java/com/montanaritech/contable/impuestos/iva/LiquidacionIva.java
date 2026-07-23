@@ -59,8 +59,23 @@ public class LiquidacionIva extends EntidadNegocio {
     @Column(name = "saldo_a_pagar", nullable = false, precision = 18, scale = 2)
     private BigDecimal saldoAPagar = BigDecimal.ZERO;
 
+    /**
+     * Saldo <b>técnico</b> a favor (art. 24, 1er párrafo): sobrante de la etapa
+     * técnica, solo computable contra débitos fiscales futuros. La columna
+     * conserva el nombre {@code saldo_a_favor} de la primera versión, cuando era
+     * el único acumulador.
+     */
     @Column(name = "saldo_a_favor", nullable = false, precision = 18, scale = 2)
     private BigDecimal saldoAFavor = BigDecimal.ZERO;
+
+    /**
+     * Saldo de <b>libre disponibilidad</b> (art. 24, 2do párrafo): sobrante de
+     * los ingresos directos por sobre el impuesto determinado. Además de
+     * arrastrarse, se compensa con otros impuestos, se transfiere y se puede
+     * pedir devuelto — por eso no se puede sumar con el técnico.
+     */
+    @Column(name = "saldo_libre_disponibilidad", nullable = false, precision = 18, scale = 2)
+    private BigDecimal saldoLibreDisponibilidad = BigDecimal.ZERO;
 
     @ManyToOne(optional = true)
     @JoinColumn(name = "asiento_id", foreignKey = @ForeignKey(name = "fk_liquidacion_iva_asiento"))

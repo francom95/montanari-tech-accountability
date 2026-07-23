@@ -1,7 +1,7 @@
 # F6.1 — Liquidación mensual de IVA
 
 **Paso:** 32 de 55 · **Fase:** F6 — Impuestos · **Modelo:** Opus 4.8 · **Depende de:** F4.4, F5.3
-**Checkpoint humano:** SÍ — el contador valida contra una liquidación real de un mes. **Estado: PENDIENTE.**
+**Checkpoint humano:** SÍ. **Estado: los tres puntos abiertos fueron respondidos y las correcciones ya están implementadas** (ver §3). Queda pendiente únicamente la calibración numérica contra una liquidación real de un mes.
 
 ---
 
@@ -25,73 +25,97 @@ El documento funcional §8.2 pide explícitamente que el cálculo se nutra de *"
 
 ### 1.2 Componentes
 
+Cada componente declara en qué **etapa** entra (§1.3), con qué **signo** aporta, y —los automáticos— de qué **lado** de qué cuenta se lee.
+
+**Etapa técnica** (determina el impuesto del período):
+
 | Componente | Signo | Origen | Cuenta |
 |---|:---:|---|---|
-| Débito fiscal | **+** | `haber − debe` en la cuenta de `IVA_DEBITO_FISCAL` | 2.1.2008 |
-| Crédito fiscal | **−** | `debe − haber` en la cuenta de `IVA_CREDITO_FISCAL` | 1.1.2006 |
-| Percepciones y retenciones de IVA sufridas | **−** | `debe − haber` en la cuenta de `PERCEPCION_IVA_SUFRIDA` | 1.1.2007 |
-| Saldo técnico del período anterior | **−** | `saldoAFavor` de la liquidación confirmada del mes anterior | 1.1.2014 |
-| Restituciones | **+** | Solo manual (ver §1.5) | la que indique el usuario |
-| Otros conceptos | ± | Solo manual | la que indique el usuario |
+| Débito fiscal | **+** | **haber** de `IVA_DEBITO_FISCAL` (ventas) | 2.1.2008 |
+| Restitución de crédito fiscal | **−** | **debe** de `IVA_DEBITO_FISCAL` (notas de crédito emitidas) | 2.1.2008 |
+| Crédito fiscal | **−** | **debe** de `IVA_CREDITO_FISCAL` (compras) | 1.1.2006 |
+| Restitución de débito fiscal | **+** | **haber** de `IVA_CREDITO_FISCAL` (notas de crédito recibidas) | 1.1.2006 |
+| Saldo técnico del período anterior | **−** | liquidación confirmada del mes anterior | 1.1.2014 |
 
-Todos los componentes automáticos excluyen los asientos de `origen = LIQUIDACION_IVA`: sin esa exclusión, el propio asiento de liquidación —que mueve esas mismas tres cuentas— se contaría a sí mismo en el período siguiente.
+**Etapa de ingresos directos** (aplica lo retenido y percibido):
+
+| Componente | Signo | Origen | Cuenta |
+|---|:---:|---|---|
+| Percepciones y retenciones de IVA sufridas | **−** | neto de `PERCEPCION_IVA_SUFRIDA` | 1.1.2007 |
+| Saldo de libre disponibilidad del período anterior | **−** | liquidación confirmada del mes anterior | 1.1.2015 |
+
+Más dos tipos manuales (`OTRO_TECNICO` y `OTRO_INGRESO_DIRECTO`) que el usuario agrega con su propia cuenta contable.
+
+**El lado importa y no es un detalle de implementación.** Como los generadores de F4.2/F4.3 invierten los lados de las notas de crédito, el lado *es* lo que distingue una venta de una nota de crédito emitida, sin mirar el tipo de comprobante ni agregar marcas al asiento. Y esa distinción hace falta porque el IVA de una NC emitida **no reduce el débito fiscal sino que aumenta el crédito fiscal** (art. 12 inc. b), y el de una NC recibida aumenta el débito (art. 11, último párrafo) — ver §3.2.
+
+Percepciones y arrastres se leen por el **neto** de su cuenta, no por un lado fijo: una devolución de percepción va del lado opuesto y debe netear.
+
+Todos los componentes automáticos excluyen los asientos de `origen = LIQUIDACION_IVA`: sin esa exclusión, el propio asiento de liquidación —que mueve esas mismas cuentas— se contaría a sí mismo en el período siguiente.
 
 `PERCEPCION_IVA_SUFRIDA` y `RETENCION_IVA_SUFRIDA` mapean ambos a **1.1.2007** (seed V21), así que una sola consulta captura percepciones de compra, retenciones sufridas en cobros y percepciones bancarias imputadas en la conciliación de F5.3.
 
-### 1.3 Resultado
+### 1.3 Resultado: dos etapas, no una suma lineal
+
+El art. 24 de la Ley 23.349 distingue dos especies de saldo a favor que **no se pueden compensar entre sí**, así que el cálculo no puede ser una única suma con signo:
 
 ```
-resultado = débito fiscal
-          − crédito fiscal
-          − percepciones
-          − saldo técnico anterior
-          + restituciones
-          ± otros conceptos manuales
+Etapa 1 — técnica
+  débito fiscal + restitución de débito − crédito fiscal − restitución de crédito
+                − saldo técnico anterior
+  ├─ > 0 → impuesto determinado, pasa a la etapa 2
+  └─ ≤ 0 → SALDO TÉCNICO (art. 24, 1er párrafo)
+           solo computable contra débitos fiscales de períodos siguientes
 
-resultado  > 0  →  saldo a pagar = resultado        saldo a favor = 0
-resultado <= 0  →  saldo a pagar = 0                saldo a favor = −resultado
+Etapa 2 — ingresos directos
+  impuesto determinado − percepciones y retenciones − libre disponibilidad anterior
+  ├─ > 0 → SALDO A PAGAR
+  └─ ≤ 0 → SALDO DE LIBRE DISPONIBILIDAD (art. 24, 2do párrafo)
+           además compensable con otros impuestos, transferible y devolvible
 ```
 
-El saldo a favor de un período es el saldo técnico anterior del siguiente. Un único acumulador — ver la limitación documentada en §1.6.
+**Los dos saldos a favor pueden coexistir** en un mismo mes: más crédito fiscal que débito *y* percepciones sufridas. Lo que sí es excluyente es el saldo a pagar contra los otros dos. Ambos se arrastran al mes siguiente, cada uno a su propio componente.
+
+El cálculo vive en `ResultadoIva`, aparte del servicio, porque lo usan dos caminos —la liquidación persistida y la previsualización— y duplicarlo sería la forma más fácil de que se desincronicen.
 
 ### 1.4 Asiento al confirmar (PL-4, `OrigenAsiento.LIQUIDACION_IVA`)
 
+El generador no arma las líneas caso por caso: aplica **una regla única — aporte positivo al debe, negativo al haber** — a todos los componentes, y después imputa cada resultado del lado opuesto (saldo a pagar al haber creando el pasivo; saldos a favor al debe creando el activo que arrastra el mes siguiente).
+
 ```
-DEBE    2.1.2008  IVA Débito Fiscal            débito fiscal
-DEBE    1.1.2014  IVA Saldo a Favor            saldo a favor nuevo      [si > 0]
-  HABER 1.1.2006  IVA Crédito Fiscal           crédito fiscal
-  HABER 1.1.2007  Percepción de IVA a computar percepciones
-  HABER 1.1.2014  IVA Saldo a Favor            saldo técnico anterior   [si > 0, consume el arrastre]
-  HABER 2.1.2009  IVA Saldo a Pagar            saldo a pagar            [si > 0]
+DEBE    2.1.2008  IVA Débito Fiscal                  débito fiscal
+DEBE    1.1.2006  IVA Crédito Fiscal                 restitución de débito (NC recibidas)
+DEBE    1.1.2014  IVA Saldo a Favor                  saldo técnico nuevo             [si > 0]
+DEBE    1.1.2015  IVA Saldo de Libre Disponibilidad  libre disponibilidad nueva      [si > 0]
+  HABER 2.1.2008  IVA Débito Fiscal                  restitución de crédito (NC emitidas)
+  HABER 1.1.2006  IVA Crédito Fiscal                 crédito fiscal
+  HABER 1.1.2007  Percepción de IVA a computar       percepciones
+  HABER 1.1.2014  IVA Saldo a Favor                  saldo técnico anterior consumido
+  HABER 1.1.2015  IVA Saldo de Libre Disponibilidad  libre disponibilidad anterior consumida
+  HABER 2.1.2009  IVA Saldo a Pagar                  saldo a pagar                   [si > 0]
 ```
 
-El asiento **cancela** los movimientos de IVA del período contra el resultado. Balancea algebraicamente en los dos casos, sin necesidad de una línea de ajuste:
+Balancea algebraicamente siempre, porque la suma de los aportes **es** `saldo a pagar − saldo técnico − libre disponibilidad` por construcción, y esas tres líneas la contrapesan exactamente. No hace falta una línea de ajuste ni casos especiales.
 
-- **A pagar** (`r > 0`): Debe `= D`; Haber `= C + P + A + (D − C − P − A) = D` ✓
-- **A favor** (`r ≤ 0`): Debe `= D + (C + P + A − D) = C + P + A`; Haber `= C + P + A` ✓
+Los componentes manuales aportan su propia línea con la cuenta que indicó el usuario — por eso **la cuenta contable es obligatoria en todo componente manual**: sin ella el asiento no podría balancear y la liquidación no se puede confirmar. Un ajuste manual sobre un componente automático tampoco rompe el balance: cambia el importe de esa línea y el resultado se recalcula absorbiendo la diferencia.
 
-Los componentes manuales (restituciones, otros) aportan su propia línea con la cuenta que indicó el usuario, y el resultado absorbe la diferencia — por eso el balance se mantiene y por eso **la cuenta contable es obligatoria en todo componente manual**: sin ella el asiento no podría balancear y la liquidación no se puede confirmar.
-
-Un ajuste manual sobre un componente automático no rompe el balance: cambia el importe de esa línea y el resultado se recalcula absorbiendo la diferencia.
+Un componente en cero no genera línea, para no ensuciar el asiento.
 
 ### 1.5 Ajustes manuales
 
 Cada componente guarda `importeCalculado` (del sistema, inmutable) + `importeAjuste` (delta) + `motivoAjuste`, y expone `importeFinal = calculado + ajuste`. Guardar el calculado por separado es lo que hace auditable el ajuste: se ve qué dijo el sistema y qué decidió la persona.
 
 - **Motivo obligatorio** si `importeAjuste != 0`.
-- Se pueden **agregar** componentes nuevos (tipo `RESTITUCIONES` u `OTRO`), con cuenta contable obligatoria.
+- Se pueden **agregar** componentes nuevos (`OTRO_TECNICO` u `OTRO_INGRESO_DIRECTO` segun la etapa a la que afecten), con cuenta contable obligatoria.
 - Solo se ajusta en estado `BORRADOR`. Confirmada, la liquidación es inmutable.
 - Toda modificación pasa por `AuditoriaService` (antes/después), igual que el resto del sistema.
 
-**Restituciones** quedan como componente exclusivamente manual: no hay en el sistema ninguna fuente de datos que las identifique automáticamente, y su tratamiento normativo (reintegro de crédito fiscal oportunamente computado vs. devolución de percepciones) depende del caso concreto. Siguiendo la nota del plan —*"ante ambigüedad normativa, dejá el punto como parámetro configurable y documentalo"*— no se resuelve por cuenta propia. **Para el checkpoint del contador.**
+### 1.6 Decisiones validadas con el contador
 
-### 1.6 Limitaciones y decisiones a validar con el contador
+Los tres puntos que estaban abiertos en la primera versión quedaron resueltos (fundamento en §3):
 
-Las tres cosas que hay que mirar en el checkpoint humano:
-
-1. **Un solo acumulador de saldo a favor.** El usuario indicó que el saldo a favor "se arrastra al mes siguiente", sin distinguir saldo técnico de saldo de libre disponibilidad. La normativa argentina sí los distingue (art. 24 Ley 23.349): el **saldo técnico** (crédito fiscal > débito fiscal) solo se computa contra IVA futuro, mientras que el saldo de **libre disponibilidad** (originado en retenciones y percepciones que exceden el impuesto determinado) es además compensable con otros impuestos, transferible y en ciertos casos devolvible. Como Montanari Tech **sí sufre percepciones habitualmente**, es probable que en la realidad existan ambos. Este sistema es de gestión interna y no presenta ante ARCA, por lo que un único acumulador es defendible; pero **separarlos después requiere recalcular los períodos históricos**, así que conviene decidirlo antes de cargar meses reales. *Punto 1 del checkpoint.*
-2. **Restituciones sin cálculo automático** (§1.5). *Punto 2 del checkpoint.*
-3. **Liquidar un mes sin haber liquidado el anterior no se bloquea**: el arrastre entra en 0 y la pantalla emite una advertencia visible. Bloquearlo impediría arrancar el sistema (el primer mes no tiene anterior) y chocaría con la importación histórica de F4.6. El usuario puede cargar el arrastre a mano como ajuste. *Punto 3 del checkpoint.*
+1. **Las dos especies de saldo a favor se separan** según el art. 24 (§3.1).
+2. **Las notas de crédito se computan por lado de imputación**: la emitida aumenta el crédito fiscal, la recibida aumenta el débito (§3.2). Ya no existe un componente "restituciones" cargado a mano: se calcula solo.
+3. **Liquidar un mes sin haber liquidado el anterior no se bloquea**: los arrastres entran en cero y la pantalla emite una advertencia visible. Bloquearlo impediría arrancar el sistema —el primer mes no tiene anterior— y chocaría con la importación histórica de F4.6.
 
 ### 1.7 Ciclo de vida
 
@@ -160,12 +184,79 @@ Para que el E2E corriera hubo que configurar a mano los mapeos de `CREDITO_POR_V
 
 ---
 
-## ⚠️ Checkpoint humano — PENDIENTE
+## Parte 3 — Correcciones del checkpoint del contador
 
-El paso requiere que **el contador valide el resultado contra una liquidación real de un mes**. Al cierre de este paso todavía no se recibió esa liquidación real, así que la calibración numérica contra un mes verdadero **queda pendiente**.
+Los tres puntos abiertos fueron respondidos y **las dos correcciones de fondo ya están implementadas**. Lo que sigue reemplaza lo que decían §1.5 y §1.6 en la primera versión.
 
-Tres puntos concretos para esa revisión:
+### 3.1 Se separan las dos especies de saldo a favor (art. 24, Ley 23.349)
 
-1. **¿Hace falta separar saldo técnico de saldo de libre disponibilidad?** (§1.6, punto 1). Hoy hay un único acumulador. Como Montanari Tech sufre percepciones habitualmente, es probable que en la realidad existan ambos. **Decidirlo antes de cargar meses reales**: separarlos después obliga a recalcular los períodos históricos.
-2. **¿Qué son exactamente las "restituciones" en esta operatoria** y de dónde deberían salir? Hoy son un componente exclusivamente manual, sin cálculo automático (§1.5).
-3. **¿Está bien que liquidar un mes sin haber liquidado el anterior no se bloquee**, y que el arrastre entre en cero con una advertencia visible? (§1.6, punto 3).
+**Respuesta:** separarlos según la ley.
+
+La primera versión tenía un único acumulador. Ahora el cálculo corre en **dos etapas**, porque cada una genera un saldo a favor de especie distinta que la ley no permite mezclar:
+
+```
+Etapa 1 — técnica
+  débito fiscal − crédito fiscal − saldo técnico anterior
+  ├─ > 0 → impuesto determinado, pasa a la etapa 2
+  └─ ≤ 0 → SALDO TÉCNICO (art. 24, 1er párrafo)
+           solo computable contra débitos fiscales de períodos siguientes
+
+Etapa 2 — ingresos directos
+  impuesto determinado − percepciones y retenciones − libre disponibilidad anterior
+  ├─ > 0 → SALDO A PAGAR
+  └─ ≤ 0 → SALDO DE LIBRE DISPONIBILIDAD (art. 24, 2do párrafo)
+           además compensable con otros impuestos, transferible y devolvible
+```
+
+**Los dos saldos a favor pueden coexistir** en un mismo mes (más crédito fiscal que débito *y* percepciones sufridas), y ese es justamente el caso que el acumulador único resolvía mal: sumaba en una sola cifra un excedente técnico —que por ley queda cautivo— con percepciones que sí son compensables. El total daba igual; la composición, no.
+
+Infraestructura: cuenta nueva `1.1.2015 IVA Saldo de Libre Disponibilidad`, concepto `IVA_SALDO_LIBRE_DISPONIBILIDAD`, columna `saldo_libre_disponibilidad` y un segundo arrastre (migración `V28`). El asiento imputa cada especie a su cuenta.
+
+El cálculo de las dos etapas vive en una clase propia (`ResultadoIva`) porque lo usan dos caminos —la liquidación persistida y la previsualización—, y duplicarlo sería la forma más fácil de que se desincronicen.
+
+### 3.2 Las notas de crédito se separan por lado de imputación (art. 11 y 12)
+
+**Respuesta del contador:** *"cuando emitís una nota de crédito, el IVA generado no disminuye tu débito fiscal sino que aumenta el crédito fiscal, es por eso que se pone en concepto de restitución de crédito fiscal"*. Y por simetría, la NC recibida aumenta el débito fiscal.
+
+La primera versión estaba mal: neteaba por naturaleza de cuenta, así que una NC emitida **restaba del débito fiscal**. Es el mismo total, pero el art. 12 inc. b) ubica los descuentos y devoluciones otorgados dentro del **crédito fiscal**, no como menor débito — y con las dos especies de saldo separadas, esa diferencia de composición sí cambia los números.
+
+La corrección no necesitó marcas nuevas en el asiento ni mirar el tipo de comprobante: **el lado de la imputación ya lo dice todo**, porque los generadores de F4.2/F4.3 invierten los lados de las notas de crédito.
+
+| Cuenta | Haber | Debe |
+|---|---|---|
+| 2.1.2008 Débito fiscal | ventas → **débito fiscal** | NC emitidas → **restitución de crédito fiscal** (resta) |
+| 1.1.2006 Crédito fiscal | NC recibidas → **restitución de débito fiscal** (suma) | compras → **crédito fiscal** |
+
+Es la misma idea que resolvió la conciliación en F5.3 —preguntar qué cuenta movió, no de qué documento vino— llevada un paso más: preguntar además de qué lado.
+
+Los componentes `PERCEPCIONES` y los arrastres siguen leyéndose por el neto de su cuenta, no por un lado fijo (una devolución de percepción iría del lado opuesto y debe netear).
+
+### 3.3 No se bloquea liquidar un mes si el anterior no se liquidó
+
+**Respuesta:** confirmado, no bloquear. Queda como estaba: los arrastres entran en cero y la pantalla muestra una advertencia visible.
+
+### 3.4 Bug encontrado al aplicar estos cambios
+
+Al refactorizar, `PERCEPCIONES` dejó de calcularse: el filtro de "componentes que se leen de asientos" exigía tener un lado declarado, y ese componente se lee por el neto (lado `null`). Lo detectó el test que verifica que las percepciones de compras, cobros y bancos caigan en un mismo componente. Corregido distinguiendo explícitamente los arrastres en vez de inferirlos por la ausencia de lado.
+
+### 3.5 Verificación de las correcciones
+
+- Suite completa: **393 tests, 392 en verde** (el único fallo sigue siendo el de Testcontainers/Docker Desktop local). Se sumó `ResultadoIvaTest` (9 casos, entre ellos la coexistencia de ambos saldos y la NC emitida computada como crédito) y se reescribieron los tests que asumían la semántica vieja.
+- Frontend: la pantalla separa visualmente las dos etapas y muestra los tres resultados con su explicación; `tsc -b` y `oxlint` limpios.
+- **E2E vía docker-compose** (migraciones V1→V28 desde volumen limpio, MySQL 8 real), 4 escenarios que cubren exactamente lo que corrigió el contador:
+
+| # | Escenario | Resultado |
+|---:|---|---|
+| 1 | Marzo: venta 1.000.000 + **NC emitida** 100.000 + compra 400.000 | débito 210.000 (intacto), restitución de crédito 21.000 con aporte **−21.000**, crédito 84.000 → **105.000 a pagar** |
+| 2 | Abril: compra 800.000 + **NC recibida** 50.000 + venta 100.000 + percepción 30.000 | restitución de débito 10.500 con aporte **+10.500**; **técnico 136.500 y libre disponibilidad 30.000 conviviendo** |
+| 3 | Confirmar abril | asiento con **1.1.2014 y 1.1.2015 por separado**, Σdebe = Σhaber = 198.000 |
+| 4 | Previsualizar mayo | **arrastra las dos especies por separado**: 136.500 técnico + 30.000 libre |
+
+El escenario 1 es el que prueba la corrección de las notas de crédito (el débito fiscal no bajó a 189.000), y el 2 el que prueba que los dos saldos son cosas distintas: con el acumulador único habrían salido como 166.500 indistintos.
+
+- `docker compose down -v` y puertos revertidos (3308→3307, 8083→8081) sin diff en `docker-compose.yml`.
+
+
+### 3.6 Lo único que queda pendiente del checkpoint
+
+La **calibración numérica contra una liquidación real de un mes** hecha por el contador. Cuando esté disponible, conviene comparar renglón por renglón: débito fiscal, restitución de crédito fiscal, crédito fiscal, restitución de débito fiscal, percepciones, y los dos saldos arrastrados.

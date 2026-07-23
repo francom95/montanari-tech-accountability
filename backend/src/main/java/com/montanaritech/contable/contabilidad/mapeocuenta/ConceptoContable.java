@@ -45,5 +45,16 @@ public enum ConceptoContable {
      * acumulador que se arrastra al período siguiente.
      */
     IVA_SALDO_A_PAGAR,
-    IVA_SALDO_A_FAVOR
+    /**
+     * Saldo <b>técnico</b> a favor (art. 24, 1er párrafo de la Ley 23.349): solo
+     * computable contra débitos fiscales de períodos siguientes. Cuenta 1.1.2014.
+     */
+    IVA_SALDO_A_FAVOR,
+    /**
+     * Saldo de <b>libre disponibilidad</b> (art. 24, 2do párrafo): el excedente
+     * de ingresos directos (percepciones y retenciones sufridas) por sobre el
+     * impuesto determinado. A diferencia del técnico, además se compensa con
+     * otros impuestos, se transfiere y se puede pedir devuelto. Cuenta 1.1.2015.
+     */
+    IVA_SALDO_LIBRE_DISPONIBILIDAD
 }

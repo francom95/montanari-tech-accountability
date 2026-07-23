@@ -1,18 +1,34 @@
 export type TipoComponenteIva =
   | "DEBITO_FISCAL"
+  | "RESTITUCION_CREDITO_FISCAL"
   | "CREDITO_FISCAL"
-  | "PERCEPCIONES"
+  | "RESTITUCION_DEBITO_FISCAL"
   | "SALDO_TECNICO_ANTERIOR"
-  | "RESTITUCIONES"
-  | "OTRO"
+  | "PERCEPCIONES"
+  | "SALDO_LIBRE_DISPONIBILIDAD_ANTERIOR"
+  | "OTRO_TECNICO"
+  | "OTRO_INGRESO_DIRECTO"
 
-/** Los que el motor recalcula desde los asientos: no se agregan ni se eliminan a mano. */
-export const TIPOS_AUTOMATICOS: TipoComponenteIva[] = [
-  "DEBITO_FISCAL",
-  "CREDITO_FISCAL",
-  "PERCEPCIONES",
-  "SALDO_TECNICO_ANTERIOR",
-]
+/**
+ * Las dos etapas del art. 24 de la Ley de IVA. El sobrante de cada una es un
+ * saldo a favor de especie distinta y por eso se muestran separadas.
+ */
+export type EtapaIva = "TECNICA" | "INGRESOS_DIRECTOS"
+
+export const ETAPA_DE: Record<TipoComponenteIva, EtapaIva> = {
+  DEBITO_FISCAL: "TECNICA",
+  RESTITUCION_CREDITO_FISCAL: "TECNICA",
+  CREDITO_FISCAL: "TECNICA",
+  RESTITUCION_DEBITO_FISCAL: "TECNICA",
+  SALDO_TECNICO_ANTERIOR: "TECNICA",
+  OTRO_TECNICO: "TECNICA",
+  PERCEPCIONES: "INGRESOS_DIRECTOS",
+  SALDO_LIBRE_DISPONIBILIDAD_ANTERIOR: "INGRESOS_DIRECTOS",
+  OTRO_INGRESO_DIRECTO: "INGRESOS_DIRECTOS",
+}
+
+/** Los que el usuario puede agregar a mano; el resto los calcula el motor. */
+export const TIPOS_MANUALES: TipoComponenteIva[] = ["OTRO_TECNICO", "OTRO_INGRESO_DIRECTO"]
 
 export type ComponenteLiquidacionIva = {
   id: number
@@ -39,7 +55,10 @@ export type LiquidacionIva = {
   fechaHasta: string
   estado: "BORRADOR" | "CONFIRMADO" | "ANULADO"
   saldoAPagar: number
+  /** Saldo técnico (art. 24, 1er párrafo): solo computable contra IVA futuro. */
   saldoAFavor: number
+  /** Saldo de libre disponibilidad (art. 24, 2do párrafo): además compensable y devolvible. */
+  saldoLibreDisponibilidad: number
   asientoId: number | null
   asientoNumero: number | null
   observaciones: string | null
@@ -72,6 +91,7 @@ export type PrevisualizacionIva = {
   fechaHasta: string
   saldoAPagar: number
   saldoAFavor: number
+  saldoLibreDisponibilidad: number
   componentes: ComponentePrevisualizadoIva[]
   advertencias: string[]
 }
