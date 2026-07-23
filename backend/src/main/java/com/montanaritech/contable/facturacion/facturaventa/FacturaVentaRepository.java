@@ -52,4 +52,23 @@ public interface FacturaVentaRepository extends JpaRepository<FacturaVenta, Long
     /** Idempotencia del importador (F4.6, misma clave que el UK de la tabla: cliente+tipo+puntoVenta+numero). */
     boolean existsByClienteIdAndTipoComprobanteAndPuntoVentaAndNumero(
             Long clienteId, TipoComprobante tipoComprobante, String puntoVenta, String numero);
+
+    /**
+     * Ventas confirmadas del período para calcular la base imponible de IIBB
+     * (F6.2 §1.2). Trae la jurisdicción de destino con FETCH para agrupar en
+     * memoria (volumen acotado por período, mismo criterio que el Mayor). No se
+     * lee de asientos como en IVA porque la jurisdicción vive en la factura, no
+     * en la línea de asiento. El servicio decide el signo (las notas de crédito
+     * restan de la base).
+     */
+    @Query("""
+            SELECT f FROM FacturaVenta f
+            LEFT JOIN FETCH f.jurisdiccionDestino j
+            WHERE f.estado = com.montanaritech.contable.common.estado.EstadoDocumento.CONFIRMADO
+              AND f.fecha BETWEEN :fechaDesde AND :fechaHasta
+            ORDER BY f.fecha ASC, f.id ASC
+            """)
+    List<FacturaVenta> buscarConfirmadasParaBaseIibb(
+            @Param("fechaDesde") LocalDate fechaDesde,
+            @Param("fechaHasta") LocalDate fechaHasta);
 }

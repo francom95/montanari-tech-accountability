@@ -56,5 +56,15 @@ public enum ConceptoContable {
      * impuesto determinado. A diferencia del técnico, además se compensa con
      * otros impuestos, se transfiere y se puede pedir devuelto. Cuenta 1.1.2015.
      */
-    IVA_SALDO_LIBRE_DISPONIBILIDAD
+    IVA_SALDO_LIBRE_DISPONIBILIDAD,
+    /**
+     * Liquidación mensual de IIBB (F6.2). Las tres cuentas ya existían en el
+     * seed de F3.3 sin mapeo, esperando este paso: {@code IMPUESTO_IIBB_DETERMINADO}
+     * → 5.3.2009 (el gasto del período), {@code IIBB_A_PAGAR} → 2.1.2010 (el
+     * pasivo) e {@code IIBB_SALDO_A_FAVOR} → 1.1.2008 (el arrastre y las
+     * deducciones sufridas, que reusan {@code PERCEPCION_IIBB_SUFRIDA}).
+     */
+    IMPUESTO_IIBB_DETERMINADO,
+    IIBB_A_PAGAR,
+    IIBB_SALDO_A_FAVOR
 }

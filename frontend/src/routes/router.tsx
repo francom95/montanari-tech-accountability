@@ -19,6 +19,7 @@ import { FacturasCompraPage } from "@/pages/facturas-compra-page"
 import { FacturasVentaPage } from "@/pages/facturas-venta-page"
 import { ImportacionHistoricaPage } from "@/pages/importacion-historica-page"
 import { JurisdiccionesPage } from "@/pages/jurisdicciones-page"
+import { LiquidacionIibbPage } from "@/pages/liquidacion-iibb-page"
 import { LiquidacionIvaPage } from "@/pages/liquidacion-iva-page"
 import { LoginPage } from "@/pages/login-page"
 import { MapeoCuentaPage } from "@/pages/mapeo-cuenta-page"
@@ -92,6 +93,7 @@ export const router = createBrowserRouter([
       { path: "reportes", element: <PlaceholderPage title="Reportes" /> },
       { path: "impuestos", element: <PlaceholderPage title="Impuestos" /> },
       { path: "impuestos/iva", element: <LiquidacionIvaPage /> },
+      { path: "impuestos/iibb", element: <LiquidacionIibbPage /> },
       {
         path: "presupuesto",
         element: <PlaceholderPage title="Presupuesto y vencimientos" />,
