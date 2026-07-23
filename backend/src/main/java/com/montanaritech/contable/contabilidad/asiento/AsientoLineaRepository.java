@@ -160,4 +160,28 @@ public interface AsientoLineaRepository extends JpaRepository<AsientoLinea, Long
             @Param("fechaHasta") LocalDate fechaHasta,
             @Param("estado") EstadoDocumento estado,
             @Param("origenExcluido") OrigenAsiento origenExcluido);
+
+    /**
+     * Debe/haber acumulado por cuenta en el período (F7.2, balance de sumas y
+     * saldos): a diferencia de {@code sumarDebeAntesDeFecha}/{@code
+     * sumarHaberAntesDeFecha} (un escalar para un set de cuentas), acá es lo
+     * inverso — una fila por cada cuenta imputable con movimientos, para
+     * armar el balance de todas las cuentas de una sola consulta en vez de
+     * una por cuenta. Solo cuentas imputables aparecen (F3.4 exige {@code
+     * CUENTA_NO_IMPUTABLE} al confirmar), así que el rollup de las cuentas
+     * madre lo hace el service sumando estas hacia arriba por la jerarquía.
+     */
+    @Query("""
+            SELECT l.cuentaContable.id, COALESCE(SUM(l.debe), 0), COALESCE(SUM(l.haber), 0)
+            FROM AsientoLinea l
+            JOIN l.asiento a
+            WHERE a.estado = :estado
+              AND (:fechaDesde IS NULL OR a.fecha >= :fechaDesde)
+              AND (:fechaHasta IS NULL OR a.fecha <= :fechaHasta)
+            GROUP BY l.cuentaContable.id
+            """)
+    List<Object[]> sumarDebeHaberPorCuenta(
+            @Param("fechaDesde") LocalDate fechaDesde,
+            @Param("fechaHasta") LocalDate fechaHasta,
+            @Param("estado") EstadoDocumento estado);
 }

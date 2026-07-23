@@ -77,6 +77,7 @@ export const NAV_ITEMS: NavItem[] = [
   { to: "/bancos/conciliacion", label: "Conciliación bancaria", icon: Scale },
   { to: "/bancos/reglas-clasificacion-consumo", label: "Reglas de clasificación (tarjeta)", icon: ListTree },
   { to: "/reportes", label: "Reportes", icon: BarChart3 },
+  { to: "/reportes/balance-sumas-y-saldos", label: "Balance de sumas y saldos", icon: Scale },
   { to: "/impuestos", label: "Impuestos", icon: Percent },
   { to: "/impuestos/iva", label: "Liquidación de IVA", icon: Percent },
   { to: "/impuestos/iibb", label: "Liquidación de IIBB", icon: Percent },

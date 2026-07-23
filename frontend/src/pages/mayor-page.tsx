@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react"
-import { Link, useParams } from "react-router-dom"
+import { Link, useParams, useSearchParams } from "react-router-dom"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -29,6 +29,7 @@ const ETIQUETA_CLASE: Record<string, string> = {
 export function MayorPage() {
   const { cuentaId } = useParams<{ cuentaId: string }>()
   const cuentaIdNumero = cuentaId ? Number(cuentaId) : undefined
+  const [searchParams] = useSearchParams()
 
   const [rubroId, setRubroId] = useState("")
   const [proyectoId, setProyectoId] = useState("")
@@ -36,8 +37,10 @@ export function MayorPage() {
   const [proveedorId, setProveedorId] = useState("")
   const [origen, setOrigen] = useState("")
   const [monedaId, setMonedaId] = useState("")
-  const [fechaDesde, setFechaDesde] = useState("")
-  const [fechaHasta, setFechaHasta] = useState("")
+  // Prellenados desde la URL para el drill-down del balance de sumas y saldos (F7.2):
+  // mismos filtros de período con los que se abrió el mayor.
+  const [fechaDesde, setFechaDesde] = useState(searchParams.get("fechaDesde") ?? "")
+  const [fechaHasta, setFechaHasta] = useState(searchParams.get("fechaHasta") ?? "")
   const [page, setPage] = useState(0)
   const [descargando, setDescargando] = useState<"excel" | "pdf" | null>(null)
 

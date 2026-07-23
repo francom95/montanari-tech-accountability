@@ -4,6 +4,7 @@ import { RequireAuth } from "@/components/require-auth"
 import { AppLayout } from "@/layouts/app-layout"
 import { AsientosPage } from "@/pages/asientos-page"
 import { AuditoriaPage } from "@/pages/auditoria-page"
+import { BalanceSumasYSaldosPage } from "@/pages/balance-sumas-y-saldos-page"
 import { CategoriasPage } from "@/pages/categorias-page"
 import { ClientesPage } from "@/pages/clientes-page"
 import { CobrosPage } from "@/pages/cobros-page"
@@ -91,6 +92,7 @@ export const router = createBrowserRouter([
       { path: "bancos/importacion", element: <ImportacionBancariaPage /> },
       { path: "bancos/conciliacion", element: <ConciliacionPage /> },
       { path: "reportes", element: <PlaceholderPage title="Reportes" /> },
+      { path: "reportes/balance-sumas-y-saldos", element: <BalanceSumasYSaldosPage /> },
       { path: "impuestos", element: <PlaceholderPage title="Impuestos" /> },
       { path: "impuestos/iva", element: <LiquidacionIvaPage /> },
       { path: "impuestos/iibb", element: <LiquidacionIibbPage /> },
