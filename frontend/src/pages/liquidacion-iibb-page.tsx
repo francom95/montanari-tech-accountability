@@ -12,6 +12,8 @@ import {
   useLiquidacionesIibb,
   usePrevisualizacionIibb,
   useRecalcularLiquidacionIibb,
+  descargarLiquidacionesIibbExcel,
+  descargarLiquidacionesIibbPdf,
 } from "@/hooks/use-liquidacion-iibb"
 import { AtribucionProyectos } from "@/components/atribucion-proyectos"
 import type { ComponenteIibb, JurisdiccionIibb, LiquidacionIibb } from "@/types/liquidacion-iibb"
@@ -32,10 +34,21 @@ export function LiquidacionIibbPage() {
   const [anio, setAnio] = useState(hoy.getFullYear())
   const [mes, setMes] = useState(hoy.getMonth() + 1)
   const [seleccionadaId, setSeleccionadaId] = useState<number | null>(null)
+  const [descargando, setDescargando] = useState<"excel" | "pdf" | null>(null)
 
   const liquidaciones = useLiquidacionesIibb({ anio })
   const previsualizacion = usePrevisualizacionIibb(anio, mes)
   const crear = useCrearLiquidacionIibb()
+
+  async function exportar(formato: "excel" | "pdf") {
+    setDescargando(formato)
+    try {
+      if (formato === "excel") await descargarLiquidacionesIibbExcel({ anio })
+      else await descargarLiquidacionesIibbPdf({ anio })
+    } finally {
+      setDescargando(null)
+    }
+  }
 
   const seleccionada = liquidaciones.data?.content.find((l) => l.id === seleccionadaId)
   const yaLiquidado = liquidaciones.data?.content.some((l) => l.mes === mes && l.estado !== "ANULADO")
@@ -117,7 +130,17 @@ export function LiquidacionIibbPage() {
       {seleccionada && <LiquidacionDetalle liquidacion={seleccionada} />}
 
       <Card>
-        <CardHeader><CardTitle>Liquidaciones de {anio}</CardTitle></CardHeader>
+        <CardHeader className="flex flex-row items-center justify-between">
+          <CardTitle>Liquidaciones de {anio}</CardTitle>
+          <div className="flex gap-2">
+            <Button variant="outline" size="sm" disabled={descargando !== null || !liquidaciones.data} onClick={() => exportar("excel")}>
+              {descargando === "excel" ? "Exportando…" : "Exportar Excel"}
+            </Button>
+            <Button variant="outline" size="sm" disabled={descargando !== null || !liquidaciones.data} onClick={() => exportar("pdf")}>
+              {descargando === "pdf" ? "Exportando…" : "Exportar PDF"}
+            </Button>
+          </div>
+        </CardHeader>
         <CardContent>
           <table className="w-full text-left text-sm">
             <thead className="text-muted-foreground">

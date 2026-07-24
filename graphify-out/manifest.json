@@ -360,9 +360,9 @@
     "semantic_hash": "846e0e81ae97129800ddbb3551abb7f4"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/cliente/ClienteController.java": {
-    "mtime": 1783364266.441092,
-    "ast_hash": "1f83539db62898c4b980727ab7815427",
-    "semantic_hash": "1f83539db62898c4b980727ab7815427"
+    "mtime": 1784904816.2954414,
+    "ast_hash": "b7b948e661d03d312f93736d30446742",
+    "semantic_hash": "b7b948e661d03d312f93736d30446742"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/cliente/ClienteMapper.java": {
     "mtime": 1784316555.0173779,
@@ -565,9 +565,9 @@
     "semantic_hash": "d69b251e52bd8c822aac1c8204a7e695"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proveedor/ProveedorController.java": {
-    "mtime": 1783364341.803014,
-    "ast_hash": "8298583e6b0cb48bd4b3a6bcf1d96f6d",
-    "semantic_hash": "8298583e6b0cb48bd4b3a6bcf1d96f6d"
+    "mtime": 1784904847.7411506,
+    "ast_hash": "a9b023696c9e4f48fadae602ed32912f",
+    "semantic_hash": "a9b023696c9e4f48fadae602ed32912f"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proveedor/ProveedorMapper.java": {
     "mtime": 1784328264.0379956,
@@ -995,9 +995,9 @@
     "semantic_hash": "7b1b3ef7250506fdd50a7d748ca0775d"
   },
   "frontend/src/hooks/use-cliente.ts": {
-    "mtime": 1783364395.0930793,
-    "ast_hash": "cdc91d01435d98c951ec25a7ce030847",
-    "semantic_hash": "cdc91d01435d98c951ec25a7ce030847"
+    "mtime": 1784904861.8403862,
+    "ast_hash": "31cc9ac38d8e41eb63e26b407dc60209",
+    "semantic_hash": "31cc9ac38d8e41eb63e26b407dc60209"
   },
   "frontend/src/hooks/use-concepto.ts": {
     "mtime": 1783335536.6063898,
@@ -1020,9 +1020,9 @@
     "semantic_hash": "132cbed8f3e563753e75038685b7ca78"
   },
   "frontend/src/hooks/use-proveedor.ts": {
-    "mtime": 1783364400.75581,
-    "ast_hash": "eec36e0e791f72b752006eed086096ee",
-    "semantic_hash": "eec36e0e791f72b752006eed086096ee"
+    "mtime": 1784904904.4352214,
+    "ast_hash": "0735b82cd53c94a8da0b2f384e0268a2",
+    "semantic_hash": "0735b82cd53c94a8da0b2f384e0268a2"
   },
   "frontend/src/hooks/use-rubro.ts": {
     "mtime": 1783335536.4940681,
@@ -1080,9 +1080,9 @@
     "semantic_hash": "6643e2d0b55ee15f6db73cf47b1c4276"
   },
   "frontend/src/pages/clientes-page.tsx": {
-    "mtime": 1784318843.7181106,
-    "ast_hash": "ac492c9eefa4c2e9349b2f67cc32562a",
-    "semantic_hash": "ac492c9eefa4c2e9349b2f67cc32562a"
+    "mtime": 1784904886.5830114,
+    "ast_hash": "70773d8c6d4a4abbf011102bd608f961",
+    "semantic_hash": "70773d8c6d4a4abbf011102bd608f961"
   },
   "frontend/src/pages/conceptos-page.tsx": {
     "mtime": 1783336766.3159485,
@@ -1125,9 +1125,9 @@
     "semantic_hash": "d8dc09953187edba8e66a8788bbce429"
   },
   "frontend/src/pages/proveedores-page.tsx": {
-    "mtime": 1784329188.6802354,
-    "ast_hash": "830fada294ff4cc343f408c89323dc75",
-    "semantic_hash": "830fada294ff4cc343f408c89323dc75"
+    "mtime": 1784904924.504278,
+    "ast_hash": "bdfc8b5ead572beb42f330c39bf538db",
+    "semantic_hash": "bdfc8b5ead572beb42f330c39bf538db"
   },
   "frontend/src/pages/rubros-page.tsx": {
     "mtime": 1783336690.5689468,
@@ -2015,9 +2015,9 @@
     "semantic_hash": "40f2f9114e161e2857c550dbe6baeffa"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/asiento/AsientoController.java": {
-    "mtime": 1784291375.8188734,
-    "ast_hash": "f9be973167cb366d00c81f4d9cbc3bd8",
-    "semantic_hash": "f9be973167cb366d00c81f4d9cbc3bd8"
+    "mtime": 1784904998.0464892,
+    "ast_hash": "9727428e36c214fcf441097c8c7a306b",
+    "semantic_hash": "9727428e36c214fcf441097c8c7a306b"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/asiento/AsientoLinea.java": {
     "mtime": 1784254828.069234,
@@ -2725,9 +2725,9 @@
     "semantic_hash": "bfb202288fbbeea7de594009a17e847f"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/iibb/LiquidacionIibbController.java": {
-    "mtime": 1784828864.9996655,
-    "ast_hash": "11dc56686c9ae46d79470ef61c97a805",
-    "semantic_hash": "11dc56686c9ae46d79470ef61c97a805"
+    "mtime": 1784905223.6877718,
+    "ast_hash": "4b888d737f15c8c050528d8fe088845e",
+    "semantic_hash": "4b888d737f15c8c050528d8fe088845e"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/iibb/LiquidacionIibbJurisdiccion.java": {
     "mtime": 1784828498.7345579,
@@ -2785,9 +2785,9 @@
     "semantic_hash": "5ccd6ddf4c3c0ba5b3163e15f272e33d"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/iva/LiquidacionIvaController.java": {
-    "mtime": 1784822861.2564402,
-    "ast_hash": "2691d3463ac2a9328ef3e3b76e9d9f17",
-    "semantic_hash": "2691d3463ac2a9328ef3e3b76e9d9f17"
+    "mtime": 1784905129.2951386,
+    "ast_hash": "123dea9cea94d65765a0d21d9613bb78",
+    "semantic_hash": "123dea9cea94d65765a0d21d9613bb78"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/iva/LiquidacionIvaMapper.java": {
     "mtime": 1784825900.358237,
@@ -3375,9 +3375,9 @@
     "semantic_hash": "b312e295cc32cec4024c387c483d44aa"
   },
   "frontend/src/hooks/use-asiento.ts": {
-    "mtime": 1784291569.5310507,
-    "ast_hash": "2825393b58e9721ed3e59d103ada7acb",
-    "semantic_hash": "2825393b58e9721ed3e59d103ada7acb"
+    "mtime": 1784905048.8570037,
+    "ast_hash": "c095f3cbf9706f0757c38c88789c4057",
+    "semantic_hash": "c095f3cbf9706f0757c38c88789c4057"
   },
   "frontend/src/hooks/use-atribucion-impuesto.ts": {
     "mtime": 1784834610.436415,
@@ -3450,14 +3450,14 @@
     "semantic_hash": "f1c95cbba6efea85c53d7a89c338ea8e"
   },
   "frontend/src/hooks/use-liquidacion-iibb.ts": {
-    "mtime": 1784829134.7622375,
-    "ast_hash": "17bb5b0ebe1b7427578c21d48dac6190",
-    "semantic_hash": "17bb5b0ebe1b7427578c21d48dac6190"
+    "mtime": 1784905273.9028234,
+    "ast_hash": "4248d8fb4c4d02854540d9a2004b6389",
+    "semantic_hash": "4248d8fb4c4d02854540d9a2004b6389"
   },
   "frontend/src/hooks/use-liquidacion-iva.ts": {
-    "mtime": 1784823095.966652,
-    "ast_hash": "6288efd0d9e7a6e39cc3d2575d186254",
-    "semantic_hash": "6288efd0d9e7a6e39cc3d2575d186254"
+    "mtime": 1784905174.561833,
+    "ast_hash": "967e86d776ccaa4b7ac4a0417aee0051",
+    "semantic_hash": "967e86d776ccaa4b7ac4a0417aee0051"
   },
   "frontend/src/hooks/use-mapeo-cuenta.ts": {
     "mtime": 1784318865.112774,
@@ -3490,9 +3490,9 @@
     "semantic_hash": "b464763004e7a0bbc6a5a4b93c4eaec9"
   },
   "frontend/src/pages/asientos-page.tsx": {
-    "mtime": 1784291703.8694882,
-    "ast_hash": "372e1c535ccc77deddb1791d3a285510",
-    "semantic_hash": "372e1c535ccc77deddb1791d3a285510"
+    "mtime": 1784905083.5569098,
+    "ast_hash": "27e79a0b3510e15820515e685ffbe51e",
+    "semantic_hash": "27e79a0b3510e15820515e685ffbe51e"
   },
   "frontend/src/pages/cobros-page.tsx": {
     "mtime": 1784859944.3700075,
@@ -3540,14 +3540,14 @@
     "semantic_hash": "cc434f2c606fec3497c193041426a1b0"
   },
   "frontend/src/pages/liquidacion-iibb-page.tsx": {
-    "mtime": 1784834654.222619,
-    "ast_hash": "8dda5ed4f9ad664c80935d4dfa788105",
-    "semantic_hash": "8dda5ed4f9ad664c80935d4dfa788105"
+    "mtime": 1784905297.5580063,
+    "ast_hash": "b90674b56f9a28901d66ff9ccec64aeb",
+    "semantic_hash": "b90674b56f9a28901d66ff9ccec64aeb"
   },
   "frontend/src/pages/liquidacion-iva-page.tsx": {
-    "mtime": 1784834654.2220201,
-    "ast_hash": "42c32ba82e1bb9074420f45b9991faa3",
-    "semantic_hash": "42c32ba82e1bb9074420f45b9991faa3"
+    "mtime": 1784905195.3276844,
+    "ast_hash": "ed4b1f2c96671fa6290167d54f93f646",
+    "semantic_hash": "ed4b1f2c96671fa6290167d54f93f646"
   },
   "frontend/src/pages/mapeo-cuenta-page.tsx": {
     "mtime": 1784318893.8756835,
@@ -4218,5 +4218,10 @@
     "mtime": 1784903077.9615357,
     "ast_hash": "fe35be616ee7ca1ef6c7a52c9afbacb9",
     "semantic_hash": "fe35be616ee7ca1ef6c7a52c9afbacb9"
+  },
+  "outputs/F7_6_exportaciones_restantes_en_lote.md": {
+    "mtime": 1784906329.2835214,
+    "ast_hash": "ed2adea0700ebcfefe3d69136980353a",
+    "semantic_hash": "ed2adea0700ebcfefe3d69136980353a"
   }
 }

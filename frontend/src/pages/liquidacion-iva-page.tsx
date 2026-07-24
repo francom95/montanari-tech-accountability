@@ -13,6 +13,8 @@ import {
   useLiquidacionesIva,
   usePrevisualizacionIva,
   useRecalcularLiquidacionIva,
+  descargarLiquidacionesIvaExcel,
+  descargarLiquidacionesIvaPdf,
 } from "@/hooks/use-liquidacion-iva"
 import { AtribucionProyectos } from "@/components/atribucion-proyectos"
 import { useCuentasContables } from "@/hooks/use-cuenta-contable"
@@ -41,10 +43,21 @@ export function LiquidacionIvaPage() {
   const [anio, setAnio] = useState(hoy.getFullYear())
   const [mes, setMes] = useState(hoy.getMonth() + 1)
   const [seleccionadaId, setSeleccionadaId] = useState<number | null>(null)
+  const [descargando, setDescargando] = useState<"excel" | "pdf" | null>(null)
 
   const liquidaciones = useLiquidacionesIva({ anio })
   const previsualizacion = usePrevisualizacionIva(anio, mes)
   const crear = useCrearLiquidacionIva()
+
+  async function exportar(formato: "excel" | "pdf") {
+    setDescargando(formato)
+    try {
+      if (formato === "excel") await descargarLiquidacionesIvaExcel({ anio })
+      else await descargarLiquidacionesIvaPdf({ anio })
+    } finally {
+      setDescargando(null)
+    }
+  }
 
   const seleccionada = liquidaciones.data?.content.find((l) => l.id === seleccionadaId)
   const yaLiquidado = liquidaciones.data?.content.some(
@@ -102,7 +115,17 @@ export function LiquidacionIvaPage() {
       {seleccionada && <LiquidacionDetalle liquidacion={seleccionada} />}
 
       <Card>
-        <CardHeader><CardTitle>Liquidaciones de {anio}</CardTitle></CardHeader>
+        <CardHeader className="flex flex-row items-center justify-between">
+          <CardTitle>Liquidaciones de {anio}</CardTitle>
+          <div className="flex gap-2">
+            <Button variant="outline" size="sm" disabled={descargando !== null || !liquidaciones.data} onClick={() => exportar("excel")}>
+              {descargando === "excel" ? "Exportando…" : "Exportar Excel"}
+            </Button>
+            <Button variant="outline" size="sm" disabled={descargando !== null || !liquidaciones.data} onClick={() => exportar("pdf")}>
+              {descargando === "pdf" ? "Exportando…" : "Exportar PDF"}
+            </Button>
+          </div>
+        </CardHeader>
         <CardContent>
           <table className="w-full text-left text-sm">
             <thead className="text-muted-foreground">

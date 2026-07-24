@@ -105,3 +105,24 @@ export function useAnularAsiento() {
     onSuccess: async () => { await qc.invalidateQueries({ queryKey: QUERY_KEY }) },
   })
 }
+
+function descargar(blob: Blob, nombreArchivo: string) {
+  const url = window.URL.createObjectURL(blob)
+  const enlace = document.createElement("a")
+  enlace.href = url
+  enlace.download = nombreArchivo
+  document.body.appendChild(enlace)
+  enlace.click()
+  enlace.remove()
+  window.URL.revokeObjectURL(url)
+}
+
+export async function descargarAsientosExcel(filtros: AsientoBusquedaFiltros) {
+  const respuesta = await http.get("/asientos/exportar/excel", { params: filtros, responseType: "blob" })
+  descargar(respuesta.data, "libro-diario.xlsx")
+}
+
+export async function descargarAsientosPdf(filtros: AsientoBusquedaFiltros) {
+  const respuesta = await http.get("/asientos/exportar/pdf", { params: filtros, responseType: "blob" })
+  descargar(respuesta.data, "libro-diario.pdf")
+}

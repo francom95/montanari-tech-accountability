@@ -18,6 +18,8 @@ import {
   useEditarAsiento,
   useEditarAsientoConfirmado,
   useEliminarAsiento,
+  descargarAsientosExcel,
+  descargarAsientosPdf,
 } from "@/hooks/use-asiento"
 import { useClientes } from "@/hooks/use-cliente"
 import { useCuentasBancarias } from "@/hooks/use-cuenta-bancaria"
@@ -114,11 +116,12 @@ export function AsientosPage() {
   const [mostrarForm, setMostrarForm] = useState(false)
   const [anulando, setAnulando] = useState<number | null>(null)
   const [motivoAnulacionInput, setMotivoAnulacionInput] = useState("")
+  const [descargando, setDescargando] = useState<"excel" | "pdf" | null>(null)
 
   const usuario = useCurrentUser()
   const esAdmin = usuario.data?.rol === "ADMINISTRADOR"
 
-  const query = useAsientos({
+  const filtrosBusqueda = {
     texto, estado: estadoFiltro || undefined, origen: origenFiltro || undefined,
     numero: numeroFiltro ? Number(numeroFiltro) : undefined,
     fechaDesde: fechaDesdeFiltro || undefined, fechaHasta: fechaHastaFiltro || undefined,
@@ -127,8 +130,18 @@ export function AsientosPage() {
     proyectoId: proyectoFiltro ? Number(proyectoFiltro) : undefined,
     clienteId: clienteFiltro ? Number(clienteFiltro) : undefined,
     proveedorId: proveedorFiltro ? Number(proveedorFiltro) : undefined,
-    page, size: 10,
-  })
+  }
+  const query = useAsientos({ ...filtrosBusqueda, page, size: 10 })
+
+  async function exportar(formato: "excel" | "pdf") {
+    setDescargando(formato)
+    try {
+      if (formato === "excel") await descargarAsientosExcel(filtrosBusqueda)
+      else await descargarAsientosPdf(filtrosBusqueda)
+    } finally {
+      setDescargando(null)
+    }
+  }
   const crear = useCrearAsiento()
   const editar = useEditarAsiento()
   const editarConfirmado = useEditarAsientoConfirmado()
@@ -296,7 +309,15 @@ export function AsientosPage() {
             Carga manual, búsqueda avanzada, duplicación, edición de confirmados y anulación (F3.4/F3.5).
           </p>
         </div>
-        {!mostrarForm && <Button onClick={nuevoAsiento}>Nuevo asiento</Button>}
+        <div className="flex gap-2">
+          <Button variant="outline" size="sm" disabled={descargando !== null || !query.data} onClick={() => exportar("excel")}>
+            {descargando === "excel" ? "Exportando…" : "Exportar Excel"}
+          </Button>
+          <Button variant="outline" size="sm" disabled={descargando !== null || !query.data} onClick={() => exportar("pdf")}>
+            {descargando === "pdf" ? "Exportando…" : "Exportar PDF"}
+          </Button>
+          {!mostrarForm && <Button onClick={nuevoAsiento}>Nuevo asiento</Button>}
+        </div>
       </div>
 
       {mostrarForm && (

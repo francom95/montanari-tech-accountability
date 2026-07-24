@@ -14,6 +14,8 @@ import {
   useEditarProveedor,
   useEliminarProveedor,
   useProveedores,
+  descargarProveedoresExcel,
+  descargarProveedoresPdf,
 } from "@/hooks/use-proveedor"
 import { useCuentasContables } from "@/hooks/use-cuenta-contable"
 import { useJurisdiccions } from "@/hooks/use-jurisdiccion"
@@ -48,6 +50,7 @@ export function ProveedoresPage() {
   const [page, setPage] = useState(0)
   const [texto, setTexto] = useState("")
   const [editando, setEditando] = useState<Proveedor | null>(null)
+  const [descargando, setDescargando] = useState<"excel" | "pdf" | null>(null)
 
   const query = useProveedores({ texto, page, size: 10 })
   const jurisdicciones = useJurisdiccions({ page: 0, size: 100 })
@@ -97,6 +100,16 @@ export function ProveedoresPage() {
   function cancelarEdicion() {
     setEditando(null)
     form.reset(VACIO)
+  }
+
+  async function exportar(formato: "excel" | "pdf") {
+    setDescargando(formato)
+    try {
+      if (formato === "excel") await descargarProveedoresExcel({ texto: texto || undefined })
+      else await descargarProveedoresPdf({ texto: texto || undefined })
+    } finally {
+      setDescargando(null)
+    }
   }
 
   function onSubmit(valores: Valores) {
@@ -171,9 +184,19 @@ export function ProveedoresPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-lg font-semibold text-foreground">Proveedores</h1>
-        <p className="text-sm text-muted-foreground">Molde PL-1/PL-2 con FKs a Jurisdicción y Moneda, M2M a TipoCosto (F2.3).</p>
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h1 className="text-lg font-semibold text-foreground">Proveedores</h1>
+          <p className="text-sm text-muted-foreground">Molde PL-1/PL-2 con FKs a Jurisdicción y Moneda, M2M a TipoCosto (F2.3).</p>
+        </div>
+        <div className="flex gap-2">
+          <Button variant="outline" size="sm" disabled={descargando !== null || !query.data} onClick={() => exportar("excel")}>
+            {descargando === "excel" ? "Exportando…" : "Exportar Excel"}
+          </Button>
+          <Button variant="outline" size="sm" disabled={descargando !== null || !query.data} onClick={() => exportar("pdf")}>
+            {descargando === "pdf" ? "Exportando…" : "Exportar PDF"}
+          </Button>
+        </div>
       </div>
 
       <Card>

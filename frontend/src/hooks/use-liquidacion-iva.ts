@@ -98,3 +98,24 @@ export function useAnularLiquidacionIva() {
     (await http.patch<LiquidacionIva>(`${BASE}/${vars.id}/anular`, { motivo: vars.motivo })).data,
   )
 }
+
+function descargar(blob: Blob, nombreArchivo: string) {
+  const url = window.URL.createObjectURL(blob)
+  const enlace = document.createElement("a")
+  enlace.href = url
+  enlace.download = nombreArchivo
+  document.body.appendChild(enlace)
+  enlace.click()
+  enlace.remove()
+  window.URL.revokeObjectURL(url)
+}
+
+export async function descargarLiquidacionesIvaExcel(filtros: { anio?: number }) {
+  const respuesta = await http.get(`${BASE}/exportar/excel`, { params: filtros, responseType: "blob" })
+  descargar(respuesta.data, "liquidaciones-iva.xlsx")
+}
+
+export async function descargarLiquidacionesIvaPdf(filtros: { anio?: number }) {
+  const respuesta = await http.get(`${BASE}/exportar/pdf`, { params: filtros, responseType: "blob" })
+  descargar(respuesta.data, "liquidaciones-iva.pdf")
+}

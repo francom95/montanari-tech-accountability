@@ -14,6 +14,8 @@ import {
   useEditarCliente,
   useEliminarCliente,
   useClientes,
+  descargarClientesExcel,
+  descargarClientesPdf,
 } from "@/hooks/use-cliente"
 import { useCuentasContables } from "@/hooks/use-cuenta-contable"
 import { useJurisdiccions } from "@/hooks/use-jurisdiccion"
@@ -35,6 +37,7 @@ export function ClientesPage() {
   const [page, setPage] = useState(0)
   const [texto, setTexto] = useState("")
   const [editando, setEditando] = useState<Cliente | null>(null)
+  const [descargando, setDescargando] = useState<"excel" | "pdf" | null>(null)
 
   const query = useClientes({ texto, page, size: 10 })
   const jurisdicciones = useJurisdiccions({ page: 0, size: 100 })
@@ -68,6 +71,16 @@ export function ClientesPage() {
   function cancelarEdicion() {
     setEditando(null)
     form.reset(VACIO)
+  }
+
+  async function exportar(formato: "excel" | "pdf") {
+    setDescargando(formato)
+    try {
+      if (formato === "excel") await descargarClientesExcel({ texto: texto || undefined })
+      else await descargarClientesPdf({ texto: texto || undefined })
+    } finally {
+      setDescargando(null)
+    }
   }
 
   function onSubmit(valores: Valores) {
@@ -134,9 +147,19 @@ export function ClientesPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-lg font-semibold text-foreground">Clientes</h1>
-        <p className="text-sm text-muted-foreground">Molde PL-1/PL-2 con FK a Jurisdicción (F2.2).</p>
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h1 className="text-lg font-semibold text-foreground">Clientes</h1>
+          <p className="text-sm text-muted-foreground">Molde PL-1/PL-2 con FK a Jurisdicción (F2.2).</p>
+        </div>
+        <div className="flex gap-2">
+          <Button variant="outline" size="sm" disabled={descargando !== null || !query.data} onClick={() => exportar("excel")}>
+            {descargando === "excel" ? "Exportando…" : "Exportar Excel"}
+          </Button>
+          <Button variant="outline" size="sm" disabled={descargando !== null || !query.data} onClick={() => exportar("pdf")}>
+            {descargando === "pdf" ? "Exportando…" : "Exportar PDF"}
+          </Button>
+        </div>
       </div>
 
       <Card>

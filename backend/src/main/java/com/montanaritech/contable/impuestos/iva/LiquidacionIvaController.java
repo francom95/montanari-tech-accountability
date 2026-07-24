@@ -1,6 +1,8 @@
 package com.montanaritech.contable.impuestos.iva;
 
 import com.montanaritech.contable.common.estado.EstadoDocumento;
+import com.montanaritech.contable.common.reporte.ContextoReporte;
+import com.montanaritech.contable.common.reporte.ReportExportService;
 import com.montanaritech.contable.impuestos.iva.dto.LiquidacionIvaDtos.AgregarComponenteRequest;
 import com.montanaritech.contable.impuestos.iva.dto.LiquidacionIvaDtos.AjustarComponenteRequest;
 import com.montanaritech.contable.impuestos.iva.dto.LiquidacionIvaDtos.AnularRequest;
@@ -8,11 +10,15 @@ import com.montanaritech.contable.impuestos.iva.dto.LiquidacionIvaDtos.CrearRequ
 import com.montanaritech.contable.impuestos.iva.dto.LiquidacionIvaDtos.LiquidacionResponse;
 import com.montanaritech.contable.impuestos.iva.dto.LiquidacionIvaDtos.PrevisualizacionResponse;
 import jakarta.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,20 +29,74 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
+/** Liquidaciones de IVA (F7.6, molde PL-3 — mismo criterio que {@code CuentaPorCobrarController} de F4.5). */
 @RestController
 @RequestMapping("/api/v1/impuestos/liquidaciones-iva")
 @RequiredArgsConstructor
 public class LiquidacionIvaController {
 
+    private static final List<String> COLUMNAS = List.of(
+            "Período", "Estado", "A pagar", "Saldo técnico", "Libre disponibilidad", "Asiento");
+
     private final LiquidacionIvaService service;
     private final LiquidacionIvaMapper mapper;
+    private final ReportExportService reportExportService;
 
     @GetMapping
     public Page<LiquidacionResponse> listar(@RequestParam(required = false) Integer anio,
                                             @RequestParam(required = false) EstadoDocumento estado,
                                             @PageableDefault(size = 20) Pageable pageable) {
         return service.listar(anio, estado, pageable).map(l -> mapper.aResponse(l, List.of()));
+    }
+
+    @GetMapping("/exportar/excel")
+    public ResponseEntity<StreamingResponseBody> exportarExcel(
+            @RequestParam(required = false) Integer anio, @RequestParam(required = false) EstadoDocumento estado) {
+        List<List<Object>> filas = aFilas(service.listar(anio, estado, Pageable.unpaged()));
+        ContextoReporte contexto = contexto(anio, estado);
+        StreamingResponseBody cuerpo = out -> reportExportService.exportarExcel(contexto, COLUMNAS, filas, out);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"liquidaciones-iva.xlsx\"")
+                .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                .body(cuerpo);
+    }
+
+    @GetMapping("/exportar/pdf")
+    public ResponseEntity<StreamingResponseBody> exportarPdf(
+            @RequestParam(required = false) Integer anio, @RequestParam(required = false) EstadoDocumento estado) {
+        List<List<Object>> filas = aFilas(service.listar(anio, estado, Pageable.unpaged()));
+        ContextoReporte contexto = contexto(anio, estado);
+        StreamingResponseBody cuerpo = out -> {
+            try {
+                reportExportService.exportarPdf(contexto, COLUMNAS, filas, out);
+            } catch (Exception e) {
+                throw new IOException("No se pudo generar el PDF", e);
+            }
+        };
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"liquidaciones-iva.pdf\"")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(cuerpo);
+    }
+
+    private List<List<Object>> aFilas(Page<LiquidacionIva> liquidaciones) {
+        return liquidaciones.map(l -> mapper.aResponse(l, List.of())).stream()
+                .<List<Object>>map(l -> List.of(
+                        l.mes() + "/" + l.anio(),
+                        l.estado(),
+                        l.saldoAPagar(),
+                        l.saldoAFavor(),
+                        l.saldoLibreDisponibilidad(),
+                        l.asientoNumero() == null ? "" : l.asientoNumero()))
+                .toList();
+    }
+
+    private ContextoReporte contexto(Integer anio, EstadoDocumento estado) {
+        return ContextoReporte.de("Liquidaciones de IVA",
+                anio == null ? null : "Año: " + anio,
+                estado == null ? null : "Estado: " + estado);
     }
 
     @GetMapping("/{id}")

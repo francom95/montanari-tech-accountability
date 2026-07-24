@@ -43,3 +43,24 @@ export function useEliminarProveedor() {
     onSuccess: async () => { await qc.invalidateQueries({ queryKey: QUERY_KEY }) },
   })
 }
+
+function descargar(blob: Blob, nombreArchivo: string) {
+  const url = window.URL.createObjectURL(blob)
+  const enlace = document.createElement("a")
+  enlace.href = url
+  enlace.download = nombreArchivo
+  document.body.appendChild(enlace)
+  enlace.click()
+  enlace.remove()
+  window.URL.revokeObjectURL(url)
+}
+
+export async function descargarProveedoresExcel(filtros: { texto?: string; activo?: boolean }) {
+  const respuesta = await http.get("/proveedores/exportar/excel", { params: filtros, responseType: "blob" })
+  descargar(respuesta.data, "proveedores.xlsx")
+}
+
+export async function descargarProveedoresPdf(filtros: { texto?: string; activo?: boolean }) {
+  const respuesta = await http.get("/proveedores/exportar/pdf", { params: filtros, responseType: "blob" })
+  descargar(respuesta.data, "proveedores.pdf")
+}
