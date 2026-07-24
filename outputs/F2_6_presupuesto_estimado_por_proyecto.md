@@ -55,9 +55,10 @@ Se creó un cliente, una jurisdicción, y un proyecto de cada tipo, y se complet
 | Config sembrada por Flyway | 8 alícuotas + 7 parámetros COMEX, valores reales del Excel | ✔ |
 | Argentina (costo 1000, margen 500) | precio final `2482,75` — idéntico al test unitario | ✔ |
 | Exterior (costo 1500, margen 1500, comisiones intermedias 200, 5 cuotas) | precio final `4901,9966386554` — **coincide con el Excel real** (caso 1, hoja GUADA MODELO) hasta el ruido de punto flotante del propio Excel | ✔ |
+| Argentina real (Excel "Presupuesto_ Web.xlsx", proyecto SEEU, costo 150 = Diseño 100 + Desarrollo 50, margen 100) | precio final `424,1326836` — **coincide con el Excel real** al centavo (y más) | ✔ |
 | UI: pestaña Presupuesto, ambos tipos | desglose completo, etiquetas correctas según tipo, sin el bloque COMEX en Argentina | ✔ |
 | UI: agregar línea de costo + guardar | recalcula toda la cascada (costo 1000→1100, precio final 2482,75→2627,57) | ✔ |
 
-### Checkpoint pendiente
+### Checkpoint cerrado
 
-El plan exige que el contador valide que los cálculos repliquen el Excel de referencia. La cascada **Exterior** está verificada al centavo (y más) contra los 2 casos reales cargados en el Excel "Presupuesto Proyecto Exterior". La cascada **Argentina** quedó verificada solo **algebraicamente a mano** (Python `Decimal` replicando paso a paso las mismas operaciones que el código Java) porque el archivo "Presupuesto Proyecto_ (A COMPLETAR)" no tenía ningún caso numérico cargado — el contador debería validar al menos un proyecto Argentina real antes de confiar en el cálculo para producción.
+El plan exige que el contador valide que los cálculos repliquen el Excel de referencia. La cascada **Exterior** está verificada al centavo (y más) contra los 2 casos reales cargados en el Excel "Presupuesto Proyecto Exterior". La cascada **Argentina** se cerró con un Excel real adicional aportado por el usuario ("Presupuesto_ Web.xlsx", proyecto SEEU): costo de producción 150 USD (Diseño 100 + Desarrollo 50), margen deseado 100 USD → precio final `424,1326836`, coincidiendo con el Excel al centavo (y más) en las 5 líneas de la cascada (comisión de venta, precio sin IVA, IIBB, impuesto a los débitos/créditos, IVA, precio con IVA). Test agregado: `argentinaCasoRealCalibradoContraElExcelReal`. Ambas cascadas quedan calibradas contra datos reales del contador.

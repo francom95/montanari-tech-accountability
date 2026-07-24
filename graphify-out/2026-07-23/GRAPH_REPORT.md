@@ -1,25 +1,20 @@
-# Graph Report - Montanari Tech Accountability  (2026-07-23)
+# Graph Report - .  (2026-07-23)
 
 ## Corpus Check
-- 765 files · ~250,732 words
+- 541 files · ~262,075 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2254 nodes · 4314 edges · 183 communities (133 shown, 50 thin omitted)
-- Extraction: 91% EXTRACTED · 9% INFERRED · 0% AMBIGUOUS · INFERRED: 390 edges (avg confidence: 0.81)
-- Token cost: 0 input · 0 output
-
-## Graph Freshness
-- Built from commit: `cb73f6c1`
-- Run `git rev-parse HEAD` and compare to check if the graph is stale.
-- Run `graphify update .` after code changes (no API cost).
+- 6693 nodes · 14439 edges · 475 communities (357 shown, 118 thin omitted)
+- Extraction: 92% EXTRACTED · 8% INFERRED · 0% AMBIGUOUS · INFERRED: 1156 edges (avg confidence: 0.8)
+- Token cost: 267,421 input · 0 output
 
 ## Community Hubs (Navigation)
 - [[_COMMUNITY_Cliente CRUD|Cliente CRUD]]
 - [[_COMMUNITY_Autenticacion y usuarios|Autenticacion y usuarios]]
 - [[_COMMUNITY_TipoCosto CRUD|TipoCosto CRUD]]
 - [[_COMMUNITY_Gestion de usuarios (DTOs)|Gestion de usuarios (DTOs)]]
-- [[_COMMUNITY_Filtro JWT y seguridad|Filtro JWT y seguridad]]
+- [[_COMMUNITY_Arquitectura y brief fundacional del proyecto|Arquitectura y brief fundacional del proyecto]]
 - [[_COMMUNITY_Rubro CRUD|Rubro CRUD]]
 - [[_COMMUNITY_TipoCambio CRUD|TipoCambio CRUD]]
 - [[_COMMUNITY_UserDetails y refresh tokens|UserDetails y refresh tokens]]
@@ -46,7 +41,7 @@
 - [[_COMMUNITY_TarjetaCredito CRUD (adicional)|TarjetaCredito CRUD (adicional)]]
 - [[_COMMUNITY_TarjetaCredito CRUD (tests)|TarjetaCredito CRUD (tests)]]
 - [[_COMMUNITY_Config TypeScript Node|Config TypeScript Node]]
-- [[_COMMUNITY_Plan F7.6 exportaciones en lote|Plan F7.6 exportaciones en lote]]
+- [[_COMMUNITY_Facturacion Facturaventa|Facturacion Facturaventa]]
 - [[_COMMUNITY_Docs del plan (cluster)|Docs del plan (cluster)]]
 - [[_COMMUNITY_Dependencias npmfrontend|Dependencias npm/frontend]]
 - [[_COMMUNITY_Categoria contable (maestro)|Categoria contable (maestro)]]
@@ -67,14 +62,15 @@
 - [[_COMMUNITY_EntidadNegocio CRUDlogic|EntidadNegocio CRUD/logic]]
 - [[_COMMUNITY_CuentaBancaria CRUDlogic|CuentaBancaria CRUD/logic]]
 - [[_COMMUNITY_Proveedor CRUDlogic|Proveedor CRUD/logic]]
-- [[_COMMUNITY_Plan docs cluster|Plan docs cluster]]
+- [[_COMMUNITY_Impuestos Iva Liquidacionivaservice|Impuestos Iva Liquidacionivaservice]]
 - [[_COMMUNITY_F1.1 Arquitectura global y modelo de dat|F1.1 Arquitectura global y modelo de dat]]
 - [[_COMMUNITY_Balanceo de asiento (Σdebe = Σhaber)|Balanceo de asiento (Σdebe = Σhaber)]]
 - [[_COMMUNITY_Plantillas reutilizables (concepto, secc|Plantillas reutilizables (concepto, secc]]
 - [[_COMMUNITY_Importación de etapas (ExcelCSV con pre|Importación de etapas (Excel/CSV con pre]]
 - [[_COMMUNITY_Estilos corporativos centralizados en ex|Estilos corporativos centralizados en ex]]
-- [[_COMMUNITY_Plan docs cluster|Plan docs cluster]]
+- [[_COMMUNITY_Contabilidad Estadoresultados Estadoresultadoscontroller|Contabilidad Estadoresultados Estadoresultadoscontroller]]
 - [[_COMMUNITY_Moneda CRUDlogic|Moneda CRUD/logic]]
+- [[_COMMUNITY_card.tsx|card.tsx]]
 - [[_COMMUNITY_Interfaz AlertChannel (InApp hoy, Email|Interfaz AlertChannel (InApp hoy, Email ]]
 - [[_COMMUNITY_Usuario CRUDlogic|Usuario CRUD/logic]]
 - [[_COMMUNITY_Categoria CRUDlogic|Categoria CRUD/logic]]
@@ -88,7 +84,7 @@
 - [[_COMMUNITY_use-categoria.ts|use-categoria.ts]]
 - [[_COMMUNITY_use-cliente.ts|use-cliente.ts]]
 - [[_COMMUNITY_use-concepto.ts|use-concepto.ts]]
-- [[_COMMUNITY_use-cuenta-bancaria.ts|use-cuenta-bancaria.ts]]
+- [[_COMMUNITY_Tests del motor de presupuesto (F2.6)|Tests del motor de presupuesto (F2.6)]]
 - [[_COMMUNITY_use-jurisdiccion.ts|use-jurisdiccion.ts]]
 - [[_COMMUNITY_use-monedas.ts|use-monedas.ts]]
 - [[_COMMUNITY_use-proveedor.ts|use-proveedor.ts]]
@@ -98,7 +94,7 @@
 - [[_COMMUNITY_use-tipocosto.ts|use-tipocosto.ts]]
 - [[_COMMUNITY_cuentas-bancarias-page.tsx|cuentas-bancarias-page.tsx]]
 - [[_COMMUNITY_usuarios-page.tsx|usuarios-page.tsx]]
-- [[_COMMUNITY_Plan docs cluster|Plan docs cluster]]
+- [[_COMMUNITY_Auth Usuariocontroller|Auth Usuariocontroller]]
 - [[_COMMUNITY_Casos de prueba contables (≥15 casos num|Casos de prueba contables (≥15 casos num]]
 - [[_COMMUNITY_Verificación de balanceo global (Σ debe|Verificación de balanceo global (Σ debe ]]
 - [[_COMMUNITY_Jurisdiccion CRUDlogic|Jurisdiccion CRUD/logic]]
@@ -114,7 +110,7 @@
 - [[_COMMUNITY_tarjetas-credito-page.tsx|tarjetas-credito-page.tsx]]
 - [[_COMMUNITY_tipos-cambio-page.tsx|tipos-cambio-page.tsx]]
 - [[_COMMUNITY_proveedor.ts|proveedor.ts]]
-- [[_COMMUNITY_ContableApplication CRUDlogic|ContableApplication CRUD/logic]]
+- [[_COMMUNITY_Frontend pestaña de presupuesto por proyecto|Frontend: pestaña de presupuesto por proyecto]]
 - [[_COMMUNITY_http.ts|http.ts]]
 - [[_COMMUNITY_auditoria-page.tsx|auditoria-page.tsx]]
 - [[_COMMUNITY_clientes-page.tsx|clientes-page.tsx]]
@@ -140,16 +136,31 @@
 - [[_COMMUNITY_button.tsx|button.tsx]]
 - [[_COMMUNITY_checkbox.tsx|checkbox.tsx]]
 - [[_COMMUNITY_nav-config.ts|nav-config.ts]]
-- [[_COMMUNITY_auditoria.ts|auditoria.ts]]
+- [[_COMMUNITY_ConfiguracionPresupuestoController (admin)|ConfiguracionPresupuestoController (admin)]]
 - [[_COMMUNITY_vite-env.d.ts|vite-env.d.ts]]
 - [[_COMMUNITY_tsconfig.json|tsconfig.json]]
+- [[_COMMUNITY_require-admin.tsx|require-admin.tsx]]
+- [[_COMMUNITY_require-auth.tsx|require-auth.tsx]]
+- [[_COMMUNITY_input.tsx|input.tsx]]
+- [[_COMMUNITY_label.tsx|label.tsx]]
+- [[_COMMUNITY_separator.tsx|separator.tsx]]
+- [[_COMMUNITY_app-layout.tsx|app-layout.tsx]]
 - [[_COMMUNITY_auth-token.ts|auth-token.ts]]
+- [[_COMMUNITY_utils.ts|utils.ts]]
+- [[_COMMUNITY_dashboard-page.tsx|dashboard-page.tsx]]
+- [[_COMMUNITY_placeholder-page.tsx|placeholder-page.tsx]]
+- [[_COMMUNITY_query-provider.tsx|query-provider.tsx]]
 - [[_COMMUNITY_router.tsx|router.tsx]]
 - [[_COMMUNITY_Favicon (Montanari Tech Accountability a|Favicon (Montanari Tech Accountability a]]
+- [[_COMMUNITY_App.test.tsx|App.test.tsx]]
+- [[_COMMUNITY_login.test.tsx|login.test.tsx]]
+- [[_COMMUNITY_monedas.test.tsx|monedas.test.tsx]]
+- [[_COMMUNITY_setup.ts|setup.ts]]
+- [[_COMMUNITY_vite.config.ts|vite.config.ts]]
 - [[_COMMUNITY_com.montanaritechcontable|com.montanaritech:contable]]
 - [[_COMMUNITY_RefreshTokenService|RefreshTokenService]]
 - [[_COMMUNITY_.de|.de]]
-- [[_COMMUNITY_NumeracionPaginasPdf|NumeracionPaginasPdf]]
+- [[_COMMUNITY_Plan F8.2 presupuesto de pagos (futuro)|Plan F8.2: presupuesto de pagos (futuro)]]
 - [[_COMMUNITY_Qué se hizo|Qué se hizo]]
 - [[_COMMUNITY_AuditoriaService|AuditoriaService]]
 - [[_COMMUNITY_RefreshToken|RefreshToken]]
@@ -158,7 +169,7 @@
 - [[_COMMUNITY_JpaAuditingConfig.java|JpaAuditingConfig.java]]
 - [[_COMMUNITY_Tenant|Tenant]]
 - [[_COMMUNITY_JurisdiccionRepository|JurisdiccionRepository]]
-- [[_COMMUNITY_ProveedorRepository|ProveedorRepository]]
+- [[_COMMUNITY_Doc de salida F2.6 presupuesto por proyecto|Doc de salida F2.6: presupuesto por proyecto]]
 - [[_COMMUNITY_Vínculo NM Proyecto-Comisionista|Vínculo N:M Proyecto-Comisionista]]
 - [[_COMMUNITY_NumeradorAsiento|NumeradorAsiento]]
 - [[_COMMUNITY_Montanari Tech — Sistema de Gestión Contable|Montanari Tech — Sistema de Gestión Contable]]
@@ -173,44 +184,319 @@
 - [[_COMMUNITY_EntityListeners|EntityListeners]]
 - [[_COMMUNITY_Getter|Getter]]
 - [[_COMMUNITY_Setter|Setter]]
-- [[_COMMUNITY_Table|Table]]
-- [[_COMMUNITY_StreamingResponseBody|StreamingResponseBody]]
+- [[_COMMUNITY_Entidades PresupuestoProyecto y línea de costo|Entidades PresupuestoProyecto y línea de costo]]
+- [[_COMMUNITY_PresupuestoProyectoRepository y Service|PresupuestoProyectoRepository y Service]]
 - [[_COMMUNITY_Qué se hizo|Qué se hizo]]
 - [[_COMMUNITY_CuentaBancariaRepository|CuentaBancariaRepository]]
 - [[_COMMUNITY_use-balance-sumas-y-saldos.ts|use-balance-sumas-y-saldos.ts]]
-- [[_COMMUNITY_balance-sumas-y-saldos-page.tsx|balance-sumas-y-saldos-page.tsx]]
+- [[_COMMUNITY_Entidad ConfiguracionPresupuesto|Entidad ConfiguracionPresupuesto]]
 - [[_COMMUNITY_balance-sumas-y-saldos.ts|balance-sumas-y-saldos.ts]]
 - [[_COMMUNITY_TarjetaCreditoMapper|TarjetaCreditoMapper]]
 - [[_COMMUNITY_mayor-page.tsx|mayor-page.tsx]]
+- [[_COMMUNITY_Qué se hizo|Qué se hizo]]
+- [[_COMMUNITY_ClienteRepository|ClienteRepository]]
+- [[_COMMUNITY_PresupuestoProyectoController|PresupuestoProyectoController]]
+- [[_COMMUNITY_mapeo-rubro-linea-er-page.tsx|mapeo-rubro-linea-er-page.tsx]]
+- [[_COMMUNITY_use-mapeo-rubro-linea-er.ts|use-mapeo-rubro-linea-er.ts]]
+- [[_COMMUNITY_ClienteMapper|ClienteMapper]]
+- [[_COMMUNITY_MockitoSettings|MockitoSettings]]
+- [[_COMMUNITY_Query|Query]]
+- [[_COMMUNITY_Test|Test]]
+- [[_COMMUNITY_Transactional|Transactional]]
+- [[_COMMUNITY_Bancos Tarjetacredito Consumotarjeta|Bancos Tarjetacredito Consumotarjeta]]
+- [[_COMMUNITY_CuitValido validador de CUIT|CuitValido: validador de CUIT]]
+- [[_COMMUNITY_Contabilidad Balance Balancesumasysaldosservice|Contabilidad Balance Balancesumasysaldosservice]]
+- [[_COMMUNITY_Facturacion Cobro Aplicacionanticipocliente|Facturacion Cobro Aplicacionanticipocliente]]
+- [[_COMMUNITY_Facturacion Cobro Dto Cobroresponse|Facturacion Cobro Dto Cobroresponse]]
+- [[_COMMUNITY_Facturacion Tipocomprobante|Facturacion Tipocomprobante]]
+- [[_COMMUNITY_Impuestos Atribucion Atribucionimpuesto|Impuestos Atribucion Atribucionimpuesto]]
+- [[_COMMUNITY_Impuestos Iva Liquidacionivacomponente|Impuestos Iva Liquidacionivacomponente]]
+- [[_COMMUNITY_Common Reporte Reportexportservicetest (test)|Common Reporte Reportexportservicetest (test)]]
+- [[_COMMUNITY_Asientos Page|Asientos Page]]
+- [[_COMMUNITY_Pagos Page|Pagos Page]]
+- [[_COMMUNITY_Liquidacion Iva|Liquidacion Iva]]
+- [[_COMMUNITY_Doc de salida F3 4 Motor De Asientos Manuales Paso|Doc de salida: F3 4 Motor De Asientos Manuales Paso]]
+- [[_COMMUNITY_Doc de salida F4 2 Facturas De Venta Paso|Doc de salida: F4 2 Facturas De Venta Paso]]
+- [[_COMMUNITY_Plan|Plan]]
+- [[_COMMUNITY_Plan|Plan]]
+- [[_COMMUNITY_Plan|Plan]]
+- [[_COMMUNITY_Bancos Importacion Parsertarjeta|Bancos Importacion Parsertarjeta]]
+- [[_COMMUNITY_Bancos Movimientobancario Movimientobancariorepository|Bancos Movimientobancario Movimientobancariorepository]]
+- [[_COMMUNITY_NumeracionPaginasPdf (Página X de Y)|NumeracionPaginasPdf (Página X de Y)]]
+- [[_COMMUNITY_TenantFilterInterceptor (multi-tenant)|TenantFilterInterceptor (multi-tenant)]]
+- [[_COMMUNITY_Contabilidad Estadoresultados Dto Estadoresultadosdtos|Contabilidad Estadoresultados Dto Estadoresultadosdtos]]
+- [[_COMMUNITY_Maestros Proveedor|Maestros Proveedor]]
+- [[_COMMUNITY_Maestros Proyecto Etapa Importacion Etapaimportparser|Maestros Proyecto Etapa Importacion Etapaimportparser]]
+- [[_COMMUNITY_DTOs de PresupuestoProyecto|DTOs de PresupuestoProyecto]]
+- [[_COMMUNITY_Bancos Importacion Parsermercadopagotest (test)|Bancos Importacion Parsermercadopagotest (test)]]
+- [[_COMMUNITY_Use Asiento|Use Asiento]]
+- [[_COMMUNITY_Use Liquidacion Iibb|Use Liquidacion Iibb]]
+- [[_COMMUNITY_Use Movimiento Bancario|Use Movimiento Bancario]]
+- [[_COMMUNITY_Asiento|Asiento]]
+- [[_COMMUNITY_Factura Compra|Factura Compra]]
+- [[_COMMUNITY_Factura Venta|Factura Venta]]
+- [[_COMMUNITY_Plan|Plan]]
+- [[_COMMUNITY_Plan|Plan]]
+- [[_COMMUNITY_Backend Mvnw|Backend Mvnw]]
+- [[_COMMUNITY_Bancos Tarjetacredito Pagotarjeta|Bancos Tarjetacredito Pagotarjeta]]
+- [[_COMMUNITY_Bancos Tarjetacredito Reglaclasificacionconsumo|Bancos Tarjetacredito Reglaclasificacionconsumo]]
+- [[_COMMUNITY_Immutable|Immutable]]
+- [[_COMMUNITY_Contabilidad Asiento Asientomapper|Contabilidad Asiento Asientomapper]]
+- [[_COMMUNITY_Contabilidad Cuentacontable|Contabilidad Cuentacontable]]
+- [[_COMMUNITY_Facturacion Facturaventa Facturaventalinea|Facturacion Facturaventa Facturaventalinea]]
+- [[_COMMUNITY_Impuestos Iibb Liquidacioniibbrepository|Impuestos Iibb Liquidacioniibbrepository]]
+- [[_COMMUNITY_Impuestos Iva Liquidacionivarepository|Impuestos Iva Liquidacionivarepository]]
+- [[_COMMUNITY_Maestros Proveedor Condicioniva|Maestros Proveedor Condicioniva]]
+- [[_COMMUNITY_Estadoetapa|Estadoetapa]]
+- [[_COMMUNITY_Motor de cálculo CalculoPresupuestoProyecto|Motor de cálculo CalculoPresupuestoProyecto]]
+- [[_COMMUNITY_Use Cobro|Use Cobro]]
+- [[_COMMUNITY_Use Estado Resultados|Use Estado Resultados]]
+- [[_COMMUNITY_Use Pago|Use Pago]]
+- [[_COMMUNITY_Liquidacion Iva Page|Liquidacion Iva Page]]
+- [[_COMMUNITY_Consumo Tarjeta|Consumo Tarjeta]]
+- [[_COMMUNITY_Proyecto|Proyecto]]
+- [[_COMMUNITY_Doc de salida F5 4 Tarjetas De Credito Paso|Doc de salida: F5 4 Tarjetas De Credito Paso]]
+- [[_COMMUNITY_Bancos Tarjetacredito Pagotarjetarepository|Bancos Tarjetacredito Pagotarjetarepository]]
+- [[_COMMUNITY_Contabilidad Estadoresultados Lineaestadoresultados|Contabilidad Estadoresultados Lineaestadoresultados]]
+- [[_COMMUNITY_Facturacion Facturacompra Facturacompralinea|Facturacion Facturacompra Facturacompralinea]]
+- [[_COMMUNITY_Facturacion Facturacompra Facturacomprarepository|Facturacion Facturacompra Facturacomprarepository]]
+- [[_COMMUNITY_Maestros Proveedor Proveedorrepository|Maestros Proveedor Proveedorrepository]]
+- [[_COMMUNITY_Dataformatter|Dataformatter]]
+- [[_COMMUNITY_Use Etapa|Use Etapa]]
+- [[_COMMUNITY_Liquidacion Iibb Page|Liquidacion Iibb Page]]
+- [[_COMMUNITY_Liquidacion Iibb|Liquidacion Iibb]]
+- [[_COMMUNITY_Pago|Pago]]
+- [[_COMMUNITY_Plan|Plan]]
+- [[_COMMUNITY_Plan|Plan]]
+- [[_COMMUNITY_Aspect|Aspect]]
+- [[_COMMUNITY_Common Tenant Tenantcontext|Common Tenant Tenantcontext]]
+- [[_COMMUNITY_Webmvcconfigurer|Webmvcconfigurer]]
+- [[_COMMUNITY_Contabilidad Mapeocuenta|Contabilidad Mapeocuenta]]
+- [[_COMMUNITY_Facturacion Cobro Cobroimputacion|Facturacion Cobro Cobroimputacion]]
+- [[_COMMUNITY_Facturacion Cobro Cobrorepository|Facturacion Cobro Cobrorepository]]
+- [[_COMMUNITY_Facturacion Pago Pagoimputacion|Facturacion Pago Pagoimputacion]]
+- [[_COMMUNITY_Facturacion Pago Pagorepository|Facturacion Pago Pagorepository]]
+- [[_COMMUNITY_Impuestos Iibb Liquidacioniibb|Impuestos Iibb Liquidacioniibb]]
+- [[_COMMUNITY_Impuestos Iibb Liquidacioniibbjurisdiccion|Impuestos Iibb Liquidacioniibbjurisdiccion]]
+- [[_COMMUNITY_Impuestos Iva Liquidacioniva|Impuestos Iva Liquidacioniva]]
+- [[_COMMUNITY_Maestros Cliente|Maestros Cliente]]
+- [[_COMMUNITY_Maestros Cliente Clienterepository|Maestros Cliente Clienterepository]]
+- [[_COMMUNITY_Maestros Proyecto Etapa Etaparepository|Maestros Proyecto Etapa Etaparepository]]
+- [[_COMMUNITY_Maestros Proyecto Proyectorepository|Maestros Proyecto Proyectorepository]]
+- [[_COMMUNITY_Mysqlcontainer|Mysqlcontainer]]
+- [[_COMMUNITY_Use Cuenta Contable|Use Cuenta Contable]]
+- [[_COMMUNITY_Use Factura Compra|Use Factura Compra]]
+- [[_COMMUNITY_Use Factura Venta|Use Factura Venta]]
+- [[_COMMUNITY_Use Proyecto|Use Proyecto]]
+- [[_COMMUNITY_Use Tarjeta Credito|Use Tarjeta Credito]]
+- [[_COMMUNITY_Movimientos Bancarios Page|Movimientos Bancarios Page]]
+- [[_COMMUNITY_Atribucion Impuesto|Atribucion Impuesto]]
+- [[_COMMUNITY_Cuenta Contable|Cuenta Contable]]
+- [[_COMMUNITY_Etapa|Etapa]]
+- [[_COMMUNITY_Plan|Plan]]
+- [[_COMMUNITY_Auditoraware|Auditoraware]]
+- [[_COMMUNITY_Entitylisteners|Entitylisteners]]
+- [[_COMMUNITY_Facturacion Facturaventa Facturaventamapper|Facturacion Facturaventa Facturaventamapper]]
+- [[_COMMUNITY_Facturacion Pago Dto Saldofacturacompraresponse|Facturacion Pago Dto Saldofacturacompraresponse]]
+- [[_COMMUNITY_Impuestos Atribucion Atribucionimpuestolinea|Impuestos Atribucion Atribucionimpuestolinea]]
+- [[_COMMUNITY_Impuestos Atribucion Configuracionatribucion|Impuestos Atribucion Configuracionatribucion]]
+- [[_COMMUNITY_Maestros Proveedor Proveedormapper|Maestros Proveedor Proveedormapper]]
+- [[_COMMUNITY_Maestros Proyecto Etapa Etapamapper|Maestros Proyecto Etapa Etapamapper]]
+- [[_COMMUNITY_PresupuestoProyectoMapper|PresupuestoProyectoMapper]]
+- [[_COMMUNITY_Maestros Proyecto Proyectocuota|Maestros Proyecto Proyectocuota]]
+- [[_COMMUNITY_Use Atribucion Impuesto|Use Atribucion Impuesto]]
+- [[_COMMUNITY_Use Categoria|Use Categoria]]
+- [[_COMMUNITY_Use Cliente|Use Cliente]]
+- [[_COMMUNITY_Use Comision Proyecto|Use Comision Proyecto]]
+- [[_COMMUNITY_Use Comisionista|Use Comisionista]]
+- [[_COMMUNITY_Use Concepto|Use Concepto]]
+- [[_COMMUNITY_Use Cuenta Bancaria|Use Cuenta Bancaria]]
+- [[_COMMUNITY_Use Jurisdiccion|Use Jurisdiccion]]
+- [[_COMMUNITY_Use Mapeo Cuenta|Use Mapeo Cuenta]]
+- [[_COMMUNITY_Use Monedas|Use Monedas]]
+- [[_COMMUNITY_Frontend hooks de presupuesto por proyecto|Frontend: hooks de presupuesto por proyecto]]
+- [[_COMMUNITY_Use Proveedor|Use Proveedor]]
+- [[_COMMUNITY_Use Rubro|Use Rubro]]
+- [[_COMMUNITY_Use Tipocambio|Use Tipocambio]]
+- [[_COMMUNITY_Use Tipocosto|Use Tipocosto]]
+- [[_COMMUNITY_Cuentas Bancarias Page|Cuentas Bancarias Page]]
+- [[_COMMUNITY_Estado Resultados Page|Estado Resultados Page]]
+- [[_COMMUNITY_Importacion Historica Page|Importacion Historica Page]]
+- [[_COMMUNITY_Mapeo Rubro Linea Er Page|Mapeo Rubro Linea Er Page]]
+- [[_COMMUNITY_Proyecto Comisiones Tab|Proyecto Comisiones Tab]]
+- [[_COMMUNITY_Proyecto Etapas Tab|Proyecto Etapas Tab]]
+- [[_COMMUNITY_Usuarios Page|Usuarios Page]]
+- [[_COMMUNITY_Frontend tipos de presupuesto por proyecto|Frontend: tipos de presupuesto por proyecto]]
+- [[_COMMUNITY_Proveedor|Proveedor]]
+- [[_COMMUNITY_Doc de salida F3 3 Seed Plan De Cuentas V17|Doc de salida: F3 3 Seed Plan De Cuentas V17]]
+- [[_COMMUNITY_Plan|Plan]]
+- [[_COMMUNITY_Plan|Plan]]
+- [[_COMMUNITY_Common Asiento Calculoimputacion|Common Asiento Calculoimputacion]]
+- [[_COMMUNITY_Common Saldo Cuentaconsaldo|Common Saldo Cuentaconsaldo]]
+- [[_COMMUNITY_Impuestos Iva Resultadoiva|Impuestos Iva Resultadoiva]]
+- [[_COMMUNITY_Maestros Comisionista|Maestros Comisionista]]
+- [[_COMMUNITY_Docker Compose Mysql Service|Docker Compose Mysql Service]]
+- [[_COMMUNITY_Frontend Oxlintrc|Frontend Oxlintrc]]
+- [[_COMMUNITY_Frontend Package Scripts|Frontend Package Scripts]]
+- [[_COMMUNITY_Use Adjunto|Use Adjunto]]
+- [[_COMMUNITY_Use Balance Sumas Y Saldos|Use Balance Sumas Y Saldos]]
+- [[_COMMUNITY_Use Cuenta Por Cobrar|Use Cuenta Por Cobrar]]
+- [[_COMMUNITY_Use Cuenta Por Pagar|Use Cuenta Por Pagar]]
+- [[_COMMUNITY_Use Mapeo Rubro Linea Er|Use Mapeo Rubro Linea Er]]
+- [[_COMMUNITY_Use Mayor|Use Mayor]]
+- [[_COMMUNITY_Balance Sumas Y Saldos Page|Balance Sumas Y Saldos Page]]
+- [[_COMMUNITY_Categorias Page|Categorias Page]]
+- [[_COMMUNITY_Proyectos Page|Proyectos Page]]
+- [[_COMMUNITY_Tarjeta Credito Detalle Page|Tarjeta Credito Detalle Page]]
+- [[_COMMUNITY_Auth|Auth]]
+- [[_COMMUNITY_Comision Proyecto|Comision Proyecto]]
+- [[_COMMUNITY_Cuenta Bancaria|Cuenta Bancaria]]
+- [[_COMMUNITY_Cuenta Por Cobrar|Cuenta Por Cobrar]]
+- [[_COMMUNITY_Cuenta Por Pagar|Cuenta Por Pagar]]
+- [[_COMMUNITY_Importacion Bancaria|Importacion Bancaria]]
+- [[_COMMUNITY_Importacion Factura|Importacion Factura]]
+- [[_COMMUNITY_Mapeo Cuenta|Mapeo Cuenta]]
+- [[_COMMUNITY_Movimiento Bancario|Movimiento Bancario]]
+- [[_COMMUNITY_Contabilidad Mapeocuenta Dto Mapeocuentaresponse|Contabilidad Mapeocuenta Dto Mapeocuentaresponse]]
+- [[_COMMUNITY_DTOs de ConfiguracionPresupuesto|DTOs de ConfiguracionPresupuesto]]
+- [[_COMMUNITY_Frontend Package|Frontend Package]]
+- [[_COMMUNITY_Use Auth|Use Auth]]
+- [[_COMMUNITY_Comisionistas Page|Comisionistas Page]]
+- [[_COMMUNITY_Cuentas Por Cobrar Page|Cuentas Por Cobrar Page]]
+- [[_COMMUNITY_Cuentas Por Pagar Page|Cuentas Por Pagar Page]]
+- [[_COMMUNITY_Mapeo Cuenta Page|Mapeo Cuenta Page]]
+- [[_COMMUNITY_Proveedores Page|Proveedores Page]]
+- [[_COMMUNITY_Tarjetas Credito Page|Tarjetas Credito Page]]
+- [[_COMMUNITY_Tipos Cambio Page|Tipos Cambio Page]]
+- [[_COMMUNITY_Balance Sumas Y Saldos|Balance Sumas Y Saldos]]
+- [[_COMMUNITY_Conciliacion|Conciliacion]]
+- [[_COMMUNITY_Mayor|Mayor]]
+- [[_COMMUNITY_Contabilidad Mapeocuenta Mapeocuentamapper|Contabilidad Mapeocuenta Mapeocuentamapper]]
+- [[_COMMUNITY_Springbootapplication|Springbootapplication]]
+- [[_COMMUNITY_Http|Http]]
+- [[_COMMUNITY_Auditoria Page|Auditoria Page]]
+- [[_COMMUNITY_Clientes Page|Clientes Page]]
+- [[_COMMUNITY_Conceptos Page|Conceptos Page]]
+- [[_COMMUNITY_Conciliacion Page|Conciliacion Page]]
+- [[_COMMUNITY_Ejemplo Formulario Page|Ejemplo Formulario Page]]
+- [[_COMMUNITY_Importacion Bancaria Page|Importacion Bancaria Page]]
+- [[_COMMUNITY_Jurisdicciones Page|Jurisdicciones Page]]
+- [[_COMMUNITY_Login Page|Login Page]]
+- [[_COMMUNITY_Mayor Page|Mayor Page]]
+- [[_COMMUNITY_Monedas Page|Monedas Page]]
+- [[_COMMUNITY_Rubros Page|Rubros Page]]
+- [[_COMMUNITY_Tipos Costo Page|Tipos Costo Page]]
+- [[_COMMUNITY_Comisionista|Comisionista]]
+- [[_COMMUNITY_Concepto|Concepto]]
+- [[_COMMUNITY_Rubro|Rubro]]
+- [[_COMMUNITY_Tarjeta Credito|Tarjeta Credito]]
+- [[_COMMUNITY_Tipocambio|Tipocambio]]
+- [[_COMMUNITY_Tipocosto|Tipocosto]]
+- [[_COMMUNITY_Plan F2.6 presupuesto estimado por proyecto|Plan F2.6: presupuesto estimado por proyecto]]
+- [[_COMMUNITY_Plan 15 F2 7 Comisionistas F2 7|Plan: 15 F2 7 Comisionistas F2 7]]
+- [[_COMMUNITY_Common Asiento Numeradorasiento|Common Asiento Numeradorasiento]]
+- [[_COMMUNITY_Facturacion Pago Dto Pagoresponse|Facturacion Pago Dto Pagoresponse]]
+- [[_COMMUNITY_App|App]]
+- [[_COMMUNITY_Atribucion Proyectos|Atribucion Proyectos]]
+- [[_COMMUNITY_Ui Button|Ui Button]]
+- [[_COMMUNITY_Ui Checkbox|Ui Checkbox]]
+- [[_COMMUNITY_Use Usuario|Use Usuario]]
+- [[_COMMUNITY_Routes Nav Config|Routes Nav Config]]
+- [[_COMMUNITY_Auditoria|Auditoria]]
+- [[_COMMUNITY_Vite Env D|Vite Env D]]
+- [[_COMMUNITY_Frontend Tsconfig|Frontend Tsconfig]]
+- [[_COMMUNITY_Backend Src Main Resources Application Dev Yml Config|Backend Src Main Resources Application Dev Yml Config]]
+- [[_COMMUNITY_Claude|Claude]]
+- [[_COMMUNITY_Auth Token|Auth Token]]
+- [[_COMMUNITY_Routes Router|Routes Router]]
+- [[_COMMUNITY_Adjunto|Adjunto]]
+- [[_COMMUNITY_Common Asiento Generadorasientodeprueba Component|Common Asiento Generadorasientodeprueba Component]]
+- [[_COMMUNITY_Common Asiento Generadorasientodeprueba Moneda|Common Asiento Generadorasientodeprueba Moneda]]
+- [[_COMMUNITY_Common Asiento Generadorasientodeprueba Override|Common Asiento Generadorasientodeprueba Override]]
+- [[_COMMUNITY_Common Asiento Generadorasientodeprueba Requiredargsconstructor|Common Asiento Generadorasientodeprueba Requiredargsconstructor]]
+- [[_COMMUNITY_Common Asiento Numeradorasientoenmemoria Component|Common Asiento Numeradorasientoenmemoria Component]]
+- [[_COMMUNITY_Common Asiento Numeradorasientoenmemoria Override|Common Asiento Numeradorasientoenmemoria Override]]
+- [[_COMMUNITY_Common Tenant Tenant Entitylisteners|Common Tenant Tenant Entitylisteners]]
+- [[_COMMUNITY_Contabilidad Balance Balancesumasysaldosservice Cuentacontablerepository|Contabilidad Balance Balancesumasysaldosservice Cuentacontablerepository]]
+- [[_COMMUNITY_Contabilidad Estadoresultados Dto Mapeorubrolineaerdtos Tipocategoria|Contabilidad Estadoresultados Dto Mapeorubrolineaerdtos Tipocategoria]]
+- [[_COMMUNITY_Contabilidad Estadoresultados Estadoresultadosservice Cuentacontablerepository|Contabilidad Estadoresultados Estadoresultadosservice Cuentacontablerepository]]
+- [[_COMMUNITY_Contabilidad Estadoresultados Estadoresultadosservice Proyectorepository|Contabilidad Estadoresultados Estadoresultadosservice Proyectorepository]]
+- [[_COMMUNITY_Contabilidad Estadoresultados Mapeorubrolineaestadoresultados Tipocategoria|Contabilidad Estadoresultados Mapeorubrolineaestadoresultados Tipocategoria]]
+- [[_COMMUNITY_Contabilidad Estadoresultados Mapeorubrolineaestadoresultadosrepository Tipocate|Contabilidad Estadoresultados Mapeorubrolineaestadoresultadosrepository Tipocate]]
+- [[_COMMUNITY_Contabilidad Estadoresultados Mapeorubrolineaestadoresultadosservice Tipocategor|Contabilidad Estadoresultados Mapeorubrolineaestadoresultadosservice Tipocategor]]
+- [[_COMMUNITY_Maestros Tipocambio Tipocambiorepository Tipocambio|Maestros Tipocambio Tipocambiorepository Tipocambio]]
+- [[_COMMUNITY_Contabilidad Balance Balancesumasysaldosservicetest Cuentacontablerepository (te|Contabilidad Balance Balancesumasysaldosservicetest Cuentacontablerepository (te]]
+- [[_COMMUNITY_Contabilidad Estadoresultados Estadoresultadosservicetest Cuentacontablereposito|Contabilidad Estadoresultados Estadoresultadosservicetest Cuentacontablereposito]]
+- [[_COMMUNITY_Contabilidad Estadoresultados Estadoresultadosservicetest Proyectorepository (te|Contabilidad Estadoresultados Estadoresultadosservicetest Proyectorepository (te]]
+- [[_COMMUNITY_Contabilidad Estadoresultados Estadoresultadosservicetest Tipocategoria (test)|Contabilidad Estadoresultados Estadoresultadosservicetest Tipocategoria (test)]]
+- [[_COMMUNITY_Maestros Categoria Categoriaservicetest Categoria (test)|Maestros Categoria Categoriaservicetest Categoria (test)]]
+- [[_COMMUNITY_Beforeeach|Beforeeach]]
+- [[_COMMUNITY_Cellstyle|Cellstyle]]
+- [[_COMMUNITY_Cuentaporcobrarservice|Cuentaporcobrarservice]]
+- [[_COMMUNITY_Cuentaporpagarservice|Cuentaporpagarservice]]
+- [[_COMMUNITY_Deletemapping|Deletemapping]]
+- [[_COMMUNITY_Entity|Entity]]
+- [[_COMMUNITY_Extendwith|Extendwith]]
+- [[_COMMUNITY_Frontend Public Favicon|Frontend Public Favicon]]
+- [[_COMMUNITY_Getmapping|Getmapping]]
+- [[_COMMUNITY_Getter|Getter]]
+- [[_COMMUNITY_Importacionfacturaservice|Importacionfacturaservice]]
+- [[_COMMUNITY_Mapper|Mapper]]
+- [[_COMMUNITY_Mapping|Mapping]]
+- [[_COMMUNITY_Mayorfilaresponse|Mayorfilaresponse]]
+- [[_COMMUNITY_Mayorservice|Mayorservice]]
+- [[_COMMUNITY_Mockitosettings|Mockitosettings]]
+- [[_COMMUNITY_Monedarepository|Monedarepository]]
+- [[_COMMUNITY_Multipartfile|Multipartfile]]
+- [[_COMMUNITY_Override|Override]]
+- [[_COMMUNITY_Pkg Com Montanaritech Contable|Pkg Com Montanaritech Contable]]
+- [[_COMMUNITY_Postmapping|Postmapping]]
+- [[_COMMUNITY_Preauthorize|Preauthorize]]
+- [[_COMMUNITY_Putmapping|Putmapping]]
+- [[_COMMUNITY_Query|Query]]
+- [[_COMMUNITY_Reportexportservice|Reportexportservice]]
+- [[_COMMUNITY_Requestmapping|Requestmapping]]
+- [[_COMMUNITY_Responseentity|Responseentity]]
+- [[_COMMUNITY_Restcontroller|Restcontroller]]
+- [[_COMMUNITY_Saldoesperado|Saldoesperado]]
+- [[_COMMUNITY_Service|Service]]
+- [[_COMMUNITY_Setter|Setter]]
+- [[_COMMUNITY_Streamingresponsebody|Streamingresponsebody]]
+- [[_COMMUNITY_Table|Table]]
+- [[_COMMUNITY_Tag|Tag]]
+- [[_COMMUNITY_Test|Test]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `AuditoriaService` - 53 edges
-2. `RecursoNoEncontradoException` - 50 edges
-3. `ProveedorServiceTest` - 34 edges
-4. `EntidadNegocio` - 32 edges
-5. `ReportExportService` - 28 edges
-6. `MonedaRepository` - 27 edges
-7. `ClienteServiceTest` - 26 edges
-8. `Auditado` - 23 edges
-9. `TarjetaCreditoService` - 21 edges
-10. `BalanceSumasYSaldosServiceTest` - 20 edges
+1. `AsientoService` - 82 edges
+2. `CuentaContableRepository` - 70 edges
+3. `CuentaContable` - 63 edges
+4. `AsientoServiceTest` - 50 edges
+5. `ProyectoRepository` - 49 edges
+6. `Asiento` - 46 edges
+7. `AsientoGenerado` - 45 edges
+8. `ResolutorCuentas` - 43 edges
+9. `Proyecto` - 43 edges
+10. `FacturaCompraService` - 41 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `CI GitHub Actions Workflow` --implements--> `Paso F1.7: CI básico`  [INFERRED]
   .github/workflows/ci.yml → plan/07_F1_7_ci_basico.md
+- `Frontend index.html (root document)` --implements--> `Paso F1.4: Scaffolding frontend`  [INFERRED]
+  frontend/index.html → plan/04_F1_4_scaffolding_frontend.md
+- `Fases sugeridas del proyecto (sección 7)` --conceptually_related_to--> `Índice de pasos F1.1-F11.4 (55 pasos)`  [INFERRED]
+  inputs/brief_proyecto.md → plan/00_README.md
+- `Auditoría transversal (auditoria_log)` --implements--> `Módulo Seguridad, Usuarios y Auditoría`  [INFERRED]
+  outputs/F1_1_arquitectura_global_y_modelo_de_datos.md → inputs/documento_funcional.md
 - `PL-1 CRUD Backend (plantilla)` --shares_data_with--> `EntidadNegocio (mapped superclass)`  [INFERRED]
   plan/00_plantillas.md → outputs/F1_1_arquitectura_global_y_modelo_de_datos.md
-- `PL-5 Máquina de estados (plantilla)` --conceptually_related_to--> `Asiento automático editable sin alterar comprobante`  [INFERRED]
-  plan/00_plantillas.md → outputs/F1_1_arquitectura_global_y_modelo_de_datos.md
-- `Patrón Haiku ejecuta primero, Sonnet corrige bugs` --conceptually_related_to--> `Matriz de delegación de modelos (Opus/Sonnet/Haiku)`  [INFERRED]
-  README.md → inputs/brief_proyecto.md
-- `Paso F1.3: Scaffolding backend + Docker Compose` --rationale_for--> `Docker Compose stack (mysql, backend, frontend)`  [INFERRED]
-  plan/03_F1_3_scaffolding_backend_docker_compose.md → docker-compose.yml
 
 ## Import Cycles
 - None detected.
 
 ## Hyperedges (group relationships)
+- **Generadores de asiento que implementan AsientoGenerator<T> (molde PL-4)** — outputs_f4_2_facturas_de_venta_facturaventa_asientogenerator, outputs_f4_3_facturas_de_compra_facturacompra_asientogenerator, outputs_f4_4_cobros_y_pagos_cobroasientogenerator, outputs_f4_4_cobros_y_pagos_pagoasientogenerator, outputs_f6_1_liquidacion_iva_liquidacioniva_asiento_generator, outputs_f6_2_liquidacion_iibb_liquidacioniibbasientogenerator, outputs_f5_4_tarjetas_de_credito_pagotarjetaassientogenerator [INFERRED 0.85]
+- **Regla del residuo reaplicada en distintos motores de reparto** — outputs_f3_1_diseno_del_motor_contable_regla_del_residuo, outputs_f4_4_cobros_y_pagos_calculoimputacion_comun, outputs_f6_3_atribucion_impuestos_proyectos_prorrateocalculator [INFERRED 0.85]
+- **Bugs reales invisibles en tests unitarios, detectados solo contra datos/DB reales** — outputs_f3_6_mayores_contables_bug_object_array_jpa, outputs_f6_3_atribucion_impuestos_proyectos_bug_query_faltante_proyectorepository, outputs_f6_1_liquidacion_iva_bug_moneda_null_asientolinea, outputs_f5_2_parsers_de_resumenes_bug_poi_celda_td, outputs_f4_6_importacion_facturacion_historica_bug_regex_etiquetas_pegadas [INFERRED 0.85]
 - **Pipeline de fundaciones F1.1 a F1.8** — plan_01_f1_1_arquitectura_paso, plan_02_f1_2_decisiones_tooling_paso, plan_03_f1_3_scaffolding_backend_paso, plan_04_f1_4_scaffolding_frontend_paso, plan_05_f1_5_autenticacion_paso, plan_06_f1_6_infraestructura_auditoria_paso, plan_07_f1_7_ci_basico_paso, plan_08_f1_8_definicion_formal_plantillas_paso [EXTRACTED 0.95]
 - **Patrón multi-tenant-ready (tenant_id + filtro Hibernate + EntidadNegocio)** — f1_1_multi_tenant_ready, f1_1_entidadnegocio_mapped_superclass, backend_src_main_resources_application_yml_tenantfilterinterceptor, plan_00_plantillas_pl1_crud_backend [INFERRED 0.85]
 - **Las 5 plantillas reutilizables (PL-1 a PL-5) y su molde Moneda** — plan_00_plantillas_pl1_crud_backend, plan_00_plantillas_pl2_crud_frontend, plan_00_plantillas_pl3_reporte_exportable, plan_00_plantillas_pl4_asiento_automatico, plan_00_plantillas_pl5_maquina_estados, plan_00_plantillas_guia_aplicacion_moneda_molde [EXTRACTED 0.95]
@@ -221,499 +507,1379 @@
 - **Suite de reportes consolidados sobre infraestructura de exportación F7.1** — plan_35_f7_1_infraestructura_de_exportacion_consolidada_reportexportservice, plan_36_f7_2_balance_de_sumas_y_saldos_f7_2, plan_37_f7_3_estado_de_resultados_f7_3, plan_38_f7_4_reporte_detallado_por_proyecto_rentabilidad_f7_4, plan_39_f7_5_dashboard_f7_5 [EXTRACTED 1.00]
 - **Motor de alertas alimentado por vencimientos, CxC/CxP, pendientes y flujo de caja** — plan_46_f9_1_motor_de_alertas_f9_1, plan_41_f8_1_calendario_de_vencimientos_servicio_proximos_vencimientos, plan_45_f8_5_pendientes_administrativos_query_service_por_vencer, plan_43_f8_3_flujo_de_caja_real_y_proyectado_deteccion_saldo_negativo [EXTRACTED 1.00]
 
-## Communities (183 total, 50 thin omitted)
+## Communities (475 total, 118 thin omitted)
 
 ### Community 0 - "Cliente CRUD"
-Cohesion: 0.14
-Nodes (19): ClienteController, DeleteMapping, GetMapping, Page, Pageable, PatchMapping, PostMapping, PreAuthorize (+11 more)
+Cohesion: 0.05
+Nodes (48): EstadoVencimiento, CuentaPorPagarController, EstadoVencimiento, GetMapping, RequestMapping, RequiredArgsConstructor, ResponseEntity, RestController (+40 more)
 
 ### Community 1 - "Autenticacion y usuarios"
-Cohesion: 0.15
-Nodes (14): Authentication, AuthController, GetMapping, PostMapping, RequestMapping, RequiredArgsConstructor, ResponseEntity, RestController (+6 more)
+Cohesion: 0.05
+Nodes (44): ConsumoTarjetaController, GetMapping, Page, Pageable, PatchMapping, PostMapping, PreAuthorize, RequestMapping (+36 more)
 
 ### Community 2 - "TipoCosto CRUD"
-Cohesion: 0.07
-Nodes (32): TipoCostoCrearRequest, TipoCostoEditarRequest, TipoCostoResponse, DeleteMapping, GetMapping, Page, Pageable, PatchMapping (+24 more)
+Cohesion: 0.06
+Nodes (38): ClienteController, DeleteMapping, GetMapping, Page, Pageable, PatchMapping, PostMapping, PreAuthorize (+30 more)
 
 ### Community 3 - "Gestion de usuarios (DTOs)"
 Cohesion: 0.06
-Nodes (42): CambiarPasswordRequest, RolUsuario, UsuarioCrearRequest, RolUsuario, UsuarioEditarRequest, RolUsuario, UsuarioResponse, RolUsuario (+34 more)
+Nodes (44): CuentaBancariaController, DeleteMapping, GetMapping, Page, Pageable, PatchMapping, PostMapping, PreAuthorize (+36 more)
 
-### Community 4 - "Filtro JWT y seguridad"
+### Community 4 - "Arquitectura y brief fundacional del proyecto"
 Cohesion: 0.05
-Nodes (46): AuthenticationConfiguration, Component, HttpServletRequest, HttpServletResponse, Override, RequiredArgsConstructor, JwtAuthenticationFilter, Component (+38 more)
+Nodes (72): F1.1 Arquitectura global y modelo de datos contable, Balanceo de asiento (Σdebe = Σhaber), Asiento automático editable sin alterar comprobante, Auditoría transversal (auditoria_log), Capas Controller-Service-Repository, Cuenta contable jerárquica (madre/imputable), EntidadNegocio (mapped superclass), ImporteMonetario (embeddable) (+64 more)
 
 ### Community 5 - "Rubro CRUD"
 Cohesion: 0.06
-Nodes (41): Getter, RecursoNoEncontradoException, CategoriaRepository, Categoria, Page, Pageable, Query, RubroCrearRequest (+33 more)
+Nodes (37): TipoCostoCrearRequest, TipoCostoEditarRequest, TipoCostoResponse, DeleteMapping, GetMapping, Page, Pageable, PatchMapping (+29 more)
 
 ### Community 6 - "TipoCambio CRUD"
 Cohesion: 0.07
-Nodes (34): TipoCambioCrearRequest, TipoCambioEditarRequest, TipoCambioResponse, DeleteMapping, GetMapping, Page, Pageable, PatchMapping (+26 more)
+Nodes (38): ReglaClasificacionCrearRequest, ReglaClasificacionResponse, GetMapping, Page, Pageable, PatchMapping, PostMapping, PreAuthorize (+30 more)
 
 ### Community 7 - "UserDetails y refresh tokens"
-Cohesion: 0.06
-Nodes (39): CustomUserDetailsService, Override, RequiredArgsConstructor, Service, RefreshTokenRepository, Usuario, UsuarioRepository, AuditoriaLogRepository (+31 more)
+Cohesion: 0.07
+Nodes (35): AplicacionAnticipoClienteRepository, Query, CobroImputacionRepository, CobroImputacion, EstadoDocumento, Query, ImputadoFacturaVenta, CuentaPorCobrarController (+27 more)
 
 ### Community 8 - "Concepto CRUD"
-Cohesion: 0.06
-Nodes (40): ConceptoController, DeleteMapping, GetMapping, Page, Pageable, PatchMapping, PostMapping, PreAuthorize (+32 more)
+Cohesion: 0.07
+Nodes (35): FacturaVentaAnularRequest, FacturaVentaResponse, LineaResponse, TipoComprobante, FacturaVentaController, DeleteMapping, EstadoDocumento, GetMapping (+27 more)
 
 ### Community 9 - "Categoria CRUD"
 Cohesion: 0.07
-Nodes (32): CategoriaController, DeleteMapping, GetMapping, Page, Pageable, PatchMapping, PostMapping, PreAuthorize (+24 more)
+Nodes (35): CategoriaController, DeleteMapping, GetMapping, Page, Pageable, PatchMapping, PostMapping, PreAuthorize (+27 more)
 
 ### Community 10 - "Jurisdiccion CRUD"
 Cohesion: 0.07
 Nodes (32): JurisdiccionCrearRequest, JurisdiccionEditarRequest, JurisdiccionResponse, DeleteMapping, GetMapping, Page, Pageable, PatchMapping (+24 more)
 
 ### Community 11 - "Motor de asientos (AsientoGenerator)"
-Cohesion: 0.07
-Nodes (13): AsientoGenerado, AsientoGenerator, LineaAsientoGenerada, ValidadorBalanceAsiento, Getter, NegocioException, PeriodoCerradoException, EstadoDocumento (+5 more)
+Cohesion: 0.06
+Nodes (47): Entity, Getter, RolUsuario, Setter, Table, Usuario, EntidadNegocio, EntityListeners (+39 more)
 
 ### Community 12 - "Manejo de errores y seguridad"
+Cohesion: 0.08
+Nodes (32): ConceptoController, DeleteMapping, GetMapping, Page, Pageable, PatchMapping, PostMapping, PreAuthorize (+24 more)
+
+### Community 13 - "TarjetaCredito CRUD"
+Cohesion: 0.08
+Nodes (27): FacturaVentaRepository, EstadoDocumento, FacturaVenta, Page, Pageable, Query, CalculoIibb, JurisdiccionCalculada (+19 more)
+
+### Community 14 - "Config OpenAPI / Swagger"
+Cohesion: 0.09
+Nodes (28): Auditado, Retention, Target, MonedaResponse, DeleteMapping, GetMapping, Page, Pageable (+20 more)
+
+### Community 15 - "Proveedor CRUD (tests)"
+Cohesion: 0.09
+Nodes (26): Component, Override, PagoTarjeta, PagoTarjetaAsientoGenerator, AsientoGenerado, AsientoGenerator, CobroAsientoGenerator, Cobro (+18 more)
+
+### Community 16 - "CuentaBancaria CRUD"
+Cohesion: 0.10
+Nodes (21): AuditoriaService, AccionAuditoria, ObjectMapper, RequiredArgsConstructor, Service, Transactional, TipoCambioCrearRequest, TipoCambioEditarRequest (+13 more)
+
+### Community 17 - "Proveedor CRUD (DTOs)"
+Cohesion: 0.10
+Nodes (19): ConsumoTarjetaRepository, ConsumoTarjeta, Page, Pageable, Query, CuentaConSaldo, RequiredArgsConstructor, Service (+11 more)
+
+### Community 18 - "Auditado y saldo de cuenta/tarjeta"
+Cohesion: 0.16
+Nodes (8): Override, AsientoEditarConfirmadoRequest, AsientoLineaRequest, AsientoServiceTest, Asiento, AsientoLinea, CuentaContable, Test
+
+### Community 19 - "CuentaBancaria mapper/service"
+Cohesion: 0.14
+Nodes (10): AsientoService, Asiento, AsientoLinea, Cliente, CuentaBancaria, CuentaContable, Etapa, Proveedor (+2 more)
+
+### Community 20 - "Moneda CRUD"
+Cohesion: 0.10
+Nodes (23): CobroController, Cobro, DeleteMapping, EstadoDocumento, GetMapping, Page, Pageable, PatchMapping (+15 more)
+
+### Community 21 - "Moneda CRUD (excepciones)"
+Cohesion: 0.09
+Nodes (26): ComisionConsultaController, GetMapping, Page, Pageable, RequestMapping, RequiredArgsConstructor, RestController, Tag (+18 more)
+
+### Community 22 - "Config TypeScript frontend"
+Cohesion: 0.10
+Nodes (21): AsociarMovimientoBancarioRequest, ContadorPendientesResponse, DescartarMovimientoBancarioRequest, ImputarMovimientoBancarioRequest, MovimientoBancarioResponse, EstadoMovimientoBancario, GetMapping, Page (+13 more)
+
+### Community 23 - "Auditoria (log y acciones)"
+Cohesion: 0.10
+Nodes (22): AdjuntoController, AdjuntoResponse, Adjunto, DeleteMapping, GetMapping, MultipartFile, PostMapping, PreAuthorize (+14 more)
+
+### Community 24 - "Proveedor CRUD (excepciones)"
+Cohesion: 0.15
+Nodes (15): CobroService, AuditoriaService, Cliente, Cobro, CuentaBancaria, CuentaBancariaRepository, EstadoDocumento, FacturaVenta (+7 more)
+
+### Community 25 - "Exportacion de reportes (Excel/PDF)"
+Cohesion: 0.11
+Nodes (21): AtribucionImpuestoController, GetMapping, PostMapping, PreAuthorize, PutMapping, RequestMapping, RequiredArgsConstructor, RestController (+13 more)
+
+### Community 26 - "CuentaBancaria CRUD (adicional)"
+Cohesion: 0.15
+Nodes (13): CuentaContableService, Auditado, AuditoriaService, CuentaContable, CuentaContableNodo, Page, Pageable, Proyecto (+5 more)
+
+### Community 27 - "Multimoneda y diferencia de cambio"
+Cohesion: 0.11
+Nodes (22): CuentaContableController, CuentaContableNodo, DeleteMapping, GetMapping, Page, Pageable, PatchMapping, PostMapping (+14 more)
+
+### Community 28 - "TarjetaCredito CRUD (adicional)"
 Cohesion: 0.12
 Nodes (20): AccessDeniedHandler, AuthenticationException, AccesoDenegadoException, Getter, GlobalExceptionHandler, AccessDeniedException, AccessDeniedException, Component (+12 more)
 
-### Community 13 - "TarjetaCredito CRUD"
-Cohesion: 0.14
-Nodes (16): TarjetaCreditoEditarRequest, TarjetaCreditoResponse, DeleteMapping, GetMapping, Page, Pageable, PatchMapping, PostMapping (+8 more)
+### Community 29 - "TarjetaCredito CRUD (tests)"
+Cohesion: 0.12
+Nodes (20): AsientoController, DeleteMapping, EstadoDocumento, GetMapping, Page, Pageable, PatchMapping, PostMapping (+12 more)
 
-### Community 14 - "Config OpenAPI / Swagger"
+### Community 30 - "Config TypeScript Node"
+Cohesion: 0.17
+Nodes (13): ComprobanteTipo, CobroAsientoGeneratorTest, BeforeEach, Cliente, Cobro, CobroImputacion, CuentaBancaria, CuentaContable (+5 more)
+
+### Community 31 - "Facturacion Facturaventa"
+Cohesion: 0.11
+Nodes (22): TipoComprobante, FacturaVenta, Asiento, Cliente, Entity, EstadoDocumento, FacturaVentaLinea, FuenteTc (+14 more)
+
+### Community 32 - "Docs del plan (cluster)"
+Cohesion: 0.20
+Nodes (13): LiquidacionIibb, AgregarComponenteRequest, AjustarComponenteRequest, AuditoriaService, CrearRequest, EstadoDocumento, LiquidacionIibb, Page (+5 more)
+
+### Community 33 - "Dependencias npm/frontend"
+Cohesion: 0.11
+Nodes (16): MonedaCrearRequest, MonedaEditarRequest, Moneda, Page, Pageable, Query, MonedaRepository, HttpHeaders (+8 more)
+
+### Community 34 - "Categoria contable (maestro)"
+Cohesion: 0.15
+Nodes (16): MovimientoBancario, Asiento, AuditoriaService, CuentaBancaria, CuentaBancariaRepository, CuentaContable, EstadoMovimientoBancario, Moneda (+8 more)
+
+### Community 35 - "CuentaConSaldo CRUD/logic"
+Cohesion: 0.16
+Nodes (14): AuditoriaService, CuentaBancaria, CuentaBancariaRepository, EstadoDocumento, Moneda, MonedaRepository, Page, Pageable (+6 more)
+
+### Community 36 - "Entidad Cuenta bancaria / cuenta de dine"
+Cohesion: 0.16
+Nodes (8): AuditoriaService, BeforeEach, ExtendWith, LiquidacionIva, MockitoSettings, Test, TipoComponenteIva, LiquidacionIvaServiceTest
+
+### Community 37 - "Moneda CRUD/logic"
+Cohesion: 0.12
+Nodes (20): PagoAnularRequest, PagoEditarRequest, AplicacionAnticipoResponse, ImputacionResponse, PagoResponse, DeleteMapping, EstadoDocumento, Page (+12 more)
+
+### Community 38 - "TipoCosto CRUD/logic"
+Cohesion: 0.14
+Nodes (14): CuotaRequest, ProyectoCrearRequest, ProyectoEditarRequest, AuditoriaService, BeforeEach, Cliente, ExtendWith, Moneda (+6 more)
+
+### Community 39 - "devDependencies"
+Cohesion: 0.12
+Nodes (20): CuotaResponse, ProyectoResponse, DeleteMapping, GetMapping, Page, Pageable, PatchMapping, PostMapping (+12 more)
+
+### Community 40 - "react"
+Cohesion: 0.11
+Nodes (20): EtapaResponse, ProveedorDto, ProveedorDto, EtapaController, DeleteMapping, EtapaImportResultado, GetMapping, MultipartFile (+12 more)
+
+### Community 41 - "Moneda CRUD/logic"
+Cohesion: 0.11
+Nodes (21): AuditoriaLogRepository, AccionAuditoria, AuditoriaLog, Page, Pageable, Query, TenantRepository, ConfiguracionAtribucionRepository (+13 more)
+
+### Community 42 - "CuitValido CRUD/logic"
+Cohesion: 0.15
+Nodes (15): TipoLiquidacion, AtribucionImpuestoService, AuditoriaService, EstadoDocumento, Moneda, MonedaRepository, RequiredArgsConstructor, Service (+7 more)
+
+### Community 43 - "Vencimiento como entidad única (calendar"
+Cohesion: 0.15
+Nodes (19): EditarJurisdiccionRequest, AgregarComponenteRequest, AjustarComponenteRequest, AnularRequest, CrearRequest, DeleteMapping, EstadoDocumento, GetMapping (+11 more)
+
+### Community 44 - "Crédito fiscal (IVA)"
+Cohesion: 0.11
+Nodes (19): ConciliacionController, GetMapping, RequestMapping, RequiredArgsConstructor, RestController, Tag, ConciliacionService, AsientoLinea (+11 more)
+
+### Community 45 - "Pantalla de liquidación de IVA editable "
+Cohesion: 0.16
+Nodes (13): AsientoLineaRepository, AsientoLinea, EstadoDocumento, Query, AsientoLinea, BeforeEach, CuentaContable, ExtendWith (+5 more)
+
+### Community 46 - "Entidad Etapa"
+Cohesion: 0.16
+Nodes (17): OrigenAsiento, MayorFilaResponse, MayorResponse, GetMapping, RequestMapping, RequiredArgsConstructor, ResponseEntity, RestController (+9 more)
+
+### Community 47 - "Estructura de Asientos multilínea"
+Cohesion: 0.15
+Nodes (13): CondicionIva, ProveedorCrearRequest, AuditoriaService, BeforeEach, ExtendWith, Jurisdiccion, Moneda, MonedaRepository (+5 more)
+
+### Community 48 - "mvnw"
+Cohesion: 0.13
+Nodes (19): TarjetaCreditoResponse, DeleteMapping, GetMapping, Page, Pageable, PatchMapping, PostMapping, PreAuthorize (+11 more)
+
+### Community 49 - "EntidadNegocio CRUD/logic"
+Cohesion: 0.13
+Nodes (14): AplicarAnticipoRequest, CobroCrearRequest, CobroImputacionRequest, ComprobanteTributoRepository, CobroServiceTest, AuditoriaService, BeforeEach, Cliente (+6 more)
+
+### Community 50 - "CuentaBancaria CRUD/logic"
+Cohesion: 0.15
+Nodes (6): ExtractorFacturaPdf, Component, Pattern, TipoComprobante, ExtractorFacturaPdfTest, Test
+
+### Community 51 - "Proveedor CRUD/logic"
+Cohesion: 0.16
+Nodes (18): AgregarComponenteRequest, AjustarComponenteRequest, AnularRequest, CrearRequest, DeleteMapping, EstadoDocumento, GetMapping, LiquidacionResponse (+10 more)
+
+### Community 52 - "Impuestos Iva Liquidacionivaservice"
+Cohesion: 0.21
+Nodes (13): LiquidacionIva, AgregarComponenteRequest, AjustarComponenteRequest, AuditoriaService, CrearRequest, EstadoDocumento, LiquidacionIva, Page (+5 more)
+
+### Community 53 - "F1.1 Arquitectura global y modelo de dat"
+Cohesion: 0.13
+Nodes (19): RubroResponse, DeleteMapping, GetMapping, Page, Pageable, PatchMapping, PostMapping, PreAuthorize (+11 more)
+
+### Community 54 - "Balanceo de asiento (Σdebe = Σhaber)"
+Cohesion: 0.13
+Nodes (19): TipoCambioResponse, DeleteMapping, GetMapping, Page, Pageable, PatchMapping, PostMapping, PreAuthorize (+11 more)
+
+### Community 55 - "Plantillas reutilizables (concepto, secc"
+Cohesion: 0.14
+Nodes (14): ImportacionMovimientoBancarioService, CuentaBancaria, CuentaBancariaRepository, FilaImportacionConfirmarRequest, FilaImportacionPreviewResponse, FilaImportacionResultadoResponse, Moneda, MonedaRepository (+6 more)
+
+### Community 56 - "Importación de etapas (Excel/CSV con pre"
+Cohesion: 0.15
+Nodes (13): CorregirMovimientoBancarioRequest, CrearMovimientoBancarioRequest, OrigenImportacionMovimiento, AuditoriaService, BeforeEach, CuentaBancaria, CuentaBancariaRepository, CuentaContable (+5 more)
+
+### Community 57 - "Estilos corporativos centralizados en ex"
 Cohesion: 0.08
 Nodes (25): Bean, Configuration, OpenApiConfig, aliases, components, hooks, lib, ui (+17 more)
 
-### Community 15 - "Proveedor CRUD (tests)"
-Cohesion: 0.14
-Nodes (10): ProveedorCrearRequest, ProveedorEditarRequest, BeforeEach, ExtendWith, Jurisdiccion, Moneda, Proveedor, Test (+2 more)
+### Community 58 - "Contabilidad Estadoresultados Estadoresultadoscontroller"
+Cohesion: 0.24
+Nodes (11): EstadoResultadosController, EstadoResultadosPorProyectoResponse, EstadoResultadosResponse, GetMapping, LineaEstadoResultados, RequestMapping, RequiredArgsConstructor, ResponseEntity (+3 more)
 
-### Community 16 - "CuentaBancaria CRUD"
-Cohesion: 0.07
-Nodes (37): Service, RecalculoSaldoService, CuentaBancariaController, DeleteMapping, GetMapping, Page, Pageable, PatchMapping (+29 more)
+### Community 59 - "Moneda CRUD/logic"
+Cohesion: 0.12
+Nodes (17): ComisionistaController, DeleteMapping, GetMapping, Page, Pageable, PatchMapping, PostMapping, PreAuthorize (+9 more)
 
-### Community 17 - "Proveedor CRUD (DTOs)"
-Cohesion: 0.11
-Nodes (17): TipoCostoDto, ProveedorResponse, TipoCostoDto, DeleteMapping, GetMapping, Page, Pageable, PatchMapping (+9 more)
+### Community 60 - "card.tsx"
+Cohesion: 0.12
+Nodes (17): CondicionIva, TipoCostoDto, ProveedorResponse, DeleteMapping, GetMapping, Page, Pageable, PatchMapping (+9 more)
 
-### Community 18 - "Auditado y saldo de cuenta/tarjeta"
-Cohesion: 0.15
-Nodes (8): ClienteCrearRequest, ClienteEditarRequest, ClienteServiceTest, BeforeEach, Cliente, ExtendWith, Jurisdiccion, Test
+### Community 61 - "Interfaz AlertChannel (InApp hoy, Email "
+Cohesion: 0.21
+Nodes (11): FacturaCompraAsientoGeneratorTest, BeforeEach, CuentaContable, ExtendWith, FacturaCompra, FacturaCompraLinea, Moneda, Proveedor (+3 more)
 
-### Community 19 - "CuentaBancaria mapper/service"
+### Community 62 - "Usuario CRUD/logic"
 Cohesion: 0.19
-Nodes (10): ContextoReporte, Document, RequiredArgsConstructor, TenantRepository, ReportExportService, Cell, CellStyle, Image (+2 more)
+Nodes (10): BeforeEach, ConceptoContable, CuentaContable, ExtendWith, LiquidacionIva, MockitoSettings, MonedaRepository, Test (+2 more)
 
-### Community 20 - "Moneda CRUD"
-Cohesion: 0.06
-Nodes (43): ConflictoException, Getter, MonedaCrearRequest, MonedaEditarRequest, MonedaResponse, DeleteMapping, GetMapping, Page (+35 more)
+### Community 63 - "Categoria CRUD/logic"
+Cohesion: 0.08
+Nodes (28): Mayor de cuenta madre via BFS en Java (no CTE recursivo SQL), GET /cuentas-contables/{id}/mayor (PL-3), F3.6 - Mayores contables, Implementacion de saldo anterior (fila sintetica) para CP-17, Vista analitica: saldo del filtro en vez de saldo de la cuenta, AplicacionAnticipoCliente/Proveedor: registros append-only, CuentaPorCobrarService, CuentaPorPagarService (+20 more)
 
-### Community 21 - "Moneda CRUD (excepciones)"
+### Community 64 - "Cliente CRUD/logic"
+Cohesion: 0.14
+Nodes (14): ClasificadorMovimientoBancario, CuentaSugerida, ConceptoContable, CuentaContable, OrigenImportacionMovimiento, RequiredArgsConstructor, Service, Transactional (+6 more)
+
+### Community 65 - "Concepto CRUD/logic"
+Cohesion: 0.15
+Nodes (8): MovimientoParseado, Cell, Component, OrigenImportacionMovimiento, Override, Pattern, Row, ParserGalicia
+
+### Community 66 - "CuentaBancaria CRUD/logic"
+Cohesion: 0.16
+Nodes (12): ImportacionMovimientoBancarioServiceTest, BeforeEach, CuentaBancaria, CuentaBancariaRepository, ExtendWith, Moneda, MonedaRepository, OrigenImportacionMovimiento (+4 more)
+
+### Community 67 - "Proveedor CRUD/logic"
+Cohesion: 0.23
+Nodes (4): CuentaContableEditarRequest, CuentaContableServiceTest, CuentaContable, Test
+
+### Community 68 - "Rubro CRUD/logic"
+Cohesion: 0.13
+Nodes (19): FacturaCompraAnularRequest, FacturaCompraResponse, LineaResponse, TipoComprobante, TributoResponse, FacturaCompraController, DeleteMapping, EstadoDocumento (+11 more)
+
+### Community 69 - "TipoCambio CRUD/logic"
+Cohesion: 0.20
+Nodes (8): PutMapping, FacturaCompra, FacturaCompraService, CuentaContable, FacturaCompra, Proveedor, Proyecto, Transactional
+
+### Community 70 - "Configuración perfil dev (application-de"
+Cohesion: 0.15
+Nodes (13): TipoIngreso, TipoLineaFactura, ImportacionFacturaService, FilaImportacionConfirmarRequest, FilaImportacionPreviewResponse, FilaImportacionResultadoResponse, MonedaRepository, RequiredArgsConstructor (+5 more)
+
+### Community 71 - "use-categoria.ts"
+Cohesion: 0.15
+Nodes (13): AplicarAnticipoProveedorRequest, PagoCrearRequest, PagoImputacionRequest, AuditoriaService, BeforeEach, CuentaBancaria, CuentaBancariaRepository, ExtendWith (+5 more)
+
+### Community 72 - "use-cliente.ts"
+Cohesion: 0.15
+Nodes (12): CalcularRequest, PorcentajeProyecto, AtribucionImpuestoServiceTest, AuditoriaService, BeforeEach, ExtendWith, FacturaCompra, FacturaVenta (+4 more)
+
+### Community 73 - "use-concepto.ts"
+Cohesion: 0.15
+Nodes (20): CalculoIva, ComponenteCalculado, DetalleImputacion, TipoComponenteIva, CalculoIvaService, RequiredArgsConstructor, Service, TipoComponenteIva (+12 more)
+
+### Community 74 - "Tests del motor de presupuesto (F2.6)"
+Cohesion: 0.21
+Nodes (7): Aporte, Etapa, Test, ResultadoIvaTest, CalculoPresupuestoProyectoTest, ConfiguracionPresupuesto, Test
+
+### Community 75 - "use-jurisdiccion.ts"
+Cohesion: 0.15
+Nodes (17): PagoTarjetaResponse, GetMapping, Page, Pageable, PatchMapping, PostMapping, PreAuthorize, RequestMapping (+9 more)
+
+### Community 76 - "use-monedas.ts"
+Cohesion: 0.14
+Nodes (18): Component, RequiredArgsConstructor, Transactional, NumeradorAsientoPersistente, Entity, Getter, Setter, Table (+10 more)
+
+### Community 77 - "use-proveedor.ts"
+Cohesion: 0.17
+Nodes (14): Getter, RecursoNoEncontradoException, Page, Pageable, Query, Rubro, RubroRepository, Page (+6 more)
+
+### Community 78 - "use-rubro.ts"
+Cohesion: 0.14
+Nodes (16): ComisionistaRepository, Comisionista, Page, Pageable, Query, ComisionProyectoCrearRequest, ComisionProyectoEditarRequest, ComisionProyectoServiceTest (+8 more)
+
+### Community 79 - "use-tarjeta-credito.ts"
+Cohesion: 0.19
+Nodes (13): ComisionProyecto, ComisionProyectoService, Auditado, AuditoriaService, Comisionista, ComisionProyecto, Moneda, MonedaRepository (+5 more)
+
+### Community 80 - "use-tipocambio.ts"
+Cohesion: 0.18
+Nodes (14): Auditado, AuditoriaService, Cliente, Moneda, MonedaRepository, Page, Pageable, Proyecto (+6 more)
+
+### Community 81 - "use-tipocosto.ts"
+Cohesion: 0.17
+Nodes (15): Auditado, AuditoriaService, CuentaBancaria, CuentaBancariaRepository, CuentaContable, Moneda, MonedaRepository, Page (+7 more)
+
+### Community 82 - "cuentas-bancarias-page.tsx"
+Cohesion: 0.16
+Nodes (12): BeforeEach, ConceptoContable, CuentaContable, ExtendWith, LiquidacionIibb, MockitoSettings, MonedaRepository, Test (+4 more)
+
+### Community 83 - "usuarios-page.tsx"
 Cohesion: 0.22
-Nodes (10): TarjetaCredito, CuentaBancaria, Moneda, Page, Pageable, RequiredArgsConstructor, Service, TarjetaCredito (+2 more)
+Nodes (10): BaseJur, AuditoriaService, BeforeEach, ExtendWith, Jurisdiccion, LiquidacionIibb, MockitoSettings, Test (+2 more)
 
-### Community 22 - "Config TypeScript frontend"
+### Community 84 - "Auth Usuariocontroller"
+Cohesion: 0.17
+Nodes (15): CambiarPasswordRequest, RolUsuario, UsuarioResponse, GetMapping, Page, Pageable, PatchMapping, PostMapping (+7 more)
+
+### Community 85 - "Casos de prueba contables (≥15 casos num"
+Cohesion: 0.22
+Nodes (11): ConciliacionServiceTest, AsientoLinea, BeforeEach, CuentaBancaria, CuentaBancariaRepository, CuentaContable, EstadoMovimientoBancario, ExtendWith (+3 more)
+
+### Community 86 - "Verificación de balanceo global (Σ debe "
+Cohesion: 0.11
+Nodes (8): ValidadorBalanceAsiento, Getter, NegocioException, PeriodoCerradoException, EstadoDocumento, TransicionEstadoValidator, Test, TransicionEstadoValidatorTest
+
+### Community 87 - "Jurisdiccion CRUD/logic"
+Cohesion: 0.14
+Nodes (17): ConceptoContable, MapeoCuentaResponse, ConceptoContable, DeleteMapping, GetMapping, Page, Pageable, PatchMapping (+9 more)
+
+### Community 88 - "Moneda CRUD/logic"
+Cohesion: 0.19
+Nodes (14): FacturaCompraCrearRequest, TipoComprobante, FacturaCompraLineaRequest, FacturaCompraTributoRequest, FacturaCompraServiceTest, AuditoriaService, BeforeEach, ExtendWith (+6 more)
+
+### Community 89 - "TipoCosto CRUD/logic"
+Cohesion: 0.19
+Nodes (9): CalculoIvaServiceTest, AsientoLinea, BeforeEach, CuentaContable, ExtendWith, MockitoSettings, SaldoEsperado, Test (+1 more)
+
+### Community 90 - "plugins"
+Cohesion: 0.16
+Nodes (14): Entity, Getter, PrePersist, Setter, Table, Usuario, RefreshToken, RefreshTokenRepository (+6 more)
+
+### Community 91 - "scripts"
+Cohesion: 0.20
+Nodes (11): FacturaVentaAsientoGeneratorTest, BeforeEach, Cliente, CuentaContable, ExtendWith, FacturaVenta, FacturaVentaLinea, Moneda (+3 more)
+
+### Community 92 - "auth.ts"
+Cohesion: 0.21
+Nodes (9): TipoCategoria, EstadoResultadosServiceTest, BeforeEach, CuentaContable, ExtendWith, LineaEstadoResultados, MockitoSettings, Rubro (+1 more)
+
+### Community 93 - "cuenta-bancaria.ts"
+Cohesion: 0.17
+Nodes (13): FacturaVentaCrearRequest, TipoComprobante, FacturaVentaLineaRequest, TipoIngreso, TipoLineaFactura, FacturaVentaServiceTest, AuditoriaService, BeforeEach (+5 more)
+
+### Community 94 - "package.json"
+Cohesion: 0.14
+Nodes (13): CategoriaRepository, Categoria, Page, Pageable, Query, RubroCrearRequest, RubroEditarRequest, BeforeEach (+5 more)
+
+### Community 95 - "use-auth.ts"
+Cohesion: 0.15
+Nodes (14): TarjetaCreditoCrearRequest, TarjetaCreditoEditarRequest, AuditoriaService, BeforeEach, CuentaBancaria, CuentaBancariaRepository, CuentaContable, ExtendWith (+6 more)
+
+### Community 96 - "categorias-page.tsx"
+Cohesion: 0.20
+Nodes (12): MapeoCuentaEditarRequest, MapeoCuenta, AuditoriaService, ConceptoContable, CuentaContable, MapeoCuenta, Page, Pageable (+4 more)
+
+### Community 97 - "tarjetas-credito-page.tsx"
+Cohesion: 0.20
+Nodes (13): Proveedor, Auditado, AuditoriaService, CuentaContable, MonedaRepository, Page, Pageable, Proveedor (+5 more)
+
+### Community 98 - "tipos-cambio-page.tsx"
+Cohesion: 0.20
+Nodes (12): Etapa, EtapaService, Auditado, AuditoriaService, Etapa, Page, Pageable, Proveedor (+4 more)
+
+### Community 99 - "proveedor.ts"
+Cohesion: 0.20
+Nodes (9): BalanceSumasYSaldosServiceTest, BalanceSumasYSaldosNodo, BeforeEach, CuentaContable, ExtendWith, MockitoSettings, SaldoEsperado, Test (+1 more)
+
+### Community 100 - "Frontend: pestaña de presupuesto por proyecto"
+Cohesion: 0.11
+Nodes (19): aplanar(), coincide(), esquema, NATURALEZA_LABEL, NATURALEZAS, NodoArbol(), NodoPlano, PlanDeCuentasPage() (+11 more)
+
+### Community 101 - "http.ts"
+Cohesion: 0.14
+Nodes (15): FilaImportacionConfirmarRequest, FilaImportacionPreviewResponse, FilaImportacionResultadoResponse, ImportacionMovimientoBancarioController, FilaImportacionConfirmarRequest, FilaImportacionPreviewResponse, FilaImportacionResultadoResponse, MultipartFile (+7 more)
+
+### Community 102 - "auditoria-page.tsx"
+Cohesion: 0.19
+Nodes (10): Cell, CellStyle, Document, RequiredArgsConstructor, Service, TenantRepository, ReportExportService, Image (+2 more)
+
+### Community 103 - "clientes-page.tsx"
+Cohesion: 0.13
+Nodes (16): CuentaContable, Entity, Getter, Setter, Table, TipoComponenteIibb, LiquidacionIibbComponente, ComponenteResponse (+8 more)
+
+### Community 104 - "conceptos-page.tsx"
+Cohesion: 0.14
+Nodes (17): AgregarComponenteRequest, AjustarComponenteRequest, AnularRequest, ComponentePrevisualizadoResponse, ComponenteResponse, CrearRequest, DetalleImputacionResponse, TipoComponenteIva (+9 more)
+
+### Community 105 - "ejemplo-formulario-page.tsx"
 Cohesion: 0.09
 Nodes (21): compilerOptions, allowArbitraryExtensions, allowImportingTsExtensions, erasableSyntaxOnly, jsx, lib, module, moduleDetection (+13 more)
 
-### Community 23 - "Auditoria (log y acciones)"
+### Community 106 - "jurisdicciones-page.tsx"
+Cohesion: 0.20
+Nodes (10): RolUsuario, UsuarioCrearRequest, RolUsuario, UsuarioEditarRequest, RolUsuario, AuditoriaIT, HttpEntity, HttpHeaders (+2 more)
+
+### Community 107 - "login-page.tsx"
+Cohesion: 0.22
+Nodes (10): Page, Pageable, PasswordEncoder, RequiredArgsConstructor, Service, Transactional, Usuario, UsuarioService (+2 more)
+
+### Community 108 - "monedas-page.tsx"
+Cohesion: 0.16
+Nodes (13): Asiento, AsientoLinea, Entity, EstadoDocumento, Getter, Setter, Table, AsientoRepository (+5 more)
+
+### Community 109 - "proveedores-page.tsx"
+Cohesion: 0.21
+Nodes (12): AuditoriaService, Moneda, MonedaRepository, Page, Pageable, PagoTarjeta, RequiredArgsConstructor, Service (+4 more)
+
+### Community 110 - "rubros-page.tsx"
+Cohesion: 0.17
+Nodes (12): LineaAsientoGenerada, Component, ConceptoContable, CuentaContable, LiquidacionIibb, Moneda, MonedaRepository, Override (+4 more)
+
+### Community 111 - "tipos-costo-page.tsx"
 Cohesion: 0.15
 Nodes (15): AccionAuditoria, AuditoriaController, AccionAuditoria, GetMapping, Page, Pageable, PreAuthorize, RequestMapping (+7 more)
 
-### Community 24 - "Proveedor CRUD (excepciones)"
-Cohesion: 0.29
-Nodes (8): Proveedor, Page, Pageable, Proveedor, RequiredArgsConstructor, Service, Transactional, ProveedorService
+### Community 112 - "categoria.ts"
+Cohesion: 0.19
+Nodes (12): Mapper, Mapping, Response, MapeoRubroLineaEstadoResultadosMapper, AuditoriaService, CrearRequest, RequiredArgsConstructor, Rubro (+4 more)
 
-### Community 25 - "Exportacion de reportes (Excel/PDF)"
-Cohesion: 0.26
-Nodes (10): GetMapping, RequestMapping, RequiredArgsConstructor, ResponseEntity, RestController, StreamingResponseBody, ReporteMonedasController, MonedaMapper (+2 more)
-
-### Community 26 - "CuentaBancaria CRUD (adicional)"
-Cohesion: 0.22
-Nodes (14): ImportacionFacturaController, PreAuthorize, RequestMapping, RequiredArgsConstructor, ResponseEntity, RestController, StreamingResponseBody, Tag (+6 more)
-
-### Community 27 - "Multimoneda y diferencia de cambio"
-Cohesion: 0.16
-Nodes (16): Multimoneda dentro del asiento y diferencia de cambio, ReportExportService, AsientoGenerator (PL-4), Regla de asiento: Cobro (con diferencia de cambio), Regla de asiento: Factura de compra confirmada, Regla de asiento: Factura de venta confirmada, Regla de asiento: Pago (con diferencia de cambio), F4.3 Facturas de compra (+8 more)
-
-### Community 28 - "TarjetaCredito CRUD (adicional)"
-Cohesion: 0.21
-Nodes (11): TenantActualizarRequest, TenantResponse, GetMapping, PreAuthorize, RequestMapping, RequiredArgsConstructor, RestController, Tag (+3 more)
-
-### Community 29 - "TarjetaCredito CRUD (tests)"
-Cohesion: 0.24
-Nodes (11): GetMapping, RequestMapping, RequiredArgsConstructor, ResponseEntity, RestController, StreamingResponseBody, Tag, MayorController (+3 more)
-
-### Community 30 - "Config TypeScript Node"
-Cohesion: 0.12
-Nodes (16): compilerOptions, allowImportingTsExtensions, erasableSyntaxOnly, lib, module, moduleDetection, noEmit, noFallthroughCasesInSwitch (+8 more)
-
-### Community 31 - "Plan F7.6 exportaciones en lote"
-Cohesion: 0.15
-Nodes (17): F7.6 Exportaciones restantes en lote, Entidad Vencimiento, F8.1 Calendario de vencimientos, Generación automática de vencimientos desde liquidaciones/tarjetas/recurrentes, Servicio de 'próximos vencimientos', Entidad Compromiso de pago futuro, F8.2 Presupuesto de pagos, Query service 'compromisos por rango de fechas' (+9 more)
-
-### Community 32 - "Docs del plan (cluster)"
-Cohesion: 0.22
-Nodes (15): ADR-22: Build tool backend Maven, ADR-23: shadcn/ui + Tailwind CSS, F1.2 Decisiones de tooling (repo, build, UI), Frontend index.html (root document), React + TypeScript + Vite template README, Fases sugeridas del proyecto (sección 7), Matriz de delegación de modelos (Opus/Sonnet/Haiku), Brief de orquestación — Sistema de Gestión Contable Montanari Tech (+7 more)
-
-### Community 33 - "Dependencias npm/frontend"
-Cohesion: 0.12
-Nodes (16): dependencies, axios, @base-ui/react, class-variance-authority, clsx, @hookform/resolvers, lucide-react, react-dom (+8 more)
-
-### Community 34 - "Categoria contable (maestro)"
+### Community 113 - "cliente.ts"
 Cohesion: 0.17
-Nodes (16): Categoría contable (maestro), Concepto recurrente (maestro), F2.1 CRUDs simples en lote (batch 1 de maestros), Claude Haiku 4.5 (modelo ejecutor), Jurisdicción impositiva (maestro), Rubro (maestro), Tipo de cambio (maestro), Tipo de costo (maestro) (+8 more)
+Nodes (15): FilaImportacionResultadoResponse, ImportacionFacturaController, FilaImportacionConfirmarRequest, FilaImportacionPreviewResponse, FilaImportacionResultadoResponse, MultipartFile, PostMapping, PreAuthorize (+7 more)
 
-### Community 35 - "CuentaConSaldo CRUD/logic"
-Cohesion: 0.20
-Nodes (8): CuentaConSaldo, CuentaBancaria, Entity, Getter, Moneda, Setter, Table, TarjetaCredito
+### Community 114 - "concepto.ts"
+Cohesion: 0.16
+Nodes (19): CuentaBancaria, EstadoConciliacion, CuentaContable, Entity, Getter, Moneda, Setter, Table (+11 more)
 
-### Community 36 - "Entidad Cuenta bancaria / cuenta de dine"
+### Community 115 - "jurisdiccion.ts"
+Cohesion: 0.18
+Nodes (10): EtapaCrearRequest, EtapaEditarRequest, EtapaServiceTest, AuditoriaService, BeforeEach, Etapa, ExtendWith, Proveedor (+2 more)
+
+### Community 116 - "moneda.ts"
+Cohesion: 0.19
+Nodes (8): EtapaImportFilaDto, EtapaImportService, AuditoriaService, EtapaImportResultado, MultipartFile, RequiredArgsConstructor, Service, Transactional
+
+### Community 117 - "rubro.ts"
+Cohesion: 0.22
+Nodes (6): CellStyle, Sheet, Test, XSSFWorkbook, ParserGaliciaTest, ZipOutputStream
+
+### Community 118 - "tarjeta-credito.ts"
 Cohesion: 0.12
 Nodes (21): Entidad Cuenta bancaria / cuenta de dinero, F2.4 Cuentas bancarias, cuentas de dinero y tarjetas, Lógica de saldo inicial + recálculo de evolución de saldos, Entidad Tarjeta de crédito (maestro), Mapeo configurable concepto→cuenta contable, Idempotencia de re-importación (clave tipo+punto de venta+número), Bandeja 'pendiente de revisar' (flujo de estados), F5.1 Movimientos bancarios y bandeja 'pendiente de revisar' (+13 more)
 
-### Community 37 - "Moneda CRUD/logic"
-Cohesion: 0.25
-Nodes (12): CuentaPorCobrarController, EstadoVencimiento, GetMapping, RequestMapping, RequiredArgsConstructor, ResponseEntity, RestController, StreamingResponseBody (+4 more)
-
-### Community 38 - "TipoCosto CRUD/logic"
-Cohesion: 0.48
-Nodes (5): Page, Pageable, Query, TipoCosto, TipoCostoRepository
-
-### Community 39 - "devDependencies"
-Cohesion: 0.14
-Nodes (14): devDependencies, jsdom, oxlint, @tanstack/react-query-devtools, @testing-library/jest-dom, @testing-library/react, @testing-library/user-event, @types/node (+6 more)
-
-### Community 40 - "react"
-Cohesion: 0.23
-Nodes (11): react, FormControl(), FormDescription(), FormFieldContext, FormFieldContextValue, FormItem(), FormItemContext, FormItemContextValue (+3 more)
-
-### Community 41 - "Moneda CRUD/logic"
-Cohesion: 0.25
-Nodes (12): CuentaPorPagarController, EstadoVencimiento, GetMapping, RequestMapping, RequiredArgsConstructor, ResponseEntity, RestController, StreamingResponseBody (+4 more)
-
-### Community 42 - "CuitValido CRUD/logic"
-Cohesion: 0.24
-Nodes (8): CuitValido, Retention, Target, CuitValidoValidator, Override, Constraint, ConstraintValidator, ConstraintValidatorContext
-
-### Community 43 - "Vencimiento como entidad única (calendar"
-Cohesion: 0.31
-Nodes (11): Vencimiento como entidad única (calendario, presupuesto, flujo proyectado), Documento funcional fuente — Sistema de Gestión Contable, Migración Inicial desde Excel (concepto funcional), Módulo Bancos, Tarjetas y Conciliaciones, Módulo Contabilidad, Módulo Facturación, Cobros y Pagos, Módulo Gestión Operativa y Maestros, Módulo Impuestos (+3 more)
-
-### Community 44 - "Crédito fiscal (IVA)"
-Cohesion: 0.20
-Nodes (12): Crédito fiscal (IVA), Débito fiscal (IVA), F6.1 Lógica de IVA (liquidación mensual), Reversión de liquidación de IVA (des-confirmar, solo admin), Base imponible por jurisdicción (IIBB), F6.2 Lógica de IIBB (liquidación multi-jurisdicción), Reutilizar infraestructura de liquidación de F6.1 en F6.2, SIRCREB (identificado en conciliación) (+4 more)
-
-### Community 45 - "Pantalla de liquidación de IVA editable "
+### Community 119 - "tipocambio.ts"
 Cohesion: 0.17
-Nodes (12): Pantalla de liquidación de IVA editable antes de confirmar, Entidad Pendiente administrativo, F8.5 Pendientes administrativos, Query service 'pendientes por vencer en N días', Detección del tipo de término de búsqueda (CUIT, importe, fecha), F9.2 Búsqueda global 'Lupita', Índices FULLTEXT de MySQL, Cierre de período no bloquea consultas/importación/exportación (+4 more)
+Nodes (13): Authentication, AuthController, GetMapping, PostMapping, RequestMapping, RequiredArgsConstructor, ResponseEntity, RestController (+5 more)
 
-### Community 46 - "Entidad Etapa"
-Cohesion: 0.20
-Nodes (12): Entidad Etapa, F2.5 Proyectos y etapas, Importación de etapas (Excel/CSV con previsualización), Entidad Proyecto, Comparación proyectado vs real (estructura de datos), F2.6 Presupuesto estimado por proyecto, Hoja de fórmulas de referencia del Excel, Motor de presupuesto estimado por proyecto (+4 more)
+### Community 120 - "tipocosto.ts"
+Cohesion: 0.21
+Nodes (11): ContextoReporte, GetMapping, MonedaRepository, RequestMapping, RequiredArgsConstructor, ResponseEntity, RestController, StreamingResponseBody (+3 more)
 
-### Community 47 - "Estructura de Asientos multilínea"
+### Community 121 - "Moneda CRUD/logic"
+Cohesion: 0.14
+Nodes (13): Page, Pageable, Query, TipoCambioRepository, AfterEach, AuditoriaService, BeforeEach, CuentaBancariaRepository (+5 more)
+
+### Community 122 - "App.tsx"
+Cohesion: 0.21
+Nodes (11): BalanceSumasYSaldosController, BalanceSumasYSaldosNodo, GetMapping, RequestMapping, RequiredArgsConstructor, ResponseEntity, RestController, StreamingResponseBody (+3 more)
+
+### Community 123 - "button.tsx"
+Cohesion: 0.15
+Nodes (15): AplicacionAnticipoProveedor, Asiento, Entity, FacturaCompra, Getter, Pago, Setter, Table (+7 more)
+
+### Community 124 - "checkbox.tsx"
+Cohesion: 0.15
+Nodes (15): AgregarComponenteRequest, AjustarComponenteRequest, AnularRequest, ComponenteResponse, CrearRequest, TipoComponenteIibb, JurisdiccionPrevisualizadaResponse, JurisdiccionResponse (+7 more)
+
+### Community 125 - "nav-config.ts"
 Cohesion: 0.24
-Nodes (11): Estructura de Asientos multilínea, Ciclo de vida de asiento (edición, duplicación, anulación), Estados de asiento: borrador/confirmado/anulado, Mayores y saldos (cálculo acumulado), Regla de balanceo de asientos (Σ debe = Σ haber), Motor de asientos manuales (implementación), Búsqueda/filtrado de asientos, Duplicación de asientos (+3 more)
+Nodes (10): Comisionista, ComisionistaService, Auditado, AuditoriaService, Comisionista, Page, Pageable, RequiredArgsConstructor (+2 more)
 
-### Community 48 - "mvnw"
-Cohesion: 0.33
-Nodes (6): mvnw script, clean(), die(), exec_maven(), set_java_home(), verbose()
+### Community 126 - "ConfiguracionPresupuestoController (admin)"
+Cohesion: 0.20
+Nodes (13): ConfiguracionPresupuestoController, ConfiguracionPresupuesto, GetMapping, PreAuthorize, PutMapping, RequestMapping, RequiredArgsConstructor, Response (+5 more)
 
-### Community 49 - "EntidadNegocio CRUD/logic"
-Cohesion: 0.36
-Nodes (8): EntidadNegocio, EntityListeners, Getter, PrePersist, Setter, Filter, FilterDef, MappedSuperclass
+### Community 127 - "vite-env.d.ts"
+Cohesion: 0.23
+Nodes (7): LoginRequest, RefreshRequest, AuthControllerIT, HttpEntity, HttpHeaders, Test, TestRestTemplate
 
-### Community 50 - "CuentaBancaria CRUD/logic"
-Cohesion: 0.31
-Nodes (9): CuentaBancaria, EstadoConciliacion, Entity, Getter, Moneda, Setter, Table, TipoCuenta (+1 more)
+### Community 128 - "tsconfig.json"
+Cohesion: 0.26
+Nodes (10): EstadoResultadosService, EstadoResultadosPorProyectoResponse, EstadoResultadosResponse, RequiredArgsConstructor, Service, Transactional, ComparativoMes, CuentaMonto (+2 more)
 
-### Community 51 - "Proveedor CRUD/logic"
-Cohesion: 0.33
-Nodes (8): Entity, Getter, Jurisdiccion, Moneda, Setter, Table, TipoCosto, Proveedor
+### Community 129 - "require-admin.tsx"
+Cohesion: 0.21
+Nodes (13): CrearRequest, DeleteMapping, GetMapping, PostMapping, PreAuthorize, PutMapping, RequestMapping, RequiredArgsConstructor (+5 more)
 
-### Community 52 - "Plan docs cluster"
-Cohesion: 0.27
-Nodes (10): Auditoría transversal (auditoria_log), CI GitHub Actions Workflow, Módulo Seguridad, Usuarios y Auditoría, Errores comunes a evitar (F1.5/F1.6), Paso F1.5: Autenticación, roles y autorización, Paso F1.6: Infraestructura de auditoría, F1.4 frontend scaffolding (estado), F1.5 autenticación, roles y autorización (estado) (+2 more)
+### Community 130 - "require-auth.tsx"
+Cohesion: 0.19
+Nodes (8): ComisionistaCrearRequest, ComisionistaEditarRequest, ComisionistaServiceTest, AuditoriaService, BeforeEach, Comisionista, ExtendWith, Test
 
-### Community 53 - "F1.1 Arquitectura global y modelo de dat"
+### Community 131 - "input.tsx"
+Cohesion: 0.14
+Nodes (18): EstadoCobranza, EstadoComercial, EstadoFacturacion, EstadoProyecto, Cliente, Entity, Getter, Moneda (+10 more)
+
+### Community 132 - "label.tsx"
+Cohesion: 0.11
+Nodes (19): D-2: anulacion hibrida (marca en periodo abierto, contra-asiento en cerrado), D-3: asientos de documento se anulan solo via el documento, D-1: dimensiones analiticas por linea, no por cabecera, Contrato de AsientoService (unico punto de escritura, ADR-07), CP-01..05, CP-12..16, CP-18/19: casos de aceptacion del ciclo de vida del asiento, CP-06: factura de venta ARS con IVA 21%, CP-07: venta USD cobrada al mismo TC, sin diferencia, CP-10: pago de compra USD a TC mayor, perdida (+11 more)
+
+### Community 133 - "separator.tsx"
 Cohesion: 0.22
-Nodes (9): F1.1 Arquitectura global y modelo de datos contable, Capas Controller-Service-Repository, ImporteMonetario (embeddable), Manejo de errores centralizado (ProblemDetail RFC 7807), Monolito modular package-by-feature, Períodos contables y cierre (PeriodoGuard), Tratamiento multimoneda (ImporteMonetario), Monedas y Tipo de Cambio (concepto funcional) (+1 more)
+Nodes (9): ConsumoImportacionConfirmarRequest, ImportacionConsumoTarjetaServiceTest, BeforeEach, ExtendWith, Moneda, MonedaRepository, TarjetaCredito, TarjetaCreditoRepository (+1 more)
 
-### Community 54 - "Balanceo de asiento (Σdebe = Σhaber)"
+### Community 134 - "app-layout.tsx"
+Cohesion: 0.21
+Nodes (11): TenantActualizarRequest, TenantResponse, GetMapping, PreAuthorize, PutMapping, RequestMapping, RequiredArgsConstructor, RestController (+3 more)
+
+### Community 135 - "auth-token.ts"
+Cohesion: 0.12
+Nodes (14): Auditado, AuditoriaService, CuentaBancariaRepository, EntidadNegocio, EstadoDocumento, Moneda, MonedaRepository, NumeradorAsiento (+6 more)
+
+### Community 136 - "utils.ts"
+Cohesion: 0.15
+Nodes (12): CuentaContableCrearRequest, CuentaContableNodo, Categoria, Entity, Getter, Setter, Table, AuditoriaService (+4 more)
+
+### Community 137 - "dashboard-page.tsx"
+Cohesion: 0.15
+Nodes (13): FacturaCompra, Asiento, Entity, EstadoDocumento, FacturaCompraLinea, FuenteTc, Getter, Moneda (+5 more)
+
+### Community 138 - "placeholder-page.tsx"
+Cohesion: 0.20
+Nodes (10): AbstractIntegrationTest, CuentaContableRepository, CuentaContable, Page, Pageable, Query, CategoriaRepository, RubroRepository (+2 more)
+
+### Community 139 - "query-provider.tsx"
+Cohesion: 0.20
+Nodes (12): Component, HttpServletRequest, HttpServletResponse, Override, RequiredArgsConstructor, JwtAuthenticationFilter, Component, JwtService (+4 more)
+
+### Community 140 - "router.tsx"
+Cohesion: 0.23
+Nodes (9): ConsumoImportacionResultadoResponse, ImportacionConsumoTarjetaService, Moneda, MonedaRepository, RequiredArgsConstructor, Service, TarjetaCredito, TarjetaCreditoRepository (+1 more)
+
+### Community 141 - "Favicon (Montanari Tech Accountability a"
 Cohesion: 0.22
-Nodes (9): Balanceo de asiento (Σdebe = Σhaber), Asiento automático editable sin alterar comprobante, Cuenta contable jerárquica (madre/imputable), Liquidaciones IVA/IIBB persistidas como foto al confirmar, Lupita como servicio de consulta federada (sin tablas propias), Modelo de datos (DER completo), Movimiento bancario: importación como pendiente de revisar, Restricciones y reglas de negocio (sección 8) (+1 more)
+Nodes (10): PagoTarjetaCrearRequest, AuditoriaService, BeforeEach, ExtendWith, Moneda, MonedaRepository, TarjetaCredito, TarjetaCreditoRepository (+2 more)
 
-### Community 55 - "Plantillas reutilizables (concepto, secc"
-Cohesion: 0.61
-Nodes (9): Plantillas reutilizables (concepto, sección 6.3 del brief), Guía de aplicación de plantillas — molde Moneda, PL-1 CRUD Backend (plantilla), PL-2 CRUD Frontend (plantilla), PL-3 Reporte exportable (plantilla), PL-4 Asiento automático (plantilla), PL-5 Máquina de estados (plantilla), Paso F1.8: Definición formal de las 5 plantillas (código molde) (+1 more)
+### Community 142 - "App.test.tsx"
+Cohesion: 0.18
+Nodes (12): Entity, Getter, LineaEstadoResultados, Rubro, Setter, Table, MapeoRubroLineaEstadoResultados, Query (+4 more)
 
-### Community 56 - "Importación de etapas (Excel/CSV con pre"
-Cohesion: 0.32
-Nodes (7): ClienteService, Cliente, Page, Pageable, RequiredArgsConstructor, Service, Transactional
+### Community 143 - "login.test.tsx"
+Cohesion: 0.21
+Nodes (8): ConceptoCrearRequest, ConceptoEditarRequest, ConceptoServiceTest, BeforeEach, Concepto, ExtendWith, Moneda, Test
 
-### Community 57 - "Estilos corporativos centralizados en ex"
-Cohesion: 0.28
-Nodes (9): Estilos corporativos centralizados en exportaciones, Export en streaming para volúmenes grandes, F7.1 Infraestructura de exportación consolidada, ReportExportService, Drill-down a mayor de cuenta, F7.2 Balance de sumas y saldos, F7.3 Estado de resultados, F7.4 Reporte detallado por proyecto (rentabilidad) (+1 more)
+### Community 144 - "monedas.test.tsx"
+Cohesion: 0.26
+Nodes (6): EtapaImportFilaCruda, EtapaImportServiceTest, AuditoriaService, BeforeEach, Test, MockMultipartFile
 
-### Community 58 - "Plan docs cluster"
+### Community 145 - "setup.ts"
 Cohesion: 0.22
-Nodes (9): Endpoints agregados específicos (performance dashboard), F7.5 Dashboard, Informe de hallazgos priorizados (bloqueante/alto/medio/bajo), F11.2 Fixes + performance, Tiempos objetivo de performance (reportes<3s, Lupita<500ms, dashboard<2s), Backups automáticos de MySQL + procedimiento de restore probado, F11.3 Despliegue productivo, Runbook de despliegue/restore/rotación de secretos (+1 more)
+Nodes (8): AuditoriaService, BeforeEach, ExtendWith, MockitoSettings, Rubro, RubroRepository, Test, MapeoRubroLineaEstadoResultadosServiceTest
 
-### Community 59 - "Moneda CRUD/logic"
+### Community 146 - "vite.config.ts"
+Cohesion: 0.12
+Nodes (3): CONSUMO_KEY, PAGO_KEY, REGLA_KEY
+
+### Community 147 - "com.montanaritech:contable"
+Cohesion: 0.12
+Nodes (12): esquema, esquemaLinea, esquemaTributo, ESTADO_LABEL, ESTADOS, LINEA_VACIA, LineaValores, RETENCION_LABEL (+4 more)
+
+### Community 148 - "RefreshTokenService"
+Cohesion: 0.12
+Nodes (12): ALICUOTAS, esquema, esquemaLinea, esquemaTributo, ESTADO_LABEL, ESTADOS, LINEA_VACIA, LineaValores (+4 more)
+
+### Community 149 - ".de"
+Cohesion: 0.12
+Nodes (16): compilerOptions, allowImportingTsExtensions, erasableSyntaxOnly, lib, module, moduleDetection, noEmit, noFallthroughCasesInSwitch (+8 more)
+
+### Community 150 - "Plan F8.2: presupuesto de pagos (futuro)"
+Cohesion: 0.15
+Nodes (17): F7.6 Exportaciones restantes en lote, Entidad Vencimiento, F8.1 Calendario de vencimientos, Generación automática de vencimientos desde liquidaciones/tarjetas/recurrentes, Servicio de 'próximos vencimientos', Entidad Compromiso de pago futuro, F8.2 Presupuesto de pagos, Query service 'compromisos por rango de fechas' (+9 more)
+
+### Community 151 - "Qué se hizo"
+Cohesion: 0.24
+Nodes (8): BeforeEach, CuentaBancaria, CuentaContable, Moneda, PagoTarjeta, TarjetaCredito, Test, PagoTarjetaAsientoGeneratorTest
+
+### Community 152 - "AuditoriaService"
 Cohesion: 0.22
 Nodes (4): FormatoReporte, FormatoReporteTest, Test, DecimalFormat
 
-### Community 61 - "Interfaz AlertChannel (InApp hoy, Email "
-Cohesion: 0.25
-Nodes (8): Interfaz AlertChannel (InApp hoy, Email mañana), Clasificación de datos: migra/estructura/saldo inicial/no migra, Detección de inconsistencias del Excel, F10.1 Mapeo Excel → sistema, F10.2 Scripts de importación por hoja, Idempotencia por clave natural, Modo dry-run de importación, Patrón de importador (leer→validar→resolver FK→insertar vía services→reporte de rechazos)
-
-### Community 62 - "Usuario CRUD/logic"
-Cohesion: 0.48
-Nodes (6): Entity, Getter, RolUsuario, Setter, Table, Usuario
-
-### Community 63 - "Categoria CRUD/logic"
-Cohesion: 0.52
-Nodes (6): Categoria, Entity, Getter, Setter, Table, TipoCategoria
-
-### Community 64 - "Cliente CRUD/logic"
-Cohesion: 0.48
-Nodes (6): Cliente, Entity, Getter, Jurisdiccion, Setter, Table
-
-### Community 65 - "Concepto CRUD/logic"
-Cohesion: 0.48
-Nodes (6): Concepto, Entity, Getter, Moneda, Setter, Table
-
-### Community 66 - "CuentaBancaria CRUD/logic"
-Cohesion: 0.26
-Nodes (6): LoginRequest, AuthControllerIT, HttpEntity, HttpHeaders, Test, TestRestTemplate
-
-### Community 67 - "Proveedor CRUD/logic"
-Cohesion: 0.33
-Nodes (5): Mapper, Mapping, TipoCosto, TipoCostoDto, ProveedorMapper
-
-### Community 68 - "Rubro CRUD/logic"
-Cohesion: 0.48
-Nodes (6): Categoria, Entity, Getter, Setter, Table, Rubro
-
-### Community 69 - "TipoCambio CRUD/logic"
-Cohesion: 0.48
-Nodes (6): Entity, Getter, Moneda, Setter, Table, TipoCambio
-
-### Community 70 - "Configuración perfil dev (application-de"
-Cohesion: 0.24
-Nodes (10): Configuración perfil dev (application-dev.yml), Configuración perfil prod (application-prod.yml), Configuración base (application.yml), TenantFilterInterceptor (referencia open-in-view), Docker Compose stack (mysql, backend, frontend), EntidadNegocio (mapped superclass), Estrategia multi-tenant-ready (tenant_id + filtro Hibernate), ADR-21: Monorepo backend/frontend (+2 more)
-
-### Community 82 - "cuentas-bancarias-page.tsx"
-Cohesion: 0.29
-Nodes (5): DEFAULTS, esquema, ESTADOS_CONCILIACION, TIPOS, Valores
-
-### Community 83 - "usuarios-page.tsx"
-Cohesion: 0.29
-Nodes (4): CrearUsuarioValores, esquemaCrearUsuario, ROLES, USUARIOS_QUERY_KEY
-
-### Community 84 - "Plan docs cluster"
-Cohesion: 0.67
-Nodes (4): F2.1 CRUDs simples en lote (estado), F2.2/F2.3 Cliente y Proveedor (estado), F2.4 Cuentas bancarias y tarjetas de crédito (estado), Patrón Haiku ejecuta primero, Sonnet corrige bugs
-
-### Community 85 - "Casos de prueba contables (≥15 casos num"
-Cohesion: 0.33
-Nodes (7): Casos de prueba contables (≥15 casos numéricos), F3.1 Diseño del motor contable, Claude Fable 5 (modelo ejecutor), Plan de cuentas (diseño: madre/imputable), F3.4 Motor de asientos manuales, F4.1 Reglas de asientos automáticos e imputación de cobros/pagos, Claude Opus 4.8 (modelo ejecutor)
-
-### Community 86 - "Verificación de balanceo global (Σ debe "
-Cohesion: 0.29
-Nodes (7): Verificación de balanceo global (Σ debe = Σ haber), Asiento de apertura contable, F10.3 Saldos iniciales y arranque (asiento de apertura), Verificación de cuadratura al arranque, F11.1 Revisión final de seguridad e integridad contable, Integridad contable (imposibilidad de asientos desbalanceados), OWASP básico (inyección SQL, IDOR entre tenants, JWT, secretos, logs)
-
-### Community 87 - "Jurisdiccion CRUD/logic"
-Cohesion: 0.60
-Nodes (5): Entity, Getter, Setter, Table, Jurisdiccion
-
-### Community 88 - "Moneda CRUD/logic"
-Cohesion: 0.60
-Nodes (5): Entity, Getter, Setter, Table, Moneda
-
-### Community 89 - "TipoCosto CRUD/logic"
-Cohesion: 0.60
-Nodes (5): Entity, Getter, Setter, Table, TipoCosto
-
-### Community 90 - "plugins"
-Cohesion: 0.33
-Nodes (5): plugins, rules, react/only-export-components, react/rules-of-hooks, $schema
-
-### Community 91 - "scripts"
-Cohesion: 0.33
-Nodes (6): scripts, build, dev, lint, preview, test
-
-### Community 92 - "auth.ts"
-Cohesion: 0.33
-Nodes (5): PageResponse, RolUsuario, TokenPair, Usuario, UsuarioActual
-
-### Community 93 - "cuenta-bancaria.ts"
-Cohesion: 0.33
-Nodes (5): CuentaBancaria, CuentaBancariaCrearInput, CuentaBancariaEditarInput, EstadoConciliacion, TipoCuentaBancaria
-
-### Community 94 - "package.json"
-Cohesion: 0.40
-Nodes (4): name, private, type, version
-
-### Community 96 - "categorias-page.tsx"
-Cohesion: 0.40
-Nodes (3): esquema, TIPOS, Valores
-
-### Community 97 - "tarjetas-credito-page.tsx"
-Cohesion: 0.40
-Nodes (3): DEFAULTS, esquema, Valores
-
-### Community 98 - "tipos-cambio-page.tsx"
-Cohesion: 0.40
-Nodes (3): CRITERIOS, esquemaCrear, Valores
-
-### Community 99 - "proveedor.ts"
-Cohesion: 0.40
-Nodes (4): Proveedor, ProveedorCrearInput, ProveedorEditarInput, TipoCostoDto
-
-### Community 112 - "categoria.ts"
-Cohesion: 0.07
-Nodes (36): AsientoLinea, AsientoLineaRepository, BalanceSumasYSaldosController, BalanceSumasYSaldosNodo, RequiredArgsConstructor, BalanceSumasYSaldosService, BalanceSumasYSaldosNodo, CuentaContable (+28 more)
-
-### Community 113 - "cliente.ts"
-Cohesion: 0.50
-Nodes (3): Cliente, ClienteCrearInput, ClienteEditarInput
-
-### Community 114 - "concepto.ts"
-Cohesion: 0.50
-Nodes (3): Concepto, ConceptoCrearInput, ConceptoEditarInput
-
-### Community 115 - "jurisdiccion.ts"
-Cohesion: 0.50
-Nodes (3): Jurisdiccion, JurisdiccionCrearInput, JurisdiccionEditarInput
-
-### Community 116 - "moneda.ts"
-Cohesion: 0.50
-Nodes (3): Moneda, MonedaCrearInput, MonedaEditarInput
-
-### Community 117 - "rubro.ts"
-Cohesion: 0.50
-Nodes (3): Rubro, RubroCrearInput, RubroEditarInput
-
-### Community 118 - "tarjeta-credito.ts"
-Cohesion: 0.50
-Nodes (3): TarjetaCredito, TarjetaCreditoCrearInput, TarjetaCreditoEditarInput
-
-### Community 119 - "tipocambio.ts"
-Cohesion: 0.50
-Nodes (3): TipoCambio, TipoCambioCrearInput, TipoCambioEditarInput
-
-### Community 120 - "tipocosto.ts"
-Cohesion: 0.50
-Nodes (3): TipoCosto, TipoCostoCrearInput, TipoCostoEditarInput
-
-### Community 121 - "Moneda CRUD/logic"
-Cohesion: 0.29
-Nodes (7): AuthService, AuthenticationManager, RequiredArgsConstructor, Service, Transactional, Usuario, TokenPairResponse
-
-### Community 148 - "RefreshTokenService"
-Cohesion: 0.27
-Nodes (6): RequiredArgsConstructor, Service, Transactional, Usuario, RefreshTokenService, SecureRandom
-
-### Community 149 - ".de"
-Cohesion: 0.31
-Nodes (5): TenantRepository, Test, ReportExportServiceTest, BeforeEach, ExtendWith
-
-### Community 150 - "NumeracionPaginasPdf"
-Cohesion: 0.38
-Nodes (7): Document, NumeracionPaginasPdf, BaseFont, Override, PdfPageEventHelper, PdfTemplate, PdfWriter
-
-### Community 151 - "Qué se hizo"
-Cohesion: 0.18
-Nodes (10): API consolidada, Bug real corregido de paso: truncado silencioso en 1000 filas, Estilos corporativos, F7.1 — Infraestructura de exportación consolidada, Formato AR, Qué se hizo, Refactor de los 5 exports existentes, Slot de logo configurable (+2 more)
-
-### Community 152 - "AuditoriaService"
-Cohesion: 0.31
-Nodes (6): AuditoriaService, AccionAuditoria, ObjectMapper, RequiredArgsConstructor, Service, Transactional
-
 ### Community 153 - "RefreshToken"
-Cohesion: 0.36
-Nodes (7): Entity, Getter, PrePersist, Setter, Table, Usuario, RefreshToken
+Cohesion: 0.17
+Nodes (15): AsientoLinea, FuenteTc, Asiento, Cliente, CuentaBancaria, CuentaContable, Entity, Etapa (+7 more)
 
 ### Community 154 - "AuditoriaAspect"
+Cohesion: 0.20
+Nodes (12): ComprobanteTributo, Entity, Getter, Jurisdiccion, Setter, Table, FacturaCompraMapper, FacturaCompraLinea (+4 more)
+
+### Community 155 - "AbstractIntegrationTest"
+Cohesion: 0.14
+Nodes (13): FacturaCompraEditarRequest, TipoComprobante, AuditoriaService, EstadoDocumento, Jurisdiccion, Moneda, MonedaRepository, Page (+5 more)
+
+### Community 156 - "JpaAuditingConfig.java"
+Cohesion: 0.12
+Nodes (10): FacturaVentaEditarRequest, TipoComprobante, LineaResponse, CamposExtraidosPdf, TipoComprobante, FilaImportacionConfirmarRequest, TipoComprobante, FilaImportacionPreviewResponse (+2 more)
+
+### Community 157 - "Tenant"
+Cohesion: 0.12
+Nodes (16): dependencies, axios, @base-ui/react, class-variance-authority, clsx, @hookform/resolvers, lucide-react, react-dom (+8 more)
+
+### Community 158 - "JurisdiccionRepository"
+Cohesion: 0.13
+Nodes (14): ComparativoMes, CuentaMonto, EstadoResultadosCalculado, EstadoResultadosPorProyectoItem, EstadoResultadosPorProyectoResponse, EstadoResultadosResponse, ETIQUETA_LINEA, LineaCalculada (+6 more)
+
+### Community 159 - "Doc de salida F2.6: presupuesto por proyecto"
+Cohesion: 0.13
+Nodes (16): Cascada de presupuesto Argentina (resolucion circular algebraica), Cascada de presupuesto Exterior (comision COMEX escalonada), Checkpoint pendiente: cascada Argentina sin caso numerico real del Excel, ConfiguracionPresupuesto (alicuotas y parametros COMEX configurables), F2.6 - Presupuesto estimado por proyecto, Proyecto.tipoProyecto como enum ARGENTINA/EXTERIOR, D-5: regla del residuo en el cierre de saldo por imputacion, Bug real: proyeccion multi-columna JPA envuelve en List<Object[]>, no Object[] (+8 more)
+
+### Community 160 - "Vínculo N:M Proyecto-Comisionista"
+Cohesion: 0.12
+Nodes (16): Percepciones sufridas (IVA/IIBB) en factura de compra, Bug real: celda Excel t=d no reconocida por Apache POI ST_CellType, Bug real: AsientoLinea.moneda sin guard de null en registrarAutomatico, CalculoIvaService (lee AsientoLinea por cuenta), Calibracion E2E contra la hoja real del contador (junio 2026), Dos etapas del art. 24: saldo tecnico vs libre disponibilidad, LiquidacionIvaAsientoGenerator (regla unica debe/haber), F6.1 - Liquidacion mensual de IVA (+8 more)
+
+### Community 161 - "NumeradorAsiento"
+Cohesion: 0.17
+Nodes (16): Categoría contable (maestro), Concepto recurrente (maestro), F2.1 CRUDs simples en lote (batch 1 de maestros), Claude Haiku 4.5 (modelo ejecutor), Jurisdicción impositiva (maestro), Rubro (maestro), Tipo de cambio (maestro), Tipo de costo (maestro) (+8 more)
+
+### Community 162 - "Montanari Tech — Sistema de Gestión Contable"
+Cohesion: 0.22
+Nodes (8): RequiredArgsConstructor, Service, ResolutorCuentas, FacturaVentaAsientoGenerator, Component, FacturaVenta, Override, RequiredArgsConstructor
+
+### Community 163 - "Component"
+Cohesion: 0.29
+Nodes (6): BeforeEach, CuentaContable, ExtendWith, MapeoCuenta, Test, ResolutorCuentasTest
+
+### Community 164 - "Moneda"
+Cohesion: 0.32
+Nodes (5): Peso, ProrrateoCalculator, Reparto, Test, ProrrateoCalculatorTest
+
+### Community 165 - "Override"
+Cohesion: 0.24
+Nodes (10): Component, ConceptoContable, CuentaContable, LiquidacionIva, Moneda, MonedaRepository, Override, RequiredArgsConstructor (+2 more)
+
+### Community 166 - "RequiredArgsConstructor"
+Cohesion: 0.15
+Nodes (15): Configuracion de identidad de empresa (CUIT, nombre fantasia), Bug real: limite de palabra regex Java no separa digito de letra, Bug real: etiquetas y valores pegados en otro orden (PDFBox), Bug real: espacio de no separacion U+00A0 no matchea \s, ExtractorFacturaPdf (PDFBox + regex, sin parser de layout), Idempotencia de importacion (existsBy cliente/proveedor+tipo+puntoVenta+numero), F4.6 - Importacion de facturacion historica, Bug real: BigDecimal.valueOf(double) serializa en notacion cientifica (+7 more)
+
+### Community 167 - "Component"
+Cohesion: 0.14
+Nodes (12): esquema, esquemaCuota, ESTADOS_COBRANZA, ESTADOS_COMERCIALES, ESTADOS_FACTURACION, ESTADOS_PROYECTO, FichaProyectoForm(), Pestaña (+4 more)
+
+### Community 168 - "Override"
+Cohesion: 0.20
+Nodes (13): AsientoLinea, Asiento, CuentaBancaria, CuentaContable, Entity, EstadoMovimientoBancario, FuenteTc, Getter (+5 more)
+
+### Community 169 - "Service"
+Cohesion: 0.26
+Nodes (10): AuthenticationConfiguration, AuthenticationManager, Bean, Configuration, PasswordEncoder, RequiredArgsConstructor, SecurityConfig, EnableMethodSecurity (+2 more)
+
+### Community 170 - "Entity"
+Cohesion: 0.26
+Nodes (7): Component, OrigenImportacionMovimiento, Override, Row, Sheet, ParserMercadoPago, Cell
+
+### Community 171 - "EntityListeners"
+Cohesion: 0.27
+Nodes (9): ConsumoImportacionPreviewResponse, ImportacionConsumoTarjetaController, MultipartFile, PostMapping, PreAuthorize, RequestMapping, RequiredArgsConstructor, RestController (+1 more)
+
+### Community 172 - "Getter"
+Cohesion: 0.27
+Nodes (6): ComisionCalculoService, BaseCalculo, Proyecto, Service, ComisionCalculoServiceTest, Test
+
+### Community 173 - "Setter"
+Cohesion: 0.26
+Nodes (7): ComisionProyectoRepository, ComisionProyecto, EstadoPago, Page, Pageable, Query, Proyecto
+
+### Community 174 - "Entidades PresupuestoProyecto y línea de costo"
+Cohesion: 0.23
+Nodes (12): Entity, Getter, PresupuestoProyecto, Setter, Table, PresupuestoLineaCosto, Entity, Getter (+4 more)
+
+### Community 175 - "PresupuestoProyectoRepository y Service"
+Cohesion: 0.25
+Nodes (8): PresupuestoProyecto, PresupuestoProyectoRepository, PresupuestoCalculado, PresupuestoProyecto, RequiredArgsConstructor, Service, Transactional, PresupuestoProyectoService
+
+### Community 176 - "Qué se hizo"
+Cohesion: 0.14
+Nodes (14): devDependencies, jsdom, oxlint, @tanstack/react-query-devtools, @testing-library/jest-dom, @testing-library/react, @testing-library/user-event, @types/node (+6 more)
+
+### Community 177 - "CuentaBancariaRepository"
+Cohesion: 0.31
+Nodes (7): AuthService, AuthenticationManager, RequiredArgsConstructor, Service, Transactional, Usuario, TokenPairResponse
+
+### Community 179 - "Entidad ConfiguracionPresupuesto"
+Cohesion: 0.28
+Nodes (11): Adjunto, Entity, Getter, Setter, Table, ConfiguracionPresupuesto, Entity, Getter (+3 more)
+
+### Community 180 - "balance-sumas-y-saldos.ts"
+Cohesion: 0.23
+Nodes (9): ConceptoContable, MapeoCuenta, Page, Pageable, Query, MapeoCuentaRepository, ConceptoContable, CuentaContable (+1 more)
+
+### Community 181 - "TarjetaCreditoMapper"
+Cohesion: 0.23
+Nodes (12): Cobro, Asiento, Cliente, CobroImputacion, CuentaBancaria, Entity, EstadoDocumento, FuenteTc (+4 more)
+
+### Community 182 - "mayor-page.tsx"
+Cohesion: 0.21
+Nodes (8): CobroMapper, AplicacionAnticipoResponse, Cobro, CobroImputacion, ImputacionResponse, Mapper, Mapping, TributoResponse
+
+### Community 183 - "Qué se hizo"
+Cohesion: 0.23
+Nodes (12): Asiento, CuentaBancaria, Entity, EstadoDocumento, FuenteTc, Getter, Moneda, PagoImputacion (+4 more)
+
+### Community 184 - "ClienteRepository"
+Cohesion: 0.22
+Nodes (12): BaseCalculo, ComisionProyecto, EstadoPago, BaseCalculo, Comisionista, Entity, EstadoPago, Getter (+4 more)
+
+### Community 185 - "PresupuestoProyectoController"
+Cohesion: 0.28
+Nodes (10): GetMapping, PreAuthorize, PutMapping, RequestMapping, RequiredArgsConstructor, Response, ResponseEntity, RestController (+2 more)
+
+### Community 186 - "mapeo-rubro-linea-er-page.tsx"
+Cohesion: 0.23
+Nodes (11): react, FormControl(), FormDescription(), FormFieldContext, FormFieldContextValue, FormItem(), FormItemContext, FormItemContextValue (+3 more)
+
+### Community 187 - "use-mapeo-rubro-linea-er.ts"
+Cohesion: 0.24
+Nodes (9): KEY, useAgregarComponenteIva(), useAjustarComponenteIva(), useAnularLiquidacionIva(), useConfirmarLiquidacionIva(), useCrearLiquidacionIva(), useEliminarComponenteIva(), useLiquidacionMutation() (+1 more)
+
+### Community 188 - "ClienteMapper"
+Cohesion: 0.15
+Nodes (9): ALICUOTAS, esquema, esquemaLinea, ESTADO_LABEL, ESTADOS, LINEA_VACIA, LineaValores, TIPOS_LINEA (+1 more)
+
+### Community 189 - "MockitoSettings"
+Cohesion: 0.15
+Nodes (12): AplicacionAnticipoCobro, Cobro, CobroCrearInput, CobroEditarInput, CobroImputacion, CobroImputacionInput, CobroTributo, CobroTributoInput (+4 more)
+
+### Community 190 - "Query"
+Cohesion: 0.15
+Nodes (13): CP-08: venta USD cobrada a TC mayor, ganancia, CP-09: dos cobros parciales con TC distinto y regla del residuo, Algoritmo de diferencia de cambio (dif_cambio_ars), Catalogo de conceptos (enum ConceptoContable), Checkpoint #1: CxC/CxP mantenidas por cliente/proveedor (opcion A), Especificacion del generador de asiento de cobro/pago, Tabla mapeo_cuenta (concepto -> cuenta, con discriminador), Checkpoint #3: Montanari no es agente de percepcion/retencion (+5 more)
+
+### Community 191 - "Test"
+Cohesion: 0.18
+Nodes (13): Bug real: mapeo_cuenta sin seed para 4 conceptos de F4.2/V20, Bug real: MONTO_ARS_INCONSISTENTE en linea de dif. cambio y CxC/CxP, Modelo unificado cobro/pago = imputacion + anticipo, sin caso especial, CobroAsientoGenerator, CuentaBancaria.cuentaContable (FK obligatoria, backfill V22), PagoAsientoGenerator, F4.4 - Cobros y pagos, Decision: asociar identifica el asiento por numero, no por id interno (+5 more)
+
+### Community 192 - "Transactional"
+Cohesion: 0.26
+Nodes (8): CustomUserDetailsService, Override, RequiredArgsConstructor, Service, Usuario, UsuarioRepository, UserDetails, UserDetailsService
+
+### Community 193 - "Bancos Tarjetacredito Consumotarjeta"
+Cohesion: 0.26
+Nodes (11): ConsumoTarjeta, Concepto, CuentaContable, Entity, Getter, Moneda, Proveedor, Proyecto (+3 more)
+
+### Community 194 - "CuitValido: validador de CUIT"
+Cohesion: 0.24
+Nodes (8): CuitValido, Retention, Target, CuitValidoValidator, Override, Constraint, ConstraintValidator, ConstraintValidatorContext
+
+### Community 195 - "Contabilidad Balance Balancesumasysaldosservice"
+Cohesion: 0.24
+Nodes (7): BalanceSumasYSaldosService, BalanceSumasYSaldosNodo, CuentaContable, RequiredArgsConstructor, Service, Transactional, BalanceSumasYSaldosNodo
+
+### Community 196 - "Facturacion Cobro Aplicacionanticipocliente"
+Cohesion: 0.26
+Nodes (8): AplicacionAnticipoCliente, Asiento, Cobro, Entity, FacturaVenta, Getter, Setter, Table
+
+### Community 197 - "Facturacion Cobro Dto Cobroresponse"
+Cohesion: 0.21
+Nodes (7): AplicacionAnticipoResponse, ImputacionResponse, TributoResponse, CobroTributoRequest, TipoTributo, LineaResponse, TributoResponse
+
+### Community 198 - "Facturacion Tipocomprobante"
+Cohesion: 0.29
+Nodes (5): FacturaCompraAsientoGenerator, Component, FacturaCompra, Override, RequiredArgsConstructor
+
+### Community 199 - "Impuestos Atribucion Atribucionimpuesto"
+Cohesion: 0.26
+Nodes (9): AtribucionImpuesto, CriterioAtribucion, Entity, Getter, Moneda, Setter, Table, TipoLiquidacion (+1 more)
+
+### Community 200 - "Impuestos Iva Liquidacionivacomponente"
+Cohesion: 0.27
+Nodes (8): CuentaContable, Entity, Getter, LiquidacionIva, Setter, Table, TipoComponenteIva, LiquidacionIvaComponente
+
+### Community 201 - "Common Reporte Reportexportservicetest (test)"
+Cohesion: 0.30
+Nodes (5): BeforeEach, ExtendWith, TenantRepository, Test, ReportExportServiceTest
+
+### Community 202 - "Asientos Page"
+Cohesion: 0.17
+Nodes (8): esquema, esquemaLinea, ESTADO_LABEL, ESTADOS, LINEA_VACIA, LineaValores, ORIGENES, Valores
+
+### Community 203 - "Pagos Page"
+Cohesion: 0.17
+Nodes (8): esquema, esquemaLinea, ESTADO_LABEL, ESTADOS, LINEA_VACIA, LineaValores, VACIO, Valores
+
+### Community 204 - "Liquidacion Iva"
+Cohesion: 0.17
+Nodes (11): AgregarComponenteInput, AjustarComponenteInput, ComponenteLiquidacionIva, ComponentePrevisualizadoIva, DetalleImputacionIva, ETAPA_DE, EtapaIva, LiquidacionIva (+3 more)
+
+### Community 205 - "Doc de salida: F3 4 Motor De Asientos Manuales Paso"
+Cohesion: 0.17
+Nodes (12): AsientoService: crearBorrador/editarBorrador/eliminarBorrador/confirmar, Destino de fondos resuelto como FK directa a CuentaBancaria, NumeradorAsientoPersistente (reemplaza NumeradorAsientoEnMemoria del molde F1.8), F3.4 - Motor de asientos manuales, TC automatico: primera TipoCambio activa para (moneda, fecha), PATCH /{id}/anular (rechaza origenes de documento), AsientoRepository.buscar: busqueda avanzada de 10 criterios, Contra-asiento de F3.1 no implementado (entidad Periodo no existe aun) (+4 more)
+
+### Community 206 - "Doc de salida: F4 2 Facturas De Venta Paso"
+Cohesion: 0.20
+Nodes (12): Bug real: separacion de anular y anularPorDocumento, Cliente.cuentaCxcId (override opcional de cuenta CxC), FacturaVentaAsientoGenerator, F4.2 - Facturas de venta, AsientoService.registrarAutomatico(AsientoGenerado), Credito fiscal condicional (tipoComprobante + condicionIva del proveedor), Decision: sin linea de retencion en el generador de compra, FacturaCompraAsientoGenerator (+4 more)
+
+### Community 207 - "Plan"
+Cohesion: 0.21
+Nodes (12): Multimoneda dentro del asiento y diferencia de cambio, ReportExportService, AsientoGenerator (PL-4), Regla de asiento: Cobro (con diferencia de cambio), Regla de asiento: Pago (con diferencia de cambio), Anticipos sin factura, Registro de Cobro (total/parcial/anticipo), F4.4 Cobros y pagos (+4 more)
+
+### Community 208 - "Plan"
+Cohesion: 0.20
+Nodes (12): Crédito fiscal (IVA), Débito fiscal (IVA), F6.1 Lógica de IVA (liquidación mensual), Reversión de liquidación de IVA (des-confirmar, solo admin), Base imponible por jurisdicción (IIBB), F6.2 Lógica de IIBB (liquidación multi-jurisdicción), Reutilizar infraestructura de liquidación de F6.1 en F6.2, SIRCREB (identificado en conciliación) (+4 more)
+
+### Community 209 - "Plan"
+Cohesion: 0.17
+Nodes (12): Pantalla de liquidación de IVA editable antes de confirmar, Entidad Pendiente administrativo, F8.5 Pendientes administrativos, Query service 'pendientes por vencer en N días', Detección del tipo de término de búsqueda (CUIT, importe, fecha), F9.2 Búsqueda global 'Lupita', Índices FULLTEXT de MySQL, Cierre de período no bloquea consultas/importación/exportación (+4 more)
+
+### Community 210 - "Bancos Importacion Parsertarjeta"
+Cohesion: 0.27
+Nodes (5): Component, OrigenImportacionMovimiento, Override, Pattern, ParserTarjeta
+
+### Community 211 - "Bancos Movimientobancario Movimientobancariorepository"
+Cohesion: 0.31
+Nodes (6): EstadoMovimientoBancario, MovimientoBancario, Page, Pageable, Query, MovimientoBancarioRepository
+
+### Community 212 - "NumeracionPaginasPdf (Página X de Y)"
+Cohesion: 0.38
+Nodes (7): Document, Override, NumeracionPaginasPdf, BaseFont, PdfPageEventHelper, PdfTemplate, PdfWriter
+
+### Community 213 - "TenantFilterInterceptor (multi-tenant)"
+Cohesion: 0.35
+Nodes (8): Component, HttpServletRequest, HttpServletResponse, Override, RequiredArgsConstructor, TenantFilterInterceptor, EntityManager, HandlerInterceptor
+
+### Community 214 - "Contabilidad Estadoresultados Dto Estadoresultadosdtos"
+Cohesion: 0.33
+Nodes (9): ComparativoMes, CuentaMonto, EstadoResultadosCalculado, EstadoResultadosDtos, EstadoResultadosPorProyectoItem, EstadoResultadosPorProyectoResponse, EstadoResultadosResponse, LineaEstadoResultados (+1 more)
+
+### Community 215 - "Maestros Proveedor"
+Cohesion: 0.31
+Nodes (10): CondicionIva, CuentaContable, Entity, Getter, Jurisdiccion, Moneda, Setter, Table (+2 more)
+
+### Community 216 - "Maestros Proyecto Etapa Importacion Etapaimportparser"
+Cohesion: 0.24
+Nodes (4): EtapaImportCsvParser, Component, Override, EtapaImportParser
+
+### Community 217 - "DTOs de PresupuestoProyecto"
+Cohesion: 0.22
+Nodes (8): GuardarRequest, PresupuestoCalculado, LineaCostoRequest, LineaCostoResponse, PresupuestoProyectoDtos, Response, TipoProyecto, PresupuestoCalculado
+
+### Community 218 - "Bancos Importacion Parsermercadopagotest (test)"
+Cohesion: 0.40
+Nodes (4): Sheet, Test, XSSFWorkbook, ParserMercadoPagoTest
+
+### Community 220 - "Use Liquidacion Iibb"
+Cohesion: 0.29
+Nodes (8): KEY, useAjustarComponenteIibb(), useAnularLiquidacionIibb(), useConfirmarLiquidacionIibb(), useCrearLiquidacionIibb(), useEditarJurisdiccionIibb(), useIibbMutation(), useRecalcularLiquidacionIibb()
+
+### Community 221 - "Use Movimiento Bancario"
+Cohesion: 0.29
+Nodes (8): invalidar(), QUERY_KEY, useAsociarMovimientoBancario(), useConfirmarMovimientoBancario(), useCorregirMovimientoBancario(), useCrearMovimientoBancario(), useDescartarMovimientoBancario(), useImputarMovimientoBancario()
+
+### Community 222 - "Asiento"
+Cohesion: 0.18
+Nodes (10): Asiento, AsientoBusquedaFiltros, AsientoCrearInput, AsientoEditarConfirmadoInput, AsientoEditarInput, AsientoLinea, AsientoLineaEditarConfirmadoInput, AsientoLineaInput (+2 more)
+
+### Community 223 - "Factura Compra"
+Cohesion: 0.18
+Nodes (10): EstadoFacturaCompra, FacturaCompra, FacturaCompraCrearInput, FacturaCompraEditarInput, FacturaCompraLinea, FacturaCompraLineaInput, FacturaCompraTributo, FacturaCompraTributoInput (+2 more)
+
+### Community 224 - "Factura Venta"
+Cohesion: 0.18
+Nodes (10): EstadoFactura, FacturaVenta, FacturaVentaCrearInput, FacturaVentaEditarInput, FacturaVentaLinea, FacturaVentaLineaInput, TipoComprobante, TipoIngreso (+2 more)
+
+### Community 225 - "Plan"
+Cohesion: 0.25
+Nodes (11): Entidad Etapa, F2.5 Proyectos y etapas, Importación de etapas (Excel/CSV con previsualización), Entidad Proyecto, Regla de asiento: Factura de venta confirmada, F4.2 Facturas de venta, Entidad Factura de venta, F4.3 Facturas de compra (+3 more)
+
+### Community 226 - "Plan"
+Cohesion: 0.24
+Nodes (11): Estructura de Asientos multilínea, Ciclo de vida de asiento (edición, duplicación, anulación), Estados de asiento: borrador/confirmado/anulado, Mayores y saldos (cálculo acumulado), Regla de balanceo de asientos (Σ debe = Σ haber), Motor de asientos manuales (implementación), Búsqueda/filtrado de asientos, Duplicación de asientos (+3 more)
+
+### Community 227 - "Backend Mvnw"
+Cohesion: 0.33
+Nodes (6): mvnw script, clean(), die(), exec_maven(), set_java_home(), verbose()
+
+### Community 228 - "Bancos Tarjetacredito Pagotarjeta"
+Cohesion: 0.33
+Nodes (9): Asiento, Entity, EstadoDocumento, Getter, Moneda, Setter, Table, TarjetaCredito (+1 more)
+
+### Community 229 - "Bancos Tarjetacredito Reglaclasificacionconsumo"
+Cohesion: 0.31
+Nodes (9): Concepto, CuentaContable, Entity, Getter, Proveedor, Proyecto, Setter, Table (+1 more)
+
+### Community 230 - "Immutable"
+Cohesion: 0.33
+Nodes (8): AuditoriaLog, AccionAuditoria, Entity, Getter, PrePersist, Setter, Table, Immutable
+
+### Community 231 - "Contabilidad Asiento Asientomapper"
+Cohesion: 0.27
+Nodes (6): AsientoMapper, Asiento, AsientoLinea, LineaResponse, Mapper, Mapping
+
+### Community 232 - "Contabilidad Cuentacontable"
+Cohesion: 0.31
+Nodes (9): CuentaContable, Entity, Getter, Proyecto, Rubro, SaldoEsperado, Setter, Table (+1 more)
+
+### Community 233 - "Facturacion Facturaventa Facturaventalinea"
+Cohesion: 0.29
+Nodes (9): FacturaVentaLinea, CuentaContable, Entity, FacturaVenta, Getter, Setter, Table, TipoIngreso (+1 more)
+
+### Community 234 - "Impuestos Iibb Liquidacioniibbrepository"
+Cohesion: 0.40
+Nodes (6): EstadoDocumento, LiquidacionIibb, Page, Pageable, Query, LiquidacionIibbRepository
+
+### Community 235 - "Impuestos Iva Liquidacionivarepository"
+Cohesion: 0.40
+Nodes (6): EstadoDocumento, LiquidacionIva, Page, Pageable, Query, LiquidacionIvaRepository
+
+### Community 236 - "Maestros Proveedor Condicioniva"
+Cohesion: 0.20
+Nodes (4): CondicionIva, CondicionIva, ProveedorEditarRequest, TipoCostoDto
+
+### Community 237 - "Estadoetapa"
+Cohesion: 0.29
+Nodes (9): EstadoEtapa, Etapa, Entity, Getter, Proveedor, Proyecto, Setter, Table (+1 more)
+
+### Community 238 - "Motor de cálculo CalculoPresupuestoProyecto"
+Cohesion: 0.36
+Nodes (4): CalculoPresupuestoProyecto, ConfiguracionPresupuesto, PresupuestoCalculado, TipoProyecto
+
+### Community 240 - "Use Estado Resultados"
+Cohesion: 0.24
+Nodes (5): descargar(), descargarEstadoResultadosExcel(), descargarEstadoResultadosPdf(), QUERY_KEY, VistaEstadoResultados
+
+### Community 242 - "Liquidacion Iva Page"
+Cohesion: 0.27
+Nodes (6): FilaComponente(), formatearPesos(), Linea(), LiquidacionIvaPage(), MESES, pesos
+
+### Community 243 - "Consumo Tarjeta"
+Cohesion: 0.20
+Nodes (9): ClasificarConsumoInput, ConsumoImportacionConfirmarInput, ConsumoImportacionPreview, ConsumoImportacionResultado, ConsumoTarjeta, PagoTarjeta, PagoTarjetaCrearInput, ReglaClasificacionConsumo (+1 more)
+
+### Community 244 - "Proyecto"
+Cohesion: 0.20
+Nodes (9): Cuota, CuotaInput, EstadoCobranza, EstadoComercial, EstadoFacturacion, EstadoProyecto, Proyecto, ProyectoCrearInput (+1 more)
+
+### Community 245 - "Doc de salida: F5 4 Tarjetas De Credito Paso"
+Cohesion: 0.22
+Nodes (10): Heuristica de palabras clave para ingreso/egreso en Galicia PDF, ClasificadorMovimientoBancario (palabras clave -> ResolutorCuentas), ConciliacionService (sugerencia de matches, imputacion rapida), Gap: RecalculoSaldoService sigue siendo stub para CuentaBancaria, F5.3 - Conciliacion bancaria, Bug real: recalcularTarjeta restaba el pago en vez de sumarlo, PagoTarjetaAsientoGenerator, F5.4 - Tarjetas de credito (operatoria completa) (+2 more)
+
+### Community 246 - "Bancos Tarjetacredito Pagotarjetarepository"
+Cohesion: 0.39
+Nodes (6): EstadoDocumento, Page, Pageable, PagoTarjeta, Query, PagoTarjetaRepository
+
+### Community 247 - "Contabilidad Estadoresultados Lineaestadoresultados"
+Cohesion: 0.28
+Nodes (6): CrearRequest, EditarRequest, LineaEstadoResultados, MapeoRubroLineaErDtos, Response, LineaEstadoResultados
+
+### Community 248 - "Facturacion Facturacompra Facturacompralinea"
+Cohesion: 0.36
+Nodes (8): FacturaCompraLinea, CuentaContable, Entity, FacturaCompra, Getter, Setter, Table, TipoCosto
+
+### Community 249 - "Facturacion Facturacompra Facturacomprarepository"
+Cohesion: 0.42
+Nodes (6): FacturaCompraRepository, EstadoDocumento, FacturaCompra, Page, Pageable, Query
+
+### Community 250 - "Maestros Proveedor Proveedorrepository"
+Cohesion: 0.39
+Nodes (5): Page, Pageable, Proveedor, Query, ProveedorRepository
+
+### Community 251 - "Dataformatter"
+Cohesion: 0.39
+Nodes (5): EtapaImportExcelParser, Component, Override, Row, DataFormatter
+
+### Community 253 - "Liquidacion Iibb Page"
+Cohesion: 0.33
+Nodes (7): FilaComponente(), formatearPesos(), JurisdiccionCard(), LiquidacionDetalle(), LiquidacionIibbPage(), MESES, pesos
+
+### Community 254 - "Liquidacion Iibb"
+Cohesion: 0.22
+Nodes (8): AjustarComponenteIibbInput, ComponenteIibb, EditarJurisdiccionIibbInput, JurisdiccionIibb, JurisdiccionPrevisualizadaIibb, LiquidacionIibb, PrevisualizacionIibb, TipoComponenteIibb
+
+### Community 255 - "Pago"
+Cohesion: 0.22
+Nodes (8): AplicacionAnticipoPago, EstadoPago, Pago, PagoCrearInput, PagoEditarInput, PagoImputacion, PagoImputacionInput, SaldoFacturaCompra
+
+### Community 256 - "Plan"
+Cohesion: 0.28
+Nodes (9): Estilos corporativos centralizados en exportaciones, Export en streaming para volúmenes grandes, F7.1 Infraestructura de exportación consolidada, ReportExportService, Drill-down a mayor de cuenta, F7.2 Balance de sumas y saldos, F7.3 Estado de resultados, F7.4 Reporte detallado por proyecto (rentabilidad) (+1 more)
+
+### Community 257 - "Plan"
+Cohesion: 0.22
+Nodes (9): Endpoints agregados específicos (performance dashboard), F7.5 Dashboard, Informe de hallazgos priorizados (bloqueante/alto/medio/bajo), F11.2 Fixes + performance, Tiempos objetivo de performance (reportes<3s, Lupita<500ms, dashboard<2s), Backups automáticos de MySQL + procedimiento de restore probado, F11.3 Despliegue productivo, Runbook de despliegue/restore/rotación de secretos (+1 more)
+
+### Community 258 - "Aspect"
 Cohesion: 0.43
 Nodes (5): AfterReturning, Aspect, AuditoriaAspect, Component, RequiredArgsConstructor
 
-### Community 155 - "AbstractIntegrationTest"
-Cohesion: 0.23
-Nodes (8): TarjetaCreditoCrearRequest, BeforeEach, CuentaBancaria, ExtendWith, Moneda, TarjetaCredito, Test, TarjetaCreditoServiceTest
+### Community 260 - "Webmvcconfigurer"
+Cohesion: 0.39
+Nodes (6): Configuration, Override, RequiredArgsConstructor, WebMvcConfig, InterceptorRegistry, WebMvcConfigurer
 
-### Community 156 - "JpaAuditingConfig.java"
+### Community 261 - "Contabilidad Mapeocuenta"
+Cohesion: 0.39
+Nodes (7): ConceptoContable, CuentaContable, Entity, Getter, Setter, Table, MapeoCuenta
+
+### Community 262 - "Facturacion Cobro Cobroimputacion"
+Cohesion: 0.39
+Nodes (7): CobroImputacion, Cobro, Entity, FacturaVenta, Getter, Setter, Table
+
+### Community 263 - "Facturacion Cobro Cobrorepository"
+Cohesion: 0.43
+Nodes (6): CobroRepository, Cobro, EstadoDocumento, Page, Pageable, Query
+
+### Community 264 - "Facturacion Pago Pagoimputacion"
+Cohesion: 0.39
+Nodes (7): Entity, FacturaCompra, Getter, Pago, Setter, Table, PagoImputacion
+
+### Community 265 - "Facturacion Pago Pagorepository"
+Cohesion: 0.43
+Nodes (6): EstadoDocumento, Page, Pageable, Pago, Query, PagoRepository
+
+### Community 266 - "Impuestos Iibb Liquidacioniibb"
+Cohesion: 0.43
+Nodes (7): Asiento, Entity, EstadoDocumento, Getter, Setter, Table, LiquidacionIibb
+
+### Community 267 - "Impuestos Iibb Liquidacioniibbjurisdiccion"
+Cohesion: 0.43
+Nodes (7): Entity, Getter, Jurisdiccion, LiquidacionIibb, Setter, Table, LiquidacionIibbJurisdiccion
+
+### Community 268 - "Impuestos Iva Liquidacioniva"
+Cohesion: 0.43
+Nodes (7): Asiento, Entity, EstadoDocumento, Getter, Setter, Table, LiquidacionIva
+
+### Community 269 - "Maestros Cliente"
+Cohesion: 0.43
+Nodes (7): Cliente, CuentaContable, Entity, Getter, Jurisdiccion, Setter, Table
+
+### Community 270 - "Maestros Cliente Clienterepository"
+Cohesion: 0.43
+Nodes (5): ClienteRepository, Cliente, Page, Pageable, Query
+
+### Community 271 - "Maestros Proyecto Etapa Etaparepository"
+Cohesion: 0.43
+Nodes (5): EtapaRepository, Etapa, Page, Pageable, Query
+
+### Community 272 - "Maestros Proyecto Proyectorepository"
+Cohesion: 0.43
+Nodes (5): Page, Pageable, Proyecto, Query, ProyectoRepository
+
+### Community 273 - "Mysqlcontainer"
+Cohesion: 0.43
+Nodes (6): AbstractIntegrationTest, DynamicPropertyRegistry, DynamicPropertySource, MySQLContainer, SpringBootTest, Testcontainers
+
+### Community 280 - "Movimientos Bancarios Page"
+Cohesion: 0.25
+Nodes (6): AccionEnCurso, ESTADO_CLASE, ESTADO_LABEL, ESTADOS, VACIO, Valores
+
+### Community 281 - "Atribucion Impuesto"
+Cohesion: 0.25
+Nodes (7): Atribucion, CalcularAtribucionInput, CriterioAtribucion, CRITERIOS, LineaAtribucion, PorcentajeProyecto, TipoLiquidacion
+
+### Community 282 - "Cuenta Contable"
+Cohesion: 0.25
+Nodes (7): CuentaContable, CuentaContableCrearInput, CuentaContableEditarInput, CuentaContableNodo, Naturaleza, ProyectoUsoHabitual, SaldoEsperado
+
+### Community 283 - "Etapa"
+Cohesion: 0.25
+Nodes (7): EstadoEtapa, Etapa, EtapaCrearInput, EtapaEditarInput, EtapaImportFila, EtapaImportResultado, ProveedorDto
+
+### Community 284 - "Plan"
+Cohesion: 0.25
+Nodes (8): Interfaz AlertChannel (InApp hoy, Email mañana), Clasificación de datos: migra/estructura/saldo inicial/no migra, Detección de inconsistencias del Excel, F10.1 Mapeo Excel → sistema, F10.2 Scripts de importación por hoja, Idempotencia por clave natural, Modo dry-run de importación, Patrón de importador (leer→validar→resolver FK→insertar vía services→reporte de rechazos)
+
+### Community 285 - "Auditoraware"
 Cohesion: 0.48
 Nodes (5): AuditorAware, Bean, Configuration, JpaAuditingConfig, EnableJpaAuditing
 
-### Community 157 - "Tenant"
+### Community 286 - "Entitylisteners"
 Cohesion: 0.52
-Nodes (6): Tenant, Entity, EntityListeners, Getter, Setter, Table
+Nodes (6): Entity, Getter, Setter, Table, Tenant, EntityListeners
 
-### Community 158 - "JurisdiccionRepository"
+### Community 287 - "Facturacion Facturaventa Facturaventamapper"
+Cohesion: 0.38
+Nodes (5): FacturaVentaMapper, FacturaVentaLinea, LineaResponse, Mapper, Mapping
+
+### Community 288 - "Facturacion Pago Dto Saldofacturacompraresponse"
+Cohesion: 0.33
+Nodes (3): SaldoFacturaCompraResponse, GetMapping, FacturaCompra
+
+### Community 289 - "Impuestos Atribucion Atribucionimpuestolinea"
 Cohesion: 0.48
-Nodes (5): Jurisdiccion, Page, Pageable, Query, JurisdiccionRepository
+Nodes (6): AtribucionImpuestoLinea, Entity, Getter, Proyecto, Setter, Table
 
-### Community 159 - "ProveedorRepository"
+### Community 290 - "Impuestos Atribucion Configuracionatribucion"
 Cohesion: 0.48
-Nodes (5): Page, Pageable, Proveedor, Query, ProveedorRepository
+Nodes (6): ConfiguracionAtribucion, CriterioAtribucion, Entity, Getter, Setter, Table
 
-### Community 160 - "Vínculo N:M Proyecto-Comisionista"
-Cohesion: 0.50
-Nodes (4): Entidad Comisionista, F2.7 Comisionistas, Servicio de consulta de comisiones devengadas/pendientes, Vínculo N:M Proyecto-Comisionista
+### Community 291 - "Maestros Proveedor Proveedormapper"
+Cohesion: 0.38
+Nodes (5): Mapper, Mapping, TipoCosto, TipoCostoDto, ProveedorMapper
 
-### Community 175 - "StreamingResponseBody"
-Cohesion: 0.27
-Nodes (4): CuentaFalsa, Override, Test, RecalculoSaldoServiceTest
+### Community 292 - "Maestros Proyecto Etapa Etapamapper"
+Cohesion: 0.33
+Nodes (5): EtapaMapper, Mapper, Mapping, Proveedor, ProveedorDto
 
-### Community 176 - "Qué se hizo"
-Cohesion: 0.20
-Nodes (9): Drill-down con los mismos filtros de período, El roll-up: madre = Σ hijas, en cualquier profundidad, Exportable (F7.1), F7.2 — Balance de sumas y saldos, Filtros: sin movimiento y nivel de jerarquía, Fuente de datos: una query agregada nueva, no una por cuenta, Qué se hizo, Verificación de balanceo global — nunca se oculta (+1 more)
+### Community 293 - "PresupuestoProyectoMapper"
+Cohesion: 0.38
+Nodes (5): Component, PresupuestoCalculado, PresupuestoProyecto, Response, PresupuestoProyectoMapper
 
-### Community 177 - "CuentaBancariaRepository"
+### Community 294 - "Maestros Proyecto Proyectocuota"
 Cohesion: 0.48
-Nodes (5): CuentaBancariaRepository, CuentaBancaria, Page, Pageable, Query
+Nodes (6): Entity, Getter, Proyecto, Setter, Table, ProyectoCuota
 
-### Community 178 - "use-balance-sumas-y-saldos.ts"
+### Community 310 - "Cuentas Bancarias Page"
+Cohesion: 0.29
+Nodes (5): DEFAULTS, esquema, ESTADOS_CONCILIACION, TIPOS, Valores
+
+### Community 311 - "Estado Resultados Page"
+Cohesion: 0.38
+Nodes (5): formatearNumero(), FragmentoLinea(), MESES, TablaCalculado(), VISTAS
+
+### Community 313 - "Mapeo Rubro Linea Er Page"
+Cohesion: 0.29
+Nodes (5): esquema, NATURALEZA_LABEL, NATURALEZAS, VACIO, Valores
+
+### Community 314 - "Proyecto Comisiones Tab"
+Cohesion: 0.29
+Nodes (5): BASES_CALCULO, esquema, ESTADOS_PAGO, Valores, VALORES_INICIALES
+
+### Community 315 - "Proyecto Etapas Tab"
+Cohesion: 0.29
+Nodes (4): esquema, ESTADOS_ETAPA, Valores, VALORES_INICIALES
+
+### Community 316 - "Usuarios Page"
+Cohesion: 0.29
+Nodes (4): CrearUsuarioValores, esquemaCrearUsuario, ROLES, USUARIOS_QUERY_KEY
+
+### Community 317 - "Frontend: tipos de presupuesto por proyecto"
+Cohesion: 0.29
+Nodes (6): ConfiguracionPresupuesto, LineaCostoPresupuesto, PresupuestoCalculado, PresupuestoProyecto, PresupuestoProyectoGuardarInput, TipoProyecto
+
+### Community 318 - "Proveedor"
+Cohesion: 0.29
+Nodes (6): CONDICIONES_IVA, CondicionIva, Proveedor, ProveedorCrearInput, ProveedorEditarInput, TipoCostoDto
+
+### Community 319 - "Doc de salida: F3 3 Seed Plan De Cuentas V17"
+Cohesion: 0.29
+Nodes (7): Cuentas requeridas por el motor (dif. cambio, anticipos) - seed minimo, 6ta categoria OTROS_RESULTADOS y rama 6 Otros Ingresos y Egresos, Decodificacion deterministica de codigos de cuenta mal interpretados como fechas por Excel, Madre intermedia 3.1 Patrimonio Neto (no estaba en el Excel), F3.3 - Seed del plan de cuentas inicial, Migracion V17: seed del plan de cuentas (72 cuentas, 14 rubros), Checkpoint #2: cuentas faltantes confirmadas (dif. cambio, anticipos)
+
+### Community 320 - "Plan"
+Cohesion: 0.33
+Nodes (7): Casos de prueba contables (≥15 casos numéricos), F3.1 Diseño del motor contable, Claude Fable 5 (modelo ejecutor), Plan de cuentas (diseño: madre/imputable), F3.4 Motor de asientos manuales, F4.1 Reglas de asientos automáticos e imputación de cobros/pagos, Claude Opus 4.8 (modelo ejecutor)
+
+### Community 321 - "Plan"
+Cohesion: 0.29
+Nodes (7): Verificación de balanceo global (Σ debe = Σ haber), Asiento de apertura contable, F10.3 Saldos iniciales y arranque (asiento de apertura), Verificación de cuadratura al arranque, F11.1 Revisión final de seguridad e integridad contable, Integridad contable (imposibilidad de asientos desbalanceados), OWASP básico (inyección SQL, IDOR entre tenants, JWT, secretos, logs)
+
+### Community 325 - "Maestros Comisionista"
+Cohesion: 0.60
+Nodes (5): Comisionista, Entity, Getter, Setter, Table
+
+### Community 326 - "Docker Compose Mysql Service"
+Cohesion: 0.33
+Nodes (6): Configuracion de adjuntos (filesystem, no BLOB), Configuracion JWT (secret obligatorio, TTL), Configuracion Spring Boot (contable), Servicio backend (docker-compose), Servicio frontend (docker-compose), Servicio MySQL 8.0 (docker-compose)
+
+### Community 327 - "Frontend Oxlintrc"
+Cohesion: 0.33
+Nodes (5): plugins, rules, react/only-export-components, react/rules-of-hooks, $schema
+
+### Community 328 - "Frontend Package Scripts"
+Cohesion: 0.33
+Nodes (6): scripts, build, dev, lint, preview, test
+
+### Community 330 - "Use Balance Sumas Y Saldos"
 Cohesion: 0.47
 Nodes (4): descargar(), descargarBalanceSumasYSaldosExcel(), descargarBalanceSumasYSaldosPdf(), QUERY_KEY
 
-### Community 179 - "balance-sumas-y-saldos-page.tsx"
+### Community 331 - "Use Cuenta Por Cobrar"
+Cohesion: 0.47
+Nodes (4): descargar(), descargarCuentasPorCobrarExcel(), descargarCuentasPorCobrarPdf(), QUERY_KEY
+
+### Community 332 - "Use Cuenta Por Pagar"
+Cohesion: 0.47
+Nodes (4): descargar(), descargarCuentasPorPagarExcel(), descargarCuentasPorPagarPdf(), QUERY_KEY
+
+### Community 334 - "Use Mayor"
+Cohesion: 0.47
+Nodes (4): descargar(), descargarMayorExcel(), descargarMayorPdf(), QUERY_KEY
+
+### Community 335 - "Balance Sumas Y Saldos Page"
 Cohesion: 0.53
 Nodes (5): BalanceSumasYSaldosPage(), enlaceMayor(), ETIQUETA_CLASE, FilaBalance(), formatearNumero()
 
-### Community 180 - "balance-sumas-y-saldos.ts"
+### Community 336 - "Categorias Page"
+Cohesion: 0.33
+Nodes (4): esquema, TIPO_LABEL, TIPOS, Valores
+
+### Community 337 - "Proyectos Page"
+Cohesion: 0.33
+Nodes (4): esquema, TIPO_PROYECTO_LABEL, TIPOS_PROYECTO, Valores
+
+### Community 339 - "Auth"
+Cohesion: 0.33
+Nodes (5): PageResponse, RolUsuario, TokenPair, Usuario, UsuarioActual
+
+### Community 340 - "Comision Proyecto"
+Cohesion: 0.33
+Nodes (5): BaseCalculo, ComisionProyecto, ComisionProyectoCrearInput, ComisionProyectoEditarInput, EstadoPagoComision
+
+### Community 341 - "Cuenta Bancaria"
+Cohesion: 0.33
+Nodes (5): CuentaBancaria, CuentaBancariaCrearInput, CuentaBancariaEditarInput, EstadoConciliacion, TipoCuentaBancaria
+
+### Community 342 - "Cuenta Por Cobrar"
+Cohesion: 0.33
+Nodes (5): CuentaPorCobrar, CuentaPorCobrarFila, CuentaPorCobrarFiltros, EstadoVencimiento, TotalPorMoneda
+
+### Community 343 - "Cuenta Por Pagar"
+Cohesion: 0.33
+Nodes (5): CuentaPorPagar, CuentaPorPagarFila, CuentaPorPagarFiltros, EstadoVencimiento, TotalPorMoneda
+
+### Community 344 - "Importacion Bancaria"
+Cohesion: 0.33
+Nodes (5): FilaImportacionBancariaConfirmarInput, FilaImportacionBancariaPreview, FilaImportacionBancariaResultado, OrigenConParser, ResultadoImportacionBancaria
+
+### Community 345 - "Importacion Factura"
+Cohesion: 0.33
+Nodes (5): EstadoDestinoImportacion, FilaImportacionConfirmarInput, FilaImportacionPreview, FilaImportacionResultado, TipoDocumentoImportacion
+
+### Community 346 - "Mapeo Cuenta"
+Cohesion: 0.33
+Nodes (5): ConceptoContable, CONCEPTOS_CONTABLES, MapeoCuenta, MapeoCuentaCrearInput, MapeoCuentaEditarInput
+
+### Community 347 - "Movimiento Bancario"
+Cohesion: 0.33
+Nodes (5): EstadoMovimientoBancario, MovimientoBancario, MovimientoBancarioCorregirInput, MovimientoBancarioCrearInput, OrigenImportacionMovimiento
+
+### Community 348 - "Contabilidad Mapeocuenta Dto Mapeocuentaresponse"
+Cohesion: 0.40
+Nodes (3): ConceptoContable, ConceptoContable, MapeoCuentaCrearRequest
+
+### Community 349 - "DTOs de ConfiguracionPresupuesto"
+Cohesion: 0.40
+Nodes (3): ConfiguracionPresupuestoDtos, Request, Response
+
+### Community 350 - "Frontend Package"
+Cohesion: 0.40
+Nodes (4): name, private, type, version
+
+### Community 352 - "Comisionistas Page"
+Cohesion: 0.40
+Nodes (3): esquema, Valores, VALORES_INICIALES
+
+### Community 353 - "Cuentas Por Cobrar Page"
+Cohesion: 0.40
+Nodes (3): ESTADO_CLASE, ESTADO_LABEL, ESTADOS_VENCIMIENTO
+
+### Community 354 - "Cuentas Por Pagar Page"
+Cohesion: 0.40
+Nodes (3): ESTADO_CLASE, ESTADO_LABEL, ESTADOS_VENCIMIENTO
+
+### Community 355 - "Mapeo Cuenta Page"
+Cohesion: 0.40
+Nodes (3): esquema, VACIO, Valores
+
+### Community 356 - "Proveedores Page"
+Cohesion: 0.40
+Nodes (3): CONDICION_IVA_LABEL, esquema, Valores
+
+### Community 357 - "Tarjetas Credito Page"
+Cohesion: 0.40
+Nodes (3): DEFAULTS, esquema, Valores
+
+### Community 358 - "Tipos Cambio Page"
+Cohesion: 0.40
+Nodes (3): CRITERIOS, esquemaCrear, Valores
+
+### Community 359 - "Balance Sumas Y Saldos"
 Cohesion: 0.40
 Nodes (4): BalanceSumasYSaldos, BalanceSumasYSaldosFiltros, BalanceSumasYSaldosNodo, SaldoEtiqueta
 
-### Community 181 - "TarjetaCreditoMapper"
+### Community 360 - "Conciliacion"
+Cohesion: 0.40
+Nodes (4): ConciliacionMovimiento, ConciliacionResumen, CuentaSugerida, MatchSugerido
+
+### Community 361 - "Mayor"
+Cohesion: 0.40
+Nodes (4): Mayor, MayorFila, MayorFiltros, SaldoFinalEtiqueta
+
+### Community 362 - "Contabilidad Mapeocuenta Mapeocuentamapper"
 Cohesion: 0.67
-Nodes (3): Mapper, Mapping, TarjetaCreditoMapper
+Nodes (3): Mapper, Mapping, MapeoCuentaMapper
+
+### Community 369 - "Conciliacion Page"
+Cohesion: 0.83
+Nodes (3): ConciliacionPage(), hoyIso(), primerDiaDelMes()
+
+### Community 378 - "Comisionista"
+Cohesion: 0.50
+Nodes (3): Comisionista, ComisionistaCrearInput, ComisionistaEditarInput
+
+### Community 379 - "Concepto"
+Cohesion: 0.50
+Nodes (3): Concepto, ConceptoCrearInput, ConceptoEditarInput
+
+### Community 380 - "Rubro"
+Cohesion: 0.50
+Nodes (3): Rubro, RubroCrearInput, RubroEditarInput
+
+### Community 381 - "Tarjeta Credito"
+Cohesion: 0.50
+Nodes (3): TarjetaCredito, TarjetaCreditoCrearInput, TarjetaCreditoEditarInput
+
+### Community 382 - "Tipocambio"
+Cohesion: 0.50
+Nodes (3): TipoCambio, TipoCambioCrearInput, TipoCambioEditarInput
+
+### Community 383 - "Tipocosto"
+Cohesion: 0.50
+Nodes (3): TipoCosto, TipoCostoCrearInput, TipoCostoEditarInput
+
+### Community 384 - "Plan F2.6: presupuesto estimado por proyecto"
+Cohesion: 0.50
+Nodes (4): Comparación proyectado vs real (estructura de datos), F2.6 Presupuesto estimado por proyecto, Hoja de fórmulas de referencia del Excel, Motor de presupuesto estimado por proyecto
+
+### Community 385 - "Plan: 15 F2 7 Comisionistas F2 7"
+Cohesion: 0.50
+Nodes (4): Entidad Comisionista, F2.7 Comisionistas, Servicio de consulta de comisiones devengadas/pendientes, Vínculo N:M Proyecto-Comisionista
 
 ## Ambiguous Edges - Review These
 - `Detección de días con saldo proyectado negativo` → `F9.1 Motor de alertas`  [AMBIGUOUS]
   plan/46_F9_1_motor_de_alertas.md · relation: references
 
 ## Knowledge Gaps
-- **271 isolated node(s):** `QUERY_KEY`, `ETIQUETA_CLASE`, `ORIGENES`, `ETIQUETA_CLASE`, `NavItem` (+266 more)
+- **662 isolated node(s):** `com.montanaritech:contable`, `$schema`, `plugins`, `react/rules-of-hooks`, `react/only-export-components` (+657 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **50 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **118 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **What is the exact relationship between `Detección de días con saldo proyectado negativo` and `F9.1 Motor de alertas`?**
   _Edge tagged AMBIGUOUS (relation: references) - confidence is low._
-- **Why does `AuditoriaService` connect `AuditoriaService` to `TipoCosto CRUD`, `Gestion de usuarios (DTOs)`, `Rubro CRUD`, `TipoCambio CRUD`, `UserDetails y refresh tokens`, `Concepto CRUD`, `Categoria CRUD`, `Jurisdiccion CRUD`, `Proveedor CRUD (tests)`, `CuentaBancaria CRUD`, `Auditado y saldo de cuenta/tarjeta`, `Moneda CRUD`, `Moneda CRUD (excepciones)`, `Importación de etapas (Excel/CSV con pre`, `Moneda CRUD/logic`, `AuditoriaAspect`, `AbstractIntegrationTest`, `Proveedor CRUD (excepciones)`?**
-  _High betweenness centrality (0.151) - this node is a cross-community bridge._
-- **Why does `RecursoNoEncontradoException` connect `Rubro CRUD` to `TipoCosto CRUD`, `Gestion de usuarios (DTOs)`, `TipoCambio CRUD`, `Concepto CRUD`, `Categoria CRUD`, `Jurisdiccion CRUD`, `Manejo de errores y seguridad`, `Proveedor CRUD (tests)`, `CuentaBancaria CRUD`, `Auditado y saldo de cuenta/tarjeta`, `Moneda CRUD`, `Moneda CRUD (excepciones)`, `Importación de etapas (Excel/CSV con pre`, `Proveedor CRUD (excepciones)`, `AbstractIntegrationTest`?**
-  _High betweenness centrality (0.068) - this node is a cross-community bridge._
-- **Why does `TenantRepository` connect `UserDetails y refresh tokens` to `Tenant`?**
-  _High betweenness centrality (0.062) - this node is a cross-community bridge._
-- **What connects `QUERY_KEY`, `ETIQUETA_CLASE`, `ORIGENES` to the rest of the system?**
-  _290 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Why does `CuentaContableRepository` connect `placeholder-page.tsx` to `tsconfig.json`, `Autenticacion y usuarios`, `TipoCosto CRUD`, `Gestion de usuarios (DTOs)`, `TipoCambio CRUD`, `auth-token.ts`, `Concepto CRUD`, `Auditado y saldo de cuenta/tarjeta`, `CuentaBancaria mapper/service`, `CuentaBancaria CRUD (adicional)`, `AbstractIntegrationTest`, `Docs del plan (cluster)`, `Categoria contable (maestro)`, `Entidad Cuenta bancaria / cuenta de dine`, `Moneda CRUD/logic`, `Pantalla de liquidación de IVA editable `, `Entidad Etapa`, `Impuestos Iva Liquidacionivaservice`, `Importación de etapas (Excel/CSV con pre`, `Contabilidad Balance Balancesumasysaldosservice`, `Proveedor CRUD/logic`, `TipoCambio CRUD/logic`, `use-tipocosto.ts`, `usuarios-page.tsx`, `Moneda CRUD/logic`, `auth.ts`, `cuenta-bancaria.ts`, `use-auth.ts`, `categorias-page.tsx`, `tarjetas-credito-page.tsx`, `proveedor.ts`, `Moneda CRUD/logic`?**
+  _High betweenness centrality (0.067) - this node is a cross-community bridge._
+- **Why does `ProyectoRepository` connect `Maestros Proyecto Proyectorepository` to `tsconfig.json`, `Autenticacion y usuarios`, `TipoCambio CRUD`, `auth-token.ts`, `Concepto CRUD`, `utils.ts`, `Auditado y saldo de cuenta/tarjeta`, `CuentaBancaria mapper/service`, `CuentaBancaria CRUD (adicional)`, `AbstractIntegrationTest`, `TipoCosto CRUD/logic`, `Moneda CRUD/logic`, `CuitValido CRUD/logic`, `PresupuestoProyectoRepository y Service`, `Proveedor CRUD/logic`, `TipoCambio CRUD/logic`, `use-cliente.ts`, `use-rubro.ts`, `use-tarjeta-credito.ts`, `use-tipocambio.ts`, `Moneda CRUD/logic`, `auth.ts`, `cuenta-bancaria.ts`, `tipos-cambio-page.tsx`, `jurisdiccion.ts`, `Moneda CRUD/logic`?**
+  _High betweenness centrality (0.058) - this node is a cross-community bridge._
+- **Why does `AsientoService` connect `CuentaBancaria mapper/service` to `auth-token.ts`, `Concepto CRUD`, `placeholder-page.tsx`, `Favicon (Montanari Tech Accountability a`, `Maestros Cliente Clienterepository`, `Maestros Proyecto Etapa Etaparepository`, `Maestros Proyecto Proyectorepository`, `Auditado y saldo de cuenta/tarjeta`, `Proveedor CRUD (excepciones)`, `AbstractIntegrationTest`, `TarjetaCredito CRUD (tests)`, `Docs del plan (cluster)`, `Categoria contable (maestro)`, `CuentaConSaldo CRUD/logic`, `Entidad Cuenta bancaria / cuenta de dine`, `Entidad Etapa`, `EntidadNegocio CRUD/logic`, `Impuestos Iva Liquidacionivaservice`, `Importación de etapas (Excel/CSV con pre`, `TipoCambio CRUD/logic`, `use-categoria.ts`, `usuarios-page.tsx`, `Moneda CRUD/logic`, `cuenta-bancaria.ts`, `Contabilidad Asiento Asientomapper`, `monedas-page.tsx`, `proveedores-page.tsx`, `Moneda CRUD/logic`, `Maestros Proveedor Proveedorrepository`?**
+  _High betweenness centrality (0.043) - this node is a cross-community bridge._
+- **Are the 3 inferred relationships involving `CuentaContable` (e.g. with `.setUp()` and `.setUp()`) actually correct?**
+  _`CuentaContable` has 3 INFERRED edges - model-reasoned connections that need verification._
+- **What connects `com.montanaritech:contable`, `$schema`, `plugins` to the rest of the system?**
+  _721 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Cliente CRUD` be split into smaller, more focused modules?**
-  _Cohesion score 0.1354679802955665 - nodes in this community are weakly interconnected._
-- **Should `TipoCosto CRUD` be split into smaller, more focused modules?**
-  _Cohesion score 0.07305669199298656 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05078855920876771 - nodes in this community are weakly interconnected._

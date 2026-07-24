@@ -10,10 +10,9 @@ import org.junit.jupiter.api.Test;
 /**
  * Waterfall de presupuesto (F2.6), calibrado al centavo (y más) contra la
  * planilla real del contador (hoja GUADA / GUADA MODELO). Los dos casos
- * Exterior son los únicos con valores reales cargados en el Excel — "A
- * COMPLETAR" (Argentina) no tenía ningún input cargado, así que ese caso es
- * un ejemplo propio verificado algebraicamente (no contra un Excel real);
- * el checkpoint humano de este paso debe validarlo con un caso Argentina real.
+ * Exterior y el caso Argentina real (Excel "Presupuesto_ Web.xlsx", hoja
+ * "PLANTILLA GUADA") están calibrados contra valores reales del contador —
+ * checkpoint humano de F2.6 cerrado.
  */
 class CalculoPresupuestoProyectoTest {
 
@@ -88,11 +87,30 @@ class CalculoPresupuestoProyectoTest {
         assertThat(r.precioFinalCliente()).isGreaterThan(BigDecimal.ZERO);
     }
 
+    /** Excel real "Presupuesto_ Web.xlsx", hoja "PLANTILLA GUADA": proyecto SEEU, costo 150 (Diseño 100 + Desarrollo 50), margen deseado 100, 1 pago. Checkpoint humano de F2.6 (Argentina). */
+    @Test
+    void argentinaCasoRealCalibradoContraElExcelReal() {
+        PresupuestoCalculado r = CalculoPresupuestoProyecto.calcular(
+                Proyecto.TipoProyecto.ARGENTINA,
+                new BigDecimal("150.00"),
+                new BigDecimal("100.00"),
+                null,
+                1,
+                configuracionReal());
+
+        assertThat(r.colchonImpuestoGanancias()).isEqualByComparingTo("42.8571428571");
+        assertThat(r.totalCostoMasGanancia()).isEqualByComparingTo("292.8571428571");
+        assertThat(r.comisionVenta()).isEqualByComparingTo("35.05");
+        assertThat(r.precioSinIva()).isCloseTo(new BigDecimal("350.522879"), Offset.offset(new BigDecimal("0.0001")));
+        assertThat(r.iibbConvenioMultilateral()).isCloseTo(new BigDecimal("17.52614395"), Offset.offset(new BigDecimal("0.0001")));
+        assertThat(r.impuestoDebitosCreditos()).isCloseTo(new BigDecimal("5.089592203"), Offset.offset(new BigDecimal("0.0001")));
+        assertThat(r.ivaDebitoFiscal()).isCloseTo(new BigDecimal("73.60980459"), Offset.offset(new BigDecimal("0.0001")));
+        assertThat(r.precioConIva()).isCloseTo(new BigDecimal("424.1326836"), Offset.offset(new BigDecimal("0.0001")));
+    }
+
     /**
-     * Caso propio (sin Excel real cargado en "A COMPLETAR"): costo 1000,
-     * margen deseado 500, alícuotas del sistema. Verificado algebraicamente
-     * a mano — el checkpoint humano de F2.6 debe confirmarlo con un caso
-     * Argentina real del contador.
+     * Caso propio adicional (no calibrado contra un Excel específico, solo
+     * verificado algebraicamente a mano): costo 1000, margen deseado 500.
      */
     @Test
     void argentinaCasoPropioVerificadoAlgebraicamente() {

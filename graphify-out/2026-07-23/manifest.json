@@ -132,17 +132,17 @@
   "backend/src/main/java/com/montanaritech/contable/common/asiento/AsientoGenerado.java": {
     "mtime": 1784316933.2824483,
     "ast_hash": "58e66665641fe2fb7c7c18d06829f452",
-    "semantic_hash": ""
+    "semantic_hash": "58e66665641fe2fb7c7c18d06829f452"
   },
   "backend/src/main/java/com/montanaritech/contable/common/asiento/AsientoGenerator.java": {
     "mtime": 1784316956.2395325,
     "ast_hash": "44481ec3fc09c4c4932d6a4a7ddefd02",
-    "semantic_hash": ""
+    "semantic_hash": "44481ec3fc09c4c4932d6a4a7ddefd02"
   },
   "backend/src/main/java/com/montanaritech/contable/common/asiento/LineaAsientoGenerada.java": {
     "mtime": 1784316742.2212732,
     "ast_hash": "9d2fc19a1db70e9ca80a9ebfa7b8f7f7",
-    "semantic_hash": ""
+    "semantic_hash": "9d2fc19a1db70e9ca80a9ebfa7b8f7f7"
   },
   "backend/src/main/java/com/montanaritech/contable/common/asiento/NumeradorAsiento.java": {
     "mtime": 1783310129.6027143,
@@ -242,7 +242,7 @@
   "backend/src/main/java/com/montanaritech/contable/common/reporte/ReportExportService.java": {
     "mtime": 1784836599.4953184,
     "ast_hash": "d893c464a2389d113405b57bcccb80d8",
-    "semantic_hash": ""
+    "semantic_hash": "d893c464a2389d113405b57bcccb80d8"
   },
   "backend/src/main/java/com/montanaritech/contable/common/saldo/CuentaConSaldo.java": {
     "mtime": 1783378933.8991823,
@@ -252,7 +252,7 @@
   "backend/src/main/java/com/montanaritech/contable/common/saldo/RecalculoSaldoService.java": {
     "mtime": 1784764484.4053783,
     "ast_hash": "23a67ef4ea2d63b8e0f4bf457d565330",
-    "semantic_hash": ""
+    "semantic_hash": "23a67ef4ea2d63b8e0f4bf457d565330"
   },
   "backend/src/main/java/com/montanaritech/contable/common/tenant/EntidadNegocio.java": {
     "mtime": 1783298729.9975057,
@@ -262,7 +262,7 @@
   "backend/src/main/java/com/montanaritech/contable/common/tenant/Tenant.java": {
     "mtime": 1784836531.6542988,
     "ast_hash": "9b31ea9a1722ef5829c9c76aa8f612ba",
-    "semantic_hash": ""
+    "semantic_hash": "9b31ea9a1722ef5829c9c76aa8f612ba"
   },
   "backend/src/main/java/com/montanaritech/contable/common/tenant/TenantContext.java": {
     "mtime": 1783298719.4928217,
@@ -317,7 +317,7 @@
   "backend/src/main/java/com/montanaritech/contable/maestros/categoria/Categoria.java": {
     "mtime": 1784252552.5046442,
     "ast_hash": "57c4592f6f9e84645de7b4f716ddaa44",
-    "semantic_hash": ""
+    "semantic_hash": "57c4592f6f9e84645de7b4f716ddaa44"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/categoria/CategoriaController.java": {
     "mtime": 1783334893.4127805,
@@ -357,7 +357,7 @@
   "backend/src/main/java/com/montanaritech/contable/maestros/cliente/Cliente.java": {
     "mtime": 1784316536.2774165,
     "ast_hash": "846e0e81ae97129800ddbb3551abb7f4",
-    "semantic_hash": ""
+    "semantic_hash": "846e0e81ae97129800ddbb3551abb7f4"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/cliente/ClienteController.java": {
     "mtime": 1783364266.441092,
@@ -367,32 +367,32 @@
   "backend/src/main/java/com/montanaritech/contable/maestros/cliente/ClienteMapper.java": {
     "mtime": 1784316555.0173779,
     "ast_hash": "3558b6bed161a24825b807ceaa3237a3",
-    "semantic_hash": ""
+    "semantic_hash": "3558b6bed161a24825b807ceaa3237a3"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/cliente/ClienteRepository.java": {
     "mtime": 1784742720.6271415,
     "ast_hash": "34d3a68810535ac65947d8da8bf68ff6",
-    "semantic_hash": ""
+    "semantic_hash": "34d3a68810535ac65947d8da8bf68ff6"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/cliente/ClienteService.java": {
     "mtime": 1784316609.0804665,
     "ast_hash": "093c0213c425b0b8915ff34aa0867573",
-    "semantic_hash": ""
+    "semantic_hash": "093c0213c425b0b8915ff34aa0867573"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/cliente/dto/ClienteCrearRequest.java": {
     "mtime": 1784316579.538927,
     "ast_hash": "12fb73bfd178412c18ddaa56896ddc83",
-    "semantic_hash": ""
+    "semantic_hash": "12fb73bfd178412c18ddaa56896ddc83"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/cliente/dto/ClienteEditarRequest.java": {
     "mtime": 1784316585.6176789,
     "ast_hash": "0761c318465c0cc3e726aae8ff257376",
-    "semantic_hash": ""
+    "semantic_hash": "0761c318465c0cc3e726aae8ff257376"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/cliente/dto/ClienteResponse.java": {
     "mtime": 1784316567.0135996,
     "ast_hash": "0eb4d8cf5bc2267b332ba441d865e3e4",
-    "semantic_hash": ""
+    "semantic_hash": "0eb4d8cf5bc2267b332ba441d865e3e4"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/concepto/Concepto.java": {
     "mtime": 1783334644.189067,
@@ -437,7 +437,7 @@
   "backend/src/main/java/com/montanaritech/contable/maestros/cuentabancaria/CuentaBancaria.java": {
     "mtime": 1784686583.740694,
     "ast_hash": "83b06217f602393376581d393a17b56f",
-    "semantic_hash": ""
+    "semantic_hash": "83b06217f602393376581d393a17b56f"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/cuentabancaria/CuentaBancariaController.java": {
     "mtime": 1783379037.5736747,
@@ -447,7 +447,7 @@
   "backend/src/main/java/com/montanaritech/contable/maestros/cuentabancaria/CuentaBancariaMapper.java": {
     "mtime": 1784686588.3887286,
     "ast_hash": "eded3abff297c6d1823cdb69499724b0",
-    "semantic_hash": ""
+    "semantic_hash": "eded3abff297c6d1823cdb69499724b0"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/cuentabancaria/CuentaBancariaRepository.java": {
     "mtime": 1783379005.3971748,
@@ -457,22 +457,22 @@
   "backend/src/main/java/com/montanaritech/contable/maestros/cuentabancaria/CuentaBancariaService.java": {
     "mtime": 1784686624.0703254,
     "ast_hash": "d574d53866c96f0b3d3d3eb57173a0f0",
-    "semantic_hash": ""
+    "semantic_hash": "d574d53866c96f0b3d3d3eb57173a0f0"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/cuentabancaria/dto/CuentaBancariaCrearRequest.java": {
     "mtime": 1784686593.3001425,
     "ast_hash": "c1575137476ca40c0557c72dc32a770a",
-    "semantic_hash": ""
+    "semantic_hash": "c1575137476ca40c0557c72dc32a770a"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/cuentabancaria/dto/CuentaBancariaEditarRequest.java": {
     "mtime": 1784686597.898634,
     "ast_hash": "79bbb6bdbb1abc456c5cab3f8cd9acc7",
-    "semantic_hash": ""
+    "semantic_hash": "79bbb6bdbb1abc456c5cab3f8cd9acc7"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/cuentabancaria/dto/CuentaBancariaResponse.java": {
     "mtime": 1784686602.8666248,
     "ast_hash": "fa03da741069f9dec0f26e7a56b93e60",
-    "semantic_hash": ""
+    "semantic_hash": "fa03da741069f9dec0f26e7a56b93e60"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/jurisdiccion/Jurisdiccion.java": {
     "mtime": 1783337164.5970736,
@@ -492,7 +492,7 @@
   "backend/src/main/java/com/montanaritech/contable/maestros/jurisdiccion/JurisdiccionRepository.java": {
     "mtime": 1784828562.414673,
     "ast_hash": "bd1cf6f7a9e4a00541bf920f039aca81",
-    "semantic_hash": ""
+    "semantic_hash": "bd1cf6f7a9e4a00541bf920f039aca81"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/jurisdiccion/JurisdiccionService.java": {
     "mtime": 1783335775.524948,
@@ -542,7 +542,7 @@
   "backend/src/main/java/com/montanaritech/contable/maestros/moneda/ReporteMonedasController.java": {
     "mtime": 1784836750.4021626,
     "ast_hash": "c83a4c8a79094103c9af7054ca0eeaeb",
-    "semantic_hash": ""
+    "semantic_hash": "c83a4c8a79094103c9af7054ca0eeaeb"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/moneda/dto/MonedaCrearRequest.java": {
     "mtime": 1783309819.0479293,
@@ -562,7 +562,7 @@
   "backend/src/main/java/com/montanaritech/contable/maestros/proveedor/Proveedor.java": {
     "mtime": 1784328259.409458,
     "ast_hash": "d69b251e52bd8c822aac1c8204a7e695",
-    "semantic_hash": ""
+    "semantic_hash": "d69b251e52bd8c822aac1c8204a7e695"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proveedor/ProveedorController.java": {
     "mtime": 1783364341.803014,
@@ -572,32 +572,32 @@
   "backend/src/main/java/com/montanaritech/contable/maestros/proveedor/ProveedorMapper.java": {
     "mtime": 1784328264.0379956,
     "ast_hash": "8c1daee37a66cd4631490284c6530a83",
-    "semantic_hash": ""
+    "semantic_hash": "8c1daee37a66cd4631490284c6530a83"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proveedor/ProveedorRepository.java": {
     "mtime": 1784742729.6679835,
     "ast_hash": "025d568c20704966a613181cab87108d",
-    "semantic_hash": ""
+    "semantic_hash": "025d568c20704966a613181cab87108d"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proveedor/ProveedorService.java": {
     "mtime": 1784328318.3727736,
     "ast_hash": "659c9c537a96a2bbf6df88205f4cfe33",
-    "semantic_hash": ""
+    "semantic_hash": "659c9c537a96a2bbf6df88205f4cfe33"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proveedor/dto/ProveedorCrearRequest.java": {
     "mtime": 1784328288.7008033,
     "ast_hash": "921a39b20e7944108f8d3e08ca49e82d",
-    "semantic_hash": ""
+    "semantic_hash": "921a39b20e7944108f8d3e08ca49e82d"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proveedor/dto/ProveedorEditarRequest.java": {
     "mtime": 1784328293.4283693,
     "ast_hash": "a894bded3f5d9f146f6641b31913d302",
-    "semantic_hash": ""
+    "semantic_hash": "a894bded3f5d9f146f6641b31913d302"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proveedor/dto/ProveedorResponse.java": {
     "mtime": 1784328298.8044524,
     "ast_hash": "46b95ae2e0dbb66bd879cd16c4b25ace",
-    "semantic_hash": ""
+    "semantic_hash": "46b95ae2e0dbb66bd879cd16c4b25ace"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/rubro/Rubro.java": {
     "mtime": 1783334639.3352656,
@@ -642,7 +642,7 @@
   "backend/src/main/java/com/montanaritech/contable/maestros/tarjetacredito/TarjetaCredito.java": {
     "mtime": 1784761337.0457397,
     "ast_hash": "a22fee2bd9834d2d82f721f40533f6a5",
-    "semantic_hash": ""
+    "semantic_hash": "a22fee2bd9834d2d82f721f40533f6a5"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/tarjetacredito/TarjetaCreditoController.java": {
     "mtime": 1783379097.1843529,
@@ -652,7 +652,7 @@
   "backend/src/main/java/com/montanaritech/contable/maestros/tarjetacredito/TarjetaCreditoMapper.java": {
     "mtime": 1784761365.962065,
     "ast_hash": "3d78a9a7465114c336ba9234847294b3",
-    "semantic_hash": ""
+    "semantic_hash": "3d78a9a7465114c336ba9234847294b3"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/tarjetacredito/TarjetaCreditoRepository.java": {
     "mtime": 1783379063.2086244,
@@ -662,22 +662,22 @@
   "backend/src/main/java/com/montanaritech/contable/maestros/tarjetacredito/TarjetaCreditoService.java": {
     "mtime": 1784761404.1173224,
     "ast_hash": "3eefe6fea483a76f4901113ec20ff4d8",
-    "semantic_hash": ""
+    "semantic_hash": "3eefe6fea483a76f4901113ec20ff4d8"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/tarjetacredito/dto/TarjetaCreditoCrearRequest.java": {
     "mtime": 1784761348.3882632,
     "ast_hash": "58e30d3a2792bf0272a3870346243b44",
-    "semantic_hash": ""
+    "semantic_hash": "58e30d3a2792bf0272a3870346243b44"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/tarjetacredito/dto/TarjetaCreditoEditarRequest.java": {
     "mtime": 1784761352.7445161,
     "ast_hash": "b504815e52350913531159e49df08d13",
-    "semantic_hash": ""
+    "semantic_hash": "b504815e52350913531159e49df08d13"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/tarjetacredito/dto/TarjetaCreditoResponse.java": {
     "mtime": 1784761357.2681828,
     "ast_hash": "6a54c4f1508ca2bae2677041cf953ed1",
-    "semantic_hash": ""
+    "semantic_hash": "6a54c4f1508ca2bae2677041cf953ed1"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/tipocambio/TipoCambio.java": {
     "mtime": 1783334624.3933516,
@@ -697,7 +697,7 @@
   "backend/src/main/java/com/montanaritech/contable/maestros/tipocambio/TipoCambioRepository.java": {
     "mtime": 1784254861.007339,
     "ast_hash": "65470da31079d97786bc4c5bb3721b25",
-    "semantic_hash": ""
+    "semantic_hash": "65470da31079d97786bc4c5bb3721b25"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/tipocambio/TipoCambioService.java": {
     "mtime": 1783335751.88218,
@@ -857,17 +857,17 @@
   "backend/src/test/java/com/montanaritech/contable/common/saldo/RecalculoSaldoServiceTest.java": {
     "mtime": 1784764500.6045218,
     "ast_hash": "48bcd0b2965146f531fe6aea08bb9b81",
-    "semantic_hash": ""
+    "semantic_hash": "48bcd0b2965146f531fe6aea08bb9b81"
   },
   "backend/src/test/java/com/montanaritech/contable/maestros/categoria/CategoriaServiceTest.java": {
     "mtime": 1784252780.5305717,
     "ast_hash": "4827b4bd7cb43be491cc871873b69677",
-    "semantic_hash": ""
+    "semantic_hash": "4827b4bd7cb43be491cc871873b69677"
   },
   "backend/src/test/java/com/montanaritech/contable/maestros/cliente/ClienteServiceTest.java": {
     "mtime": 1784316674.7872868,
     "ast_hash": "9b765950dbcff88e1f605a4914f772c1",
-    "semantic_hash": ""
+    "semantic_hash": "9b765950dbcff88e1f605a4914f772c1"
   },
   "backend/src/test/java/com/montanaritech/contable/maestros/concepto/ConceptoServiceTest.java": {
     "mtime": 1783336063.707835,
@@ -877,7 +877,7 @@
   "backend/src/test/java/com/montanaritech/contable/maestros/cuentabancaria/CuentaBancariaServiceTest.java": {
     "mtime": 1784761751.7736073,
     "ast_hash": "9dfeae8fb22c68127d8dd077b1498ab2",
-    "semantic_hash": ""
+    "semantic_hash": "9dfeae8fb22c68127d8dd077b1498ab2"
   },
   "backend/src/test/java/com/montanaritech/contable/maestros/jurisdiccion/JurisdiccionServiceTest.java": {
     "mtime": 1783336033.7733681,
@@ -897,7 +897,7 @@
   "backend/src/test/java/com/montanaritech/contable/maestros/proveedor/ProveedorServiceTest.java": {
     "mtime": 1784328369.4806728,
     "ast_hash": "2e4c9da5360d53db7395b1c4dfd8e50f",
-    "semantic_hash": ""
+    "semantic_hash": "2e4c9da5360d53db7395b1c4dfd8e50f"
   },
   "backend/src/test/java/com/montanaritech/contable/maestros/rubro/RubroServiceTest.java": {
     "mtime": 1783336047.6790564,
@@ -907,7 +907,7 @@
   "backend/src/test/java/com/montanaritech/contable/maestros/tarjetacredito/TarjetaCreditoServiceTest.java": {
     "mtime": 1784761782.5670507,
     "ast_hash": "a2d0bc7496b16514060ae91f7ebc7a5e",
-    "semantic_hash": ""
+    "semantic_hash": "a2d0bc7496b16514060ae91f7ebc7a5e"
   },
   "backend/src/test/java/com/montanaritech/contable/maestros/tipocambio/TipoCambioServiceTest.java": {
     "mtime": 1783336078.9669213,
@@ -1032,7 +1032,7 @@
   "frontend/src/hooks/use-tarjeta-credito.ts": {
     "mtime": 1784763868.569669,
     "ast_hash": "1177b056c497f637246fb542bb86f0a4",
-    "semantic_hash": ""
+    "semantic_hash": "1177b056c497f637246fb542bb86f0a4"
   },
   "frontend/src/hooks/use-tipocambio.ts": {
     "mtime": 1783335536.2280912,
@@ -1077,12 +1077,12 @@
   "frontend/src/pages/categorias-page.tsx": {
     "mtime": 1784252836.8590019,
     "ast_hash": "6643e2d0b55ee15f6db73cf47b1c4276",
-    "semantic_hash": ""
+    "semantic_hash": "6643e2d0b55ee15f6db73cf47b1c4276"
   },
   "frontend/src/pages/clientes-page.tsx": {
     "mtime": 1784318843.7181106,
     "ast_hash": "ac492c9eefa4c2e9349b2f67cc32562a",
-    "semantic_hash": ""
+    "semantic_hash": "ac492c9eefa4c2e9349b2f67cc32562a"
   },
   "frontend/src/pages/conceptos-page.tsx": {
     "mtime": 1783336766.3159485,
@@ -1092,7 +1092,7 @@
   "frontend/src/pages/cuentas-bancarias-page.tsx": {
     "mtime": 1784686759.544309,
     "ast_hash": "0044037c5cba2ab8f33850aa1dd50801",
-    "semantic_hash": ""
+    "semantic_hash": "0044037c5cba2ab8f33850aa1dd50801"
   },
   "frontend/src/pages/dashboard-page.tsx": {
     "mtime": 1783305132.5225906,
@@ -1127,7 +1127,7 @@
   "frontend/src/pages/proveedores-page.tsx": {
     "mtime": 1784329188.6802354,
     "ast_hash": "830fada294ff4cc343f408c89323dc75",
-    "semantic_hash": ""
+    "semantic_hash": "830fada294ff4cc343f408c89323dc75"
   },
   "frontend/src/pages/rubros-page.tsx": {
     "mtime": 1783336690.5689468,
@@ -1137,7 +1137,7 @@
   "frontend/src/pages/tarjetas-credito-page.tsx": {
     "mtime": 1784764011.9820766,
     "ast_hash": "020bea0c6641d48e3e6cd58fbeb2d232",
-    "semantic_hash": ""
+    "semantic_hash": "020bea0c6641d48e3e6cd58fbeb2d232"
   },
   "frontend/src/pages/tipos-cambio-page.tsx": {
     "mtime": 1783336722.4135096,
@@ -1160,14 +1160,14 @@
     "semantic_hash": "aebb3a19e9f7d853a49f3a2387e82e46"
   },
   "frontend/src/routes/nav-config.ts": {
-    "mtime": 1784838734.5174613,
-    "ast_hash": "c7bb5bb8b7fe84b0ee7c681d59578c9e",
-    "semantic_hash": ""
+    "mtime": 1784843498.7740593,
+    "ast_hash": "b9ac6dcdc4cf39d527bc5521313d6ac8",
+    "semantic_hash": "b9ac6dcdc4cf39d527bc5521313d6ac8"
   },
   "frontend/src/routes/router.tsx": {
-    "mtime": 1784838731.1457598,
-    "ast_hash": "31334832d63ef77d3df8033dbbd49cb0",
-    "semantic_hash": ""
+    "mtime": 1784843493.56585,
+    "ast_hash": "59a11249dcd21eef9de2fcb1b6adee89",
+    "semantic_hash": "59a11249dcd21eef9de2fcb1b6adee89"
   },
   "frontend/src/test/App.test.tsx": {
     "mtime": 1783307161.9333665,
@@ -1207,7 +1207,7 @@
   "frontend/src/types/cliente.ts": {
     "mtime": 1784318802.820552,
     "ast_hash": "66455556fd419ac661573307011f3c19",
-    "semantic_hash": ""
+    "semantic_hash": "66455556fd419ac661573307011f3c19"
   },
   "frontend/src/types/concepto.ts": {
     "mtime": 1783335029.164184,
@@ -1217,7 +1217,7 @@
   "frontend/src/types/cuenta-bancaria.ts": {
     "mtime": 1784686725.968151,
     "ast_hash": "4cc79577f792101bbb327a44e2946be7",
-    "semantic_hash": ""
+    "semantic_hash": "4cc79577f792101bbb327a44e2946be7"
   },
   "frontend/src/types/jurisdiccion.ts": {
     "mtime": 1783335029.045928,
@@ -1232,7 +1232,7 @@
   "frontend/src/types/proveedor.ts": {
     "mtime": 1784329145.2313356,
     "ast_hash": "853e38037dc58481dc952c4eabe0a866",
-    "semantic_hash": ""
+    "semantic_hash": "853e38037dc58481dc952c4eabe0a866"
   },
   "frontend/src/types/rubro.ts": {
     "mtime": 1783335029.124891,
@@ -1242,7 +1242,7 @@
   "frontend/src/types/tarjeta-credito.ts": {
     "mtime": 1784762062.8103907,
     "ast_hash": "74eb01be0abf7b339f53ff49256a9947",
-    "semantic_hash": ""
+    "semantic_hash": "74eb01be0abf7b339f53ff49256a9947"
   },
   "frontend/src/types/tipocambio.ts": {
     "mtime": 1783336620.8111355,
@@ -1275,9 +1275,9 @@
     "semantic_hash": "f9cb81ddcea69ffdab672fc8c48dca66"
   },
   "frontend/vite.config.ts": {
-    "mtime": 1783306272.8402991,
-    "ast_hash": "94f76e9cce375f23444217ac961dd6ad",
-    "semantic_hash": "94f76e9cce375f23444217ac961dd6ad"
+    "mtime": 1784848796.017811,
+    "ast_hash": "13f3988c15e790ec7d224ab2b4d845b9",
+    "semantic_hash": "13f3988c15e790ec7d224ab2b4d845b9"
   },
   ".github/workflows/ci.yml": {
     "mtime": 1783309547.2649071,
@@ -1287,7 +1287,7 @@
   "CLAUDE.md": {
     "mtime": 1784835965.9793806,
     "ast_hash": "98cf317dafedf70d55fbe1470ab24fef",
-    "semantic_hash": ""
+    "semantic_hash": "98cf317dafedf70d55fbe1470ab24fef"
   },
   "README.md": {
     "mtime": 1783380477.2114604,
@@ -1307,12 +1307,12 @@
   "backend/src/main/resources/application.yml": {
     "mtime": 1784742709.216088,
     "ast_hash": "e9eb68f94154ff239541b5208018aa99",
-    "semantic_hash": ""
+    "semantic_hash": "e9eb68f94154ff239541b5208018aa99"
   },
   "docker-compose.yml": {
-    "mtime": 1784841260.0184832,
+    "mtime": 1784848796.0168052,
     "ast_hash": "b44693d2d71a76f7380a9161ed81642c",
-    "semantic_hash": ""
+    "semantic_hash": "b44693d2d71a76f7380a9161ed81642c"
   },
   "frontend/README.md": {
     "mtime": 1783302969.074891,
@@ -1642,2221 +1642,2416 @@
   ".claude/settings.local.json": {
     "mtime": 1784841165.6504276,
     "ast_hash": "9a6b2d307b73144ac2f4395ba941a928",
-    "semantic_hash": ""
+    "semantic_hash": "9a6b2d307b73144ac2f4395ba941a928"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/conciliacion/ClasificadorMovimientoBancario.java": {
     "mtime": 1784759360.8421667,
     "ast_hash": "be0200bb7c64bb109e61ad419decbc88",
-    "semantic_hash": ""
+    "semantic_hash": "be0200bb7c64bb109e61ad419decbc88"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/conciliacion/ConciliacionController.java": {
     "mtime": 1784759439.1293192,
     "ast_hash": "b825e63f7d1136adf766ceb62f77c3df",
-    "semantic_hash": ""
+    "semantic_hash": "b825e63f7d1136adf766ceb62f77c3df"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/conciliacion/ConciliacionService.java": {
     "mtime": 1784759406.8779485,
     "ast_hash": "a9dd6feb606cc5939bde54e31e190c4b",
-    "semantic_hash": ""
+    "semantic_hash": "a9dd6feb606cc5939bde54e31e190c4b"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/conciliacion/dto/ConciliacionMovimientoResponse.java": {
     "mtime": 1784759377.4916842,
     "ast_hash": "9f2d61f344fef835ea448755e2508591",
-    "semantic_hash": ""
+    "semantic_hash": "9f2d61f344fef835ea448755e2508591"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/conciliacion/dto/ConciliacionResumenResponse.java": {
     "mtime": 1784759382.6081164,
     "ast_hash": "b2b8b502f84792f81c893032bbf8264e",
-    "semantic_hash": ""
+    "semantic_hash": "b2b8b502f84792f81c893032bbf8264e"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/conciliacion/dto/CuentaSugeridaResponse.java": {
     "mtime": 1784759371.7283523,
     "ast_hash": "4ebca036de72200a4ba08fb57b874068",
-    "semantic_hash": ""
+    "semantic_hash": "4ebca036de72200a4ba08fb57b874068"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/conciliacion/dto/MatchSugeridoResponse.java": {
     "mtime": 1784759367.6711435,
     "ast_hash": "ffcd0ed558389629ccf2285f36a0c9f8",
-    "semantic_hash": ""
+    "semantic_hash": "ffcd0ed558389629ccf2285f36a0c9f8"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/importacion/ImportacionMovimientoBancarioController.java": {
     "mtime": 1784753543.5222962,
     "ast_hash": "7dd71378014e44ede57121c073048e0c",
-    "semantic_hash": ""
+    "semantic_hash": "7dd71378014e44ede57121c073048e0c"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/importacion/ImportacionMovimientoBancarioService.java": {
     "mtime": 1784753533.4905832,
     "ast_hash": "616be2f33100187c3bad895c51b5fc5f",
-    "semantic_hash": ""
+    "semantic_hash": "616be2f33100187c3bad895c51b5fc5f"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/importacion/MovimientoParseado.java": {
     "mtime": 1784752373.7659457,
     "ast_hash": "5b1727fb10d6b839aa52cdc2dc851ed6",
-    "semantic_hash": ""
+    "semantic_hash": "5b1727fb10d6b839aa52cdc2dc851ed6"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/importacion/ParserGalicia.java": {
     "mtime": 1784757514.269362,
     "ast_hash": "b4a41904d43f7007cef93bf8340c4255",
-    "semantic_hash": ""
+    "semantic_hash": "b4a41904d43f7007cef93bf8340c4255"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/importacion/ParserMercadoPago.java": {
     "mtime": 1784752635.929427,
     "ast_hash": "4582d55f3945a6995e04f716164edfd9",
-    "semantic_hash": ""
+    "semantic_hash": "4582d55f3945a6995e04f716164edfd9"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/importacion/ParserTarjeta.java": {
     "mtime": 1784753001.0608325,
     "ast_hash": "3b6d75d5139b590c18c2c71183bada7a",
-    "semantic_hash": ""
+    "semantic_hash": "3b6d75d5139b590c18c2c71183bada7a"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/importacion/ResumenParser.java": {
     "mtime": 1784752258.298749,
     "ast_hash": "c518f85e9ccd9d92d456a70723acf972",
-    "semantic_hash": ""
+    "semantic_hash": "c518f85e9ccd9d92d456a70723acf972"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/importacion/dto/FilaImportacionConfirmarRequest.java": {
     "mtime": 1784753491.7613175,
     "ast_hash": "06fc68b60fa34a6bf0da40578d7e791e",
-    "semantic_hash": ""
+    "semantic_hash": "06fc68b60fa34a6bf0da40578d7e791e"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/importacion/dto/FilaImportacionPreviewResponse.java": {
     "mtime": 1784753486.515695,
     "ast_hash": "d9b5b7bcb7c32bb9425b6e0477f608c9",
-    "semantic_hash": ""
+    "semantic_hash": "d9b5b7bcb7c32bb9425b6e0477f608c9"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/importacion/dto/FilaImportacionResultadoResponse.java": {
     "mtime": 1784753497.8935766,
     "ast_hash": "4768d7af17750a7644a5400f541f9f63",
-    "semantic_hash": ""
+    "semantic_hash": "4768d7af17750a7644a5400f541f9f63"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/movimientobancario/EstadoMovimientoBancario.java": {
     "mtime": 1784748346.1700575,
     "ast_hash": "0630d5f0149808d5e7e5c7fd3285e99e",
-    "semantic_hash": ""
+    "semantic_hash": "0630d5f0149808d5e7e5c7fd3285e99e"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/movimientobancario/MovimientoBancario.java": {
     "mtime": 1784751803.3722887,
     "ast_hash": "137c74960f04d41be41860c9ced1314b",
-    "semantic_hash": ""
+    "semantic_hash": "137c74960f04d41be41860c9ced1314b"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/movimientobancario/MovimientoBancarioController.java": {
     "mtime": 1784748501.7486212,
     "ast_hash": "8a21778e8a47696e926ae3f19a73dcc5",
-    "semantic_hash": ""
+    "semantic_hash": "8a21778e8a47696e926ae3f19a73dcc5"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/movimientobancario/MovimientoBancarioMapper.java": {
     "mtime": 1784748423.593798,
     "ast_hash": "adcd379c8afe8c9e0da5d834b99fcdac",
-    "semantic_hash": ""
+    "semantic_hash": "adcd379c8afe8c9e0da5d834b99fcdac"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/movimientobancario/MovimientoBancarioRepository.java": {
     "mtime": 1784759337.1441228,
     "ast_hash": "e08b1a81a05e06db04f0618b8a0de6e4",
-    "semantic_hash": ""
+    "semantic_hash": "e08b1a81a05e06db04f0618b8a0de6e4"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/movimientobancario/MovimientoBancarioService.java": {
     "mtime": 1784751885.0244467,
     "ast_hash": "411dafd5577f2f56f17570b8368792bb",
-    "semantic_hash": ""
+    "semantic_hash": "411dafd5577f2f56f17570b8368792bb"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/movimientobancario/OrigenImportacionMovimiento.java": {
     "mtime": 1784748351.377833,
     "ast_hash": "b3afeab3791603cb78b49eb2e3950a5e",
-    "semantic_hash": ""
+    "semantic_hash": "b3afeab3791603cb78b49eb2e3950a5e"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/movimientobancario/dto/AsociarMovimientoBancarioRequest.java": {
     "mtime": 1784748403.7728145,
     "ast_hash": "3f6b6035aab30fce85d708ca3a362fe9",
-    "semantic_hash": ""
+    "semantic_hash": "3f6b6035aab30fce85d708ca3a362fe9"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/movimientobancario/dto/ContadorPendientesResponse.java": {
     "mtime": 1784748414.6510122,
     "ast_hash": "7ff4183ff77b8200a29ede275925ccfd",
-    "semantic_hash": ""
+    "semantic_hash": "7ff4183ff77b8200a29ede275925ccfd"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/movimientobancario/dto/CorregirMovimientoBancarioRequest.java": {
     "mtime": 1784751821.7205653,
     "ast_hash": "2b5c84f2241054125e83c34c59c5e8aa",
-    "semantic_hash": ""
+    "semantic_hash": "2b5c84f2241054125e83c34c59c5e8aa"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/movimientobancario/dto/CrearMovimientoBancarioRequest.java": {
     "mtime": 1784751849.182686,
     "ast_hash": "31115a72df7ad123d840204c712afc33",
-    "semantic_hash": ""
+    "semantic_hash": "31115a72df7ad123d840204c712afc33"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/movimientobancario/dto/DescartarMovimientoBancarioRequest.java": {
     "mtime": 1784748409.5919096,
     "ast_hash": "658187302deec636946035f1f2ea14d7",
-    "semantic_hash": ""
+    "semantic_hash": "658187302deec636946035f1f2ea14d7"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/movimientobancario/dto/ImputarMovimientoBancarioRequest.java": {
     "mtime": 1784748399.2201934,
     "ast_hash": "7d41ecb80960fb6f18ea3a2f34156c52",
-    "semantic_hash": ""
+    "semantic_hash": "7d41ecb80960fb6f18ea3a2f34156c52"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/movimientobancario/dto/MovimientoBancarioResponse.java": {
     "mtime": 1784748381.4669876,
     "ast_hash": "88bc66e087008e6f8c164da06e655b30",
-    "semantic_hash": ""
+    "semantic_hash": "88bc66e087008e6f8c164da06e655b30"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/tarjetacredito/ConsumoTarjeta.java": {
     "mtime": 1784761469.7056625,
     "ast_hash": "cb76b741175f54328fcb5a2a13cd9e58",
-    "semantic_hash": ""
+    "semantic_hash": "cb76b741175f54328fcb5a2a13cd9e58"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/tarjetacredito/ConsumoTarjetaController.java": {
     "mtime": 1784762571.9826932,
     "ast_hash": "8e0c430890fa483949411f28e75ad594",
-    "semantic_hash": ""
+    "semantic_hash": "8e0c430890fa483949411f28e75ad594"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/tarjetacredito/ConsumoTarjetaMapper.java": {
     "mtime": 1784762499.8640077,
     "ast_hash": "cb017f92dba0c7c5f5de90e3b91b50e7",
-    "semantic_hash": ""
+    "semantic_hash": "cb017f92dba0c7c5f5de90e3b91b50e7"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/tarjetacredito/ConsumoTarjetaRepository.java": {
     "mtime": 1784761490.673008,
     "ast_hash": "16837c31f8730fd3d6ebcfcadbc77b78",
-    "semantic_hash": ""
+    "semantic_hash": "16837c31f8730fd3d6ebcfcadbc77b78"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/tarjetacredito/ConsumoTarjetaService.java": {
     "mtime": 1784762561.0639956,
     "ast_hash": "fc2279241d16a31c7f616068558dac84",
-    "semantic_hash": ""
+    "semantic_hash": "fc2279241d16a31c7f616068558dac84"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/tarjetacredito/ImportacionConsumoTarjetaController.java": {
     "mtime": 1784762228.3873484,
     "ast_hash": "c3699de9ba80e7d5f94c0b427bc43f65",
-    "semantic_hash": ""
+    "semantic_hash": "c3699de9ba80e7d5f94c0b427bc43f65"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/tarjetacredito/ImportacionConsumoTarjetaService.java": {
     "mtime": 1784762217.8969002,
     "ast_hash": "8466d80f276f1ba0c265152978faccf0",
-    "semantic_hash": ""
+    "semantic_hash": "8466d80f276f1ba0c265152978faccf0"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/tarjetacredito/PagoTarjeta.java": {
     "mtime": 1784761504.3877609,
     "ast_hash": "6a4b5410ca0b41514d336053655ca510",
-    "semantic_hash": ""
+    "semantic_hash": "6a4b5410ca0b41514d336053655ca510"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/tarjetacredito/PagoTarjetaAsientoGenerator.java": {
     "mtime": 1784763428.0454395,
     "ast_hash": "0c9a541200df136fcd8e9f0ff03c6c80",
-    "semantic_hash": ""
+    "semantic_hash": "0c9a541200df136fcd8e9f0ff03c6c80"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/tarjetacredito/PagoTarjetaController.java": {
     "mtime": 1784762878.6828253,
     "ast_hash": "a0c8b3c24efaa0fb0de2db4217b450ef",
-    "semantic_hash": ""
+    "semantic_hash": "a0c8b3c24efaa0fb0de2db4217b450ef"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/tarjetacredito/PagoTarjetaMapper.java": {
     "mtime": 1784762827.6071904,
     "ast_hash": "150726c43ef8e55b0602b38a219fcbf3",
-    "semantic_hash": ""
+    "semantic_hash": "150726c43ef8e55b0602b38a219fcbf3"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/tarjetacredito/PagoTarjetaRepository.java": {
     "mtime": 1784761511.5014515,
     "ast_hash": "a91edac93af168d659688574d49b003e",
-    "semantic_hash": ""
+    "semantic_hash": "a91edac93af168d659688574d49b003e"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/tarjetacredito/PagoTarjetaService.java": {
     "mtime": 1784762852.459583,
     "ast_hash": "1663708113970820a85638ec9df69135",
-    "semantic_hash": ""
+    "semantic_hash": "1663708113970820a85638ec9df69135"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/tarjetacredito/ReglaClasificacionConsumo.java": {
     "mtime": 1784762424.6032455,
     "ast_hash": "d7be5f8237b599ae105c22751699b946",
-    "semantic_hash": ""
+    "semantic_hash": "d7be5f8237b599ae105c22751699b946"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/tarjetacredito/ReglaClasificacionConsumoController.java": {
     "mtime": 1784762540.4845223,
     "ast_hash": "fc43d06662d138ac16626a6cfdec98cf",
-    "semantic_hash": ""
+    "semantic_hash": "fc43d06662d138ac16626a6cfdec98cf"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/tarjetacredito/ReglaClasificacionConsumoRepository.java": {
     "mtime": 1784762436.796597,
     "ast_hash": "830979c2e5c7fa36b78e7f813fdb81a9",
-    "semantic_hash": ""
+    "semantic_hash": "830979c2e5c7fa36b78e7f813fdb81a9"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/tarjetacredito/ReglaClasificacionConsumoService.java": {
     "mtime": 1784762524.3131278,
     "ast_hash": "997d713e0165839e665fc7df1cb363cc",
-    "semantic_hash": ""
+    "semantic_hash": "997d713e0165839e665fc7df1cb363cc"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/tarjetacredito/ReglaClasificacionMapper.java": {
     "mtime": 1784762505.9458535,
     "ast_hash": "c42319b6adff70b86b58f811ca9c8752",
-    "semantic_hash": ""
+    "semantic_hash": "c42319b6adff70b86b58f811ca9c8752"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/tarjetacredito/dto/ClasificarConsumoRequest.java": {
     "mtime": 1784762474.7710445,
     "ast_hash": "fcbc03b9adab89d8a7aedf458e6efa3f",
-    "semantic_hash": ""
+    "semantic_hash": "fcbc03b9adab89d8a7aedf458e6efa3f"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/tarjetacredito/dto/ConsumoImportacionConfirmarRequest.java": {
     "mtime": 1784762166.5667543,
     "ast_hash": "6af301ceca2dd9c54d2027eb9a0e6ca9",
-    "semantic_hash": ""
+    "semantic_hash": "6af301ceca2dd9c54d2027eb9a0e6ca9"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/tarjetacredito/dto/ConsumoImportacionPreviewResponse.java": {
     "mtime": 1784762161.5614977,
     "ast_hash": "8b235f9cbd75acd67dba7404b0381324",
-    "semantic_hash": ""
+    "semantic_hash": "8b235f9cbd75acd67dba7404b0381324"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/tarjetacredito/dto/ConsumoImportacionResultadoResponse.java": {
     "mtime": 1784762173.316649,
     "ast_hash": "eef942767125816021b3fb7a97032ce4",
-    "semantic_hash": ""
+    "semantic_hash": "eef942767125816021b3fb7a97032ce4"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/tarjetacredito/dto/ConsumoTarjetaResponse.java": {
     "mtime": 1784762479.4582043,
     "ast_hash": "88a16a6b6076a484fb32cf7244981423",
-    "semantic_hash": ""
+    "semantic_hash": "88a16a6b6076a484fb32cf7244981423"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/tarjetacredito/dto/PagoTarjetaCrearRequest.java": {
     "mtime": 1784762814.6001983,
     "ast_hash": "9f54ae6d8d162d5f4e0c1bae2e71ec1f",
-    "semantic_hash": ""
+    "semantic_hash": "9f54ae6d8d162d5f4e0c1bae2e71ec1f"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/tarjetacredito/dto/PagoTarjetaResponse.java": {
     "mtime": 1784762820.2767563,
     "ast_hash": "dd0ac6ac6e120c0ca13283d8a591b318",
-    "semantic_hash": ""
+    "semantic_hash": "dd0ac6ac6e120c0ca13283d8a591b318"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/tarjetacredito/dto/ReglaClasificacionCrearRequest.java": {
     "mtime": 1784762464.9276764,
     "ast_hash": "031df483d339471c10139c4481842aba",
-    "semantic_hash": ""
+    "semantic_hash": "031df483d339471c10139c4481842aba"
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/tarjetacredito/dto/ReglaClasificacionResponse.java": {
     "mtime": 1784762469.6698554,
     "ast_hash": "9ab7d88d160f8b5748571da0f01b54af",
-    "semantic_hash": ""
+    "semantic_hash": "9ab7d88d160f8b5748571da0f01b54af"
   },
   "backend/src/main/java/com/montanaritech/contable/common/adjunto/Adjunto.java": {
     "mtime": 1784316409.3241405,
     "ast_hash": "e42db0366a2d093e7dd6d56bedb856db",
-    "semantic_hash": ""
+    "semantic_hash": "e42db0366a2d093e7dd6d56bedb856db"
   },
   "backend/src/main/java/com/montanaritech/contable/common/adjunto/AdjuntoController.java": {
     "mtime": 1784316483.8366423,
     "ast_hash": "d2a23f18372be54098aa99daa7af7390",
-    "semantic_hash": ""
+    "semantic_hash": "d2a23f18372be54098aa99daa7af7390"
   },
   "backend/src/main/java/com/montanaritech/contable/common/adjunto/AdjuntoRepository.java": {
     "mtime": 1784316414.4007788,
     "ast_hash": "7fbd7a0b98d8ca91301bbbf7d3064e3f",
-    "semantic_hash": ""
+    "semantic_hash": "7fbd7a0b98d8ca91301bbbf7d3064e3f"
   },
   "backend/src/main/java/com/montanaritech/contable/common/adjunto/AdjuntoService.java": {
     "mtime": 1784316462.5751722,
     "ast_hash": "3dfa48afc002d017583b2e1996dfeb5e",
-    "semantic_hash": ""
+    "semantic_hash": "3dfa48afc002d017583b2e1996dfeb5e"
   },
   "backend/src/main/java/com/montanaritech/contable/common/asiento/CalculoImputacion.java": {
     "mtime": 1784686776.1299465,
     "ast_hash": "7c81e8183c2da65e107f7aef1eb1fbd3",
-    "semantic_hash": ""
+    "semantic_hash": "7c81e8183c2da65e107f7aef1eb1fbd3"
   },
   "backend/src/main/java/com/montanaritech/contable/common/asiento/NumeradorAsientoPersistente.java": {
     "mtime": 1784254787.6719224,
     "ast_hash": "b1cadbea5f4f3ae28b80b1e61b4ce7cf",
-    "semantic_hash": ""
+    "semantic_hash": "b1cadbea5f4f3ae28b80b1e61b4ce7cf"
   },
   "backend/src/main/java/com/montanaritech/contable/common/reporte/ContextoReporte.java": {
     "mtime": 1784836544.5619361,
     "ast_hash": "60471bd09aa27022c5d3adbc0e650e1a",
-    "semantic_hash": ""
+    "semantic_hash": "60471bd09aa27022c5d3adbc0e650e1a"
   },
   "backend/src/main/java/com/montanaritech/contable/common/reporte/EstadoVencimiento.java": {
     "mtime": 1784690700.1914186,
     "ast_hash": "9a29b3fc96593c565a550f24681da70b",
-    "semantic_hash": ""
+    "semantic_hash": "9a29b3fc96593c565a550f24681da70b"
   },
   "backend/src/main/java/com/montanaritech/contable/common/reporte/FormatoReporte.java": {
     "mtime": 1784836538.533687,
     "ast_hash": "989d4fa93df4d93f5b549ee873258a84",
-    "semantic_hash": ""
+    "semantic_hash": "989d4fa93df4d93f5b549ee873258a84"
   },
   "backend/src/main/java/com/montanaritech/contable/common/reporte/NumeracionPaginasPdf.java": {
     "mtime": 1784836562.4288566,
     "ast_hash": "a1e36e25b01628b14acafebd1ea157a0",
-    "semantic_hash": ""
+    "semantic_hash": "a1e36e25b01628b14acafebd1ea157a0"
   },
   "backend/src/main/java/com/montanaritech/contable/common/secuencia/Secuencia.java": {
     "mtime": 1784254766.3047163,
     "ast_hash": "79baf428b540af994e8cbdda7edc764c",
-    "semantic_hash": ""
+    "semantic_hash": "79baf428b540af994e8cbdda7edc764c"
   },
   "backend/src/main/java/com/montanaritech/contable/common/secuencia/SecuenciaRepository.java": {
     "mtime": 1784254774.4388287,
     "ast_hash": "82a20978efae9790e8908f20d23aeab2",
-    "semantic_hash": ""
+    "semantic_hash": "82a20978efae9790e8908f20d23aeab2"
   },
   "backend/src/main/java/com/montanaritech/contable/common/tenant/TenantController.java": {
     "mtime": 1784836620.8380034,
     "ast_hash": "733087c07b6f5e3b8ffadae9865d840e",
-    "semantic_hash": ""
+    "semantic_hash": "733087c07b6f5e3b8ffadae9865d840e"
   },
   "backend/src/main/java/com/montanaritech/contable/common/tenant/dto/TenantActualizarRequest.java": {
     "mtime": 1784836613.6060135,
     "ast_hash": "75f1b5708b670972c73ebde61a8da661",
-    "semantic_hash": ""
+    "semantic_hash": "75f1b5708b670972c73ebde61a8da661"
   },
   "backend/src/main/java/com/montanaritech/contable/common/tenant/dto/TenantResponse.java": {
     "mtime": 1784836609.9534104,
     "ast_hash": "49b1ab54d9bad190e4b267873e7139f5",
-    "semantic_hash": ""
+    "semantic_hash": "49b1ab54d9bad190e4b267873e7139f5"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/asiento/Asiento.java": {
     "mtime": 1784291132.832968,
     "ast_hash": "40f2f9114e161e2857c550dbe6baeffa",
-    "semantic_hash": ""
+    "semantic_hash": "40f2f9114e161e2857c550dbe6baeffa"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/asiento/AsientoController.java": {
     "mtime": 1784291375.8188734,
     "ast_hash": "f9be973167cb366d00c81f4d9cbc3bd8",
-    "semantic_hash": ""
+    "semantic_hash": "f9be973167cb366d00c81f4d9cbc3bd8"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/asiento/AsientoLinea.java": {
     "mtime": 1784254828.069234,
     "ast_hash": "327254895030b378cc0bc331b74e6ab4",
-    "semantic_hash": ""
+    "semantic_hash": "327254895030b378cc0bc331b74e6ab4"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/asiento/AsientoLineaRepository.java": {
-    "mtime": 1784838529.502263,
-    "ast_hash": "a0a91f9034980190ff6b7a5ecbc9bde8",
-    "semantic_hash": ""
+    "mtime": 1784842815.932115,
+    "ast_hash": "58fd791d705790c5aa4c1c9a675a549e",
+    "semantic_hash": "58fd791d705790c5aa4c1c9a675a549e"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/asiento/AsientoMapper.java": {
     "mtime": 1784254915.8949282,
     "ast_hash": "c443d2c2b908099d5b29cd1fe67fd366",
-    "semantic_hash": ""
+    "semantic_hash": "c443d2c2b908099d5b29cd1fe67fd366"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/asiento/AsientoRepository.java": {
     "mtime": 1784748338.337131,
     "ast_hash": "e16813513b0942657f5143928e26aba6",
-    "semantic_hash": ""
+    "semantic_hash": "e16813513b0942657f5143928e26aba6"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/asiento/AsientoService.java": {
     "mtime": 1784320743.1385124,
     "ast_hash": "92abb909a24ea47900901b88d908cedc",
-    "semantic_hash": ""
+    "semantic_hash": "92abb909a24ea47900901b88d908cedc"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/asiento/OrigenAsiento.java": {
     "mtime": 1784254800.758749,
     "ast_hash": "7d3b7c4ef1c5515345d0481c4d701ac6",
-    "semantic_hash": ""
+    "semantic_hash": "7d3b7c4ef1c5515345d0481c4d701ac6"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/asiento/dto/AsientoAnularRequest.java": {
     "mtime": 1784291172.4077246,
     "ast_hash": "f7fbeb0ec05e4eb4a4729b5f9b6d2350",
-    "semantic_hash": ""
+    "semantic_hash": "f7fbeb0ec05e4eb4a4729b5f9b6d2350"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/asiento/dto/AsientoCrearRequest.java": {
     "mtime": 1784254885.5089712,
     "ast_hash": "8ce9e2feef9ead924bee9ccadcc9dc77",
-    "semantic_hash": ""
+    "semantic_hash": "8ce9e2feef9ead924bee9ccadcc9dc77"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/asiento/dto/AsientoEditarConfirmadoRequest.java": {
     "mtime": 1784291167.8928707,
     "ast_hash": "087cd8f13168819c4857805ba4d30a06",
-    "semantic_hash": ""
+    "semantic_hash": "087cd8f13168819c4857805ba4d30a06"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/asiento/dto/AsientoEditarRequest.java": {
     "mtime": 1784254893.8247652,
     "ast_hash": "229599b341f9208aec3ce2cefafbf651",
-    "semantic_hash": ""
+    "semantic_hash": "229599b341f9208aec3ce2cefafbf651"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/asiento/dto/AsientoLineaEditarRequest.java": {
     "mtime": 1784291161.7102978,
     "ast_hash": "e26d4724396da2b982d1defdfaea4546",
-    "semantic_hash": ""
+    "semantic_hash": "e26d4724396da2b982d1defdfaea4546"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/asiento/dto/AsientoLineaRequest.java": {
     "mtime": 1784254877.182964,
     "ast_hash": "edbfe0fdeb9b9f3265e1bb951793bf6d",
-    "semantic_hash": ""
+    "semantic_hash": "edbfe0fdeb9b9f3265e1bb951793bf6d"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/asiento/dto/AsientoResponse.java": {
     "mtime": 1784291180.2441797,
     "ast_hash": "d3fe8102661c5ffe67b98a9a4e412b88",
-    "semantic_hash": ""
+    "semantic_hash": "d3fe8102661c5ffe67b98a9a4e412b88"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/cuentacontable/CuentaContable.java": {
     "mtime": 1783390451.8928618,
     "ast_hash": "f82d0d8e0d0d1cd6bce4415e07088bce",
-    "semantic_hash": ""
+    "semantic_hash": "f82d0d8e0d0d1cd6bce4415e07088bce"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/cuentacontable/CuentaContableController.java": {
     "mtime": 1783390616.755095,
     "ast_hash": "14114f9e6ff2188782fa2ab53f7f962a",
-    "semantic_hash": ""
+    "semantic_hash": "14114f9e6ff2188782fa2ab53f7f962a"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/cuentacontable/CuentaContableMapper.java": {
     "mtime": 1783390498.9253378,
     "ast_hash": "9b076cfc05e2369b6d1f292465b07f2b",
-    "semantic_hash": ""
+    "semantic_hash": "9b076cfc05e2369b6d1f292465b07f2b"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/cuentacontable/CuentaContableRepository.java": {
     "mtime": 1783390461.9670396,
     "ast_hash": "5ced165d3a4cd03fb79ac40a45565cec",
-    "semantic_hash": ""
+    "semantic_hash": "5ced165d3a4cd03fb79ac40a45565cec"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/cuentacontable/CuentaContableService.java": {
     "mtime": 1784255032.4312859,
     "ast_hash": "6dde396cf66d7447e272802821d83c3d",
-    "semantic_hash": ""
+    "semantic_hash": "6dde396cf66d7447e272802821d83c3d"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/cuentacontable/dto/CuentaContableCrearRequest.java": {
     "mtime": 1783390473.743851,
     "ast_hash": "12a77c3b4fca0649b612797af7c20aa4",
-    "semantic_hash": ""
+    "semantic_hash": "12a77c3b4fca0649b612797af7c20aa4"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/cuentacontable/dto/CuentaContableEditarRequest.java": {
     "mtime": 1783390479.166112,
     "ast_hash": "cf55139b700202f3497b76af5cce324e",
-    "semantic_hash": ""
+    "semantic_hash": "cf55139b700202f3497b76af5cce324e"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/cuentacontable/dto/CuentaContableNodo.java": {
     "mtime": 1783390490.0238297,
     "ast_hash": "21e01e54b53f0974e0c37e3b0059a587",
-    "semantic_hash": ""
+    "semantic_hash": "21e01e54b53f0974e0c37e3b0059a587"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/cuentacontable/dto/CuentaContableResponse.java": {
     "mtime": 1783390484.4430196,
     "ast_hash": "491f146267f970b19ad118b6fbed0ab3",
-    "semantic_hash": ""
+    "semantic_hash": "491f146267f970b19ad118b6fbed0ab3"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/mapeocuenta/ConceptoContable.java": {
     "mtime": 1784828418.2662165,
     "ast_hash": "00de6bb3c0c84a28c20a33bc2ccdc9af",
-    "semantic_hash": ""
+    "semantic_hash": "00de6bb3c0c84a28c20a33bc2ccdc9af"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/mapeocuenta/MapeoCuenta.java": {
     "mtime": 1784316304.4741192,
     "ast_hash": "0e2d3176fd9b6aa86c4c33f5748bc5b0",
-    "semantic_hash": ""
+    "semantic_hash": "0e2d3176fd9b6aa86c4c33f5748bc5b0"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/mapeocuenta/MapeoCuentaController.java": {
     "mtime": 1784316395.1591852,
     "ast_hash": "6c28eb5cfe3be0423ab7d6d2f1d0fabd",
-    "semantic_hash": ""
+    "semantic_hash": "6c28eb5cfe3be0423ab7d6d2f1d0fabd"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/mapeocuenta/MapeoCuentaMapper.java": {
     "mtime": 1784316367.0942092,
     "ast_hash": "a64f89c4dc45ab334a028cfcd634c3e0",
-    "semantic_hash": ""
+    "semantic_hash": "a64f89c4dc45ab334a028cfcd634c3e0"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/mapeocuenta/MapeoCuentaRepository.java": {
     "mtime": 1784316312.9680629,
     "ast_hash": "78ff6a83e24c46a833d94fc16e7410e8",
-    "semantic_hash": ""
+    "semantic_hash": "78ff6a83e24c46a833d94fc16e7410e8"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/mapeocuenta/MapeoCuentaService.java": {
     "mtime": 1784316381.9670413,
     "ast_hash": "f6b98e0d7fc9149b2856bcec6f0d6449",
-    "semantic_hash": ""
+    "semantic_hash": "f6b98e0d7fc9149b2856bcec6f0d6449"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/mapeocuenta/ResolutorCuentas.java": {
     "mtime": 1784316330.154353,
     "ast_hash": "b1cf2eb322d1b0f799467ae35cf737ef",
-    "semantic_hash": ""
+    "semantic_hash": "b1cf2eb322d1b0f799467ae35cf737ef"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/mapeocuenta/dto/MapeoCuentaCrearRequest.java": {
     "mtime": 1784316347.3378868,
     "ast_hash": "b6cc5f701e53ab157e40110d202a9dfa",
-    "semantic_hash": ""
+    "semantic_hash": "b6cc5f701e53ab157e40110d202a9dfa"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/mapeocuenta/dto/MapeoCuentaEditarRequest.java": {
     "mtime": 1784316351.3964088,
     "ast_hash": "a07cca30e716b86e4cebc633e73150b0",
-    "semantic_hash": ""
+    "semantic_hash": "a07cca30e716b86e4cebc633e73150b0"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/mapeocuenta/dto/MapeoCuentaResponse.java": {
     "mtime": 1784316356.493603,
     "ast_hash": "05ebbdd6960b493cb9cc9b8928448c95",
-    "semantic_hash": ""
+    "semantic_hash": "05ebbdd6960b493cb9cc9b8928448c95"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/mayor/MayorController.java": {
     "mtime": 1784836666.5980632,
     "ast_hash": "88484b5645660149b504d3f4041ac491",
-    "semantic_hash": ""
+    "semantic_hash": "88484b5645660149b504d3f4041ac491"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/mayor/MayorService.java": {
     "mtime": 1784294500.3344045,
     "ast_hash": "83a7c992384a770f6f13f73c817e6d16",
-    "semantic_hash": ""
+    "semantic_hash": "83a7c992384a770f6f13f73c817e6d16"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/mayor/dto/MayorFilaResponse.java": {
     "mtime": 1784293577.765542,
     "ast_hash": "beb39473dd2e85918a9da97014c4739a",
-    "semantic_hash": ""
+    "semantic_hash": "beb39473dd2e85918a9da97014c4739a"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/mayor/dto/MayorResponse.java": {
     "mtime": 1784293589.106926,
     "ast_hash": "ad948fd424ec5b8fffbc20518d336924",
-    "semantic_hash": ""
+    "semantic_hash": "ad948fd424ec5b8fffbc20518d336924"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/TipoComprobante.java": {
     "mtime": 1784317272.4247956,
     "ast_hash": "0010f8a275bf0392f9d98de21f1e8432",
-    "semantic_hash": ""
+    "semantic_hash": "0010f8a275bf0392f9d98de21f1e8432"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/cobro/AplicacionAnticipoCliente.java": {
     "mtime": 1784686859.9060383,
     "ast_hash": "0a0539343548ccda8191fe678ce18b3f",
-    "semantic_hash": ""
+    "semantic_hash": "0a0539343548ccda8191fe678ce18b3f"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/cobro/AplicacionAnticipoClienteRepository.java": {
     "mtime": 1784690610.7415893,
     "ast_hash": "0f98c4675a4dc85a4d82eb0dd4a7367d",
-    "semantic_hash": ""
+    "semantic_hash": "0f98c4675a4dc85a4d82eb0dd4a7367d"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/cobro/Cobro.java": {
     "mtime": 1784686839.2818031,
     "ast_hash": "cfcbc59106c0fa27868430047381603e",
-    "semantic_hash": ""
+    "semantic_hash": "cfcbc59106c0fa27868430047381603e"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/cobro/CobroAsientoGenerator.java": {
     "mtime": 1784689078.9630134,
     "ast_hash": "d5cefe1dd4220c1b7a17c1c37b7c7997",
-    "semantic_hash": ""
+    "semantic_hash": "d5cefe1dd4220c1b7a17c1c37b7c7997"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/cobro/CobroController.java": {
     "mtime": 1784687171.412937,
     "ast_hash": "4e5faf39c07ae95ef0c838926fc39552",
-    "semantic_hash": ""
+    "semantic_hash": "4e5faf39c07ae95ef0c838926fc39552"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/cobro/CobroImputacion.java": {
     "mtime": 1784686849.7639077,
     "ast_hash": "626744179b14a4c7e637d76b300fbea1",
-    "semantic_hash": ""
+    "semantic_hash": "626744179b14a4c7e637d76b300fbea1"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/cobro/CobroImputacionRepository.java": {
     "mtime": 1784690601.8104737,
     "ast_hash": "20f3ac9f4df33f178e940d6813073661",
-    "semantic_hash": ""
+    "semantic_hash": "20f3ac9f4df33f178e940d6813073661"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/cobro/CobroMapper.java": {
     "mtime": 1784686943.5877392,
     "ast_hash": "08648d11d2ec660ecd2f6f0b2b2e2d36",
-    "semantic_hash": ""
+    "semantic_hash": "08648d11d2ec660ecd2f6f0b2b2e2d36"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/cobro/CobroRepository.java": {
     "mtime": 1784686865.417327,
     "ast_hash": "1d148acba273190ece6f6abd532ea7b2",
-    "semantic_hash": ""
+    "semantic_hash": "1d148acba273190ece6f6abd532ea7b2"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/cobro/CobroService.java": {
     "mtime": 1784687159.5688028,
     "ast_hash": "4033dd35c0f3174d50f6d254cc3e38af",
-    "semantic_hash": ""
+    "semantic_hash": "4033dd35c0f3174d50f6d254cc3e38af"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/cobro/dto/AplicarAnticipoRequest.java": {
     "mtime": 1784687075.0763855,
     "ast_hash": "46ca9291a035c791cc6a9c1851c298f0",
-    "semantic_hash": ""
+    "semantic_hash": "46ca9291a035c791cc6a9c1851c298f0"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/cobro/dto/CobroAnularRequest.java": {
     "mtime": 1784686908.0488937,
     "ast_hash": "1c9411305485b0b74c7f3607710fc671",
-    "semantic_hash": ""
+    "semantic_hash": "1c9411305485b0b74c7f3607710fc671"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/cobro/dto/CobroCrearRequest.java": {
     "mtime": 1784686898.6902578,
     "ast_hash": "c7252ffbb6e1d5dc38db0071f0f99f04",
-    "semantic_hash": ""
+    "semantic_hash": "c7252ffbb6e1d5dc38db0071f0f99f04"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/cobro/dto/CobroEditarRequest.java": {
     "mtime": 1784686904.7084138,
     "ast_hash": "c32de0f038c40e5147d65ec3f4b3abff",
-    "semantic_hash": ""
+    "semantic_hash": "c32de0f038c40e5147d65ec3f4b3abff"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/cobro/dto/CobroImputacionRequest.java": {
     "mtime": 1784686882.0495298,
     "ast_hash": "53e48bd523460408462ff856c7efa9d6",
-    "semantic_hash": ""
+    "semantic_hash": "53e48bd523460408462ff856c7efa9d6"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/cobro/dto/CobroResponse.java": {
     "mtime": 1784686920.3598733,
     "ast_hash": "0860230671c1970216eb6a85f9418691",
-    "semantic_hash": ""
+    "semantic_hash": "0860230671c1970216eb6a85f9418691"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/cobro/dto/CobroTributoRequest.java": {
     "mtime": 1784686890.2133114,
     "ast_hash": "6216ee66b22179efb42153c2f9964773",
-    "semantic_hash": ""
+    "semantic_hash": "6216ee66b22179efb42153c2f9964773"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/cobro/dto/ImputadoFacturaVenta.java": {
     "mtime": 1784690589.9018865,
     "ast_hash": "c53f0dc976e763a161eea615aecb5d27",
-    "semantic_hash": ""
+    "semantic_hash": "c53f0dc976e763a161eea615aecb5d27"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/cobro/dto/SaldoFacturaResponse.java": {
     "mtime": 1784687146.0993743,
     "ast_hash": "92408c37bb63bcebc564a45bb2deada1",
-    "semantic_hash": ""
+    "semantic_hash": "92408c37bb63bcebc564a45bb2deada1"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/comprobantetributo/ComprobanteTipo.java": {
     "mtime": 1784316489.831771,
     "ast_hash": "1479c4442f8520c154ea449fc93e693f",
-    "semantic_hash": ""
+    "semantic_hash": "1479c4442f8520c154ea449fc93e693f"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/comprobantetributo/ComprobanteTributo.java": {
     "mtime": 1784316509.7149022,
     "ast_hash": "62e72e4ad8fb19792264ae323c7aa11f",
-    "semantic_hash": ""
+    "semantic_hash": "62e72e4ad8fb19792264ae323c7aa11f"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/comprobantetributo/ComprobanteTributoRepository.java": {
     "mtime": 1784316517.1691227,
     "ast_hash": "6aada3a038e30f38a59ac0d1d9a9d534",
-    "semantic_hash": ""
+    "semantic_hash": "6aada3a038e30f38a59ac0d1d9a9d534"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/comprobantetributo/TipoTributo.java": {
     "mtime": 1784316498.5185573,
     "ast_hash": "d5012770ae71242e3f1775f5ba6c81ef",
-    "semantic_hash": ""
+    "semantic_hash": "d5012770ae71242e3f1775f5ba6c81ef"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/cuentasporcobrar/CuentaPorCobrarController.java": {
     "mtime": 1784836694.802869,
     "ast_hash": "7fe5647511b7d99f0b235f753e105eb0",
-    "semantic_hash": ""
+    "semantic_hash": "7fe5647511b7d99f0b235f753e105eb0"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/cuentasporcobrar/CuentaPorCobrarService.java": {
     "mtime": 1784690733.5925663,
     "ast_hash": "85eb5b54d82a1e5a639186f5f8b9f358",
-    "semantic_hash": ""
+    "semantic_hash": "85eb5b54d82a1e5a639186f5f8b9f358"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/cuentasporcobrar/dto/CuentaPorCobrarFilaResponse.java": {
     "mtime": 1784690704.9967844,
     "ast_hash": "1717963319b05de3dd22e9c9a2fc4359",
-    "semantic_hash": ""
+    "semantic_hash": "1717963319b05de3dd22e9c9a2fc4359"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/cuentasporcobrar/dto/CuentaPorCobrarResponse.java": {
     "mtime": 1784690713.5078292,
     "ast_hash": "6dcda050ca16c3d62da8e8ed7c4c5c1a",
-    "semantic_hash": ""
+    "semantic_hash": "6dcda050ca16c3d62da8e8ed7c4c5c1a"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/cuentasporcobrar/dto/TotalPorMonedaResponse.java": {
     "mtime": 1784690709.4079058,
     "ast_hash": "70e68f0a5fadab0962f0a0d157ca9cac",
-    "semantic_hash": ""
+    "semantic_hash": "70e68f0a5fadab0962f0a0d157ca9cac"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/cuentasporpagar/CuentaPorPagarController.java": {
     "mtime": 1784836718.2359653,
     "ast_hash": "b05393f5f975ed53709875e2e6bab21b",
-    "semantic_hash": ""
+    "semantic_hash": "b05393f5f975ed53709875e2e6bab21b"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/cuentasporpagar/CuentaPorPagarService.java": {
     "mtime": 1784690790.7005348,
     "ast_hash": "2530df85d851d20ae5c8a612ac0a4327",
-    "semantic_hash": ""
+    "semantic_hash": "2530df85d851d20ae5c8a612ac0a4327"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/cuentasporpagar/dto/CuentaPorPagarFilaResponse.java": {
     "mtime": 1784690757.4345448,
     "ast_hash": "23bd7de89898f8cc7ba311730b418504",
-    "semantic_hash": ""
+    "semantic_hash": "23bd7de89898f8cc7ba311730b418504"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/cuentasporpagar/dto/CuentaPorPagarResponse.java": {
     "mtime": 1784690773.0152707,
     "ast_hash": "43a18c75bf39ca7d60a70a9780333ed4",
-    "semantic_hash": ""
+    "semantic_hash": "43a18c75bf39ca7d60a70a9780333ed4"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/cuentasporpagar/dto/TotalPorMonedaResponse.java": {
     "mtime": 1784690768.3251777,
     "ast_hash": "86b9915dc59cf1c379c69a2d335bed1c",
-    "semantic_hash": ""
+    "semantic_hash": "86b9915dc59cf1c379c69a2d335bed1c"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/facturacompra/FacturaCompra.java": {
     "mtime": 1784328443.1997654,
     "ast_hash": "6af3ea5bd8cb04369c3e67a6c117e2c6",
-    "semantic_hash": ""
+    "semantic_hash": "6af3ea5bd8cb04369c3e67a6c117e2c6"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/facturacompra/FacturaCompraAsientoGenerator.java": {
     "mtime": 1784328538.6980577,
     "ast_hash": "ef497dc259e829d697e93e78eb68241a",
-    "semantic_hash": ""
+    "semantic_hash": "ef497dc259e829d697e93e78eb68241a"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/facturacompra/FacturaCompraController.java": {
     "mtime": 1784328593.91907,
     "ast_hash": "330f908d64be4dd0ca63b7b0c4a62fba",
-    "semantic_hash": ""
+    "semantic_hash": "330f908d64be4dd0ca63b7b0c4a62fba"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/facturacompra/FacturaCompraLinea.java": {
     "mtime": 1784328451.7504938,
     "ast_hash": "b207c76813f938bd27b2034388d6578f",
-    "semantic_hash": ""
+    "semantic_hash": "b207c76813f938bd27b2034388d6578f"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/facturacompra/FacturaCompraMapper.java": {
     "mtime": 1784328511.5151756,
     "ast_hash": "40748c73f6a7fc2c38c6d3c788465441",
-    "semantic_hash": ""
+    "semantic_hash": "40748c73f6a7fc2c38c6d3c788465441"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/facturacompra/FacturaCompraRepository.java": {
     "mtime": 1784742756.8057685,
     "ast_hash": "e148df182bc686666dea460c1875a807",
-    "semantic_hash": ""
+    "semantic_hash": "e148df182bc686666dea460c1875a807"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/facturacompra/FacturaCompraService.java": {
     "mtime": 1784328580.814873,
     "ast_hash": "4c7719f08a144e68b2b4c23349854c6e",
-    "semantic_hash": ""
+    "semantic_hash": "4c7719f08a144e68b2b4c23349854c6e"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/facturacompra/dto/FacturaCompraAnularRequest.java": {
     "mtime": 1784328492.5367515,
     "ast_hash": "86c32b1c608e888daf795f4330de0576",
-    "semantic_hash": ""
+    "semantic_hash": "86c32b1c608e888daf795f4330de0576"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/facturacompra/dto/FacturaCompraCrearRequest.java": {
     "mtime": 1784328485.5317793,
     "ast_hash": "c33b3855f480232e6c1fe94800a55755",
-    "semantic_hash": ""
+    "semantic_hash": "c33b3855f480232e6c1fe94800a55755"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/facturacompra/dto/FacturaCompraEditarRequest.java": {
     "mtime": 1784328489.8515074,
     "ast_hash": "3c6d90e68ce3d3fe7da315b0dfe2b5e6",
-    "semantic_hash": ""
+    "semantic_hash": "3c6d90e68ce3d3fe7da315b0dfe2b5e6"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/facturacompra/dto/FacturaCompraLineaRequest.java": {
     "mtime": 1784328474.7159972,
     "ast_hash": "c7056860fe1625a0f9b9c124c09833f3",
-    "semantic_hash": ""
+    "semantic_hash": "c7056860fe1625a0f9b9c124c09833f3"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/facturacompra/dto/FacturaCompraResponse.java": {
     "mtime": 1784328499.143725,
     "ast_hash": "909be462dc1508e8f4ce6bbeda2c80b3",
-    "semantic_hash": ""
+    "semantic_hash": "909be462dc1508e8f4ce6bbeda2c80b3"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/facturacompra/dto/FacturaCompraTributoRequest.java": {
     "mtime": 1784328480.2048306,
     "ast_hash": "f0af130710e5fc660a85042e7f5327f4",
-    "semantic_hash": ""
+    "semantic_hash": "f0af130710e5fc660a85042e7f5327f4"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/facturaventa/FacturaVenta.java": {
     "mtime": 1784317305.469061,
     "ast_hash": "fdf20db78b14e61d0b453575e3f7e6c8",
-    "semantic_hash": ""
+    "semantic_hash": "fdf20db78b14e61d0b453575e3f7e6c8"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/facturaventa/FacturaVentaAsientoGenerator.java": {
     "mtime": 1784317583.1663468,
     "ast_hash": "f210d94b457f218e4a81bd4f190dc5f6",
-    "semantic_hash": ""
+    "semantic_hash": "f210d94b457f218e4a81bd4f190dc5f6"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/facturaventa/FacturaVentaController.java": {
     "mtime": 1784317652.961208,
     "ast_hash": "78aff119b109a534d81a1d20217913f9",
-    "semantic_hash": ""
+    "semantic_hash": "78aff119b109a534d81a1d20217913f9"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/facturaventa/FacturaVentaLinea.java": {
     "mtime": 1784317339.5622752,
     "ast_hash": "dee0693cb7ca13feaf6d52712520e8f3",
-    "semantic_hash": ""
+    "semantic_hash": "dee0693cb7ca13feaf6d52712520e8f3"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/facturaventa/FacturaVentaMapper.java": {
     "mtime": 1784317414.6895888,
     "ast_hash": "b6ab635fda551ce68f13e91061b5e698",
-    "semantic_hash": ""
+    "semantic_hash": "b6ab635fda551ce68f13e91061b5e698"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/facturaventa/FacturaVentaRepository.java": {
     "mtime": 1784828523.078863,
     "ast_hash": "bd3b083b981b1c1280c8d026d6ae09f5",
-    "semantic_hash": ""
+    "semantic_hash": "bd3b083b981b1c1280c8d026d6ae09f5"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/facturaventa/FacturaVentaService.java": {
     "mtime": 1784320761.4613762,
     "ast_hash": "749f4eda08e4345dcc11ddf7ef2a6da0",
-    "semantic_hash": ""
+    "semantic_hash": "749f4eda08e4345dcc11ddf7ef2a6da0"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/facturaventa/TipoIngreso.java": {
     "mtime": 1784317287.2584052,
     "ast_hash": "278da58b94422cc16dd37f96c9c994b4",
-    "semantic_hash": ""
+    "semantic_hash": "278da58b94422cc16dd37f96c9c994b4"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/facturaventa/TipoLineaFactura.java": {
     "mtime": 1784317281.3061934,
     "ast_hash": "ff0ce9956e7896ced86203b1c34130f6",
-    "semantic_hash": ""
+    "semantic_hash": "ff0ce9956e7896ced86203b1c34130f6"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/facturaventa/dto/FacturaVentaAnularRequest.java": {
     "mtime": 1784317395.8710177,
     "ast_hash": "01da9123beb17be4a92cba802c057e15",
-    "semantic_hash": ""
+    "semantic_hash": "01da9123beb17be4a92cba802c057e15"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/facturaventa/dto/FacturaVentaCrearRequest.java": {
     "mtime": 1784317367.7919512,
     "ast_hash": "f8b69638970b94f85db80d02d4fa5728",
-    "semantic_hash": ""
+    "semantic_hash": "f8b69638970b94f85db80d02d4fa5728"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/facturaventa/dto/FacturaVentaEditarRequest.java": {
     "mtime": 1784317388.791878,
     "ast_hash": "a7321909049a411af080de0e62b1e44b",
-    "semantic_hash": ""
+    "semantic_hash": "a7321909049a411af080de0e62b1e44b"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/facturaventa/dto/FacturaVentaLineaRequest.java": {
     "mtime": 1784317358.0813105,
     "ast_hash": "27fa595e2bd739aec90f06a45e31c266",
-    "semantic_hash": ""
+    "semantic_hash": "27fa595e2bd739aec90f06a45e31c266"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/facturaventa/dto/FacturaVentaResponse.java": {
     "mtime": 1784317406.7642307,
     "ast_hash": "00d3eb57b9301503945beb4815126761",
-    "semantic_hash": ""
+    "semantic_hash": "00d3eb57b9301503945beb4815126761"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/importacion/CamposExtraidosPdf.java": {
     "mtime": 1784742774.2979527,
     "ast_hash": "153cebe9e40d96f4d9173af3357b95f7",
-    "semantic_hash": ""
+    "semantic_hash": "153cebe9e40d96f4d9173af3357b95f7"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/importacion/CodigoComprobanteAfip.java": {
     "mtime": 1784742767.3416252,
     "ast_hash": "b59b9511be70396abb766bee58fa4692",
-    "semantic_hash": ""
+    "semantic_hash": "b59b9511be70396abb766bee58fa4692"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/importacion/ExtractorFacturaPdf.java": {
     "mtime": 1784746624.974849,
     "ast_hash": "703e11f80d3face41693c732f9d6d89c",
-    "semantic_hash": ""
+    "semantic_hash": "703e11f80d3face41693c732f9d6d89c"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/importacion/ImportacionFacturaController.java": {
     "mtime": 1784836758.7252028,
     "ast_hash": "d6fc1304667d65c59c00e524323ef309",
-    "semantic_hash": ""
+    "semantic_hash": "d6fc1304667d65c59c00e524323ef309"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/importacion/ImportacionFacturaService.java": {
     "mtime": 1784743653.1848285,
     "ast_hash": "6861ad0ba871dd790c7ebc229929010c",
-    "semantic_hash": ""
+    "semantic_hash": "6861ad0ba871dd790c7ebc229929010c"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/importacion/dto/FilaImportacionConfirmarRequest.java": {
     "mtime": 1784743603.733084,
     "ast_hash": "d84adc0701c959c19ab5c960ef57e224",
-    "semantic_hash": ""
+    "semantic_hash": "d84adc0701c959c19ab5c960ef57e224"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/importacion/dto/FilaImportacionPreviewResponse.java": {
     "mtime": 1784743593.2452452,
     "ast_hash": "03074be38d93f2ea48e4f567679cac92",
-    "semantic_hash": ""
+    "semantic_hash": "03074be38d93f2ea48e4f567679cac92"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/importacion/dto/FilaImportacionResultadoResponse.java": {
     "mtime": 1784743611.3685231,
     "ast_hash": "5791f09e47d2930320cc50fd1d593712",
-    "semantic_hash": ""
+    "semantic_hash": "5791f09e47d2930320cc50fd1d593712"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/pago/AplicacionAnticipoProveedor.java": {
     "mtime": 1784687380.4890213,
     "ast_hash": "c69bf8b9329447bd17e46fc26b27f92b",
-    "semantic_hash": ""
+    "semantic_hash": "c69bf8b9329447bd17e46fc26b27f92b"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/pago/AplicacionAnticipoProveedorRepository.java": {
     "mtime": 1784690640.0018082,
     "ast_hash": "391179b9ae32578c04cbf4f0b8d1680e",
-    "semantic_hash": ""
+    "semantic_hash": "391179b9ae32578c04cbf4f0b8d1680e"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/pago/Pago.java": {
     "mtime": 1784687362.866532,
     "ast_hash": "f34d55d72475263c0a21cc60d5375b27",
-    "semantic_hash": ""
+    "semantic_hash": "f34d55d72475263c0a21cc60d5375b27"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/pago/PagoAsientoGenerator.java": {
     "mtime": 1784689124.4353802,
     "ast_hash": "b8f24e0236834818bae7c650d93b5d23",
-    "semantic_hash": ""
+    "semantic_hash": "b8f24e0236834818bae7c650d93b5d23"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/pago/PagoController.java": {
     "mtime": 1784687550.8653166,
     "ast_hash": "8e80b2ff1e7f3a7cb0064486371518de",
-    "semantic_hash": ""
+    "semantic_hash": "8e80b2ff1e7f3a7cb0064486371518de"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/pago/PagoImputacion.java": {
     "mtime": 1784687371.1194563,
     "ast_hash": "a60d3143e7775c69d12e184bc7fcedf1",
-    "semantic_hash": ""
+    "semantic_hash": "a60d3143e7775c69d12e184bc7fcedf1"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/pago/PagoImputacionRepository.java": {
     "mtime": 1784690631.6935134,
     "ast_hash": "696f80ce894f5b9f2cf6c8147421c614",
-    "semantic_hash": ""
+    "semantic_hash": "696f80ce894f5b9f2cf6c8147421c614"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/pago/PagoMapper.java": {
     "mtime": 1784687456.5924253,
     "ast_hash": "7028b800c0ac31e6b361e5ab24ebac34",
-    "semantic_hash": ""
+    "semantic_hash": "7028b800c0ac31e6b361e5ab24ebac34"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/pago/PagoRepository.java": {
     "mtime": 1784687388.6813447,
     "ast_hash": "1eb930a20742cbe7f3d5c0ebff5cb441",
-    "semantic_hash": ""
+    "semantic_hash": "1eb930a20742cbe7f3d5c0ebff5cb441"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/pago/PagoService.java": {
     "mtime": 1784687536.3137937,
     "ast_hash": "ba2ad649866e9de64d9bdbc47f522626",
-    "semantic_hash": ""
+    "semantic_hash": "ba2ad649866e9de64d9bdbc47f522626"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/pago/dto/AplicarAnticipoProveedorRequest.java": {
     "mtime": 1784687430.783033,
     "ast_hash": "8c2aaafdc193666a9a890e7e3ba00a31",
-    "semantic_hash": ""
+    "semantic_hash": "8c2aaafdc193666a9a890e7e3ba00a31"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/pago/dto/ImputadoFacturaCompra.java": {
     "mtime": 1784690622.9936736,
     "ast_hash": "9d1f8c8d747e844aca02021ff6c44445",
-    "semantic_hash": ""
+    "semantic_hash": "9d1f8c8d747e844aca02021ff6c44445"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/pago/dto/PagoAnularRequest.java": {
     "mtime": 1784687426.9817884,
     "ast_hash": "5de32730c23c082417ea10e4f4b155e0",
-    "semantic_hash": ""
+    "semantic_hash": "5de32730c23c082417ea10e4f4b155e0"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/pago/dto/PagoCrearRequest.java": {
     "mtime": 1784687415.2651484,
     "ast_hash": "5ceea72ff226f3e3739f0c50ca2060d0",
-    "semantic_hash": ""
+    "semantic_hash": "5ceea72ff226f3e3739f0c50ca2060d0"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/pago/dto/PagoEditarRequest.java": {
     "mtime": 1784687422.291953,
     "ast_hash": "1bd4b23cdacc588a2a4eb215577e58ea",
-    "semantic_hash": ""
+    "semantic_hash": "1bd4b23cdacc588a2a4eb215577e58ea"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/pago/dto/PagoImputacionRequest.java": {
     "mtime": 1784687407.2386692,
     "ast_hash": "0c5627d8b5a786676f52decbe5909479",
-    "semantic_hash": ""
+    "semantic_hash": "0c5627d8b5a786676f52decbe5909479"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/pago/dto/PagoResponse.java": {
     "mtime": 1784687440.3326914,
     "ast_hash": "4151bd8a04decd783b671af9b268a1a7",
-    "semantic_hash": ""
+    "semantic_hash": "4151bd8a04decd783b671af9b268a1a7"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/pago/dto/SaldoFacturaCompraResponse.java": {
     "mtime": 1784687446.3891435,
     "ast_hash": "0dc0ada27db58310453e7cc7d9152e25",
-    "semantic_hash": ""
+    "semantic_hash": "0dc0ada27db58310453e7cc7d9152e25"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/atribucion/AtribucionImpuesto.java": {
     "mtime": 1784834098.0265477,
     "ast_hash": "d52bb25e168f3d0d8f19363a50e1e071",
-    "semantic_hash": ""
+    "semantic_hash": "d52bb25e168f3d0d8f19363a50e1e071"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/atribucion/AtribucionImpuestoController.java": {
     "mtime": 1784834307.957388,
     "ast_hash": "d223496182cebab170c29a3fa23bc6d3",
-    "semantic_hash": ""
+    "semantic_hash": "d223496182cebab170c29a3fa23bc6d3"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/atribucion/AtribucionImpuestoLinea.java": {
     "mtime": 1784834105.5011907,
     "ast_hash": "3e8274d7689ccfe5c1ca9daa64d9cc8b",
-    "semantic_hash": ""
+    "semantic_hash": "3e8274d7689ccfe5c1ca9daa64d9cc8b"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/atribucion/AtribucionImpuestoMapper.java": {
     "mtime": 1784834295.9975338,
     "ast_hash": "0daa853304c38846e7166dc2d8da4cb2",
-    "semantic_hash": ""
+    "semantic_hash": "0daa853304c38846e7166dc2d8da4cb2"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/atribucion/AtribucionImpuestoRepository.java": {
     "mtime": 1784834118.141383,
     "ast_hash": "0e24c1b6be0392831e740f9fbf0fc66b",
-    "semantic_hash": ""
+    "semantic_hash": "0e24c1b6be0392831e740f9fbf0fc66b"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/atribucion/AtribucionImpuestoService.java": {
     "mtime": 1784834280.4970834,
     "ast_hash": "0f73854eb91f8c3a5735ba456dab0de2",
-    "semantic_hash": ""
+    "semantic_hash": "0f73854eb91f8c3a5735ba456dab0de2"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/atribucion/CalculoAtribucion.java": {
     "mtime": 1784834196.6952033,
     "ast_hash": "b9074c59189016bbe5391fe8e592d4fa",
-    "semantic_hash": ""
+    "semantic_hash": "b9074c59189016bbe5391fe8e592d4fa"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/atribucion/ConfiguracionAtribucion.java": {
     "mtime": 1784834110.0031216,
     "ast_hash": "c2b83d5204580a25b440df96ed2084a9",
-    "semantic_hash": ""
+    "semantic_hash": "c2b83d5204580a25b440df96ed2084a9"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/atribucion/ConfiguracionAtribucionRepository.java": {
     "mtime": 1784834121.1318698,
     "ast_hash": "3a143390cfa1cfdcd36bcf0168985d7c",
-    "semantic_hash": ""
+    "semantic_hash": "3a143390cfa1cfdcd36bcf0168985d7c"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/atribucion/CriterioAtribucion.java": {
     "mtime": 1784834083.6656127,
     "ast_hash": "f4bc55e9b8adeabfb6384966381a81e2",
-    "semantic_hash": ""
+    "semantic_hash": "f4bc55e9b8adeabfb6384966381a81e2"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/atribucion/ProrrateoCalculator.java": {
     "mtime": 1784834179.6467097,
     "ast_hash": "0152181887ce47e95f9a6ef98bc92b13",
-    "semantic_hash": ""
+    "semantic_hash": "0152181887ce47e95f9a6ef98bc92b13"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/atribucion/TipoLiquidacion.java": {
     "mtime": 1784834079.67067,
     "ast_hash": "0f76c0bd221b8465457cff83f99f5452",
-    "semantic_hash": ""
+    "semantic_hash": "0f76c0bd221b8465457cff83f99f5452"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/atribucion/dto/AtribucionImpuestoDtos.java": {
     "mtime": 1784834208.4464993,
     "ast_hash": "f62b24f90118d0847c5cadeae53755a0",
-    "semantic_hash": ""
+    "semantic_hash": "f62b24f90118d0847c5cadeae53755a0"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/iibb/CalculoIibb.java": {
     "mtime": 1784828595.1979206,
     "ast_hash": "9e1b2748a55a630be9636b1e58d95642",
-    "semantic_hash": ""
+    "semantic_hash": "9e1b2748a55a630be9636b1e58d95642"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/iibb/CalculoIibbService.java": {
     "mtime": 1784832341.4525428,
     "ast_hash": "56550f2be71dbc7cb31f37ab31f73f39",
-    "semantic_hash": ""
+    "semantic_hash": "56550f2be71dbc7cb31f37ab31f73f39"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/iibb/LiquidacionIibb.java": {
     "mtime": 1784828486.0222902,
     "ast_hash": "35fa728d0390bfc83f6394ce24c31631",
-    "semantic_hash": ""
+    "semantic_hash": "35fa728d0390bfc83f6394ce24c31631"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/iibb/LiquidacionIibbAsientoGenerator.java": {
     "mtime": 1784828686.6317286,
     "ast_hash": "7a1e353251454349e0bc28df22404846",
-    "semantic_hash": ""
+    "semantic_hash": "7a1e353251454349e0bc28df22404846"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/iibb/LiquidacionIibbComponente.java": {
     "mtime": 1784828508.993296,
     "ast_hash": "bfb202288fbbeea7de594009a17e847f",
-    "semantic_hash": ""
+    "semantic_hash": "bfb202288fbbeea7de594009a17e847f"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/iibb/LiquidacionIibbController.java": {
     "mtime": 1784828864.9996655,
     "ast_hash": "11dc56686c9ae46d79470ef61c97a805",
-    "semantic_hash": ""
+    "semantic_hash": "11dc56686c9ae46d79470ef61c97a805"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/iibb/LiquidacionIibbJurisdiccion.java": {
     "mtime": 1784828498.7345579,
     "ast_hash": "7fb05037e503ecbb0027f975bb928691",
-    "semantic_hash": ""
+    "semantic_hash": "7fb05037e503ecbb0027f975bb928691"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/iibb/LiquidacionIibbMapper.java": {
     "mtime": 1784828842.5344965,
     "ast_hash": "5b88beeb0ecbc53fb4d57dade91f37f7",
-    "semantic_hash": ""
+    "semantic_hash": "5b88beeb0ecbc53fb4d57dade91f37f7"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/iibb/LiquidacionIibbRepository.java": {
     "mtime": 1784828531.8393183,
     "ast_hash": "58ac547063ae331e8e8ad656e861adbc",
-    "semantic_hash": ""
+    "semantic_hash": "58ac547063ae331e8e8ad656e861adbc"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/iibb/LiquidacionIibbService.java": {
     "mtime": 1784832365.8569903,
     "ast_hash": "7a4e76891cb64f6575ccd62eabd63535",
-    "semantic_hash": ""
+    "semantic_hash": "7a4e76891cb64f6575ccd62eabd63535"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/iibb/TipoComponenteIibb.java": {
     "mtime": 1784828471.0868058,
     "ast_hash": "72cb09acd11953b7fbbc0ba96f5204b2",
-    "semantic_hash": ""
+    "semantic_hash": "72cb09acd11953b7fbbc0ba96f5204b2"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/iibb/dto/LiquidacionIibbDtos.java": {
     "mtime": 1784828757.9495528,
     "ast_hash": "9f851f247b042f9b9c8e891f0d3f5118",
-    "semantic_hash": ""
+    "semantic_hash": "9f851f247b042f9b9c8e891f0d3f5118"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/iva/CalculoIva.java": {
     "mtime": 1784822663.4574664,
     "ast_hash": "6d7b95f7bb92d6ab9046b7c14863b5e4",
-    "semantic_hash": ""
+    "semantic_hash": "6d7b95f7bb92d6ab9046b7c14863b5e4"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/iva/CalculoIvaService.java": {
     "mtime": 1784826232.0712135,
     "ast_hash": "649b731b270e589b6d29d1d36f9e1af4",
-    "semantic_hash": ""
+    "semantic_hash": "649b731b270e589b6d29d1d36f9e1af4"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/iva/LiquidacionIva.java": {
     "mtime": 1784825787.1163523,
     "ast_hash": "6037e3d0c0fa1f740659c674601b2dc1",
-    "semantic_hash": ""
+    "semantic_hash": "6037e3d0c0fa1f740659c674601b2dc1"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/iva/LiquidacionIvaAsientoGenerator.java": {
     "mtime": 1784825834.7923977,
     "ast_hash": "398ac8a868535112e5593a70001cfafd",
-    "semantic_hash": ""
+    "semantic_hash": "398ac8a868535112e5593a70001cfafd"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/iva/LiquidacionIvaComponente.java": {
     "mtime": 1784822586.338715,
     "ast_hash": "5ccd6ddf4c3c0ba5b3163e15f272e33d",
-    "semantic_hash": ""
+    "semantic_hash": "5ccd6ddf4c3c0ba5b3163e15f272e33d"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/iva/LiquidacionIvaController.java": {
     "mtime": 1784822861.2564402,
     "ast_hash": "2691d3463ac2a9328ef3e3b76e9d9f17",
-    "semantic_hash": ""
+    "semantic_hash": "2691d3463ac2a9328ef3e3b76e9d9f17"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/iva/LiquidacionIvaMapper.java": {
     "mtime": 1784825900.358237,
     "ast_hash": "060b644de0c1a5f4918d1d27567e0edf",
-    "semantic_hash": ""
+    "semantic_hash": "060b644de0c1a5f4918d1d27567e0edf"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/iva/LiquidacionIvaRepository.java": {
     "mtime": 1784822615.71849,
     "ast_hash": "8427807165bb39d6fd4bc3e53f87d88c",
-    "semantic_hash": ""
+    "semantic_hash": "8427807165bb39d6fd4bc3e53f87d88c"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/iva/LiquidacionIvaService.java": {
     "mtime": 1784825886.6138523,
     "ast_hash": "d2675ca4a4faadf3da87f38f67a3992d",
-    "semantic_hash": ""
+    "semantic_hash": "d2675ca4a4faadf3da87f38f67a3992d"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/iva/ResultadoIva.java": {
     "mtime": 1784825875.9265075,
     "ast_hash": "72e54a5918f1efedcebe461ff01f3088",
-    "semantic_hash": ""
+    "semantic_hash": "72e54a5918f1efedcebe461ff01f3088"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/iva/TipoComponenteIva.java": {
     "mtime": 1784826223.078354,
     "ast_hash": "4fa4b31739155164c3f3bfe7ffd38fca",
-    "semantic_hash": ""
+    "semantic_hash": "4fa4b31739155164c3f3bfe7ffd38fca"
   },
   "backend/src/main/java/com/montanaritech/contable/impuestos/iva/dto/LiquidacionIvaDtos.java": {
     "mtime": 1784825854.7354028,
     "ast_hash": "8792c9de08e20916fa3b68d95475c75c",
-    "semantic_hash": ""
+    "semantic_hash": "8792c9de08e20916fa3b68d95475c75c"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/comisionista/Comisionista.java": {
     "mtime": 1783386710.819291,
     "ast_hash": "d10bfdea5aa8f9975096ba34b697713c",
-    "semantic_hash": ""
+    "semantic_hash": "d10bfdea5aa8f9975096ba34b697713c"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/comisionista/ComisionistaController.java": {
     "mtime": 1783386761.5122406,
     "ast_hash": "72fb6cc0c959ee1d8b3a86bf06b13a5c",
-    "semantic_hash": ""
+    "semantic_hash": "72fb6cc0c959ee1d8b3a86bf06b13a5c"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/comisionista/ComisionistaMapper.java": {
     "mtime": 1783386729.9788039,
     "ast_hash": "4aa35752d771f1f13642fcd44098e027",
-    "semantic_hash": ""
+    "semantic_hash": "4aa35752d771f1f13642fcd44098e027"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/comisionista/ComisionistaRepository.java": {
     "mtime": 1783386735.2766125,
     "ast_hash": "fa5c71b79dec9dba7d2ca3cb38c8c0c6",
-    "semantic_hash": ""
+    "semantic_hash": "fa5c71b79dec9dba7d2ca3cb38c8c0c6"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/comisionista/ComisionistaService.java": {
     "mtime": 1783386912.8337948,
     "ast_hash": "d5ff347a09ae71ee3554f54815f415c6",
-    "semantic_hash": ""
+    "semantic_hash": "d5ff347a09ae71ee3554f54815f415c6"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/comisionista/dto/ComisionistaCrearRequest.java": {
     "mtime": 1783386715.9818444,
     "ast_hash": "6d5c006694826ef07280b771cac56793",
-    "semantic_hash": ""
+    "semantic_hash": "6d5c006694826ef07280b771cac56793"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/comisionista/dto/ComisionistaEditarRequest.java": {
     "mtime": 1783386719.4746075,
     "ast_hash": "5bfa68ab24d85e0863f0bd95ac617593",
-    "semantic_hash": ""
+    "semantic_hash": "5bfa68ab24d85e0863f0bd95ac617593"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/comisionista/dto/ComisionistaResponse.java": {
     "mtime": 1783386724.4271476,
     "ast_hash": "40d14ebbe04c5a492e1d89313e340886",
-    "semantic_hash": ""
+    "semantic_hash": "40d14ebbe04c5a492e1d89313e340886"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proveedor/CondicionIva.java": {
     "mtime": 1784328245.9648566,
     "ast_hash": "800591ebbf888690503df8b00203b05e",
-    "semantic_hash": ""
+    "semantic_hash": "800591ebbf888690503df8b00203b05e"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/Proyecto.java": {
-    "mtime": 1783384439.1775105,
-    "ast_hash": "25faa4657847db71945e6a0513e26f5d",
-    "semantic_hash": ""
+    "mtime": 1784846071.0427861,
+    "ast_hash": "9932196ae4ddfe3ce5e053d85adbbea1",
+    "semantic_hash": "9932196ae4ddfe3ce5e053d85adbbea1"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/ProyectoController.java": {
     "mtime": 1783384439.1790338,
     "ast_hash": "05915649aae618ed4fce3be8812db038",
-    "semantic_hash": ""
+    "semantic_hash": "05915649aae618ed4fce3be8812db038"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/ProyectoCuota.java": {
     "mtime": 1783385444.991778,
     "ast_hash": "267bb02f4da217769ad8d9984e807f79",
-    "semantic_hash": ""
+    "semantic_hash": "267bb02f4da217769ad8d9984e807f79"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/ProyectoMapper.java": {
     "mtime": 1783384439.1824796,
     "ast_hash": "24a637d57c27cab5a4b0d4c9650bc435",
-    "semantic_hash": ""
+    "semantic_hash": "24a637d57c27cab5a4b0d4c9650bc435"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/ProyectoRepository.java": {
     "mtime": 1784835436.8405795,
     "ast_hash": "d8f79d5324827bc5a1d93e662141ccf9",
-    "semantic_hash": ""
+    "semantic_hash": "d8f79d5324827bc5a1d93e662141ccf9"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/ProyectoService.java": {
-    "mtime": 1783386893.7642357,
-    "ast_hash": "7acf2e1fba35f76ca73354d6efc97f1d",
-    "semantic_hash": ""
+    "mtime": 1784846083.8129594,
+    "ast_hash": "079e8cc2b11b65513eb3e48b6ba40cee",
+    "semantic_hash": "079e8cc2b11b65513eb3e48b6ba40cee"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/comision/ComisionCalculoService.java": {
     "mtime": 1783386835.2496393,
     "ast_hash": "8532e465732213e32c0619047a3fab77",
-    "semantic_hash": ""
+    "semantic_hash": "8532e465732213e32c0619047a3fab77"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/comision/ComisionConsultaController.java": {
     "mtime": 1783386930.3626063,
     "ast_hash": "4461073389ccb104d421bead052336ff",
-    "semantic_hash": ""
+    "semantic_hash": "4461073389ccb104d421bead052336ff"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/comision/ComisionProyecto.java": {
     "mtime": 1783386778.1702254,
     "ast_hash": "36b14c16023e2fb2481b11afddc05058",
-    "semantic_hash": ""
+    "semantic_hash": "36b14c16023e2fb2481b11afddc05058"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/comision/ComisionProyectoController.java": {
     "mtime": 1783386869.0176218,
     "ast_hash": "46dacece1d5482e1b16cd8a0cc09613d",
-    "semantic_hash": ""
+    "semantic_hash": "46dacece1d5482e1b16cd8a0cc09613d"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/comision/ComisionProyectoMapper.java": {
     "mtime": 1783386814.5543768,
     "ast_hash": "aaed025ee52ca6431fa9c003b5aec81c",
-    "semantic_hash": ""
+    "semantic_hash": "aaed025ee52ca6431fa9c003b5aec81c"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/comision/ComisionProyectoRepository.java": {
     "mtime": 1783386825.3822415,
     "ast_hash": "09277717f8d46e7afb5abb14bbdc6f6f",
-    "semantic_hash": ""
+    "semantic_hash": "09277717f8d46e7afb5abb14bbdc6f6f"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/comision/ComisionProyectoService.java": {
     "mtime": 1783386857.43524,
     "ast_hash": "4f3d1859021150b8224271cf614304a8",
-    "semantic_hash": ""
+    "semantic_hash": "4f3d1859021150b8224271cf614304a8"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/comision/dto/ComisionProyectoCrearRequest.java": {
     "mtime": 1783386796.80709,
     "ast_hash": "5f9c450204b60ef3f5c3081e12ef28f7",
-    "semantic_hash": ""
+    "semantic_hash": "5f9c450204b60ef3f5c3081e12ef28f7"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/comision/dto/ComisionProyectoEditarRequest.java": {
     "mtime": 1783386803.0553298,
     "ast_hash": "fa0848db1ca6a0d71a5c8047830579d3",
-    "semantic_hash": ""
+    "semantic_hash": "fa0848db1ca6a0d71a5c8047830579d3"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/comision/dto/ComisionProyectoResponse.java": {
     "mtime": 1783386808.0178556,
     "ast_hash": "958212d2cdf9e8c15795a6b5c3948ba6",
-    "semantic_hash": ""
+    "semantic_hash": "958212d2cdf9e8c15795a6b5c3948ba6"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/dto/CuotaRequest.java": {
     "mtime": 1783384439.1864252,
     "ast_hash": "4e50e3b142d1bf60d86c8ccb0336efad",
-    "semantic_hash": ""
+    "semantic_hash": "4e50e3b142d1bf60d86c8ccb0336efad"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/dto/ProyectoCrearRequest.java": {
     "mtime": 1783384439.1874397,
     "ast_hash": "1826c014f5e9387a5271e2427dd6579f",
-    "semantic_hash": ""
+    "semantic_hash": "1826c014f5e9387a5271e2427dd6579f"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/dto/ProyectoEditarRequest.java": {
     "mtime": 1783384439.1894395,
     "ast_hash": "c2f15f11776d6fc96b7a9ad3e55681bd",
-    "semantic_hash": ""
+    "semantic_hash": "c2f15f11776d6fc96b7a9ad3e55681bd"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/dto/ProyectoResponse.java": {
     "mtime": 1783384439.1904361,
     "ast_hash": "553a3edd7a11881c7784018acfb4b717",
-    "semantic_hash": ""
+    "semantic_hash": "553a3edd7a11881c7784018acfb4b717"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/etapa/Etapa.java": {
     "mtime": 1783384439.19244,
     "ast_hash": "3e09fd6d93cb1c95f59b2105c43e4a6c",
-    "semantic_hash": ""
+    "semantic_hash": "3e09fd6d93cb1c95f59b2105c43e4a6c"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/etapa/EtapaController.java": {
     "mtime": 1783384439.1944432,
     "ast_hash": "eb8ec4465ec6b276f126554ab8164621",
-    "semantic_hash": ""
+    "semantic_hash": "eb8ec4465ec6b276f126554ab8164621"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/etapa/EtapaMapper.java": {
     "mtime": 1783384439.1974387,
     "ast_hash": "9c80ebbd91dce40cd2924590b377c747",
-    "semantic_hash": ""
+    "semantic_hash": "9c80ebbd91dce40cd2924590b377c747"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/etapa/EtapaRepository.java": {
     "mtime": 1783384439.1994376,
     "ast_hash": "40cb2ef1663396becefded6231ae307b",
-    "semantic_hash": ""
+    "semantic_hash": "40cb2ef1663396becefded6231ae307b"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/etapa/EtapaService.java": {
     "mtime": 1783384439.200441,
     "ast_hash": "04cdc8bf0b395d0d6fcdca83e14725eb",
-    "semantic_hash": ""
+    "semantic_hash": "04cdc8bf0b395d0d6fcdca83e14725eb"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/etapa/dto/EtapaCrearRequest.java": {
     "mtime": 1783384439.203442,
     "ast_hash": "f3ee269cc597853aea71f2bf44c496dc",
-    "semantic_hash": ""
+    "semantic_hash": "f3ee269cc597853aea71f2bf44c496dc"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/etapa/dto/EtapaEditarRequest.java": {
     "mtime": 1783384439.2054386,
     "ast_hash": "1bcad4535704068e90d6a96181a0a506",
-    "semantic_hash": ""
+    "semantic_hash": "1bcad4535704068e90d6a96181a0a506"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/etapa/dto/EtapaResponse.java": {
     "mtime": 1783384439.2064378,
     "ast_hash": "48e5f6238c270bb89a1749f3b1239726",
-    "semantic_hash": ""
+    "semantic_hash": "48e5f6238c270bb89a1749f3b1239726"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/etapa/importacion/EtapaImportCsvParser.java": {
     "mtime": 1783384439.20844,
     "ast_hash": "25bc041b1943cc6be19625c8c276b3e3",
-    "semantic_hash": ""
+    "semantic_hash": "25bc041b1943cc6be19625c8c276b3e3"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/etapa/importacion/EtapaImportExcelParser.java": {
     "mtime": 1783384439.2104409,
     "ast_hash": "4ff538162efadf730139bd43debaeb5f",
-    "semantic_hash": ""
+    "semantic_hash": "4ff538162efadf730139bd43debaeb5f"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/etapa/importacion/EtapaImportFilaCruda.java": {
     "mtime": 1783384439.2124398,
     "ast_hash": "8d7ee71fd54ffc0db068dea8d1a28646",
-    "semantic_hash": ""
+    "semantic_hash": "8d7ee71fd54ffc0db068dea8d1a28646"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/etapa/importacion/EtapaImportFilaDto.java": {
     "mtime": 1783384439.21444,
     "ast_hash": "9c446a96732a092df712a5c98718d51c",
-    "semantic_hash": ""
+    "semantic_hash": "9c446a96732a092df712a5c98718d51c"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/etapa/importacion/EtapaImportParser.java": {
     "mtime": 1783384439.2164404,
     "ast_hash": "302c0568c31d964d1fdabf0cf9ce2da3",
-    "semantic_hash": ""
+    "semantic_hash": "302c0568c31d964d1fdabf0cf9ce2da3"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/etapa/importacion/EtapaImportResultado.java": {
     "mtime": 1783384439.217439,
     "ast_hash": "84ce89b7913a367efdbbbc11b0899776",
-    "semantic_hash": ""
+    "semantic_hash": "84ce89b7913a367efdbbbc11b0899776"
   },
   "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/etapa/importacion/EtapaImportService.java": {
     "mtime": 1783384439.2194366,
     "ast_hash": "d24e8faa7c8f61c06b24e71d5c2b59a7",
-    "semantic_hash": ""
+    "semantic_hash": "d24e8faa7c8f61c06b24e71d5c2b59a7"
   },
   "backend/src/main/resources/db/migration/V14__maestros_proyecto.sql": {
     "mtime": 1783384439.2204373,
     "ast_hash": "ebe8fb7e8096667eadd9a5a4cb5327f6",
-    "semantic_hash": ""
+    "semantic_hash": "ebe8fb7e8096667eadd9a5a4cb5327f6"
   },
   "backend/src/main/resources/db/migration/V15__maestros_comisionista.sql": {
     "mtime": 1783386685.390383,
     "ast_hash": "b5dede87541559c0d058cb43bb4fc634",
-    "semantic_hash": ""
+    "semantic_hash": "b5dede87541559c0d058cb43bb4fc634"
   },
   "backend/src/main/resources/db/migration/V16__contabilidad_cuenta_contable.sql": {
     "mtime": 1783390432.98364,
     "ast_hash": "4a048eda98383d95e9aa6399b97df3d5",
-    "semantic_hash": ""
+    "semantic_hash": "4a048eda98383d95e9aa6399b97df3d5"
   },
   "backend/src/main/resources/db/migration/V17__contabilidad_seed_plan_de_cuentas.sql": {
     "mtime": 1784252650.985453,
     "ast_hash": "e1487cc0c362473dba137c24560b207a",
-    "semantic_hash": ""
+    "semantic_hash": "e1487cc0c362473dba137c24560b207a"
   },
   "backend/src/main/resources/db/migration/V18__contabilidad_asiento.sql": {
     "mtime": 1784254745.8294709,
     "ast_hash": "b32a11647dc86170711ffd15ab024b4a",
-    "semantic_hash": ""
+    "semantic_hash": "b32a11647dc86170711ffd15ab024b4a"
   },
   "backend/src/main/resources/db/migration/V19__contabilidad_asiento_anulacion.sql": {
     "mtime": 1784291115.592203,
     "ast_hash": "3d9814876d9d5be12b5c7b91e5af76be",
-    "semantic_hash": ""
+    "semantic_hash": "3d9814876d9d5be12b5c7b91e5af76be"
   },
   "backend/src/main/resources/db/migration/V20__facturacion_infraestructura_compartida.sql": {
     "mtime": 1784317332.3436005,
     "ast_hash": "7c7af347998ec3683399601e3664f4c2",
-    "semantic_hash": ""
+    "semantic_hash": "7c7af347998ec3683399601e3664f4c2"
   },
   "backend/src/main/resources/db/migration/V21__facturacion_factura_compra.sql": {
     "mtime": 1784328399.053642,
     "ast_hash": "fbbf4a4bf79629c8e0e0ccb7f310edf7",
-    "semantic_hash": ""
+    "semantic_hash": "fbbf4a4bf79629c8e0e0ccb7f310edf7"
   },
   "backend/src/main/resources/db/migration/V22__facturacion_cobros_y_pagos.sql": {
     "mtime": 1784688702.241768,
     "ast_hash": "04d375feb80edc689b3d725e707f294c",
-    "semantic_hash": ""
+    "semantic_hash": "04d375feb80edc689b3d725e707f294c"
   },
   "backend/src/main/resources/db/migration/V23__bancos_movimiento_bancario.sql": {
     "mtime": 1784748439.9894886,
     "ast_hash": "f2b87ac115b75fb3cf5fc3ec9663686c",
-    "semantic_hash": ""
+    "semantic_hash": "f2b87ac115b75fb3cf5fc3ec9663686c"
   },
   "backend/src/main/resources/db/migration/V24__bancos_importacion_resumenes.sql": {
     "mtime": 1784751794.7443175,
     "ast_hash": "c17abc9c3f6486f44f5fb40a2423be98",
-    "semantic_hash": ""
+    "semantic_hash": "c17abc9c3f6486f44f5fb40a2423be98"
   },
   "backend/src/main/resources/db/migration/V25__bancos_conciliacion.sql": {
     "mtime": 1784758962.785133,
     "ast_hash": "9c82f22c9edee2dd973c1e7af7592828",
-    "semantic_hash": ""
+    "semantic_hash": "9c82f22c9edee2dd973c1e7af7592828"
   },
   "backend/src/main/resources/db/migration/V26__bancos_tarjeta_credito_operatoria.sql": {
     "mtime": 1784761317.043098,
     "ast_hash": "72d2d00a0496125f1e9360aee42683ac",
-    "semantic_hash": ""
+    "semantic_hash": "72d2d00a0496125f1e9360aee42683ac"
   },
   "backend/src/main/resources/db/migration/V27__impuestos_liquidacion_iva.sql": {
     "mtime": 1784822531.2832434,
     "ast_hash": "e8cc886cd3a4eff81c0e7a829af4bb42",
-    "semantic_hash": ""
+    "semantic_hash": "e8cc886cd3a4eff81c0e7a829af4bb42"
   },
   "backend/src/main/resources/db/migration/V28__impuestos_iva_saldo_libre_disponibilidad.sql": {
     "mtime": 1784825689.6740384,
     "ast_hash": "7f5fff1796fe079038ce08661834bd93",
-    "semantic_hash": ""
+    "semantic_hash": "7f5fff1796fe079038ce08661834bd93"
   },
   "backend/src/main/resources/db/migration/V29__impuestos_liquidacion_iibb.sql": {
     "mtime": 1784828452.6565,
     "ast_hash": "c1f8de8d14cb91fd91b4dbf3363a9e95",
-    "semantic_hash": ""
+    "semantic_hash": "c1f8de8d14cb91fd91b4dbf3363a9e95"
   },
   "backend/src/main/resources/db/migration/V30__impuestos_atribucion_proyectos.sql": {
     "mtime": 1784834072.7565053,
     "ast_hash": "9ee4c9205967e10d15d3edcc4fad7a3a",
-    "semantic_hash": ""
+    "semantic_hash": "9ee4c9205967e10d15d3edcc4fad7a3a"
   },
   "backend/src/main/resources/db/migration/V31__tenant_logo.sql": {
     "mtime": 1784836525.8056717,
     "ast_hash": "5c5b908bbdee1ac0be9f663a70a2a8f3",
-    "semantic_hash": ""
+    "semantic_hash": "5c5b908bbdee1ac0be9f663a70a2a8f3"
   },
   "backend/src/test/java/com/montanaritech/contable/bancos/conciliacion/ClasificadorMovimientoBancarioTest.java": {
     "mtime": 1784759651.7757266,
     "ast_hash": "dc4c8b4ad09c5c1ad3be14efa3cf48b6",
-    "semantic_hash": ""
+    "semantic_hash": "dc4c8b4ad09c5c1ad3be14efa3cf48b6"
   },
   "backend/src/test/java/com/montanaritech/contable/bancos/conciliacion/ConciliacionServiceTest.java": {
     "mtime": 1784759808.5198524,
     "ast_hash": "14d4f2515bd76d027ae1e304586a741f",
-    "semantic_hash": ""
+    "semantic_hash": "14d4f2515bd76d027ae1e304586a741f"
   },
   "backend/src/test/java/com/montanaritech/contable/bancos/importacion/ImportacionMovimientoBancarioServiceTest.java": {
     "mtime": 1784753760.9119725,
     "ast_hash": "25aa01a4d81d3acbe8ce278834b83fe6",
-    "semantic_hash": ""
+    "semantic_hash": "25aa01a4d81d3acbe8ce278834b83fe6"
   },
   "backend/src/test/java/com/montanaritech/contable/bancos/importacion/ParserGaliciaTest.java": {
     "mtime": 1784757705.2101293,
     "ast_hash": "63e7144ce3c3be11821b546ef7ae6225",
-    "semantic_hash": ""
+    "semantic_hash": "63e7144ce3c3be11821b546ef7ae6225"
   },
   "backend/src/test/java/com/montanaritech/contable/bancos/importacion/ParserMercadoPagoTest.java": {
     "mtime": 1784752654.477515,
     "ast_hash": "6b6cea7f519056443f4ad7da80b1f653",
-    "semantic_hash": ""
+    "semantic_hash": "6b6cea7f519056443f4ad7da80b1f653"
   },
   "backend/src/test/java/com/montanaritech/contable/bancos/importacion/ParserTarjetaTest.java": {
     "mtime": 1784753301.3665757,
     "ast_hash": "15fb6249879fa421daf58a6ddf644f35",
-    "semantic_hash": ""
+    "semantic_hash": "15fb6249879fa421daf58a6ddf644f35"
   },
   "backend/src/test/java/com/montanaritech/contable/bancos/movimientobancario/MovimientoBancarioServiceTest.java": {
     "mtime": 1784752117.178007,
     "ast_hash": "fd379303ee8731d04e56d0c02366bbea",
-    "semantic_hash": ""
+    "semantic_hash": "fd379303ee8731d04e56d0c02366bbea"
   },
   "backend/src/test/java/com/montanaritech/contable/bancos/tarjetacredito/ConsumoTarjetaServiceTest.java": {
     "mtime": 1784763146.1645298,
     "ast_hash": "77fe487722577dd8b18a8c4e7c91a975",
-    "semantic_hash": ""
+    "semantic_hash": "77fe487722577dd8b18a8c4e7c91a975"
   },
   "backend/src/test/java/com/montanaritech/contable/bancos/tarjetacredito/ImportacionConsumoTarjetaServiceTest.java": {
     "mtime": 1784763169.78643,
     "ast_hash": "8527086d9af18c3c3560b8b53a9341c2",
-    "semantic_hash": ""
+    "semantic_hash": "8527086d9af18c3c3560b8b53a9341c2"
   },
   "backend/src/test/java/com/montanaritech/contable/bancos/tarjetacredito/PagoTarjetaAsientoGeneratorTest.java": {
     "mtime": 1784763121.0309782,
     "ast_hash": "441accf25a8fa5a3012edf1bf701c689",
-    "semantic_hash": ""
+    "semantic_hash": "441accf25a8fa5a3012edf1bf701c689"
   },
   "backend/src/test/java/com/montanaritech/contable/bancos/tarjetacredito/PagoTarjetaServiceTest.java": {
     "mtime": 1784763192.5697236,
     "ast_hash": "7605933ba5a4b93d11815bd5e21d9448",
-    "semantic_hash": ""
+    "semantic_hash": "7605933ba5a4b93d11815bd5e21d9448"
   },
   "backend/src/test/java/com/montanaritech/contable/bancos/tarjetacredito/ReglaClasificacionConsumoServiceTest.java": {
     "mtime": 1784763391.3807683,
     "ast_hash": "b9b107377e86db8b86e9db44eb77cc91",
-    "semantic_hash": ""
+    "semantic_hash": "b9b107377e86db8b86e9db44eb77cc91"
   },
   "backend/src/test/java/com/montanaritech/contable/common/asiento/NumeradorAsientoPersistenteTest.java": {
     "mtime": 1784255437.908635,
     "ast_hash": "81f928b98f50fff70d03a86710295eac",
-    "semantic_hash": ""
+    "semantic_hash": "81f928b98f50fff70d03a86710295eac"
   },
   "backend/src/test/java/com/montanaritech/contable/common/reporte/FormatoReporteTest.java": {
     "mtime": 1784837012.2675185,
     "ast_hash": "f87f6d6be606e4bec6fc828d5091c040",
-    "semantic_hash": ""
+    "semantic_hash": "f87f6d6be606e4bec6fc828d5091c040"
   },
   "backend/src/test/java/com/montanaritech/contable/common/reporte/ReportExportServiceTest.java": {
     "mtime": 1784837226.9361882,
     "ast_hash": "cea8a68f6641a88e3417dbdf48deb302",
-    "semantic_hash": ""
+    "semantic_hash": "cea8a68f6641a88e3417dbdf48deb302"
   },
   "backend/src/test/java/com/montanaritech/contable/contabilidad/asiento/AsientoServiceTest.java": {
     "mtime": 1784291500.3657994,
     "ast_hash": "68a224a91a1b72a61b2ec7ad7d43d0e8",
-    "semantic_hash": ""
+    "semantic_hash": "68a224a91a1b72a61b2ec7ad7d43d0e8"
   },
   "backend/src/test/java/com/montanaritech/contable/contabilidad/cuentacontable/CuentaContableServiceTest.java": {
     "mtime": 1784255042.304687,
     "ast_hash": "5274caf63639f0d3e7fdc69a9231bcc8",
-    "semantic_hash": ""
+    "semantic_hash": "5274caf63639f0d3e7fdc69a9231bcc8"
   },
   "backend/src/test/java/com/montanaritech/contable/contabilidad/cuentacontable/SeedPlanDeCuentasIT.java": {
     "mtime": 1784252774.4135778,
     "ast_hash": "aea8c2c2f6d14cc2d6b70e6b2c8b20b7",
-    "semantic_hash": ""
+    "semantic_hash": "aea8c2c2f6d14cc2d6b70e6b2c8b20b7"
   },
   "backend/src/test/java/com/montanaritech/contable/contabilidad/mapeocuenta/ResolutorCuentasTest.java": {
     "mtime": 1784318571.1391497,
     "ast_hash": "9aae2260ca16b75cebef5bcb63680154",
-    "semantic_hash": ""
+    "semantic_hash": "9aae2260ca16b75cebef5bcb63680154"
   },
   "backend/src/test/java/com/montanaritech/contable/contabilidad/mayor/MayorServiceTest.java": {
     "mtime": 1784294534.4527216,
     "ast_hash": "714da7ea65f9f8f3b94d7fac3a28bb37",
-    "semantic_hash": ""
+    "semantic_hash": "714da7ea65f9f8f3b94d7fac3a28bb37"
   },
   "backend/src/test/java/com/montanaritech/contable/facturacion/cobro/CobroAsientoGeneratorTest.java": {
     "mtime": 1784689145.4912598,
     "ast_hash": "0e633a361192fb76f4755954702f93fa",
-    "semantic_hash": ""
+    "semantic_hash": "0e633a361192fb76f4755954702f93fa"
   },
   "backend/src/test/java/com/montanaritech/contable/facturacion/cobro/CobroServiceTest.java": {
     "mtime": 1784688038.034554,
     "ast_hash": "2841f59cf8fd0a6916c6a051abf2b606",
-    "semantic_hash": ""
+    "semantic_hash": "2841f59cf8fd0a6916c6a051abf2b606"
   },
   "backend/src/test/java/com/montanaritech/contable/facturacion/cuentasporcobrar/CuentaPorCobrarServiceTest.java": {
     "mtime": 1784691012.5239608,
     "ast_hash": "3d20832e72cdd9db2948548c06095c5d",
-    "semantic_hash": ""
+    "semantic_hash": "3d20832e72cdd9db2948548c06095c5d"
   },
   "backend/src/test/java/com/montanaritech/contable/facturacion/cuentasporpagar/CuentaPorPagarServiceTest.java": {
     "mtime": 1784691032.712144,
     "ast_hash": "2f8858dbd2a2b2cd842f7ae01042d5de",
-    "semantic_hash": ""
+    "semantic_hash": "2f8858dbd2a2b2cd842f7ae01042d5de"
   },
   "backend/src/test/java/com/montanaritech/contable/facturacion/facturacompra/FacturaCompraAsientoGeneratorTest.java": {
     "mtime": 1784329030.937281,
     "ast_hash": "0bedee06d0d9f8567feb564e3bead07b",
-    "semantic_hash": ""
+    "semantic_hash": "0bedee06d0d9f8567feb564e3bead07b"
   },
   "backend/src/test/java/com/montanaritech/contable/facturacion/facturacompra/FacturaCompraServiceTest.java": {
     "mtime": 1784328924.11172,
     "ast_hash": "736d33df9346f55161c5800141d5e82a",
-    "semantic_hash": ""
+    "semantic_hash": "736d33df9346f55161c5800141d5e82a"
   },
   "backend/src/test/java/com/montanaritech/contable/facturacion/facturaventa/FacturaVentaAsientoGeneratorTest.java": {
     "mtime": 1784318344.9503367,
     "ast_hash": "efa266db05d0d8cb19c91e212c7fa5ce",
-    "semantic_hash": ""
+    "semantic_hash": "efa266db05d0d8cb19c91e212c7fa5ce"
   },
   "backend/src/test/java/com/montanaritech/contable/facturacion/facturaventa/FacturaVentaServiceTest.java": {
     "mtime": 1784320789.1023102,
     "ast_hash": "2220f27cf9b78f9142050e7e7a21393d",
-    "semantic_hash": ""
+    "semantic_hash": "2220f27cf9b78f9142050e7e7a21393d"
   },
   "backend/src/test/java/com/montanaritech/contable/facturacion/importacion/ExtractorFacturaPdfTest.java": {
     "mtime": 1784746722.4881394,
     "ast_hash": "0475c792d1b3a4dbcbc8304edbd67699",
-    "semantic_hash": ""
+    "semantic_hash": "0475c792d1b3a4dbcbc8304edbd67699"
   },
   "backend/src/test/java/com/montanaritech/contable/facturacion/importacion/ImportacionFacturaServiceTest.java": {
     "mtime": 1784744526.7323196,
     "ast_hash": "5acf73658f01372efabc330a8759e103",
-    "semantic_hash": ""
+    "semantic_hash": "5acf73658f01372efabc330a8759e103"
   },
   "backend/src/test/java/com/montanaritech/contable/facturacion/pago/PagoAsientoGeneratorTest.java": {
     "mtime": 1784689162.4825466,
     "ast_hash": "9feaaea7aac8f38d9e0ba65aeb00de64",
-    "semantic_hash": ""
+    "semantic_hash": "9feaaea7aac8f38d9e0ba65aeb00de64"
   },
   "backend/src/test/java/com/montanaritech/contable/facturacion/pago/PagoServiceTest.java": {
     "mtime": 1784687951.896351,
     "ast_hash": "d7f7f60c410752fd31653030a589d2c0",
-    "semantic_hash": ""
+    "semantic_hash": "d7f7f60c410752fd31653030a589d2c0"
   },
   "backend/src/test/java/com/montanaritech/contable/impuestos/atribucion/AtribucionImpuestoServiceTest.java": {
     "mtime": 1784834576.6060321,
     "ast_hash": "25293cd8d65fbc6dafd85c3650b6400a",
-    "semantic_hash": ""
+    "semantic_hash": "25293cd8d65fbc6dafd85c3650b6400a"
   },
   "backend/src/test/java/com/montanaritech/contable/impuestos/atribucion/ProrrateoCalculatorTest.java": {
     "mtime": 1784834341.5552216,
     "ast_hash": "920bb02f8062f00298f0b3bd7330e0d1",
-    "semantic_hash": ""
+    "semantic_hash": "920bb02f8062f00298f0b3bd7330e0d1"
   },
   "backend/src/test/java/com/montanaritech/contable/impuestos/iibb/CalculoIibbServiceTest.java": {
     "mtime": 1784829043.7480834,
     "ast_hash": "8f9ec22945cfc3e03ef2e74aec3367ec",
-    "semantic_hash": ""
+    "semantic_hash": "8f9ec22945cfc3e03ef2e74aec3367ec"
   },
   "backend/src/test/java/com/montanaritech/contable/impuestos/iibb/LiquidacionIibbAsientoGeneratorTest.java": {
     "mtime": 1784829204.2301688,
     "ast_hash": "aee0616966ceb4836c9b90724bdaed8d",
-    "semantic_hash": ""
+    "semantic_hash": "aee0616966ceb4836c9b90724bdaed8d"
   },
   "backend/src/test/java/com/montanaritech/contable/impuestos/iibb/LiquidacionIibbServiceTest.java": {
     "mtime": 1784829093.584841,
     "ast_hash": "b70c2a693c08c9d8d50dac25168155b3",
-    "semantic_hash": ""
+    "semantic_hash": "b70c2a693c08c9d8d50dac25168155b3"
   },
   "backend/src/test/java/com/montanaritech/contable/impuestos/iva/CalculoIvaServiceTest.java": {
     "mtime": 1784826268.3792179,
     "ast_hash": "1af41d79156720e589d894edbaa6ba3e",
-    "semantic_hash": ""
+    "semantic_hash": "1af41d79156720e589d894edbaa6ba3e"
   },
   "backend/src/test/java/com/montanaritech/contable/impuestos/iva/LiquidacionIvaAsientoGeneratorTest.java": {
     "mtime": 1784826268.3795803,
     "ast_hash": "cb16a1bb2600ab7b53eb8609e59cedec",
-    "semantic_hash": ""
+    "semantic_hash": "cb16a1bb2600ab7b53eb8609e59cedec"
   },
   "backend/src/test/java/com/montanaritech/contable/impuestos/iva/LiquidacionIvaServiceTest.java": {
     "mtime": 1784825993.3203223,
     "ast_hash": "28ea831128fc9ec03dd57a4392af5a18",
-    "semantic_hash": ""
+    "semantic_hash": "28ea831128fc9ec03dd57a4392af5a18"
   },
   "backend/src/test/java/com/montanaritech/contable/impuestos/iva/ResultadoIvaTest.java": {
     "mtime": 1784825944.8049288,
     "ast_hash": "9a6a0266a4e3342efaed6e53f4a11181",
-    "semantic_hash": ""
+    "semantic_hash": "9a6a0266a4e3342efaed6e53f4a11181"
   },
   "backend/src/test/java/com/montanaritech/contable/maestros/comisionista/ComisionistaServiceTest.java": {
     "mtime": 1783386952.35773,
     "ast_hash": "a5f383a0b0a0a1c13cf5013ba0eb99d8",
-    "semantic_hash": ""
+    "semantic_hash": "a5f383a0b0a0a1c13cf5013ba0eb99d8"
   },
   "backend/src/test/java/com/montanaritech/contable/maestros/proyecto/ProyectoServiceTest.java": {
-    "mtime": 1783387026.0134473,
-    "ast_hash": "b502aaac7ac1453ad4e5970f619a19e4",
-    "semantic_hash": ""
+    "mtime": 1784847705.2708745,
+    "ast_hash": "b5eafbe9a100e0eb73f23e554a4fdfb4",
+    "semantic_hash": "b5eafbe9a100e0eb73f23e554a4fdfb4"
   },
   "backend/src/test/java/com/montanaritech/contable/maestros/proyecto/comision/ComisionCalculoServiceTest.java": {
     "mtime": 1783386963.238635,
     "ast_hash": "d4df640bd875b64917c3fe3071b8ca60",
-    "semantic_hash": ""
+    "semantic_hash": "d4df640bd875b64917c3fe3071b8ca60"
   },
   "backend/src/test/java/com/montanaritech/contable/maestros/proyecto/comision/ComisionProyectoServiceTest.java": {
     "mtime": 1783387145.325076,
     "ast_hash": "6554dcfa9eda212249e1bfc3a712c75f",
-    "semantic_hash": ""
+    "semantic_hash": "6554dcfa9eda212249e1bfc3a712c75f"
   },
   "backend/src/test/java/com/montanaritech/contable/maestros/proyecto/etapa/EtapaServiceTest.java": {
     "mtime": 1783384439.224437,
     "ast_hash": "82040884306bd12dd6293b47e78773cf",
-    "semantic_hash": ""
+    "semantic_hash": "82040884306bd12dd6293b47e78773cf"
   },
   "backend/src/test/java/com/montanaritech/contable/maestros/proyecto/etapa/importacion/EtapaImportServiceTest.java": {
     "mtime": 1783384439.2274425,
     "ast_hash": "d100ce5d13334d875197ba1d40921bfc",
-    "semantic_hash": ""
+    "semantic_hash": "d100ce5d13334d875197ba1d40921bfc"
   },
   "frontend/src/components/atribucion-proyectos.tsx": {
     "mtime": 1784834640.649732,
     "ast_hash": "4a3991ec53467e6ce662d8a8c0560905",
-    "semantic_hash": ""
+    "semantic_hash": "4a3991ec53467e6ce662d8a8c0560905"
   },
   "frontend/src/hooks/use-adjunto.ts": {
     "mtime": 1784318948.6006117,
     "ast_hash": "b312e295cc32cec4024c387c483d44aa",
-    "semantic_hash": ""
+    "semantic_hash": "b312e295cc32cec4024c387c483d44aa"
   },
   "frontend/src/hooks/use-asiento.ts": {
     "mtime": 1784291569.5310507,
     "ast_hash": "2825393b58e9721ed3e59d103ada7acb",
-    "semantic_hash": ""
+    "semantic_hash": "2825393b58e9721ed3e59d103ada7acb"
   },
   "frontend/src/hooks/use-atribucion-impuesto.ts": {
     "mtime": 1784834610.436415,
     "ast_hash": "8699bfc631b0f1c3ff7a614f681e8c93",
-    "semantic_hash": ""
+    "semantic_hash": "8699bfc631b0f1c3ff7a614f681e8c93"
   },
   "frontend/src/hooks/use-cobro.ts": {
     "mtime": 1784688172.0147,
     "ast_hash": "0efe23bcc29083459e8f2eb41177ceb6",
-    "semantic_hash": ""
+    "semantic_hash": "0efe23bcc29083459e8f2eb41177ceb6"
   },
   "frontend/src/hooks/use-comision-proyecto.ts": {
     "mtime": 1783387242.8116333,
     "ast_hash": "b6e194d0b05c9190cd1cf9d0344400d0",
-    "semantic_hash": ""
+    "semantic_hash": "b6e194d0b05c9190cd1cf9d0344400d0"
   },
   "frontend/src/hooks/use-comisionista.ts": {
     "mtime": 1783387230.2400827,
     "ast_hash": "7e6f15b98e2d2eac7c09164c77e53134",
-    "semantic_hash": ""
+    "semantic_hash": "7e6f15b98e2d2eac7c09164c77e53134"
   },
   "frontend/src/hooks/use-conciliacion.ts": {
     "mtime": 1784760000.578112,
     "ast_hash": "a246b5ab89f419136e1f97241979f204",
-    "semantic_hash": ""
+    "semantic_hash": "a246b5ab89f419136e1f97241979f204"
   },
   "frontend/src/hooks/use-consumo-tarjeta.ts": {
     "mtime": 1784763702.3200297,
     "ast_hash": "46e1877d20a71fb5f1d75caee152d3a5",
-    "semantic_hash": ""
+    "semantic_hash": "46e1877d20a71fb5f1d75caee152d3a5"
   },
   "frontend/src/hooks/use-cuenta-contable.ts": {
     "mtime": 1783390962.3946002,
     "ast_hash": "2f0c6911d395e64e42aea8493409c16a",
-    "semantic_hash": ""
+    "semantic_hash": "2f0c6911d395e64e42aea8493409c16a"
   },
   "frontend/src/hooks/use-cuenta-por-cobrar.ts": {
     "mtime": 1784691152.1237268,
     "ast_hash": "88b9fd8bfea41ec03f2833c1d038b1d4",
-    "semantic_hash": ""
+    "semantic_hash": "88b9fd8bfea41ec03f2833c1d038b1d4"
   },
   "frontend/src/hooks/use-cuenta-por-pagar.ts": {
     "mtime": 1784691158.4866064,
     "ast_hash": "e4682bd354fa60c69f98f7a7a8e4e6a7",
-    "semantic_hash": ""
+    "semantic_hash": "e4682bd354fa60c69f98f7a7a8e4e6a7"
   },
   "frontend/src/hooks/use-etapa.ts": {
     "mtime": 1783384653.4792418,
     "ast_hash": "3d5e327751652406bab712ad976cb917",
-    "semantic_hash": ""
+    "semantic_hash": "3d5e327751652406bab712ad976cb917"
   },
   "frontend/src/hooks/use-factura-compra.ts": {
     "mtime": 1784329224.6680992,
     "ast_hash": "0b8fbbd8a0f763d11baab6d3dfbd707b",
-    "semantic_hash": ""
+    "semantic_hash": "0b8fbbd8a0f763d11baab6d3dfbd707b"
   },
   "frontend/src/hooks/use-factura-venta.ts": {
     "mtime": 1784318924.514695,
     "ast_hash": "3da26af2821c9febddeb6b26c68735e8",
-    "semantic_hash": ""
+    "semantic_hash": "3da26af2821c9febddeb6b26c68735e8"
   },
   "frontend/src/hooks/use-importacion-bancaria.ts": {
     "mtime": 1784754010.9891958,
     "ast_hash": "3d4e1aa72f5378e95946fc272cd3ea86",
-    "semantic_hash": ""
+    "semantic_hash": "3d4e1aa72f5378e95946fc272cd3ea86"
   },
   "frontend/src/hooks/use-importacion-factura.ts": {
     "mtime": 1784744712.398803,
     "ast_hash": "f1c95cbba6efea85c53d7a89c338ea8e",
-    "semantic_hash": ""
+    "semantic_hash": "f1c95cbba6efea85c53d7a89c338ea8e"
   },
   "frontend/src/hooks/use-liquidacion-iibb.ts": {
     "mtime": 1784829134.7622375,
     "ast_hash": "17bb5b0ebe1b7427578c21d48dac6190",
-    "semantic_hash": ""
+    "semantic_hash": "17bb5b0ebe1b7427578c21d48dac6190"
   },
   "frontend/src/hooks/use-liquidacion-iva.ts": {
     "mtime": 1784823095.966652,
     "ast_hash": "6288efd0d9e7a6e39cc3d2575d186254",
-    "semantic_hash": ""
+    "semantic_hash": "6288efd0d9e7a6e39cc3d2575d186254"
   },
   "frontend/src/hooks/use-mapeo-cuenta.ts": {
     "mtime": 1784318865.112774,
     "ast_hash": "733f9fd2145697743c9538fe67670f8b",
-    "semantic_hash": ""
+    "semantic_hash": "733f9fd2145697743c9538fe67670f8b"
   },
   "frontend/src/hooks/use-mayor.ts": {
     "mtime": 1784293815.4053793,
     "ast_hash": "c43edb898580801ba45c57cda6977d15",
-    "semantic_hash": ""
+    "semantic_hash": "c43edb898580801ba45c57cda6977d15"
   },
   "frontend/src/hooks/use-movimiento-bancario.ts": {
     "mtime": 1784748908.4284346,
     "ast_hash": "567bb9fe088e4935549086e96996ebfe",
-    "semantic_hash": ""
+    "semantic_hash": "567bb9fe088e4935549086e96996ebfe"
   },
   "frontend/src/hooks/use-pago.ts": {
     "mtime": 1784688184.938757,
     "ast_hash": "04ab5c4ee8cd4d3b552808ce6e0af911",
-    "semantic_hash": ""
+    "semantic_hash": "04ab5c4ee8cd4d3b552808ce6e0af911"
   },
   "frontend/src/hooks/use-proyecto.ts": {
     "mtime": 1783384641.700775,
     "ast_hash": "59d7631731de19f7da8d2c0b9073f008",
-    "semantic_hash": ""
+    "semantic_hash": "59d7631731de19f7da8d2c0b9073f008"
   },
   "frontend/src/hooks/use-usuario.ts": {
     "mtime": 1783384657.6344757,
     "ast_hash": "b464763004e7a0bbc6a5a4b93c4eaec9",
-    "semantic_hash": ""
+    "semantic_hash": "b464763004e7a0bbc6a5a4b93c4eaec9"
   },
   "frontend/src/pages/asientos-page.tsx": {
     "mtime": 1784291703.8694882,
     "ast_hash": "372e1c535ccc77deddb1791d3a285510",
-    "semantic_hash": ""
+    "semantic_hash": "372e1c535ccc77deddb1791d3a285510"
   },
   "frontend/src/pages/cobros-page.tsx": {
     "mtime": 1784688271.6646597,
     "ast_hash": "2efbd83a3e01e58214856f91645b10ff",
-    "semantic_hash": ""
+    "semantic_hash": "2efbd83a3e01e58214856f91645b10ff"
   },
   "frontend/src/pages/comisionistas-page.tsx": {
     "mtime": 1783387268.9112854,
     "ast_hash": "8dacc0286a8c6831b4778adddf7539eb",
-    "semantic_hash": ""
+    "semantic_hash": "8dacc0286a8c6831b4778adddf7539eb"
   },
   "frontend/src/pages/conciliacion-page.tsx": {
     "mtime": 1784760038.178075,
     "ast_hash": "97bc500ec052965d5c0c34679c13bacb",
-    "semantic_hash": ""
+    "semantic_hash": "97bc500ec052965d5c0c34679c13bacb"
   },
   "frontend/src/pages/cuentas-por-cobrar-page.tsx": {
     "mtime": 1784691185.7646673,
     "ast_hash": "e07043ad84550cdc5b51c33aacafe642",
-    "semantic_hash": ""
+    "semantic_hash": "e07043ad84550cdc5b51c33aacafe642"
   },
   "frontend/src/pages/cuentas-por-pagar-page.tsx": {
     "mtime": 1784691212.0183365,
     "ast_hash": "67d9fba9fbf449e86284626df550f127",
-    "semantic_hash": ""
+    "semantic_hash": "67d9fba9fbf449e86284626df550f127"
   },
   "frontend/src/pages/facturas-compra-page.tsx": {
     "mtime": 1784329308.8610163,
     "ast_hash": "d139a1a9ed9ec9c48e9edb07c3fa3ef7",
-    "semantic_hash": ""
+    "semantic_hash": "d139a1a9ed9ec9c48e9edb07c3fa3ef7"
   },
   "frontend/src/pages/facturas-venta-page.tsx": {
     "mtime": 1784319031.9276795,
     "ast_hash": "b7cf9887572fc8721c1c2e0b7c3c2606",
-    "semantic_hash": ""
+    "semantic_hash": "b7cf9887572fc8721c1c2e0b7c3c2606"
   },
   "frontend/src/pages/importacion-bancaria-page.tsx": {
     "mtime": 1784757800.165154,
     "ast_hash": "82707620821bb710d3eec942013c7b16",
-    "semantic_hash": ""
+    "semantic_hash": "82707620821bb710d3eec942013c7b16"
   },
   "frontend/src/pages/importacion-historica-page.tsx": {
     "mtime": 1784744777.9812152,
     "ast_hash": "cc434f2c606fec3497c193041426a1b0",
-    "semantic_hash": ""
+    "semantic_hash": "cc434f2c606fec3497c193041426a1b0"
   },
   "frontend/src/pages/liquidacion-iibb-page.tsx": {
     "mtime": 1784834654.222619,
     "ast_hash": "8dda5ed4f9ad664c80935d4dfa788105",
-    "semantic_hash": ""
+    "semantic_hash": "8dda5ed4f9ad664c80935d4dfa788105"
   },
   "frontend/src/pages/liquidacion-iva-page.tsx": {
     "mtime": 1784834654.2220201,
     "ast_hash": "42c32ba82e1bb9074420f45b9991faa3",
-    "semantic_hash": ""
+    "semantic_hash": "42c32ba82e1bb9074420f45b9991faa3"
   },
   "frontend/src/pages/mapeo-cuenta-page.tsx": {
     "mtime": 1784318893.8756835,
     "ast_hash": "ee77a95cca3d3bf0dd242a2f323809be",
-    "semantic_hash": ""
+    "semantic_hash": "ee77a95cca3d3bf0dd242a2f323809be"
   },
   "frontend/src/pages/mayor-page.tsx": {
     "mtime": 1784838702.0325327,
     "ast_hash": "beccad2bf85598705e2d0b044a71329d",
-    "semantic_hash": ""
+    "semantic_hash": "beccad2bf85598705e2d0b044a71329d"
   },
   "frontend/src/pages/movimientos-bancarios-page.tsx": {
     "mtime": 1784753989.5532808,
     "ast_hash": "0bf31fb5b6476c6fe33854343536dec0",
-    "semantic_hash": ""
+    "semantic_hash": "0bf31fb5b6476c6fe33854343536dec0"
   },
   "frontend/src/pages/pagos-page.tsx": {
     "mtime": 1784688329.2372985,
     "ast_hash": "d74e340fcb8e6fc85c45390685f3684f",
-    "semantic_hash": ""
+    "semantic_hash": "d74e340fcb8e6fc85c45390685f3684f"
   },
   "frontend/src/pages/plan-de-cuentas-page.tsx": {
     "mtime": 1784293905.1150737,
     "ast_hash": "70122aee6ea08b56938a26fd00bbf862",
-    "semantic_hash": ""
+    "semantic_hash": "70122aee6ea08b56938a26fd00bbf862"
   },
   "frontend/src/pages/proyecto-comisiones-tab.tsx": {
     "mtime": 1783387298.4918418,
     "ast_hash": "d0a66aa409fd828b09198a1897f2571d",
-    "semantic_hash": ""
+    "semantic_hash": "d0a66aa409fd828b09198a1897f2571d"
   },
   "frontend/src/pages/proyecto-detalle-page.tsx": {
-    "mtime": 1783387328.5990772,
-    "ast_hash": "01118148b53a6531a52a8d070cae669f",
-    "semantic_hash": ""
+    "mtime": 1784847557.3367379,
+    "ast_hash": "fcc47e1e8ca742ce21a58e07a938a2f4",
+    "semantic_hash": "fcc47e1e8ca742ce21a58e07a938a2f4"
   },
   "frontend/src/pages/proyecto-etapas-tab.tsx": {
     "mtime": 1783384883.084816,
     "ast_hash": "e409c689295d2dc376fd620f9016f34a",
-    "semantic_hash": ""
+    "semantic_hash": "e409c689295d2dc376fd620f9016f34a"
   },
   "frontend/src/pages/proyectos-page.tsx": {
-    "mtime": 1783384715.0152736,
-    "ast_hash": "c68edc5338beca3b9274ae3b02d85310",
-    "semantic_hash": ""
+    "mtime": 1784846145.4121482,
+    "ast_hash": "476faf9247d1f6963031ff2a77efb1de",
+    "semantic_hash": "476faf9247d1f6963031ff2a77efb1de"
   },
   "frontend/src/pages/reglas-clasificacion-consumo-page.tsx": {
     "mtime": 1784763951.8114922,
     "ast_hash": "972986eda0129cc93212d0504293289d",
-    "semantic_hash": ""
+    "semantic_hash": "972986eda0129cc93212d0504293289d"
   },
   "frontend/src/pages/tarjeta-credito-detalle-page.tsx": {
     "mtime": 1784763929.9682355,
     "ast_hash": "21f89cc2e18c2b87a250de457cdc1c80",
-    "semantic_hash": ""
+    "semantic_hash": "21f89cc2e18c2b87a250de457cdc1c80"
   },
   "frontend/src/types/adjunto.ts": {
     "mtime": 1784318932.6234634,
     "ast_hash": "390fac59008d7a722d626198d95b6862",
-    "semantic_hash": ""
+    "semantic_hash": "390fac59008d7a722d626198d95b6862"
   },
   "frontend/src/types/asiento.ts": {
     "mtime": 1784291549.9996831,
     "ast_hash": "10d577758f833042a75e642213ccda3c",
-    "semantic_hash": ""
+    "semantic_hash": "10d577758f833042a75e642213ccda3c"
   },
   "frontend/src/types/atribucion-impuesto.ts": {
     "mtime": 1784834601.787564,
     "ast_hash": "31c6967a12c8a61a8e586da46b2773f9",
-    "semantic_hash": ""
+    "semantic_hash": "31c6967a12c8a61a8e586da46b2773f9"
   },
   "frontend/src/types/cobro.ts": {
     "mtime": 1784688148.6825752,
     "ast_hash": "abeef2832fd082e79553117c8611cc5c",
-    "semantic_hash": ""
+    "semantic_hash": "abeef2832fd082e79553117c8611cc5c"
   },
   "frontend/src/types/comision-proyecto.ts": {
     "mtime": 1783387220.7100894,
     "ast_hash": "4af84d60be0f8a6eb66c132255d433d4",
-    "semantic_hash": ""
+    "semantic_hash": "4af84d60be0f8a6eb66c132255d433d4"
   },
   "frontend/src/types/comisionista.ts": {
     "mtime": 1783387213.227753,
     "ast_hash": "f79350f281d5f9e4f17d29ec8ada05b7",
-    "semantic_hash": ""
+    "semantic_hash": "f79350f281d5f9e4f17d29ec8ada05b7"
   },
   "frontend/src/types/conciliacion.ts": {
     "mtime": 1784759994.7369545,
     "ast_hash": "fae5e7c909f02ecc99947ecb798eb8c8",
-    "semantic_hash": ""
+    "semantic_hash": "fae5e7c909f02ecc99947ecb798eb8c8"
   },
   "frontend/src/types/consumo-tarjeta.ts": {
     "mtime": 1784763674.7400656,
     "ast_hash": "e8f7f577cea9f75bd5469988def98566",
-    "semantic_hash": ""
+    "semantic_hash": "e8f7f577cea9f75bd5469988def98566"
   },
   "frontend/src/types/cuenta-contable.ts": {
     "mtime": 1784252788.4880538,
     "ast_hash": "73cc3c2ee02dff7cb8d42f9eac8730bb",
-    "semantic_hash": ""
+    "semantic_hash": "73cc3c2ee02dff7cb8d42f9eac8730bb"
   },
   "frontend/src/types/cuenta-por-cobrar.ts": {
     "mtime": 1784691137.3366225,
     "ast_hash": "cb3b021576d266a5f48a300f2f7680d8",
-    "semantic_hash": ""
+    "semantic_hash": "cb3b021576d266a5f48a300f2f7680d8"
   },
   "frontend/src/types/cuenta-por-pagar.ts": {
     "mtime": 1784691144.746418,
     "ast_hash": "58f5f79e341dfd15286d5872586b4efd",
-    "semantic_hash": ""
+    "semantic_hash": "58f5f79e341dfd15286d5872586b4efd"
   },
   "frontend/src/types/etapa.ts": {
     "mtime": 1783384632.7844844,
     "ast_hash": "4ce0f2491676f56ab1a42170ec117ff2",
-    "semantic_hash": ""
+    "semantic_hash": "4ce0f2491676f56ab1a42170ec117ff2"
   },
   "frontend/src/types/factura-compra.ts": {
     "mtime": 1784329213.8850994,
     "ast_hash": "0b8f538d2a7cac504ec7601f0d21110b",
-    "semantic_hash": ""
+    "semantic_hash": "0b8f538d2a7cac504ec7601f0d21110b"
   },
   "frontend/src/types/factura-venta.ts": {
     "mtime": 1784318908.6962142,
     "ast_hash": "55d6a2190178708cdac1807b1baac61f",
-    "semantic_hash": ""
+    "semantic_hash": "55d6a2190178708cdac1807b1baac61f"
   },
   "frontend/src/types/importacion-bancaria.ts": {
     "mtime": 1784754003.8146007,
     "ast_hash": "c6812ab282dbf92c2c049dcbe9611d6e",
-    "semantic_hash": ""
+    "semantic_hash": "c6812ab282dbf92c2c049dcbe9611d6e"
   },
   "frontend/src/types/importacion-factura.ts": {
     "mtime": 1784744701.7498438,
     "ast_hash": "99d2536b6cbadd2d49274d3d94cd4ceb",
-    "semantic_hash": ""
+    "semantic_hash": "99d2536b6cbadd2d49274d3d94cd4ceb"
   },
   "frontend/src/types/liquidacion-iibb.ts": {
     "mtime": 1784829119.1573408,
     "ast_hash": "d46bc41f08757ca3a83dcccd6813dbd6",
-    "semantic_hash": ""
+    "semantic_hash": "d46bc41f08757ca3a83dcccd6813dbd6"
   },
   "frontend/src/types/liquidacion-iva.ts": {
     "mtime": 1784826012.4595332,
     "ast_hash": "dfdb61c3560632e729ad7a453c743087",
-    "semantic_hash": ""
+    "semantic_hash": "dfdb61c3560632e729ad7a453c743087"
   },
   "frontend/src/types/mapeo-cuenta.ts": {
     "mtime": 1784318855.1988275,
     "ast_hash": "37541686a7b6bb0bb88dbf0d7c1c481f",
-    "semantic_hash": ""
+    "semantic_hash": "37541686a7b6bb0bb88dbf0d7c1c481f"
   },
   "frontend/src/types/mayor.ts": {
     "mtime": 1784293806.3065474,
     "ast_hash": "a84dc5bf42edaf4ce6bb39f8c86478c0",
-    "semantic_hash": ""
+    "semantic_hash": "a84dc5bf42edaf4ce6bb39f8c86478c0"
   },
   "frontend/src/types/movimiento-bancario.ts": {
     "mtime": 1784753971.4366028,
     "ast_hash": "02bc74faf364082657f1bcb13ab79d43",
-    "semantic_hash": ""
+    "semantic_hash": "02bc74faf364082657f1bcb13ab79d43"
   },
   "frontend/src/types/pago.ts": {
     "mtime": 1784688158.7283912,
     "ast_hash": "ae2a45180e53763279c7060bdf27a6a0",
-    "semantic_hash": ""
+    "semantic_hash": "ae2a45180e53763279c7060bdf27a6a0"
   },
   "frontend/src/types/proyecto.ts": {
     "mtime": 1783384625.0098424,
     "ast_hash": "9cbed7a7275f47b03f4786f439246c72",
-    "semantic_hash": ""
+    "semantic_hash": "9cbed7a7275f47b03f4786f439246c72"
   },
   "outputs/F3_1_diseno_del_motor_contable.md": {
     "mtime": 1783389408.0608933,
     "ast_hash": "7fececf172caecee905b6394f08b9fe3",
-    "semantic_hash": ""
+    "semantic_hash": "7fececf172caecee905b6394f08b9fe3"
   },
   "outputs/F3_3_seed_plan_de_cuentas.md": {
     "mtime": 1784252926.9236796,
     "ast_hash": "92d2ff0c0fe1023068680a1404ab5561",
-    "semantic_hash": ""
+    "semantic_hash": "92d2ff0c0fe1023068680a1404ab5561"
   },
   "outputs/F3_4_motor_de_asientos_manuales.md": {
     "mtime": 1784256168.9842367,
     "ast_hash": "b12d04a839bcd44b42aee661a7db55f6",
-    "semantic_hash": ""
+    "semantic_hash": "b12d04a839bcd44b42aee661a7db55f6"
   },
   "outputs/F3_5_busqueda_duplicacion_edicion_anulacion.md": {
     "mtime": 1784292359.8208296,
     "ast_hash": "c0b4c76aa3f70ab813fd5d08bbc91282",
-    "semantic_hash": ""
+    "semantic_hash": "c0b4c76aa3f70ab813fd5d08bbc91282"
   },
   "outputs/F3_6_mayores_contables.md": {
     "mtime": 1784295083.369365,
     "ast_hash": "5ed1af14437ca32967441d10e11611f2",
-    "semantic_hash": ""
+    "semantic_hash": "5ed1af14437ca32967441d10e11611f2"
   },
   "outputs/F4_1_reglas_de_asientos_automaticos.md": {
     "mtime": 1784315738.0934136,
     "ast_hash": "9ba223f00ced535e4d617b1590899595",
-    "semantic_hash": ""
+    "semantic_hash": "9ba223f00ced535e4d617b1590899595"
   },
   "outputs/F4_2_facturas_de_venta.md": {
     "mtime": 1784321835.4216745,
     "ast_hash": "aac4938299121a3363057b5690a02c9c",
-    "semantic_hash": ""
+    "semantic_hash": "aac4938299121a3363057b5690a02c9c"
   },
   "outputs/F4_3_facturas_de_compra.md": {
     "mtime": 1784685713.2344823,
     "ast_hash": "725399fbedb4fb3d20dd4b6ac586c1a0",
-    "semantic_hash": ""
+    "semantic_hash": "725399fbedb4fb3d20dd4b6ac586c1a0"
   },
   "outputs/F4_4_cobros_y_pagos.md": {
     "mtime": 1784689811.1653087,
     "ast_hash": "f8bd7a5c78ba4eb49e140e05b8daf6e7",
-    "semantic_hash": ""
+    "semantic_hash": "f8bd7a5c78ba4eb49e140e05b8daf6e7"
   },
   "outputs/F4_5_vistas_cxc_cxp.md": {
     "mtime": 1784691645.2189364,
     "ast_hash": "697c44ab11197873caee65cb6affb7c9",
-    "semantic_hash": ""
+    "semantic_hash": "697c44ab11197873caee65cb6affb7c9"
   },
   "outputs/F4_6_importacion_facturacion_historica.md": {
     "mtime": 1784747509.1607394,
     "ast_hash": "b6db1553d055c85fa83a43ac43f52c30",
-    "semantic_hash": ""
+    "semantic_hash": "b6db1553d055c85fa83a43ac43f52c30"
   },
   "outputs/F5_1_movimientos_bancarios.md": {
     "mtime": 1784750107.3465617,
     "ast_hash": "36509c771ed15b6d3ad115e561a186ad",
-    "semantic_hash": ""
+    "semantic_hash": "36509c771ed15b6d3ad115e561a186ad"
   },
   "outputs/F5_2_parsers_de_resumenes.md": {
     "mtime": 1784758074.3201447,
     "ast_hash": "2aa60136f8a99b014c5fab6e5537b707",
-    "semantic_hash": ""
+    "semantic_hash": "2aa60136f8a99b014c5fab6e5537b707"
   },
   "outputs/F5_3_conciliacion_bancaria.md": {
     "mtime": 1784760454.9445176,
     "ast_hash": "87ea2b555bfd257efe0f92e2f8a8d272",
-    "semantic_hash": ""
+    "semantic_hash": "87ea2b555bfd257efe0f92e2f8a8d272"
   },
   "outputs/F5_4_tarjetas_de_credito.md": {
     "mtime": 1784765134.5080543,
     "ast_hash": "7716dfcfd087adc143b4c925fb102ea8",
-    "semantic_hash": ""
+    "semantic_hash": "7716dfcfd087adc143b4c925fb102ea8"
   },
   "outputs/F6_1_liquidacion_iva.md": {
     "mtime": 1784833132.0600967,
     "ast_hash": "db34bbda81f87f5ef23e2f4cf546df97",
-    "semantic_hash": ""
+    "semantic_hash": "db34bbda81f87f5ef23e2f4cf546df97"
   },
   "outputs/F6_2_liquidacion_iibb.md": {
     "mtime": 1784832654.6733522,
     "ast_hash": "04bef915c79d7f9f66916eceb2a079a7",
-    "semantic_hash": ""
+    "semantic_hash": "04bef915c79d7f9f66916eceb2a079a7"
   },
   "outputs/F6_3_atribucion_impuestos_proyectos.md": {
     "mtime": 1784835760.094474,
     "ast_hash": "c68df63eec1e139b0a4576415760ee7d",
-    "semantic_hash": ""
+    "semantic_hash": "c68df63eec1e139b0a4576415760ee7d"
   },
   "outputs/F7_1_infraestructura_exportacion_consolidada.md": {
     "mtime": 1784837545.1592646,
     "ast_hash": "119d99e4f0541d11823adbc18bbf3415",
-    "semantic_hash": ""
+    "semantic_hash": "119d99e4f0541d11823adbc18bbf3415"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/balance/BalanceSumasYSaldosController.java": {
     "mtime": 1784838598.025991,
     "ast_hash": "f77b17febeef44a59acb08793efb0d3e",
-    "semantic_hash": ""
+    "semantic_hash": "f77b17febeef44a59acb08793efb0d3e"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/balance/BalanceSumasYSaldosService.java": {
-    "mtime": 1784838571.5804906,
-    "ast_hash": "e99b8ddf6fadf65e53adcc5a72a5180f",
-    "semantic_hash": ""
+    "mtime": 1784842622.6779673,
+    "ast_hash": "fce99adc2cde2f5dc06c7107d435e181",
+    "semantic_hash": "fce99adc2cde2f5dc06c7107d435e181"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/balance/dto/BalanceSumasYSaldosNodo.java": {
     "mtime": 1784838538.5469668,
     "ast_hash": "b50adb1e8f248bf845408f212336a958",
-    "semantic_hash": ""
+    "semantic_hash": "b50adb1e8f248bf845408f212336a958"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/balance/dto/BalanceSumasYSaldosResponse.java": {
     "mtime": 1784838543.789209,
     "ast_hash": "3c927875272357743d0a69bcaa1abd49",
-    "semantic_hash": ""
+    "semantic_hash": "3c927875272357743d0a69bcaa1abd49"
   },
   "backend/src/test/java/com/montanaritech/contable/contabilidad/balance/BalanceSumasYSaldosServiceTest.java": {
-    "mtime": 1784838803.894572,
-    "ast_hash": "d7fb01dfab9cc68aa24ab777550f51f5",
-    "semantic_hash": ""
+    "mtime": 1784842633.3159447,
+    "ast_hash": "63921e8e415ff43386d6d7adf4b07ec6",
+    "semantic_hash": "63921e8e415ff43386d6d7adf4b07ec6"
   },
   "frontend/src/hooks/use-balance-sumas-y-saldos.ts": {
     "mtime": 1784838646.337545,
     "ast_hash": "b7e83c4a3a2d1952b0a99851194272f5",
-    "semantic_hash": ""
+    "semantic_hash": "b7e83c4a3a2d1952b0a99851194272f5"
   },
   "frontend/src/pages/balance-sumas-y-saldos-page.tsx": {
     "mtime": 1784838722.6450305,
     "ast_hash": "7d0069bef1ac1e9c9fda4293e63d3954",
-    "semantic_hash": ""
+    "semantic_hash": "7d0069bef1ac1e9c9fda4293e63d3954"
   },
   "frontend/src/types/balance-sumas-y-saldos.ts": {
     "mtime": 1784838638.7905538,
     "ast_hash": "94cb504ac16ae29c98f1cc64af0820da",
-    "semantic_hash": ""
+    "semantic_hash": "94cb504ac16ae29c98f1cc64af0820da"
   },
   "outputs/F7_2_balance_de_sumas_y_saldos.md": {
     "mtime": 1784841500.8716547,
     "ast_hash": "7ba824a78cf9ae8e1d157cbabfdcb2b7",
-    "semantic_hash": ""
+    "semantic_hash": "7ba824a78cf9ae8e1d157cbabfdcb2b7"
+  },
+  "backend/src/main/java/com/montanaritech/contable/contabilidad/estadoresultados/EstadoResultadosController.java": {
+    "mtime": 1784842933.4283009,
+    "ast_hash": "a9fc0a773acd7a5615a6373bfd3dfe57",
+    "semantic_hash": "a9fc0a773acd7a5615a6373bfd3dfe57"
+  },
+  "backend/src/main/java/com/montanaritech/contable/contabilidad/estadoresultados/EstadoResultadosService.java": {
+    "mtime": 1784842869.4965203,
+    "ast_hash": "f3dfcb0d52fde24f39c4869f013cce27",
+    "semantic_hash": "f3dfcb0d52fde24f39c4869f013cce27"
+  },
+  "backend/src/main/java/com/montanaritech/contable/contabilidad/estadoresultados/LineaEstadoResultados.java": {
+    "mtime": 1784842680.8665476,
+    "ast_hash": "edc11fe7d8aa18482175dcdb229baf8b",
+    "semantic_hash": "edc11fe7d8aa18482175dcdb229baf8b"
+  },
+  "backend/src/main/java/com/montanaritech/contable/contabilidad/estadoresultados/MapeoRubroLineaEstadoResultados.java": {
+    "mtime": 1784842689.3315895,
+    "ast_hash": "161007f681ff5048294f1fedff40edfd",
+    "semantic_hash": "161007f681ff5048294f1fedff40edfd"
+  },
+  "backend/src/main/java/com/montanaritech/contable/contabilidad/estadoresultados/MapeoRubroLineaEstadoResultadosController.java": {
+    "mtime": 1784842754.5213666,
+    "ast_hash": "b512a04f4b49dfcfd0a72a81e3bdb7c0",
+    "semantic_hash": "b512a04f4b49dfcfd0a72a81e3bdb7c0"
+  },
+  "backend/src/main/java/com/montanaritech/contable/contabilidad/estadoresultados/MapeoRubroLineaEstadoResultadosMapper.java": {
+    "mtime": 1784842729.7337334,
+    "ast_hash": "e47a180f9e4454423ba96f249bc6fcfa",
+    "semantic_hash": "e47a180f9e4454423ba96f249bc6fcfa"
+  },
+  "backend/src/main/java/com/montanaritech/contable/contabilidad/estadoresultados/MapeoRubroLineaEstadoResultadosRepository.java": {
+    "mtime": 1784842705.9384687,
+    "ast_hash": "f5fca03de32b591271071203b9b57b2f",
+    "semantic_hash": "f5fca03de32b591271071203b9b57b2f"
+  },
+  "backend/src/main/java/com/montanaritech/contable/contabilidad/estadoresultados/MapeoRubroLineaEstadoResultadosService.java": {
+    "mtime": 1784842743.381636,
+    "ast_hash": "63d8dff5f29fa8744281a825e76fd2d8",
+    "semantic_hash": "63d8dff5f29fa8744281a825e76fd2d8"
+  },
+  "backend/src/main/java/com/montanaritech/contable/contabilidad/estadoresultados/dto/EstadoResultadosDtos.java": {
+    "mtime": 1784842833.7844226,
+    "ast_hash": "b91e2c18494179521ec86f80e7a81427",
+    "semantic_hash": "b91e2c18494179521ec86f80e7a81427"
+  },
+  "backend/src/main/java/com/montanaritech/contable/contabilidad/estadoresultados/dto/MapeoRubroLineaErDtos.java": {
+    "mtime": 1784842711.5651488,
+    "ast_hash": "463a8aae9088828377442195adb7a7d5",
+    "semantic_hash": "463a8aae9088828377442195adb7a7d5"
+  },
+  "backend/src/main/resources/db/migration/V32__estado_resultados_mapeo_rubro_linea.sql": {
+    "mtime": 1784842665.632293,
+    "ast_hash": "2e9ef9aa2b52ea645fd7fd7f360026b6",
+    "semantic_hash": "2e9ef9aa2b52ea645fd7fd7f360026b6"
+  },
+  "backend/src/test/java/com/montanaritech/contable/contabilidad/estadoresultados/EstadoResultadosServiceTest.java": {
+    "mtime": 1784843720.6367471,
+    "ast_hash": "366bcf70c82e22f748ee01b0c8df4ae7",
+    "semantic_hash": "366bcf70c82e22f748ee01b0c8df4ae7"
+  },
+  "backend/src/test/java/com/montanaritech/contable/contabilidad/estadoresultados/MapeoRubroLineaEstadoResultadosServiceTest.java": {
+    "mtime": 1784843122.997168,
+    "ast_hash": "03910b790c0ee52740ecca3e42fb7f02",
+    "semantic_hash": "03910b790c0ee52740ecca3e42fb7f02"
+  },
+  "frontend/src/hooks/use-estado-resultados.ts": {
+    "mtime": 1784843391.3086183,
+    "ast_hash": "49b7fbb17102ad00ce85450dba278bf4",
+    "semantic_hash": "49b7fbb17102ad00ce85450dba278bf4"
+  },
+  "frontend/src/hooks/use-mapeo-rubro-linea-er.ts": {
+    "mtime": 1784843274.126406,
+    "ast_hash": "2b5629e85cf219a0a466de06730ba592",
+    "semantic_hash": "2b5629e85cf219a0a466de06730ba592"
+  },
+  "frontend/src/pages/estado-resultados-page.tsx": {
+    "mtime": 1784843546.2891133,
+    "ast_hash": "49d97ad8df3a3db0a2fee8e5a9a0c0b1",
+    "semantic_hash": "49d97ad8df3a3db0a2fee8e5a9a0c0b1"
+  },
+  "frontend/src/pages/mapeo-rubro-linea-er-page.tsx": {
+    "mtime": 1784843541.4994886,
+    "ast_hash": "258431d4630a41711517b30e87cee955",
+    "semantic_hash": "258431d4630a41711517b30e87cee955"
+  },
+  "frontend/src/types/estado-resultados.ts": {
+    "mtime": 1784843247.4452882,
+    "ast_hash": "ef17269ffa7ac51bccd969d24048c8c1",
+    "semantic_hash": "ef17269ffa7ac51bccd969d24048c8c1"
+  },
+  "frontend/src/types/mapeo-rubro-linea-er.ts": {
+    "mtime": 1784843253.6283581,
+    "ast_hash": "27d4e3a659f2dcf59e093e8aa315cda0",
+    "semantic_hash": "27d4e3a659f2dcf59e093e8aa315cda0"
+  },
+  "outputs/F7_3_estado_de_resultados.md": {
+    "mtime": 1784844216.0698094,
+    "ast_hash": "95f41bf91f1afdc165d4ee9a6a9ecdf9",
+    "semantic_hash": "95f41bf91f1afdc165d4ee9a6a9ecdf9"
+  },
+  "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/presupuesto/CalculoPresupuestoProyecto.java": {
+    "mtime": 1784846466.4353023,
+    "ast_hash": "896d449793ea5a2d565bef975773b91f",
+    "semantic_hash": "896d449793ea5a2d565bef975773b91f"
+  },
+  "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/presupuesto/ConfiguracionPresupuesto.java": {
+    "mtime": 1784846228.64737,
+    "ast_hash": "c21c83b92e10353867d0c734e161efb5",
+    "semantic_hash": "c21c83b92e10353867d0c734e161efb5"
+  },
+  "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/presupuesto/ConfiguracionPresupuestoController.java": {
+    "mtime": 1784846565.3304837,
+    "ast_hash": "a4f646870f0140fb6026ab40e3871d82",
+    "semantic_hash": "a4f646870f0140fb6026ab40e3871d82"
+  },
+  "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/presupuesto/ConfiguracionPresupuestoRepository.java": {
+    "mtime": 1784846253.6309626,
+    "ast_hash": "f93f54aa5a38de5167406533772fef86",
+    "semantic_hash": "f93f54aa5a38de5167406533772fef86"
+  },
+  "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/presupuesto/PresupuestoCalculado.java": {
+    "mtime": 1784846424.4837954,
+    "ast_hash": "7efacc5e40cbe29b2394afcea7c72f5f",
+    "semantic_hash": "7efacc5e40cbe29b2394afcea7c72f5f"
+  },
+  "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/presupuesto/PresupuestoLineaCosto.java": {
+    "mtime": 1784846237.0532563,
+    "ast_hash": "7d4358a8399809c131ffdb558c52c557",
+    "semantic_hash": "7d4358a8399809c131ffdb558c52c557"
+  },
+  "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/presupuesto/PresupuestoProyecto.java": {
+    "mtime": 1784846248.882367,
+    "ast_hash": "15dc2fee01d9de312ef2c7aa39f9c1b5",
+    "semantic_hash": "15dc2fee01d9de312ef2c7aa39f9c1b5"
+  },
+  "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/presupuesto/PresupuestoProyectoController.java": {
+    "mtime": 1784846532.473537,
+    "ast_hash": "1c47348d138c1140968b2ae92a159013",
+    "semantic_hash": "1c47348d138c1140968b2ae92a159013"
+  },
+  "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/presupuesto/PresupuestoProyectoMapper.java": {
+    "mtime": 1784846522.640349,
+    "ast_hash": "82765f815e16f65635cf7adf42132f50",
+    "semantic_hash": "82765f815e16f65635cf7adf42132f50"
+  },
+  "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/presupuesto/PresupuestoProyectoRepository.java": {
+    "mtime": 1784846260.0568945,
+    "ast_hash": "13e82c059d9e7c1c56e4dc272e1facd7",
+    "semantic_hash": "13e82c059d9e7c1c56e4dc272e1facd7"
+  },
+  "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/presupuesto/PresupuestoProyectoService.java": {
+    "mtime": 1784846514.431939,
+    "ast_hash": "46d46f6ccee3a83c70aa7bbf7b91b1b4",
+    "semantic_hash": "46d46f6ccee3a83c70aa7bbf7b91b1b4"
+  },
+  "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/presupuesto/dto/ConfiguracionPresupuestoDtos.java": {
+    "mtime": 1784846550.3031726,
+    "ast_hash": "568b4ed17f53a34c9883c0a5181ca9a9",
+    "semantic_hash": "568b4ed17f53a34c9883c0a5181ca9a9"
+  },
+  "backend/src/main/java/com/montanaritech/contable/maestros/proyecto/presupuesto/dto/PresupuestoProyectoDtos.java": {
+    "mtime": 1784846500.5705676,
+    "ast_hash": "38b163223a1b466678b5be5633c5c439",
+    "semantic_hash": "38b163223a1b466678b5be5633c5c439"
+  },
+  "backend/src/main/resources/db/migration/V33__presupuesto_proyecto.sql": {
+    "mtime": 1784846215.7242532,
+    "ast_hash": "8f2af34c0db5ad574f8d6f0e495fcb4e",
+    "semantic_hash": "8f2af34c0db5ad574f8d6f0e495fcb4e"
+  },
+  "backend/src/test/java/com/montanaritech/contable/maestros/proyecto/presupuesto/CalculoPresupuestoProyectoTest.java": {
+    "mtime": 1784847482.7897234,
+    "ast_hash": "946a9a82fbf050cd531e87895194d78f",
+    "semantic_hash": "946a9a82fbf050cd531e87895194d78f"
+  },
+  "frontend/src/hooks/use-presupuesto-proyecto.ts": {
+    "mtime": 1784847521.3122582,
+    "ast_hash": "4844cd75006d0505a7d7a590fba35e20",
+    "semantic_hash": "4844cd75006d0505a7d7a590fba35e20"
+  },
+  "frontend/src/pages/proyecto-presupuesto-tab.tsx": {
+    "mtime": 1784847549.911631,
+    "ast_hash": "688e22218eb88e18f6d8b713d59646f2",
+    "semantic_hash": "688e22218eb88e18f6d8b713d59646f2"
+  },
+  "frontend/src/types/presupuesto-proyecto.ts": {
+    "mtime": 1784847152.8582952,
+    "ast_hash": "0213c8f02955e288e2442d672d5f1d81",
+    "semantic_hash": "0213c8f02955e288e2442d672d5f1d81"
+  },
+  "outputs/F2_6_presupuesto_estimado_por_proyecto.md": {
+    "mtime": 1784848854.7318196,
+    "ast_hash": "78cfc187e65c54585043b51f70804668",
+    "semantic_hash": "78cfc187e65c54585043b51f70804668"
   }
 }
