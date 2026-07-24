@@ -43,6 +43,7 @@ import { TarjetasCreditoPage } from "@/pages/tarjetas-credito-page"
 import { TiposCambioPage } from "@/pages/tipos-cambio-page"
 import { TiposCostoPage } from "@/pages/tipos-costo-page"
 import { UsuariosPage } from "@/pages/usuarios-page"
+import { VencimientosPage } from "@/pages/vencimientos-page"
 
 export const router = createBrowserRouter([
   { path: "/login", element: <LoginPage /> },
@@ -104,6 +105,7 @@ export const router = createBrowserRouter([
         path: "presupuesto",
         element: <PlaceholderPage title="Presupuesto y vencimientos" />,
       },
+      { path: "presupuesto/vencimientos", element: <VencimientosPage /> },
       {
         path: "pendientes",
         element: <PlaceholderPage title="Pendientes administrativos" />,

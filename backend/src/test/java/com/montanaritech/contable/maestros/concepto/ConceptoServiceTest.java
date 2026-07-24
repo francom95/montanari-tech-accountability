@@ -62,10 +62,10 @@ class ConceptoServiceTest {
     void crearSinMonedaNoConsultaElRepositorio() {
         when(repo.save(any(Concepto.class))).thenAnswer(inv -> inv.getArgument(0));
 
-        Concepto creado = service.crear(new ConceptoCrearRequest("Sueldos", null, null, "mensual", null, null));
+        Concepto creado = service.crear(new ConceptoCrearRequest("Sueldos", null, null, Periodicidad.MENSUAL, null, null));
 
         assertThat(creado.getMoneda()).isNull();
-        assertThat(creado.getPeriodicidad()).isEqualTo("mensual");
+        assertThat(creado.getPeriodicidad()).isEqualTo(Periodicidad.MENSUAL);
     }
 
     @Test
@@ -82,7 +82,7 @@ class ConceptoServiceTest {
         when(repo.save(any(Concepto.class))).thenAnswer(inv -> inv.getArgument(0));
 
         Concepto creado = service.crear(
-                new ConceptoCrearRequest("Alquiler", "desc", "6.1.1", "mensual", new BigDecimal("1000.00"), 5L));
+                new ConceptoCrearRequest("Alquiler", "desc", "6.1.1", Periodicidad.MENSUAL, new BigDecimal("1000.00"), 5L));
 
         assertThat(creado.getMoneda()).isEqualTo(moneda);
         assertThat(creado.getImporte()).isEqualByComparingTo("1000.00");
@@ -105,10 +105,10 @@ class ConceptoServiceTest {
             return new ConceptoResponse(c.getId(), c.getNombre(), c.getDescripcion(), c.getCuentaSugerida(), c.getPeriodicidad(), c.getImporte(), monedaId, c.isActivo());
         });
 
-        service.editar(1L, new ConceptoEditarRequest("Alquiler editado", "d", "c", "anual", new BigDecimal("500"), 5L));
+        service.editar(1L, new ConceptoEditarRequest("Alquiler editado", "d", "c", Periodicidad.ANUAL, new BigDecimal("500"), 5L));
 
         assertThat(entidad.getNombre()).isEqualTo("Alquiler editado");
-        assertThat(entidad.getPeriodicidad()).isEqualTo("anual");
+        assertThat(entidad.getPeriodicidad()).isEqualTo(Periodicidad.ANUAL);
         verify(auditoria).registrar(
                 eq(AccionAuditoria.EDITAR), eq("Concepto"), eq(1L), any(ConceptoResponse.class), any(ConceptoResponse.class));
     }

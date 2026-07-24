@@ -16,13 +16,16 @@ import {
   useEliminarConcepto,
 } from "@/hooks/use-concepto"
 import { useMonedas } from "@/hooks/use-monedas"
-import type { Concepto } from "@/types/concepto"
+import type { Concepto, Periodicidad } from "@/types/concepto"
+
+const PERIODICIDADES: Periodicidad[] = ["UNICA", "MENSUAL", "ANUAL"]
+const PERIODICIDAD_LABEL: Record<Periodicidad, string> = { UNICA: "Única", MENSUAL: "Mensual", ANUAL: "Anual" }
 
 const esquema = z.object({
   nombre: z.string().min(1, "El nombre es obligatorio").max(80),
   descripcion: z.string().optional(),
   cuentaSugerida: z.string().optional(),
-  periodicidad: z.string().optional(),
+  periodicidad: z.enum(["UNICA", "MENSUAL", "ANUAL"]),
   importe: z.string().optional(),
   monedaId: z.string().optional(),
 })
@@ -43,7 +46,7 @@ export function ConceptosPage() {
 
   const form = useForm({
     resolver: zodResolver(esquema),
-    defaultValues: { nombre: "", descripcion: "", cuentaSugerida: "", periodicidad: "", importe: "", monedaId: "" },
+    defaultValues: { nombre: "", descripcion: "", cuentaSugerida: "", periodicidad: "UNICA" as Periodicidad, importe: "", monedaId: "" },
   })
 
   function iniciarEdicion(e: Concepto) {
@@ -52,7 +55,7 @@ export function ConceptosPage() {
       nombre: e.nombre,
       descripcion: e.descripcion ?? "",
       cuentaSugerida: e.cuentaSugerida ?? "",
-      periodicidad: e.periodicidad ?? "",
+      periodicidad: e.periodicidad,
       importe: e.importe ?? "",
       monedaId: e.monedaId ? String(e.monedaId) : "",
     })
@@ -60,7 +63,7 @@ export function ConceptosPage() {
 
   function cancelarEdicion() {
     setEditando(null)
-    form.reset({ nombre: "", descripcion: "", cuentaSugerida: "", periodicidad: "", importe: "", monedaId: "" })
+    form.reset({ nombre: "", descripcion: "", cuentaSugerida: "", periodicidad: "UNICA", importe: "", monedaId: "" })
   }
 
   function onSubmit(valores: Valores) {
@@ -75,7 +78,7 @@ export function ConceptosPage() {
   const columnas = useMemo<ColumnDef<Concepto>[]>(
     () => [
       { header: "Nombre", accessorKey: "nombre" },
-      { header: "Periodicidad", accessorKey: "periodicidad" },
+      { header: "Periodicidad", accessorKey: "periodicidad", cell: (info) => PERIODICIDAD_LABEL[info.getValue() as Periodicidad] },
       { header: "Importe", accessorKey: "importe" },
       { header: "Estado", accessorKey: "activo", cell: (info) => (info.getValue() ? "Activo" : "Inactivo") },
       {
@@ -129,7 +132,15 @@ export function ConceptosPage() {
                 <FormItem><FormLabel>Cuenta sugerida</FormLabel><FormControl><Input {...field} placeholder="6.1.1" /></FormControl><FormMessage /></FormItem>
               )} />
               <FormField control={form.control} name="periodicidad" render={({ field }) => (
-                <FormItem><FormLabel>Periodicidad</FormLabel><FormControl><Input {...field} placeholder="mensual" /></FormControl><FormMessage /></FormItem>
+                <FormItem>
+                  <FormLabel>Periodicidad</FormLabel>
+                  <FormControl>
+                    <select {...field} className="h-8 w-full rounded-lg border border-input bg-transparent px-2.5 py-1 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50">
+                      {PERIODICIDADES.map((p) => <option key={p} value={p}>{PERIODICIDAD_LABEL[p]}</option>)}
+                    </select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
               )} />
               <FormField control={form.control} name="importe" render={({ field }) => (
                 <FormItem><FormLabel>Importe estimado</FormLabel><FormControl><Input {...field} placeholder="1000.00" /></FormControl><FormMessage /></FormItem>

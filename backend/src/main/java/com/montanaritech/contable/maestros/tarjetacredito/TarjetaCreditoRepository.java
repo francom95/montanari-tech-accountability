@@ -1,5 +1,6 @@
 package com.montanaritech.contable.maestros.tarjetacredito;
 
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,4 +14,7 @@ public interface TarjetaCreditoRepository extends JpaRepository<TarjetaCredito, 
               AND (:activo IS NULL OR t.activo = :activo)
             """)
     Page<TarjetaCredito> buscar(@Param("texto") String texto, @Param("activo") Boolean activo, Pageable pageable);
+
+    /** F8.1: todas las activas, sin paginar, para generar sus vencimientos. */
+    List<TarjetaCredito> findByActivoTrue();
 }

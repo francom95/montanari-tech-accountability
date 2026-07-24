@@ -31,4 +31,7 @@ public interface LiquidacionIvaRepository extends JpaRepository<LiquidacionIva, 
 
     /** Arrastre: el saldo a favor de esta es el saldo técnico anterior del mes siguiente. */
     Optional<LiquidacionIva> findFirstByAnioAndMesAndEstado(Integer anio, Integer mes, EstadoDocumento estado);
+
+    /** F8.1: todas las confirmadas, sin acotar a un período, para generar sus vencimientos. */
+    List<LiquidacionIva> findByEstado(EstadoDocumento estado);
 }

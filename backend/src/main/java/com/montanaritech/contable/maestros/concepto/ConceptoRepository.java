@@ -1,4 +1,5 @@
 package com.montanaritech.contable.maestros.concepto;
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,4 +12,7 @@ public interface ConceptoRepository extends JpaRepository<Concepto, Long> {
               AND (:activo IS NULL OR c.activo = :activo)
             """)
     Page<Concepto> buscar(@Param("texto") String texto, @Param("activo") Boolean activo, Pageable pageable);
+
+    /** F8.1: todos los activos, sin paginar, para generar sus vencimientos. */
+    List<Concepto> findByActivoTrue();
 }

@@ -84,6 +84,7 @@ export const NAV_ITEMS: NavItem[] = [
   { to: "/impuestos/iva", label: "Liquidación de IVA", icon: Percent },
   { to: "/impuestos/iibb", label: "Liquidación de IIBB", icon: Percent },
   { to: "/presupuesto", label: "Presupuesto y vencimientos", icon: CalendarClock },
+  { to: "/presupuesto/vencimientos", label: "Vencimientos", icon: CalendarClock },
   { to: "/pendientes", label: "Pendientes administrativos", icon: ListTodo },
   { to: "/seguridad", label: "Usuarios", icon: ShieldCheck },
   { to: "/auditoria", label: "Auditoría", icon: ScrollText },

@@ -27,4 +27,7 @@ public interface LiquidacionIibbRepository extends JpaRepository<LiquidacionIibb
 
     /** Arrastre por jurisdicción: el saldo a favor de esta es el anterior del mes siguiente. */
     Optional<LiquidacionIibb> findFirstByAnioAndMesAndEstado(Integer anio, Integer mes, EstadoDocumento estado);
+
+    /** F8.1: todas las confirmadas, sin acotar a un período, para generar sus vencimientos. */
+    List<LiquidacionIibb> findByEstado(EstadoDocumento estado);
 }

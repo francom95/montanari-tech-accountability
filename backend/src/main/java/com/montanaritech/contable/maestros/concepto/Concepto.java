@@ -4,6 +4,8 @@ import com.montanaritech.contable.common.tenant.EntidadNegocio;
 import com.montanaritech.contable.maestros.moneda.Moneda;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -31,8 +33,9 @@ public class Concepto extends EntidadNegocio {
     @Column(length = 20)
     private String cuentaSugerida;
 
-    @Column(length = 50)
-    private String periodicidad;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    private Periodicidad periodicidad = Periodicidad.UNICA;
 
     @Column(precision = 19, scale = 2)
     private BigDecimal importe;
