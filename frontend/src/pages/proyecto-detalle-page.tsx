@@ -15,8 +15,11 @@ import { useUsuarios } from "@/hooks/use-usuario"
 import type { Proyecto } from "@/types/proyecto"
 import { ComisionesTab } from "@/pages/proyecto-comisiones-tab"
 import { EtapasTab } from "@/pages/proyecto-etapas-tab"
+import { PresupuestoTab } from "@/pages/proyecto-presupuesto-tab"
 
 const ESTADOS_PROYECTO = ["PROSPECTO", "EN_CURSO", "PAUSADO", "FINALIZADO", "CANCELADO"] as const
+const TIPOS_PROYECTO = ["ARGENTINA", "EXTERIOR"] as const
+const TIPO_PROYECTO_LABEL: Record<string, string> = { ARGENTINA: "Argentina", EXTERIOR: "Exterior" }
 const ESTADOS_COMERCIALES = ["PROSPECTO", "EN_NEGOCIACION", "GANADO", "PERDIDO"] as const
 const ESTADOS_FACTURACION = ["NO_FACTURADO", "PARCIALMENTE_FACTURADO", "FACTURADO_TOTAL"] as const
 const ESTADOS_COBRANZA = ["PENDIENTE", "PARCIAL", "COBRADO_TOTAL"] as const
@@ -110,7 +113,7 @@ export function ProyectoDetallePage() {
       ) : pestaña === "comisiones" ? (
         <ComisionesTab proyectoId={proyectoId} />
       ) : pestaña === "presupuesto" ? (
-        <Placeholder texto="El presupuesto estimado por proyecto se implementa en F2.6." />
+        <PresupuestoTab proyectoId={proyectoId} tipoProyecto={proyecto.data.tipoProyecto} />
       ) : (
         <Placeholder texto="El reporte detallado de rentabilidad por proyecto se implementa en F7.4." />
       )}
@@ -208,7 +211,15 @@ function FichaProyectoForm({ proyecto, pestaña }: { proyecto: Proyecto; pestañ
                   <FormItem><FormLabel>País</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
                 )} />
                 <FormField control={form.control} name="tipoProyecto" render={({ field }) => (
-                  <FormItem><FormLabel>Tipo de proyecto</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
+                  <FormItem>
+                    <FormLabel>Tipo de proyecto</FormLabel>
+                    <FormControl>
+                      <select {...field} className="h-8 w-full rounded-lg border border-input bg-background px-3 py-1.5 text-sm">
+                        {TIPOS_PROYECTO.map((t) => <option key={t} value={t}>{TIPO_PROYECTO_LABEL[t]}</option>)}
+                      </select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
                 )} />
                 <FormField control={form.control} name="estado" render={({ field }) => (
                   <FormItem>

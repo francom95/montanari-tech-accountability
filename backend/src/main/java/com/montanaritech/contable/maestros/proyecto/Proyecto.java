@@ -50,8 +50,17 @@ public class Proyecto extends EntidadNegocio {
     @Column(length = 80)
     private String pais;
 
-    @Column(name = "tipo_proyecto", length = 80)
-    private String tipoProyecto;
+    /**
+     * Distingue qué cascada de impuestos/comisiones aplica el presupuesto
+     * (F2.6): Argentina (IVA + IIBB/Convenio Multilateral doméstico) vs
+     * Exterior (comisiones bancarias COMEX + percepciones sobre la
+     * transferencia, sin IVA/IIBB directo — la venta de servicios al
+     * exterior está exenta). Reutiliza la columna existente (antes texto
+     * libre sin uso real todavía).
+     */
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_proyecto", length = 20)
+    private TipoProyecto tipoProyecto = TipoProyecto.ARGENTINA;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
@@ -120,5 +129,10 @@ public class Proyecto extends EntidadNegocio {
         PENDIENTE,
         PARCIAL,
         COBRADO_TOTAL
+    }
+
+    public enum TipoProyecto {
+        ARGENTINA,
+        EXTERIOR
     }
 }

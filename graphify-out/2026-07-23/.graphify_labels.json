@@ -174,5 +174,12 @@
   "172": "Getter",
   "173": "Setter",
   "174": "Table",
-  "175": "StreamingResponseBody"
+  "175": "StreamingResponseBody",
+  "176": "Qué se hizo",
+  "177": "CuentaBancariaRepository",
+  "178": "use-balance-sumas-y-saldos.ts",
+  "179": "balance-sumas-y-saldos-page.tsx",
+  "180": "balance-sumas-y-saldos.ts",
+  "181": "TarjetaCreditoMapper",
+  "182": "mayor-page.tsx"
 }

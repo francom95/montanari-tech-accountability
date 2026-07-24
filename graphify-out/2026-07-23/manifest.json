@@ -1160,13 +1160,13 @@
     "semantic_hash": "aebb3a19e9f7d853a49f3a2387e82e46"
   },
   "frontend/src/routes/nav-config.ts": {
-    "mtime": 1784829215.3258371,
-    "ast_hash": "c50ccc800f7793819877eb299daaaa35",
+    "mtime": 1784838734.5174613,
+    "ast_hash": "c7bb5bb8b7fe84b0ee7c681d59578c9e",
     "semantic_hash": ""
   },
   "frontend/src/routes/router.tsx": {
-    "mtime": 1784829215.3258371,
-    "ast_hash": "19c9e3a8f05be307cf85638623509e08",
+    "mtime": 1784838731.1457598,
+    "ast_hash": "31334832d63ef77d3df8033dbbd49cb0",
     "semantic_hash": ""
   },
   "frontend/src/test/App.test.tsx": {
@@ -1310,7 +1310,7 @@
     "semantic_hash": ""
   },
   "docker-compose.yml": {
-    "mtime": 1784837518.1182017,
+    "mtime": 1784841260.0184832,
     "ast_hash": "b44693d2d71a76f7380a9161ed81642c",
     "semantic_hash": ""
   },
@@ -1640,8 +1640,8 @@
     "semantic_hash": "7e840862161341271697daa99a40d76b"
   },
   ".claude/settings.local.json": {
-    "mtime": 1783392705.1609163,
-    "ast_hash": "cd747cad084719ee3ca5595304477cd9",
+    "mtime": 1784841165.6504276,
+    "ast_hash": "9a6b2d307b73144ac2f4395ba941a928",
     "semantic_hash": ""
   },
   "backend/src/main/java/com/montanaritech/contable/bancos/conciliacion/ClasificadorMovimientoBancario.java": {
@@ -2025,8 +2025,8 @@
     "semantic_hash": ""
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/asiento/AsientoLineaRepository.java": {
-    "mtime": 1784822607.305406,
-    "ast_hash": "63243db197764de404ac7598d02d6b21",
+    "mtime": 1784838529.502263,
+    "ast_hash": "a0a91f9034980190ff6b7a5ecbc9bde8",
     "semantic_hash": ""
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/asiento/AsientoMapper.java": {
@@ -3555,8 +3555,8 @@
     "semantic_hash": ""
   },
   "frontend/src/pages/mayor-page.tsx": {
-    "mtime": 1784293868.1590428,
-    "ast_hash": "e05aa0b33d87cca6d8cbb9a31e8ad296",
+    "mtime": 1784838702.0325327,
+    "ast_hash": "beccad2bf85598705e2d0b044a71329d",
     "semantic_hash": ""
   },
   "frontend/src/pages/movimientos-bancarios-page.tsx": {
@@ -3812,6 +3812,51 @@
   "outputs/F7_1_infraestructura_exportacion_consolidada.md": {
     "mtime": 1784837545.1592646,
     "ast_hash": "119d99e4f0541d11823adbc18bbf3415",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/com/montanaritech/contable/contabilidad/balance/BalanceSumasYSaldosController.java": {
+    "mtime": 1784838598.025991,
+    "ast_hash": "f77b17febeef44a59acb08793efb0d3e",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/com/montanaritech/contable/contabilidad/balance/BalanceSumasYSaldosService.java": {
+    "mtime": 1784838571.5804906,
+    "ast_hash": "e99b8ddf6fadf65e53adcc5a72a5180f",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/com/montanaritech/contable/contabilidad/balance/dto/BalanceSumasYSaldosNodo.java": {
+    "mtime": 1784838538.5469668,
+    "ast_hash": "b50adb1e8f248bf845408f212336a958",
+    "semantic_hash": ""
+  },
+  "backend/src/main/java/com/montanaritech/contable/contabilidad/balance/dto/BalanceSumasYSaldosResponse.java": {
+    "mtime": 1784838543.789209,
+    "ast_hash": "3c927875272357743d0a69bcaa1abd49",
+    "semantic_hash": ""
+  },
+  "backend/src/test/java/com/montanaritech/contable/contabilidad/balance/BalanceSumasYSaldosServiceTest.java": {
+    "mtime": 1784838803.894572,
+    "ast_hash": "d7fb01dfab9cc68aa24ab777550f51f5",
+    "semantic_hash": ""
+  },
+  "frontend/src/hooks/use-balance-sumas-y-saldos.ts": {
+    "mtime": 1784838646.337545,
+    "ast_hash": "b7e83c4a3a2d1952b0a99851194272f5",
+    "semantic_hash": ""
+  },
+  "frontend/src/pages/balance-sumas-y-saldos-page.tsx": {
+    "mtime": 1784838722.6450305,
+    "ast_hash": "7d0069bef1ac1e9c9fda4293e63d3954",
+    "semantic_hash": ""
+  },
+  "frontend/src/types/balance-sumas-y-saldos.ts": {
+    "mtime": 1784838638.7905538,
+    "ast_hash": "94cb504ac16ae29c98f1cc64af0820da",
+    "semantic_hash": ""
+  },
+  "outputs/F7_2_balance_de_sumas_y_saldos.md": {
+    "mtime": 1784841500.8716547,
+    "ast_hash": "7ba824a78cf9ae8e1d157cbabfdcb2b7",
     "semantic_hash": ""
   }
 }

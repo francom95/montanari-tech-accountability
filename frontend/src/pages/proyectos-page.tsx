@@ -19,6 +19,9 @@ import {
 } from "@/hooks/use-proyecto"
 import type { Proyecto } from "@/types/proyecto"
 
+const TIPOS_PROYECTO = ["ARGENTINA", "EXTERIOR"] as const
+const TIPO_PROYECTO_LABEL: Record<string, string> = { ARGENTINA: "Argentina", EXTERIOR: "Exterior" }
+
 const esquema = z.object({
   nombre: z.string().min(1, "El nombre es obligatorio").max(160),
   clienteId: z.string().min(1, "El cliente es obligatorio"),
@@ -43,7 +46,7 @@ export function ProyectosPage() {
 
   const form = useForm<Valores>({
     resolver: zodResolver(esquema),
-    defaultValues: { nombre: "", clienteId: "", monedaId: "", montoTotal: "", pais: "", tipoProyecto: "" },
+    defaultValues: { nombre: "", clienteId: "", monedaId: "", montoTotal: "", pais: "", tipoProyecto: "ARGENTINA" },
   })
 
   function onSubmit(valores: Valores) {
@@ -56,7 +59,7 @@ export function ProyectosPage() {
         pais: valores.pais || undefined,
         tipoProyecto: valores.tipoProyecto || undefined,
       },
-      { onSuccess: () => form.reset({ nombre: "", clienteId: "", monedaId: "", montoTotal: "", pais: "", tipoProyecto: "" }) }
+      { onSuccess: () => form.reset({ nombre: "", clienteId: "", monedaId: "", montoTotal: "", pais: "", tipoProyecto: "ARGENTINA" }) }
     )
   }
 
@@ -155,7 +158,15 @@ export function ProyectosPage() {
                   <FormItem><FormLabel>País</FormLabel><FormControl><Input {...field} placeholder="Argentina" /></FormControl><FormMessage /></FormItem>
                 )} />
                 <FormField control={form.control} name="tipoProyecto" render={({ field }) => (
-                  <FormItem><FormLabel>Tipo de proyecto</FormLabel><FormControl><Input {...field} placeholder="Desarrollo a medida" /></FormControl><FormMessage /></FormItem>
+                  <FormItem>
+                    <FormLabel>Tipo de proyecto</FormLabel>
+                    <FormControl>
+                      <select {...field} className="h-8 w-full rounded-lg border border-input bg-background px-3 py-1.5 text-sm">
+                        {TIPOS_PROYECTO.map((t) => <option key={t} value={t}>{TIPO_PROYECTO_LABEL[t]}</option>)}
+                      </select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
                 )} />
               </div>
 

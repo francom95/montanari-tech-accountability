@@ -54,7 +54,7 @@ public class ProyectoService {
         p.setCliente(resolverCliente(req.clienteId()));
         p.setResponsable(resolverResponsable(req.responsableId()));
         p.setPais(req.pais());
-        p.setTipoProyecto(req.tipoProyecto());
+        p.setTipoProyecto(req.tipoProyecto() != null ? Proyecto.TipoProyecto.valueOf(req.tipoProyecto()) : Proyecto.TipoProyecto.ARGENTINA);
         p.setEstado(req.estado() != null ? Proyecto.EstadoProyecto.valueOf(req.estado()) : Proyecto.EstadoProyecto.PROSPECTO);
         p.setMoneda(resolverMoneda(req.monedaId()));
         p.setMontoTotal(req.montoTotal());
@@ -79,7 +79,7 @@ public class ProyectoService {
         p.setCliente(resolverCliente(req.clienteId()));
         p.setResponsable(resolverResponsable(req.responsableId()));
         p.setPais(req.pais());
-        p.setTipoProyecto(req.tipoProyecto());
+        p.setTipoProyecto(req.tipoProyecto() != null ? Proyecto.TipoProyecto.valueOf(req.tipoProyecto()) : p.getTipoProyecto());
         p.setEstado(req.estado() != null ? Proyecto.EstadoProyecto.valueOf(req.estado()) : p.getEstado());
         p.setMoneda(resolverMoneda(req.monedaId()));
         p.setMontoTotal(req.montoTotal());

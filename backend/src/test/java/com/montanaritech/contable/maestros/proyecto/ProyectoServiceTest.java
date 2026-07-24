@@ -95,7 +95,7 @@ class ProyectoServiceTest {
 
     private ProyectoCrearRequest crearRequestBase(List<CuotaRequest> cuotas) {
         return new ProyectoCrearRequest(
-                "Nuevo Proyecto", 1L, 1L, "Argentina", "Desarrollo", null, 1L,
+                "Nuevo Proyecto", 1L, 1L, "Argentina", "ARGENTINA", null, 1L,
                 BigDecimal.valueOf(5000), 3, "comentario", null, null, null,
                 LocalDate.of(2026, 12, 31), null, cuotas);
     }
@@ -188,7 +188,7 @@ class ProyectoServiceTest {
         when(mapper.aResponse(any(Proyecto.class))).thenReturn(mockResponse());
 
         ProyectoEditarRequest req = new ProyectoEditarRequest(
-                "Editado", 1L, 1L, "Chile", "Consultoría", "EN_CURSO", 1L,
+                "Editado", 1L, 1L, "Chile", "EXTERIOR", "EN_CURSO", 1L,
                 BigDecimal.valueOf(9999), 5, "otro comentario", "GANADO", "PARCIALMENTE_FACTURADO", "PARCIAL",
                 LocalDate.of(2027, 1, 1), null,
                 List.of(new CuotaRequest(LocalDate.of(2026, 6, 1), BigDecimal.valueOf(9999))));
