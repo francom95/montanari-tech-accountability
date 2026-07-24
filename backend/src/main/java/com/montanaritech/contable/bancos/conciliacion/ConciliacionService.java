@@ -10,6 +10,7 @@ import com.montanaritech.contable.bancos.movimientobancario.MovimientoBancarioRe
 import com.montanaritech.contable.common.error.NegocioException;
 import com.montanaritech.contable.common.error.RecursoNoEncontradoException;
 import com.montanaritech.contable.common.estado.EstadoDocumento;
+import com.montanaritech.contable.common.saldo.RecalculoSaldoService;
 import com.montanaritech.contable.contabilidad.asiento.AsientoLinea;
 import com.montanaritech.contable.contabilidad.asiento.AsientoLineaRepository;
 import com.montanaritech.contable.contabilidad.mayor.MayorService;
@@ -43,6 +44,7 @@ public class ConciliacionService {
     private final CuentaBancariaRepository cuentaBancariaRepo;
     private final MayorService mayorService;
     private final ClasificadorMovimientoBancario clasificador;
+    private final RecalculoSaldoService recalculoSaldoService;
 
     @Transactional(readOnly = true)
     public ConciliacionResumenResponse resumen(Long cuentaBancariaId, LocalDate fechaDesde, LocalDate fechaHasta, int toleranciaDias) {
@@ -80,23 +82,12 @@ public class ConciliacionService {
                     m.getAsiento() != null ? m.getAsiento().getNumero() : null));
         }
 
-        BigDecimal saldoBanco = calcularSaldoBanco(cuenta, fechaHasta);
+        BigDecimal saldoBanco = recalculoSaldoService.recalcularCuentaBancariaHasta(cuenta, fechaHasta);
         BigDecimal saldoSistema = mayorService.calcular(cuenta.getCuentaContable().getId(), null, null, null, null,
                 null, null, null, fechaHasta).saldoFinal();
 
         return new ConciliacionResumenResponse(cuenta.getId(), cuenta.getAlias(), cuenta.getMoneda().getCodigo(),
                 fechaDesde, fechaHasta, saldoBanco, saldoSistema, saldoBanco.subtract(saldoSistema), filas);
-    }
-
-    /** Saldo inicial + todo movimiento no descartado hasta fechaHasta (con o sin fecha propia todavía, F5.2). */
-    private BigDecimal calcularSaldoBanco(CuentaBancaria cuenta, LocalDate fechaHasta) {
-        BigDecimal saldo = cuenta.getSaldoInicial();
-        for (MovimientoBancario m : movimientoRepo.buscarParaConciliacion(cuenta.getId(), cuenta.getFechaSaldoInicial(), fechaHasta)) {
-            if (m.getEstado() != EstadoMovimientoBancario.DESCARTADO) {
-                saldo = saldo.add(m.getImporte());
-            }
-        }
-        return saldo;
     }
 
     /** Primer candidato que matchea por importe (ARS) exacto y fecha dentro de la tolerancia; lo remueve del pool para no re-sugerirlo. */

@@ -4,9 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.montanaritech.contable.bancos.movimientobancario.MovimientoBancarioRepository;
 import com.montanaritech.contable.common.audit.AccionAuditoria;
 import com.montanaritech.contable.common.audit.AuditoriaService;
 import com.montanaritech.contable.common.error.RecursoNoEncontradoException;
@@ -20,6 +22,7 @@ import com.montanaritech.contable.maestros.moneda.Moneda;
 import com.montanaritech.contable.maestros.moneda.MonedaRepository;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,8 +48,10 @@ class CuentaBancariaServiceTest {
     @Mock
     private AuditoriaService auditoria;
 
-    // CuentaBancaria no es TarjetaCredito: la rama que usa estos repos nunca se ejecuta acá.
-    private final RecalculoSaldoService recalculoSaldoService = new RecalculoSaldoService(null, null);
+    @Mock
+    private MovimientoBancarioRepository movimientoBancarioRepository;
+
+    private RecalculoSaldoService recalculoSaldoService;
 
     private CuentaBancariaService service;
 
@@ -56,6 +61,8 @@ class CuentaBancariaServiceTest {
 
     @BeforeEach
     void setUp() {
+        recalculoSaldoService = new RecalculoSaldoService(null, null, movimientoBancarioRepository);
+        lenient().when(movimientoBancarioRepository.buscarParaConciliacion(any(), any(), any())).thenReturn(List.of());
         service = new CuentaBancariaService(repo, monedaRepository, cuentaContableRepository, mapper, auditoria, recalculoSaldoService);
 
         ars = new Moneda();

@@ -5,11 +5,15 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
+import com.montanaritech.contable.bancos.movimientobancario.EstadoMovimientoBancario;
+import com.montanaritech.contable.bancos.movimientobancario.MovimientoBancario;
+import com.montanaritech.contable.bancos.movimientobancario.MovimientoBancarioRepository;
 import com.montanaritech.contable.bancos.tarjetacredito.ConsumoTarjeta;
 import com.montanaritech.contable.bancos.tarjetacredito.ConsumoTarjetaRepository;
 import com.montanaritech.contable.bancos.tarjetacredito.PagoTarjeta;
 import com.montanaritech.contable.bancos.tarjetacredito.PagoTarjetaRepository;
 import com.montanaritech.contable.common.estado.EstadoDocumento;
+import com.montanaritech.contable.maestros.cuentabancaria.CuentaBancaria;
 import com.montanaritech.contable.maestros.tarjetacredito.TarjetaCredito;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -24,9 +28,10 @@ class RecalculoSaldoServiceTest {
 
     @Mock private ConsumoTarjetaRepository consumoTarjetaRepository;
     @Mock private PagoTarjetaRepository pagoTarjetaRepository;
+    @Mock private MovimientoBancarioRepository movimientoBancarioRepository;
 
-    // CuentaFalsa no es TarjetaCredito: la rama que usa estos repos nunca se ejecuta en esos tests.
-    private final RecalculoSaldoService service = new RecalculoSaldoService(null, null);
+    // CuentaFalsa no es TarjetaCredito ni CuentaBancaria: la rama que usa estos repos nunca se ejecuta en esos tests.
+    private final RecalculoSaldoService service = new RecalculoSaldoService(null, null, null);
 
     private static class CuentaFalsa implements CuentaConSaldo {
         private BigDecimal saldoInicial;
@@ -106,7 +111,7 @@ class RecalculoSaldoServiceTest {
 
     @Test
     void tarjetaSinIdTodaviaNoPersistidaNoConsultaRepositorios() {
-        RecalculoSaldoService servicioConTarjeta = new RecalculoSaldoService(consumoTarjetaRepository, pagoTarjetaRepository);
+        RecalculoSaldoService servicioConTarjeta = new RecalculoSaldoService(consumoTarjetaRepository, pagoTarjetaRepository, null);
         TarjetaCredito t = tarjeta(null, new BigDecimal("1000.00"), LocalDate.of(2026, 1, 1));
 
         BigDecimal resultado = servicioConTarjeta.recalcular(t);
@@ -116,7 +121,7 @@ class RecalculoSaldoServiceTest {
 
     @Test
     void tarjetaSumaConsumosYSumaPagosConfirmadosPosterioresAlSaldoInicial() {
-        RecalculoSaldoService servicioConTarjeta = new RecalculoSaldoService(consumoTarjetaRepository, pagoTarjetaRepository);
+        RecalculoSaldoService servicioConTarjeta = new RecalculoSaldoService(consumoTarjetaRepository, pagoTarjetaRepository, null);
         TarjetaCredito t = tarjeta(1L, BigDecimal.ZERO, LocalDate.of(2026, 1, 1));
 
         // los consumos ya vienen negativos (egreso) por convención de ParserTarjeta
@@ -134,12 +139,81 @@ class RecalculoSaldoServiceTest {
 
     @Test
     void tarjetaSinConsumosNiPagosMantieneElSaldoInicial() {
-        RecalculoSaldoService servicioConTarjeta = new RecalculoSaldoService(consumoTarjetaRepository, pagoTarjetaRepository);
+        RecalculoSaldoService servicioConTarjeta = new RecalculoSaldoService(consumoTarjetaRepository, pagoTarjetaRepository, null);
         TarjetaCredito t = tarjeta(2L, new BigDecimal("500.00"), LocalDate.of(2026, 1, 1));
 
         when(consumoTarjetaRepository.findByTarjetaCredito_IdAndFechaAfter(any(), any())).thenReturn(List.of());
         when(pagoTarjetaRepository.findByTarjetaCredito_IdAndEstadoAndFechaAfter(any(), any(), any())).thenReturn(List.of());
 
         assertThat(servicioConTarjeta.recalcular(t)).isEqualByComparingTo("500.00");
+    }
+
+    // ---- CuentaBancaria (F7.5): saldo inicial + movimientos no descartados ----
+
+    private CuentaBancaria cuentaBancaria(Long id, BigDecimal saldoInicial, LocalDate fechaSaldoInicial) {
+        CuentaBancaria c = new CuentaBancaria();
+        c.setId(id);
+        c.setSaldoInicial(saldoInicial);
+        c.setFechaSaldoInicial(fechaSaldoInicial);
+        return c;
+    }
+
+    private MovimientoBancario movimiento(BigDecimal importe, EstadoMovimientoBancario estado) {
+        MovimientoBancario m = new MovimientoBancario();
+        m.setImporte(importe);
+        m.setEstado(estado);
+        return m;
+    }
+
+    @Test
+    void cuentaBancariaSinIdTodaviaNoPersistidaNoConsultaRepositorio() {
+        RecalculoSaldoService servicioConBanco = new RecalculoSaldoService(null, null, movimientoBancarioRepository);
+        CuentaBancaria c = cuentaBancaria(null, new BigDecimal("1000.00"), LocalDate.of(2026, 1, 1));
+
+        BigDecimal resultado = servicioConBanco.recalcular(c);
+
+        assertThat(resultado).isEqualByComparingTo("1000.00");
+    }
+
+    @Test
+    void cuentaBancariaSumaMovimientosNoDescartadosYExcluyeLosDescartados() {
+        RecalculoSaldoService servicioConBanco = new RecalculoSaldoService(null, null, movimientoBancarioRepository);
+        CuentaBancaria c = cuentaBancaria(1L, new BigDecimal("500.00"), LocalDate.of(2026, 1, 1));
+
+        when(movimientoBancarioRepository.buscarParaConciliacion(eq(1L), eq(LocalDate.of(2026, 1, 1)), eq(LocalDate.of(2026, 2, 1))))
+                .thenReturn(List.of(
+                        movimiento(new BigDecimal("200.00"), EstadoMovimientoBancario.PENDIENTE),
+                        movimiento(new BigDecimal("100.00"), EstadoMovimientoBancario.CONCILIADO),
+                        movimiento(new BigDecimal("-9999.00"), EstadoMovimientoBancario.DESCARTADO)));
+
+        BigDecimal resultado = servicioConBanco.recalcularCuentaBancariaHasta(c, LocalDate.of(2026, 2, 1));
+
+        // 500 + 200 (pendiente) + 100 (conciliado); el descartado no cuenta
+        assertThat(resultado).isEqualByComparingTo("800.00");
+    }
+
+    @Test
+    void recalcularPolimorficoUsaHoyComoFechaHastaParaCuentaBancaria() {
+        RecalculoSaldoService servicioConBanco = new RecalculoSaldoService(null, null, movimientoBancarioRepository);
+        CuentaBancaria c = cuentaBancaria(3L, new BigDecimal("100.00"), LocalDate.of(2020, 1, 1));
+
+        when(movimientoBancarioRepository.buscarParaConciliacion(eq(3L), eq(LocalDate.of(2020, 1, 1)), any()))
+                .thenReturn(List.of());
+
+        BigDecimal resultado = servicioConBanco.recalcular(c);
+
+        assertThat(resultado).isEqualByComparingTo("100.00");
+        assertThat(c.getSaldoActual()).isEqualByComparingTo("100.00");
+    }
+
+    @Test
+    void cuentaBancariaSinMovimientosMantieneElSaldoInicial() {
+        RecalculoSaldoService servicioConBanco = new RecalculoSaldoService(null, null, movimientoBancarioRepository);
+        CuentaBancaria c = cuentaBancaria(2L, new BigDecimal("300.00"), LocalDate.of(2026, 1, 1));
+
+        when(movimientoBancarioRepository.buscarParaConciliacion(eq(2L), eq(LocalDate.of(2026, 1, 1)), any()))
+                .thenReturn(List.of());
+
+        assertThat(servicioConBanco.recalcularCuentaBancariaHasta(c, LocalDate.of(2026, 3, 1))).isEqualByComparingTo("300.00");
     }
 }

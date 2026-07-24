@@ -1,5 +1,6 @@
 package com.montanaritech.contable.maestros.cuentabancaria;
 
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,4 +15,7 @@ public interface CuentaBancariaRepository extends JpaRepository<CuentaBancaria, 
               AND (:activo IS NULL OR c.activo = :activo)
             """)
     Page<CuentaBancaria> buscar(@Param("texto") String texto, @Param("activo") Boolean activo, Pageable pageable);
+
+    /** Todas las cuentas activas, para el saldo de caja/banco del dashboard (F7.5). */
+    List<CuentaBancaria> findByActivoTrue();
 }

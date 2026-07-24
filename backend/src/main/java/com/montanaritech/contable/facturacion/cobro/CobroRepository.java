@@ -1,6 +1,7 @@
 package com.montanaritech.contable.facturacion.cobro;
 
 import com.montanaritech.contable.common.estado.EstadoDocumento;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,4 +24,12 @@ public interface CobroRepository extends JpaRepository<Cobro, Long> {
             @Param("fechaDesde") LocalDate fechaDesde,
             @Param("fechaHasta") LocalDate fechaHasta,
             Pageable pageable);
+
+    /** Total cobrado (ARS) confirmado en el período, para el dashboard (F7.5). */
+    @Query("""
+            SELECT COALESCE(SUM(c.totalArs), 0) FROM Cobro c
+            WHERE c.estado = com.montanaritech.contable.common.estado.EstadoDocumento.CONFIRMADO
+              AND c.fecha BETWEEN :fechaDesde AND :fechaHasta
+            """)
+    BigDecimal sumarTotalArsConfirmadoEnPeriodo(@Param("fechaDesde") LocalDate fechaDesde, @Param("fechaHasta") LocalDate fechaHasta);
 }

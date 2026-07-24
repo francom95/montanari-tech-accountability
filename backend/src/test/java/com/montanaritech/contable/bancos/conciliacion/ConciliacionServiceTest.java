@@ -13,6 +13,7 @@ import com.montanaritech.contable.bancos.movimientobancario.MovimientoBancarioRe
 import com.montanaritech.contable.bancos.movimientobancario.OrigenImportacionMovimiento;
 import com.montanaritech.contable.common.error.NegocioException;
 import com.montanaritech.contable.common.estado.EstadoDocumento;
+import com.montanaritech.contable.common.saldo.RecalculoSaldoService;
 import com.montanaritech.contable.contabilidad.asiento.Asiento;
 import com.montanaritech.contable.contabilidad.asiento.AsientoLinea;
 import com.montanaritech.contable.contabilidad.asiento.AsientoLineaRepository;
@@ -48,7 +49,8 @@ class ConciliacionServiceTest {
 
     @BeforeEach
     void setUp() {
-        service = new ConciliacionService(movimientoRepo, asientoLineaRepo, cuentaBancariaRepo, mayorService, clasificador);
+        service = new ConciliacionService(movimientoRepo, asientoLineaRepo, cuentaBancariaRepo, mayorService, clasificador,
+                new RecalculoSaldoService(null, null, movimientoRepo));
 
         cuentaFondos = new CuentaContable();
         cuentaFondos.setId(1L);

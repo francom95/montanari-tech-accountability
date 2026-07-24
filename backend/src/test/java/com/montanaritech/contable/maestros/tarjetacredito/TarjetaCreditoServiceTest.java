@@ -70,7 +70,7 @@ class TarjetaCreditoServiceTest {
 
     @BeforeEach
     void setUp() {
-        recalculoSaldoService = new RecalculoSaldoService(consumoTarjetaRepository, pagoTarjetaRepository);
+        recalculoSaldoService = new RecalculoSaldoService(consumoTarjetaRepository, pagoTarjetaRepository, null);
         lenient().when(consumoTarjetaRepository.findByTarjetaCredito_IdAndFechaAfter(any(), any())).thenReturn(java.util.List.of());
         lenient().when(pagoTarjetaRepository.findByTarjetaCredito_IdAndEstadoAndFechaAfter(any(), any(), any())).thenReturn(java.util.List.of());
         service = new TarjetaCreditoService(repo, monedaRepository, cuentaBancariaRepository, cuentaContableRepository, mapper, auditoria, recalculoSaldoService);
