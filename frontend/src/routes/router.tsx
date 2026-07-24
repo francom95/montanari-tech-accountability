@@ -18,6 +18,7 @@ import { CuentasPorPagarPage } from "@/pages/cuentas-por-pagar-page"
 import { DashboardPage } from "@/pages/dashboard-page"
 import { EjemploFormularioPage } from "@/pages/ejemplo-formulario-page"
 import { EstadoResultadosPage } from "@/pages/estado-resultados-page"
+import { FlujoCajaPage } from "@/pages/flujo-caja-page"
 import { FacturasCompraPage } from "@/pages/facturas-compra-page"
 import { FacturasVentaPage } from "@/pages/facturas-venta-page"
 import { ImportacionHistoricaPage } from "@/pages/importacion-historica-page"
@@ -108,6 +109,7 @@ export const router = createBrowserRouter([
       },
       { path: "presupuesto/vencimientos", element: <VencimientosPage /> },
       { path: "presupuesto/pagos", element: <CompromisosPage /> },
+      { path: "presupuesto/flujo-caja", element: <FlujoCajaPage /> },
       {
         path: "pendientes",
         element: <PlaceholderPage title="Pendientes administrativos" />,

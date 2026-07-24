@@ -49,4 +49,7 @@ public interface VencimientoRepository extends JpaRepository<Vencimiento, Long> 
 
     /** "Próximos vencimientos" (F9.1/F8.3): pendientes con fecha hasta el límite de la ventana, incluye los ya vencidos. */
     List<Vencimiento> findByEstadoAndFechaLessThanEqualOrderByFechaAsc(EstadoVencimientoObligacion estado, LocalDate fechaLimite);
+
+    /** Flujo de caja proyectado (F8.3): pendientes dentro de un rango arbitrario, no solo desde hoy. */
+    List<Vencimiento> findByEstadoAndFechaBetweenOrderByFechaAsc(EstadoVencimientoObligacion estado, LocalDate desde, LocalDate hasta);
 }

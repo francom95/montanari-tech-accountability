@@ -27,6 +27,9 @@ public interface ConsumoTarjetaRepository extends JpaRepository<ConsumoTarjeta, 
     /** Saldo de la tarjeta (F5.4, {@code RecalculoSaldoService}): todos los consumos posteriores al saldo inicial. */
     List<ConsumoTarjeta> findByTarjetaCredito_IdAndFechaAfter(Long tarjetaCreditoId, LocalDate fecha);
 
+    /** Timeline de flujo de caja real (F8.3): consumos de la tarjeta dentro de una ventana acotada. */
+    List<ConsumoTarjeta> findByTarjetaCredito_IdAndFechaBetween(Long tarjetaCreditoId, LocalDate desde, LocalDate hasta);
+
     long countByTarjetaCredito_IdAndCuentaContableIsNull(Long tarjetaCreditoId);
 
     /** Detección de duplicados al re-importar un resumen (F5.2/F5.4): mismo hash ya cargado en esta tarjeta. */

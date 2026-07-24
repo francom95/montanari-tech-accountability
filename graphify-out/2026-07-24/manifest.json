@@ -1160,14 +1160,14 @@
     "semantic_hash": "aebb3a19e9f7d853a49f3a2387e82e46"
   },
   "frontend/src/routes/nav-config.ts": {
-    "mtime": 1784912859.860317,
-    "ast_hash": "0f24854d8c216d4a6a6dc56fd5546922",
-    "semantic_hash": "0f24854d8c216d4a6a6dc56fd5546922"
+    "mtime": 1784915498.5203474,
+    "ast_hash": "a2953cc5538fb78d28925d370b8dea41",
+    "semantic_hash": "a2953cc5538fb78d28925d370b8dea41"
   },
   "frontend/src/routes/router.tsx": {
-    "mtime": 1784912855.77958,
-    "ast_hash": "e48ab7f3dc33bbb2aa5cc2186f0d57bf",
-    "semantic_hash": "e48ab7f3dc33bbb2aa5cc2186f0d57bf"
+    "mtime": 1784915481.9007113,
+    "ast_hash": "f5863b84fee50f994c356e33ff2867c7",
+    "semantic_hash": "f5863b84fee50f994c356e33ff2867c7"
   },
   "frontend/src/test/App.test.tsx": {
     "mtime": 1783307161.9333665,
@@ -4235,9 +4235,9 @@
     "semantic_hash": "6a020aea22a5b9b4ca6e7001534b088e"
   },
   "backend/src/main/java/com/montanaritech/contable/vencimientos/OrigenGeneracionVencimiento.java": {
-    "mtime": 1784911444.436932,
-    "ast_hash": "12e38d97ee2209c650a14a9b016c0610",
-    "semantic_hash": "12e38d97ee2209c650a14a9b016c0610"
+    "mtime": 1784915034.0009494,
+    "ast_hash": "b96e4abc214c0d487621888740426239",
+    "semantic_hash": "b96e4abc214c0d487621888740426239"
   },
   "backend/src/main/java/com/montanaritech/contable/vencimientos/TipoRecurrencia.java": {
     "mtime": 1784911434.5718675,
@@ -4270,9 +4270,9 @@
     "semantic_hash": "79a5e1e47c23c3768799871d11360001"
   },
   "backend/src/main/java/com/montanaritech/contable/vencimientos/VencimientoService.java": {
-    "mtime": 1784912114.3071039,
-    "ast_hash": "a2e1ab68c4a5066f68624d3218ed9d79",
-    "semantic_hash": "a2e1ab68c4a5066f68624d3218ed9d79"
+    "mtime": 1784915074.4303052,
+    "ast_hash": "25c90acf3166eb8690e9190f49b1a939",
+    "semantic_hash": "25c90acf3166eb8690e9190f49b1a939"
   },
   "backend/src/main/java/com/montanaritech/contable/vencimientos/dto/GenerarAutomaticosResponse.java": {
     "mtime": 1784912004.802081,
@@ -4328,5 +4328,85 @@
     "mtime": 1784914131.850518,
     "ast_hash": "264f2c1236bcc8b9514d195cce5efe4d",
     "semantic_hash": "264f2c1236bcc8b9514d195cce5efe4d"
+  },
+  "backend/src/main/java/com/montanaritech/contable/compromiso/Compromiso.java": {
+    "mtime": 1784915101.6593435,
+    "ast_hash": "67e4e80363c89d209c71912a4512667b",
+    "semantic_hash": "67e4e80363c89d209c71912a4512667b"
+  },
+  "backend/src/main/java/com/montanaritech/contable/compromiso/CompromisoController.java": {
+    "mtime": 1784915209.035434,
+    "ast_hash": "4e3595c05d02101764bf5517c2cf5d4d",
+    "semantic_hash": "4e3595c05d02101764bf5517c2cf5d4d"
+  },
+  "backend/src/main/java/com/montanaritech/contable/compromiso/CompromisoMapper.java": {
+    "mtime": 1784915138.05878,
+    "ast_hash": "f8d8d0f8e37bcba9edcb5a47b809864c",
+    "semantic_hash": "f8d8d0f8e37bcba9edcb5a47b809864c"
+  },
+  "backend/src/main/java/com/montanaritech/contable/compromiso/CompromisoRepository.java": {
+    "mtime": 1784915156.6563175,
+    "ast_hash": "49c0561e2a1cb05ea21aa9a43b564bd3",
+    "semantic_hash": "49c0561e2a1cb05ea21aa9a43b564bd3"
+  },
+  "backend/src/main/java/com/montanaritech/contable/compromiso/CompromisoService.java": {
+    "mtime": 1784915193.368986,
+    "ast_hash": "0d654aa057848a05f917c508edd40058",
+    "semantic_hash": "0d654aa057848a05f917c508edd40058"
+  },
+  "backend/src/main/java/com/montanaritech/contable/compromiso/EstadoCompromiso.java": {
+    "mtime": 1784915091.2826507,
+    "ast_hash": "ec3d38c98b032f1011951c1880a6a9d0",
+    "semantic_hash": "ec3d38c98b032f1011951c1880a6a9d0"
+  },
+  "backend/src/main/java/com/montanaritech/contable/compromiso/TipoCompromiso.java": {
+    "mtime": 1784915082.8200629,
+    "ast_hash": "ea27ddea2e6b62d786480d6752e67967",
+    "semantic_hash": "ea27ddea2e6b62d786480d6752e67967"
+  },
+  "backend/src/main/java/com/montanaritech/contable/compromiso/dto/CompromisoCrearRequest.java": {
+    "mtime": 1784915122.0237517,
+    "ast_hash": "60b4783a65c08a4f5391ed96bbc4a165",
+    "semantic_hash": "60b4783a65c08a4f5391ed96bbc4a165"
+  },
+  "backend/src/main/java/com/montanaritech/contable/compromiso/dto/CompromisoEditarRequest.java": {
+    "mtime": 1784915127.6729672,
+    "ast_hash": "ed75febd5db8980d056bb662a81cf7ce",
+    "semantic_hash": "ed75febd5db8980d056bb662a81cf7ce"
+  },
+  "backend/src/main/java/com/montanaritech/contable/compromiso/dto/CompromisoResponse.java": {
+    "mtime": 1784915133.4203503,
+    "ast_hash": "072007a64e827cc377ad9e3d36ea3fe0",
+    "semantic_hash": "072007a64e827cc377ad9e3d36ea3fe0"
+  },
+  "backend/src/main/resources/db/migration/V37__compromiso.sql": {
+    "mtime": 1784915110.1390746,
+    "ast_hash": "8000e82b23c00454ac2a09c05502bfc6",
+    "semantic_hash": "8000e82b23c00454ac2a09c05502bfc6"
+  },
+  "backend/src/test/java/com/montanaritech/contable/compromiso/CompromisoServiceTest.java": {
+    "mtime": 1784915286.5535297,
+    "ast_hash": "f1f7d6f87d3cc32fc82ed666eedd9361",
+    "semantic_hash": "f1f7d6f87d3cc32fc82ed666eedd9361"
+  },
+  "frontend/src/hooks/use-compromiso.ts": {
+    "mtime": 1784915426.3894906,
+    "ast_hash": "1c3d3ecfad3560cefde1404dab5f354a",
+    "semantic_hash": "1c3d3ecfad3560cefde1404dab5f354a"
+  },
+  "frontend/src/pages/compromisos-page.tsx": {
+    "mtime": 1784915470.9346688,
+    "ast_hash": "57cfd8b86cea8ed08b2c2f48f201fe63",
+    "semantic_hash": "57cfd8b86cea8ed08b2c2f48f201fe63"
+  },
+  "frontend/src/types/compromiso.ts": {
+    "mtime": 1784915416.6450808,
+    "ast_hash": "73ed0000d96a53c6a09a776b9afe0963",
+    "semantic_hash": "73ed0000d96a53c6a09a776b9afe0963"
+  },
+  "outputs/F8_2_presupuesto_de_pagos.md": {
+    "mtime": 1784915881.8313918,
+    "ast_hash": "2c5ae50f2b093b61863bd31e65a4bc6d",
+    "semantic_hash": "2c5ae50f2b093b61863bd31e65a4bc6d"
   }
 }

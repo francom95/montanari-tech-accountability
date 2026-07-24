@@ -77,6 +77,12 @@ public class VencimientoService {
         return repo.findByEstadoAndFechaLessThanEqualOrderByFechaAsc(EstadoVencimientoObligacion.PENDIENTE, limite);
     }
 
+    /** F8.3: query service simple para que el flujo de caja proyecte los vencimientos de un período arbitrario. */
+    @Transactional(readOnly = true)
+    public List<Vencimiento> porRangoDeFechas(LocalDate desde, LocalDate hasta) {
+        return repo.findByEstadoAndFechaBetweenOrderByFechaAsc(EstadoVencimientoObligacion.PENDIENTE, desde, hasta);
+    }
+
     @Transactional(readOnly = true)
     public Vencimiento obtener(Long id) {
         return repo.findById(id)

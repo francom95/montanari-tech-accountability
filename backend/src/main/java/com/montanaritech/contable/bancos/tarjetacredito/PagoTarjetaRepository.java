@@ -20,4 +20,7 @@ public interface PagoTarjetaRepository extends JpaRepository<PagoTarjeta, Long> 
 
     /** Saldo de la tarjeta (F5.4, {@code RecalculoSaldoService}): pagos confirmados posteriores al saldo inicial. */
     List<PagoTarjeta> findByTarjetaCredito_IdAndEstadoAndFechaAfter(Long tarjetaCreditoId, EstadoDocumento estado, LocalDate fecha);
+
+    /** Timeline de flujo de caja real (F8.3): pagos confirmados de la tarjeta dentro de una ventana acotada. */
+    List<PagoTarjeta> findByTarjetaCredito_IdAndEstadoAndFechaBetween(Long tarjetaCreditoId, EstadoDocumento estado, LocalDate desde, LocalDate hasta);
 }

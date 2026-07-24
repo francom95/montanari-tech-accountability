@@ -31,4 +31,7 @@ public interface TipoCambioRepository extends JpaRepository<TipoCambio, Long> {
 
     /** Resolución automática de TC respetando el criterio por defecto del sistema (F7.4). */
     Optional<TipoCambio> findFirstByMonedaIdAndFechaAndCriterioAndActivoTrueOrderByIdAsc(Long monedaId, LocalDate fecha, String criterio);
+
+    /** TC de proyección (F8.3): última cotización cargada para la moneda, sin importar la fecha. */
+    Optional<TipoCambio> findFirstByMonedaIdAndActivoTrueOrderByFechaDesc(Long monedaId);
 }

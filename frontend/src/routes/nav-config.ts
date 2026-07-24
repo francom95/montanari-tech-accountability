@@ -87,6 +87,7 @@ export const NAV_ITEMS: NavItem[] = [
   { to: "/presupuesto", label: "Presupuesto y vencimientos", icon: CalendarClock },
   { to: "/presupuesto/vencimientos", label: "Vencimientos", icon: CalendarClock },
   { to: "/presupuesto/pagos", label: "Presupuesto de pagos", icon: Banknote },
+  { to: "/presupuesto/flujo-caja", label: "Flujo de caja", icon: TrendingUp },
   { to: "/pendientes", label: "Pendientes administrativos", icon: ListTodo },
   { to: "/seguridad", label: "Usuarios", icon: ShieldCheck },
   { to: "/auditoria", label: "Auditoría", icon: ScrollText },
