@@ -16,6 +16,7 @@ import type { Proyecto } from "@/types/proyecto"
 import { ComisionesTab } from "@/pages/proyecto-comisiones-tab"
 import { EtapasTab } from "@/pages/proyecto-etapas-tab"
 import { PresupuestoTab } from "@/pages/proyecto-presupuesto-tab"
+import { RentabilidadTab } from "@/pages/proyecto-rentabilidad-tab"
 
 const ESTADOS_PROYECTO = ["PROSPECTO", "EN_CURSO", "PAUSADO", "FINALIZADO", "CANCELADO"] as const
 const TIPOS_PROYECTO = ["ARGENTINA", "EXTERIOR"] as const
@@ -115,17 +116,9 @@ export function ProyectoDetallePage() {
       ) : pestaña === "presupuesto" ? (
         <PresupuestoTab proyectoId={proyectoId} tipoProyecto={proyecto.data.tipoProyecto} />
       ) : (
-        <Placeholder texto="El reporte detallado de rentabilidad por proyecto se implementa en F7.4." />
+        <RentabilidadTab proyectoId={proyectoId} />
       )}
     </div>
-  )
-}
-
-function Placeholder({ texto }: { texto: string }) {
-  return (
-    <Card>
-      <CardContent className="py-8 text-center text-sm text-muted-foreground">{texto}</CardContent>
-    </Card>
   )
 }
 

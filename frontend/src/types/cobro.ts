@@ -10,6 +10,8 @@ export type CobroImputacion = {
   facturaVentaNumero: string
   montoImputadoOriginal: number
   montoArsCancelado: number | null
+  recargoMoraOriginal: number | null
+  diasAtraso: number | null
 }
 
 export type CobroTributo = {
@@ -56,6 +58,7 @@ export type Cobro = {
 export type CobroImputacionInput = {
   facturaVentaId: number
   montoImputadoOriginal: number
+  recargoMoraOriginal?: number
 }
 
 export type CobroTributoInput = {

@@ -42,4 +42,13 @@ public class CobroImputacion extends EntidadNegocio {
 
     @Column(name = "monto_ars_cancelado", precision = 18, scale = 2)
     private BigDecimal montoArsCancelado;
+
+    /**
+     * Recargo por mora (F7.4), en la misma moneda que {@code montoImputadoOriginal}.
+     * {@code null} o cero: cobro sin recargo, comportamiento idéntico al de
+     * antes de F7.4. Nunca pasa por {@code CalculoImputacion} — no cancela
+     * deuda de la factura, es ingreso nuevo.
+     */
+    @Column(name = "recargo_mora_original", precision = 18, scale = 2)
+    private BigDecimal recargoMoraOriginal;
 }

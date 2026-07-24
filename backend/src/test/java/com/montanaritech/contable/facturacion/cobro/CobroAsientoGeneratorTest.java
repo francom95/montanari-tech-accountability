@@ -147,6 +147,12 @@ class CobroAsientoGeneratorTest {
         return i;
     }
 
+    private CobroImputacion imputacionConRecargo(FacturaVenta factura, BigDecimal monto, BigDecimal recargo) {
+        CobroImputacion i = imputacion(factura, monto);
+        i.setRecargoMoraOriginal(recargo);
+        return i;
+    }
+
     private CobroImputacion previaConfirmada(BigDecimal montoOriginal, BigDecimal montoArs) {
         CobroImputacion i = new CobroImputacion();
         i.setMontoImputadoOriginal(montoOriginal);
@@ -314,6 +320,48 @@ class CobroAsientoGeneratorTest {
         BigDecimal debe = lineas.stream().map(LineaAsientoGenerada::debe).reduce(BigDecimal.ZERO, BigDecimal::add);
         BigDecimal haber = lineas.stream().map(LineaAsientoGenerada::haber).reduce(BigDecimal.ZERO, BigDecimal::add);
         assertThat(debe).isEqualByComparingTo(haber);
+    }
+
+    // ---- F7.4: recargo por mora ----
+
+    @Test
+    void cobroConRecargoPorMoraAgregaLineaDeInteresGanadoYNoLoCuelaComoAnticipo() {
+        when(resolutorCuentas.resolver(ConceptoContable.CREDITO_POR_VENTA)).thenReturn(cuentaCxc);
+        CuentaContable cuentaInteres = cuenta(20L, "6.4002");
+        when(resolutorCuentas.resolver(ConceptoContable.INTERES_POR_MORA_GANADO)).thenReturn(cuentaInteres);
+        cliente.setCuentaCxc(null);
+
+        FacturaVenta f = factura(19L, ars, BigDecimal.ONE, new BigDecimal("100000.00"), new BigDecimal("100000.00"));
+        Cobro c = cobro(10L, ars, BigDecimal.ONE, bancoArs, new BigDecimal("105000.00"),
+                imputacionConRecargo(f, new BigDecimal("100000.00"), new BigDecimal("5000.00")));
+
+        AsientoGenerado generado = generator.generar(c);
+
+        assertThat(generado.lineas()).hasSize(3);
+        assertThat(generado.lineas().get(0).cuentaCodigo()).isEqualTo("1.1.2001");
+        assertThat(generado.lineas().get(0).debe()).isEqualByComparingTo("105000.00");
+        assertThat(generado.lineas().get(1).cuentaCodigo()).isEqualTo("1.1.2004.01");
+        assertThat(generado.lineas().get(1).haber()).isEqualByComparingTo("100000.00");
+        assertThat(generado.lineas().get(2).cuentaCodigo()).isEqualTo("6.4002");
+        assertThat(generado.lineas().get(2).haber()).isEqualByComparingTo("5000.00");
+        // El recargo no se cuela como anticipo (regla del residuo, sumaImputadoOriginal lo incluye).
+        assertThat(c.getMontoAnticipo()).isEqualByComparingTo("0.00");
+        assertBalancea(generado);
+    }
+
+    @Test
+    void cobroSinRecargoDaElMismoResultadoQueAntesDeF74() {
+        when(resolutorCuentas.resolver(ConceptoContable.CREDITO_POR_VENTA)).thenReturn(cuentaCxc);
+        cliente.setCuentaCxc(null);
+
+        FacturaVenta f = factura(21L, ars, BigDecimal.ONE, new BigDecimal("100000.00"), new BigDecimal("100000.00"));
+        Cobro c = cobro(11L, ars, BigDecimal.ONE, bancoArs, new BigDecimal("100000.00"),
+                imputacion(f, new BigDecimal("100000.00")));
+
+        AsientoGenerado generado = generator.generar(c);
+
+        assertThat(generado.lineas()).hasSize(2);
+        assertBalancea(generado);
     }
 
     // ---- Validaciones ----

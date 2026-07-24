@@ -107,7 +107,7 @@ class CobroServiceTest {
         when(facturaVentaRepo.findById(10L)).thenReturn(Optional.of(f));
 
         CobroCrearRequest req = new CobroCrearRequest(1L, LocalDate.of(2026, 6, 15), 1L, new BigDecimal("1.000000"), 1L,
-                new BigDecimal("100.00"), null, List.of(new CobroImputacionRequest(10L, new BigDecimal("150.00"))), null);
+                new BigDecimal("100.00"), null, List.of(new CobroImputacionRequest(10L, new BigDecimal("150.00"), null)), null);
 
         assertThatThrownBy(() -> service.crearBorrador(req))
                 .isInstanceOf(NegocioException.class)

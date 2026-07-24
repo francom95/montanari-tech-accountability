@@ -40,7 +40,18 @@ public interface CobroMapper {
 
     @Mapping(target = "facturaVentaId", source = "facturaVenta.id")
     @Mapping(target = "facturaVentaNumero", source = "facturaVenta.numero")
+    @Mapping(target = "diasAtraso", expression = "java(diasAtraso(l))")
     CobroResponse.ImputacionResponse aImputacionResponse(CobroImputacion l);
+
+    /** Días entre el vencimiento de la factura y la fecha del cobro (F7.4); 0 si no hay atraso o no hay vencimiento cargado. */
+    default Integer diasAtraso(CobroImputacion l) {
+        java.time.LocalDate venc = l.getFacturaVenta().getFechaVencimiento();
+        java.time.LocalDate fechaCobro = l.getCobro() != null ? l.getCobro().getFecha() : null;
+        if (venc == null || fechaCobro == null || !fechaCobro.isAfter(venc)) {
+            return 0;
+        }
+        return (int) java.time.temporal.ChronoUnit.DAYS.between(venc, fechaCobro);
+    }
 
     CobroResponse.TributoResponse aTributoResponse(ComprobanteTributo t);
 

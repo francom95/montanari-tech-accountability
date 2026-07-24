@@ -31,6 +31,7 @@ import com.montanaritech.contable.maestros.proyecto.Proyecto;
 import com.montanaritech.contable.maestros.proyecto.ProyectoRepository;
 import com.montanaritech.contable.maestros.proyecto.etapa.Etapa;
 import com.montanaritech.contable.maestros.proyecto.etapa.EtapaRepository;
+import com.montanaritech.contable.maestros.tipocambio.ConfiguracionTipoCambioRepository;
 import com.montanaritech.contable.maestros.tipocambio.TipoCambio;
 import com.montanaritech.contable.maestros.tipocambio.TipoCambioRepository;
 import java.math.BigDecimal;
@@ -40,6 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -92,6 +94,7 @@ public class AsientoService {
     private final ProveedorRepository proveedorRepo;
     private final CuentaBancariaRepository cuentaBancariaRepo;
     private final TipoCambioRepository tipoCambioRepo;
+    private final ConfiguracionTipoCambioRepository configuracionTipoCambioRepo;
 
     @Transactional(readOnly = true)
     public Page<Asiento> listar(
@@ -496,6 +499,16 @@ public class AsientoService {
     }
 
     private BigDecimal resolverTipoCambioAutomatico(Long monedaId, LocalDate fecha) {
+        String criterioPorDefecto = configuracionTipoCambioRepo.findFirstByOrderByIdAsc()
+                .map(c -> c.getCriterioPorDefecto())
+                .orElse(null);
+        if (criterioPorDefecto != null) {
+            Optional<TipoCambio> porCriterio = tipoCambioRepo
+                    .findFirstByMonedaIdAndFechaAndCriterioAndActivoTrueOrderByIdAsc(monedaId, fecha, criterioPorDefecto);
+            if (porCriterio.isPresent()) {
+                return porCriterio.get().getValorVenta();
+            }
+        }
         return tipoCambioRepo.findFirstByMonedaIdAndFechaAndActivoTrueOrderByIdAsc(monedaId, fecha)
                 .map(TipoCambio::getValorVenta)
                 .orElseThrow(() -> new NegocioException("TC_FALTANTE",

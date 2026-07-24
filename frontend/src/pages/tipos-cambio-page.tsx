@@ -6,6 +6,7 @@ import { z } from "zod"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { ConfiguracionTipoCambioCard } from "@/components/configuracion-tipo-cambio-card"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useMonedas } from "@/hooks/use-monedas"
@@ -129,6 +130,8 @@ export function TiposCambioPage() {
         <h1 className="text-lg font-semibold text-foreground">Tipos de cambio</h1>
         <p className="text-sm text-muted-foreground">Molde PL-1/PL-2 replicado de Moneda (F2.1). FK a Moneda; fecha/moneda/criterio no se editan.</p>
       </div>
+
+      <ConfiguracionTipoCambioCard />
 
       <Card>
         <CardHeader><CardTitle>{editando ? `Editar tipo de cambio del ${editando.fecha}` : "Nuevo tipo de cambio"}</CardTitle></CardHeader>

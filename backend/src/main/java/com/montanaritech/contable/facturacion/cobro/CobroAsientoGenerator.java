@@ -150,6 +150,16 @@ public class CobroAsientoGenerator implements AsientoGenerator<Cobro> {
                         "Diferencia de cambio perdida", monedaArsId(), dif.negate(), BigDecimal.ONE, fuenteTc, proyectoId, null, clienteId, null, null));
             }
 
+            BigDecimal recargo = imputacion.getRecargoMoraOriginal();
+            if (recargo != null && recargo.compareTo(BigDecimal.ZERO) > 0) {
+                CuentaContable cuentaMora = resolutorCuentas.resolver(ConceptoContable.INTERES_POR_MORA_GANADO);
+                BigDecimal recargoArs = CalculoImputacion.round2(recargo.multiply(tc));
+                lineas.add(new LineaAsientoGenerada(cuentaMora.getCodigo(), BigDecimal.ZERO, recargoArs,
+                        "Recargo por mora factura " + factura.getNumero(), monedaId, recargo, tc, fuenteTc,
+                        proyectoId, null, clienteId, null, null));
+                sumaImputadoOriginal = sumaImputadoOriginal.add(recargo);
+            }
+
             sumaImputadoOriginal = sumaImputadoOriginal.add(imputacion.getMontoImputadoOriginal());
         }
 

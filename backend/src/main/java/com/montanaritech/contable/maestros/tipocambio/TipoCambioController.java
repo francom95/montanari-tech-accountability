@@ -15,6 +15,25 @@ import org.springframework.web.bind.annotation.*;
 public class TipoCambioController {
     private final TipoCambioService service;
     private final TipoCambioMapper mapper;
+    private final ConfiguracionTipoCambioRepository configuracionRepo;
+
+    @GetMapping("/configuracion")
+    public ConfiguracionTipoCambioDtos.Response obtenerConfiguracion() {
+        String criterio = configuracionRepo.findFirstByOrderByIdAsc()
+                .map(ConfiguracionTipoCambio::getCriterioPorDefecto)
+                .orElse(null);
+        return new ConfiguracionTipoCambioDtos.Response(criterio);
+    }
+
+    @PutMapping("/configuracion")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    public ConfiguracionTipoCambioDtos.Response actualizarConfiguracion(@RequestBody ConfiguracionTipoCambioDtos.Request req) {
+        ConfiguracionTipoCambio config = configuracionRepo.findFirstByOrderByIdAsc().orElseGet(ConfiguracionTipoCambio::new);
+        config.setCriterioPorDefecto(req.criterioPorDefecto());
+        configuracionRepo.save(config);
+        return new ConfiguracionTipoCambioDtos.Response(config.getCriterioPorDefecto());
+    }
+
     @GetMapping
     public Page<TipoCambioResponse> listar(@RequestParam(required = false) String texto, @RequestParam(required = false) Boolean activo, Pageable p) {
         return service.listar(texto, activo, p).map(mapper::aResponse);

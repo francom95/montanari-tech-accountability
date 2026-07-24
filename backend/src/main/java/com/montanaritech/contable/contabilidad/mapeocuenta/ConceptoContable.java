@@ -66,5 +66,11 @@ public enum ConceptoContable {
      */
     IMPUESTO_IIBB_DETERMINADO,
     IIBB_A_PAGAR,
-    IIBB_SALDO_A_FAVOR
+    IIBB_SALDO_A_FAVOR,
+    /**
+     * Recargo por mora en un cobro que llega después del vencimiento de la
+     * factura (F7.4). Mapea a 6.4002 "Intereses Ganados", sembrada en F3.3
+     * sin uso hasta ahora.
+     */
+    INTERES_POR_MORA_GANADO
 }

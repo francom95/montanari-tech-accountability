@@ -240,6 +240,7 @@ public class CobroService {
             l.setOrden(orden++);
             l.setFacturaVenta(resolverFacturaVenta(r.facturaVentaId()));
             l.setMontoImputadoOriginal(r.montoImputadoOriginal());
+            l.setRecargoMoraOriginal(r.recargoMoraOriginal());
             c.getLineas().add(l);
         }
     }

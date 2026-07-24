@@ -4030,9 +4030,9 @@
     "semantic_hash": "8f2af34c0db5ad574f8d6f0e495fcb4e"
   },
   "backend/src/test/java/com/montanaritech/contable/maestros/proyecto/presupuesto/CalculoPresupuestoProyectoTest.java": {
-    "mtime": 1784847482.7897234,
-    "ast_hash": "946a9a82fbf050cd531e87895194d78f",
-    "semantic_hash": "946a9a82fbf050cd531e87895194d78f"
+    "mtime": 1784852090.975443,
+    "ast_hash": "d7a56acf50d8306211c4b3adaed03d1e",
+    "semantic_hash": "d7a56acf50d8306211c4b3adaed03d1e"
   },
   "frontend/src/hooks/use-presupuesto-proyecto.ts": {
     "mtime": 1784847521.3122582,
@@ -4050,8 +4050,8 @@
     "semantic_hash": "0213c8f02955e288e2442d672d5f1d81"
   },
   "outputs/F2_6_presupuesto_estimado_por_proyecto.md": {
-    "mtime": 1784848854.7318196,
-    "ast_hash": "78cfc187e65c54585043b51f70804668",
-    "semantic_hash": "78cfc187e65c54585043b51f70804668"
+    "mtime": 1784852123.0709422,
+    "ast_hash": "cdb72b4625f3ac36c083a19bdab4945a",
+    "semantic_hash": "cdb72b4625f3ac36c083a19bdab4945a"
   }
 }

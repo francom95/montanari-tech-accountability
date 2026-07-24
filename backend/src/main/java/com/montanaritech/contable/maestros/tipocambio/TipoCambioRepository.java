@@ -22,9 +22,13 @@ public interface TipoCambioRepository extends JpaRepository<TipoCambio, Long> {
      * Resolución automática de TC (F3.1 §3.4 ítem 3, CP-19): cuando una línea
      * en moneda extranjera no trae tipo de cambio manual, se busca una
      * cotización cargada para (moneda, fecha). No distingue por criterio
-     * (BNA venta/compra, oficial, manual...) porque todavía no existe un
-     * parámetro de sistema de "fuente por defecto" — toma la primera activa,
-     * de forma determinística.
+     * (BNA venta/compra, oficial, manual...) — toma la primera activa, de
+     * forma determinística. Usado como fallback cuando no hay
+     * {@code ConfiguracionTipoCambio.criterioPorDefecto} configurado, o
+     * cuando ese criterio no tiene cotización cargada para la fecha (F7.4).
      */
     Optional<TipoCambio> findFirstByMonedaIdAndFechaAndActivoTrueOrderByIdAsc(Long monedaId, LocalDate fecha);
+
+    /** Resolución automática de TC respetando el criterio por defecto del sistema (F7.4). */
+    Optional<TipoCambio> findFirstByMonedaIdAndFechaAndCriterioAndActivoTrueOrderByIdAsc(Long monedaId, LocalDate fecha, String criterio);
 }

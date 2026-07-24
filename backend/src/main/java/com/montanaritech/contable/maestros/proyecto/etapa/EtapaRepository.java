@@ -1,5 +1,6 @@
 package com.montanaritech.contable.maestros.proyecto.etapa;
 
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,6 +13,9 @@ public interface EtapaRepository extends JpaRepository<Etapa, Long> {
     boolean existsByProyectoId(Long proyectoId);
 
     Optional<Etapa> findByIdAndProyectoId(Long id, Long proyectoId);
+
+    /** Todas las etapas de un proyecto, sin paginar (F7.4, reporte de rentabilidad). */
+    List<Etapa> findByProyectoIdOrderByFechaInicioAsc(Long proyectoId);
 
     @Query("""
             SELECT e FROM Etapa e

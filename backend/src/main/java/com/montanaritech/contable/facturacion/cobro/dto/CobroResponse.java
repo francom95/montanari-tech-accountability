@@ -34,7 +34,9 @@ public record CobroResponse(
             Long facturaVentaId,
             String facturaVentaNumero,
             BigDecimal montoImputadoOriginal,
-            BigDecimal montoArsCancelado
+            BigDecimal montoArsCancelado,
+            BigDecimal recargoMoraOriginal,
+            Integer diasAtraso
     ) {}
 
     public record TributoResponse(

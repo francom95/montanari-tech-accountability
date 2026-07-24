@@ -6,6 +6,7 @@ import com.montanaritech.contable.facturacion.cobro.dto.CobroAnularRequest;
 import com.montanaritech.contable.facturacion.cobro.dto.CobroCrearRequest;
 import com.montanaritech.contable.facturacion.cobro.dto.CobroEditarRequest;
 import com.montanaritech.contable.facturacion.cobro.dto.CobroResponse;
+import com.montanaritech.contable.facturacion.cobro.dto.ConfiguracionCobranzaDtos;
 import com.montanaritech.contable.facturacion.cobro.dto.SaldoFacturaResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -26,6 +27,23 @@ public class CobroController {
 
     private final CobroService service;
     private final CobroMapper mapper;
+    private final ConfiguracionCobranzaRepository configuracionCobranzaRepo;
+
+    @GetMapping("/configuracion-cobranza")
+    public ConfiguracionCobranzaDtos.Response obtenerConfiguracionCobranza() {
+        ConfiguracionCobranza c = configuracionCobranzaRepo.findFirstByOrderByIdAsc().orElseGet(ConfiguracionCobranza::new);
+        return new ConfiguracionCobranzaDtos.Response(c.getDiasGraciaMora(), c.getTasaMoraDiariaPorcentaje());
+    }
+
+    @PutMapping("/configuracion-cobranza")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    public ConfiguracionCobranzaDtos.Response actualizarConfiguracionCobranza(@Valid @RequestBody ConfiguracionCobranzaDtos.Request req) {
+        ConfiguracionCobranza c = configuracionCobranzaRepo.findFirstByOrderByIdAsc().orElseGet(ConfiguracionCobranza::new);
+        c.setDiasGraciaMora(req.diasGraciaMora());
+        c.setTasaMoraDiariaPorcentaje(req.tasaMoraDiariaPorcentaje());
+        configuracionCobranzaRepo.save(c);
+        return new ConfiguracionCobranzaDtos.Response(c.getDiasGraciaMora(), c.getTasaMoraDiariaPorcentaje());
+    }
 
     @GetMapping
     public Page<CobroResponse> listar(

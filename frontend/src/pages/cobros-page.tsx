@@ -6,6 +6,7 @@ import { z } from "zod"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { ConfiguracionCobranzaCard } from "@/components/configuracion-cobranza-card"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useClientes } from "@/hooks/use-cliente"
@@ -31,6 +32,7 @@ const RETENCION_LABEL: Record<TipoRetencionCobro, string> = { RETENCION_GANANCIA
 const esquemaLinea = z.object({
   facturaVentaId: z.string().min(1, "Obligatoria"),
   montoImputadoOriginal: z.string().min(1, "Obligatorio"),
+  recargoMoraOriginal: z.string().optional(),
 })
 
 const esquemaTributo = z.object({
@@ -54,7 +56,7 @@ type Valores = z.infer<typeof esquema>
 type LineaValores = Valores["lineas"][number]
 type TributoValores = Valores["tributos"][number]
 
-const LINEA_VACIA: LineaValores = { facturaVentaId: "", montoImputadoOriginal: "" }
+const LINEA_VACIA: LineaValores = { facturaVentaId: "", montoImputadoOriginal: "", recargoMoraOriginal: "" }
 const TRIBUTO_VACIO: TributoValores = { tipo: "RETENCION_GANANCIAS", importe: "" }
 
 const VACIO: Valores = {
@@ -71,7 +73,11 @@ function cobroAValores(c: Cobro): Valores {
     cuentaBancariaId: c.cuentaBancariaId.toString(),
     total: c.total.toString(),
     observaciones: c.observaciones ?? "",
-    lineas: c.lineas.map((l) => ({ facturaVentaId: l.facturaVentaId.toString(), montoImputadoOriginal: l.montoImputadoOriginal.toString() })),
+    lineas: c.lineas.map((l) => ({
+      facturaVentaId: l.facturaVentaId.toString(),
+      montoImputadoOriginal: l.montoImputadoOriginal.toString(),
+      recargoMoraOriginal: l.recargoMoraOriginal?.toString() ?? "",
+    })),
     tributos: c.tributos.map((t) => ({ tipo: t.tipo, importe: t.importe.toString() })),
   }
 }
@@ -135,7 +141,11 @@ export function CobrosPage() {
       cuentaBancariaId: Number(valores.cuentaBancariaId),
       total: Number(valores.total),
       observaciones: valores.observaciones || undefined,
-      lineas: valores.lineas.map((l) => ({ facturaVentaId: Number(l.facturaVentaId), montoImputadoOriginal: Number(l.montoImputadoOriginal) })),
+      lineas: valores.lineas.map((l) => ({
+        facturaVentaId: Number(l.facturaVentaId),
+        montoImputadoOriginal: Number(l.montoImputadoOriginal),
+        recargoMoraOriginal: l.recargoMoraOriginal ? Number(l.recargoMoraOriginal) : undefined,
+      })),
       tributos: valores.tributos.map((t) => ({ tipo: t.tipo as TipoRetencionCobro, importe: Number(t.importe) })),
     }
     if (editando) {
@@ -161,6 +171,7 @@ export function CobrosPage() {
   const lineasObservadas = useWatch({ control: form.control, name: "lineas" })
   const tributosObservados = useWatch({ control: form.control, name: "tributos" })
   const totalObservado = useWatch({ control: form.control, name: "total" })
+  const fechaObservada = useWatch({ control: form.control, name: "fecha" })
   const totales = useMemo(() => {
     let imputado = 0
     for (const l of lineasObservadas ?? []) imputado += Number(l.montoImputadoOriginal) || 0
@@ -255,6 +266,8 @@ export function CobrosPage() {
         {!mostrarForm && <Button onClick={nuevoCobro}>Nuevo cobro</Button>}
       </div>
 
+      {!mostrarForm && <ConfiguracionCobranzaCard />}
+
       {mostrarForm && (
         <Card>
           <CardHeader>
@@ -327,6 +340,7 @@ export function CobrosPage() {
                           <tr className="border-b border-border">
                             <th className="py-2 pr-2 font-medium">Factura de venta</th>
                             <th className="py-2 pr-2 font-medium">Monto imputado</th>
+                            <th className="py-2 pr-2 font-medium">Recargo por mora</th>
                             <th className="py-2 pr-2 font-medium"></th>
                           </tr>
                         </thead>
@@ -334,7 +348,7 @@ export function CobrosPage() {
                           {lineas.fields.map((campo, indice) => (
                             <LineaImputacionRow key={campo.id} control={form.control} indice={indice} soloLectura={soloLectura}
                               facturas={facturasConfirmadas.data?.content ?? []} facturasCargando={facturasConfirmadas.isLoading}
-                              onQuitar={() => lineas.remove(indice)} />
+                              fechaCobro={fechaObservada} onQuitar={() => lineas.remove(indice)} />
                           ))}
                         </tbody>
                       </table>
@@ -434,11 +448,19 @@ export function CobrosPage() {
   )
 }
 
-function LineaImputacionRow({ control, indice, soloLectura, facturas, facturasCargando, onQuitar }: {
+function LineaImputacionRow({ control, indice, soloLectura, facturas, facturasCargando, fechaCobro, onQuitar }: {
   control: Control<Valores>; indice: number; soloLectura: boolean
-  facturas: { id: number; numero: string; clienteId: number }[]; facturasCargando: boolean
-  onQuitar: () => void
+  facturas: { id: number; numero: string; clienteId: number; fechaVencimiento?: string | null }[]; facturasCargando: boolean
+  fechaCobro?: string; onQuitar: () => void
 }) {
+  const facturaVentaId = useWatch({ control, name: `lineas.${indice}.facturaVentaId` })
+  const factura = facturas.find((f) => f.id.toString() === facturaVentaId)
+  const diasAtraso = (() => {
+    if (!factura?.fechaVencimiento || !fechaCobro) return null
+    const dias = Math.round((new Date(fechaCobro).getTime() - new Date(factura.fechaVencimiento).getTime()) / 86_400_000)
+    return dias > 0 ? dias : null
+  })()
+
   return (
     <tr className="border-b border-border last:border-0 align-top">
       <td className="py-2 pr-2">
@@ -457,6 +479,15 @@ function LineaImputacionRow({ control, indice, soloLectura, facturas, facturasCa
       <td className="py-2 pr-2">
         <FormField control={control} name={`lineas.${indice}.montoImputadoOriginal`} render={({ field }) => (
           <FormItem><FormControl><Input {...field} type="number" step="0.01" disabled={soloLectura} className={`${inputClase} w-32`} /></FormControl><FormMessage /></FormItem>
+        )} />
+      </td>
+      <td className="py-2 pr-2">
+        <FormField control={control} name={`lineas.${indice}.recargoMoraOriginal`} render={({ field }) => (
+          <FormItem>
+            <FormControl><Input {...field} type="number" step="0.01" disabled={soloLectura} className={`${inputClase} w-28`} /></FormControl>
+            {diasAtraso != null && <p className="text-xs text-muted-foreground">{diasAtraso} día(s) de atraso</p>}
+            <FormMessage />
+          </FormItem>
         )} />
       </td>
       <td className="py-2 pr-2">

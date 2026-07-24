@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.montanaritech.contable.common.audit.AuditoriaService;
@@ -23,6 +25,8 @@ import com.montanaritech.contable.maestros.moneda.MonedaRepository;
 import com.montanaritech.contable.maestros.proveedor.ProveedorRepository;
 import com.montanaritech.contable.maestros.proyecto.ProyectoRepository;
 import com.montanaritech.contable.maestros.proyecto.etapa.EtapaRepository;
+import com.montanaritech.contable.maestros.tipocambio.ConfiguracionTipoCambio;
+import com.montanaritech.contable.maestros.tipocambio.ConfiguracionTipoCambioRepository;
 import com.montanaritech.contable.maestros.tipocambio.TipoCambio;
 import com.montanaritech.contable.maestros.tipocambio.TipoCambioRepository;
 import java.math.BigDecimal;
@@ -62,6 +66,7 @@ class AsientoServiceTest {
     @Mock private ProveedorRepository proveedorRepo;
     @Mock private CuentaBancariaRepository cuentaBancariaRepo;
     @Mock private TipoCambioRepository tipoCambioRepo;
+    @Mock private ConfiguracionTipoCambioRepository configuracionTipoCambioRepo;
 
     private AsientoService service;
 
@@ -74,7 +79,8 @@ class AsientoServiceTest {
     @BeforeEach
     void setUp() {
         service = new AsientoService(repo, mapper, auditoria, numerador, cuentaRepo, monedaRepo,
-                proyectoRepo, etapaRepo, clienteRepo, proveedorRepo, cuentaBancariaRepo, tipoCambioRepo);
+                proyectoRepo, etapaRepo, clienteRepo, proveedorRepo, cuentaBancariaRepo, tipoCambioRepo,
+                configuracionTipoCambioRepo);
 
         ars = new Moneda();
         ars.setId(1L);
@@ -288,6 +294,60 @@ class AsientoServiceTest {
         AsientoLinea lineaConfirmada = confirmado.getLineas().get(0);
         assertThat(lineaConfirmada.getTipoCambio()).isEqualByComparingTo("1500.0000");
         assertThat(lineaConfirmada.getFuenteTc()).isEqualTo(AsientoLinea.FuenteTc.AUTOMATICO);
+    }
+
+    // ---- F7.4: criterio de TC por defecto configurable ----
+
+    @Test
+    void criterioPorDefectoConfiguradoYConCoincidenciaUsaEseCriterio() {
+        AsientoLineaRequest lineaUsd = new AsientoLineaRequest(
+                10L, new BigDecimal("1500000.00"), BigDecimal.ZERO, 2L, null, new BigDecimal("1000.00"),
+                null, null, null, null, null, null);
+        Asiento a = asientoBorradorConLineas(List.of(lineaUsd,
+                lineaArs(11L, BigDecimal.ZERO, new BigDecimal("1500000.00"))), LocalDate.of(2026, 6, 3));
+
+        ConfiguracionTipoCambio config = new ConfiguracionTipoCambio();
+        config.setCriterioPorDefecto("BNA_VENTA");
+        when(configuracionTipoCambioRepo.findFirstByOrderByIdAsc()).thenReturn(Optional.of(config));
+
+        TipoCambio cotizacionCriterio = new TipoCambio();
+        cotizacionCriterio.setValorVenta(new BigDecimal("1500.0000"));
+        when(tipoCambioRepo.findFirstByMonedaIdAndFechaAndCriterioAndActivoTrueOrderByIdAsc(2L, LocalDate.of(2026, 6, 3), "BNA_VENTA"))
+                .thenReturn(Optional.of(cotizacionCriterio));
+        when(numerador.siguienteNumero()).thenReturn(4L);
+
+        Asiento confirmado = service.confirmar(a.getId());
+
+        assertThat(confirmado.getEstado()).isEqualTo(EstadoDocumento.CONFIRMADO);
+        assertThat(confirmado.getLineas().get(0).getTipoCambio()).isEqualByComparingTo("1500.0000");
+        verify(tipoCambioRepo, never()).findFirstByMonedaIdAndFechaAndActivoTrueOrderByIdAsc(any(), any());
+    }
+
+    @Test
+    void criterioPorDefectoConfiguradoSinCoincidenciaCaeAlMetodoViejo() {
+        AsientoLineaRequest lineaUsd = new AsientoLineaRequest(
+                10L, new BigDecimal("1500000.00"), BigDecimal.ZERO, 2L, null, new BigDecimal("1000.00"),
+                null, null, null, null, null, null);
+        Asiento a = asientoBorradorConLineas(List.of(lineaUsd,
+                lineaArs(11L, BigDecimal.ZERO, new BigDecimal("1500000.00"))), LocalDate.of(2026, 6, 3));
+
+        ConfiguracionTipoCambio config = new ConfiguracionTipoCambio();
+        config.setCriterioPorDefecto("BNA_VENTA");
+        when(configuracionTipoCambioRepo.findFirstByOrderByIdAsc()).thenReturn(Optional.of(config));
+        when(tipoCambioRepo.findFirstByMonedaIdAndFechaAndCriterioAndActivoTrueOrderByIdAsc(2L, LocalDate.of(2026, 6, 3), "BNA_VENTA"))
+                .thenReturn(Optional.empty());
+
+        TipoCambio cotizacionFallback = new TipoCambio();
+        cotizacionFallback.setValorVenta(new BigDecimal("1500.0000"));
+        when(tipoCambioRepo.findFirstByMonedaIdAndFechaAndActivoTrueOrderByIdAsc(2L, LocalDate.of(2026, 6, 3)))
+                .thenReturn(Optional.of(cotizacionFallback));
+        when(numerador.siguienteNumero()).thenReturn(5L);
+
+        Asiento confirmado = service.confirmar(a.getId());
+
+        assertThat(confirmado.getEstado()).isEqualTo(EstadoDocumento.CONFIRMADO);
+        assertThat(confirmado.getLineas().get(0).getTipoCambio()).isEqualByComparingTo("1500.0000");
+        assertThat(confirmado.getLineas().get(0).getFuenteTc()).isEqualTo(AsientoLinea.FuenteTc.AUTOMATICO);
     }
 
     @Test
