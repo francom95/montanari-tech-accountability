@@ -9,6 +9,7 @@ import { CategoriasPage } from "@/pages/categorias-page"
 import { ClientesPage } from "@/pages/clientes-page"
 import { CobrosPage } from "@/pages/cobros-page"
 import { ComisionistasPage } from "@/pages/comisionistas-page"
+import { CompromisosPage } from "@/pages/compromisos-page"
 import { ConceptosPage } from "@/pages/conceptos-page"
 import { ConciliacionPage } from "@/pages/conciliacion-page"
 import { CuentasBancariasPage } from "@/pages/cuentas-bancarias-page"
@@ -106,6 +107,7 @@ export const router = createBrowserRouter([
         element: <PlaceholderPage title="Presupuesto y vencimientos" />,
       },
       { path: "presupuesto/vencimientos", element: <VencimientosPage /> },
+      { path: "presupuesto/pagos", element: <CompromisosPage /> },
       {
         path: "pendientes",
         element: <PlaceholderPage title="Pendientes administrativos" />,

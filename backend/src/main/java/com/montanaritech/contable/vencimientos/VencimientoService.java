@@ -86,11 +86,24 @@ public class VencimientoService {
     @Auditado(accion = AccionAuditoria.CREAR, entidadTipo = "Vencimiento")
     @Transactional
     public Vencimiento crear(VencimientoCrearRequest req) {
+        return crearDesdeOrigen(req, OrigenGeneracionVencimiento.MANUAL, null);
+    }
+
+    /**
+     * Crea un vencimiento con un origen distinto de MANUAL — usado por otros
+     * módulos que generan un vencimiento propio (ej. Compromiso de F8.2) y
+     * necesitan trazabilidad hacia atrás vía {@code origenGeneracionRefId}.
+     */
+    @Auditado(accion = AccionAuditoria.CREAR, entidadTipo = "Vencimiento")
+    @Transactional
+    public Vencimiento crearDesdeOrigen(VencimientoCrearRequest req, OrigenGeneracionVencimiento origen, Long origenRefId) {
         Vencimiento v = new Vencimiento();
         aplicar(v, req.descripcion(), req.tipo(), req.fecha(), req.importeEstimado(), req.monedaId(),
                 req.recurrencia(), req.intervaloDiasPersonalizado(), req.cuentaContableId(), req.proveedorId(),
                 req.liquidacionTipo(), req.liquidacionId(), req.tarjetaCreditoId(), req.proyectoId(),
                 req.conceptoRecurrenteId(), req.observaciones());
+        v.setOrigenGeneracion(origen);
+        v.setOrigenGeneracionRefId(origenRefId);
         return repo.save(v);
     }
 

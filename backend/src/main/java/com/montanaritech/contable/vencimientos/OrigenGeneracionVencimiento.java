@@ -6,5 +6,6 @@ public enum OrigenGeneracionVencimiento {
     LIQUIDACION_IVA,
     LIQUIDACION_IIBB,
     TARJETA,
-    CONCEPTO_RECURRENTE
+    CONCEPTO_RECURRENTE,
+    COMPROMISO
 }
