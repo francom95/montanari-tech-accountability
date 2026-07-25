@@ -27,6 +27,11 @@ import com.montanaritech.contable.facturacion.facturaventa.FacturaVenta;
 import com.montanaritech.contable.facturacion.facturaventa.FacturaVentaRepository;
 import com.montanaritech.contable.flujocaja.dto.FlujoCajaResponse;
 import com.montanaritech.contable.flujocaja.dto.PuntoFlujoCaja;
+import com.montanaritech.contable.inversion.EstadoInversion;
+import com.montanaritech.contable.inversion.Inversion;
+import com.montanaritech.contable.inversion.InversionService;
+import com.montanaritech.contable.inversion.TipoVinculoInversion;
+import com.montanaritech.contable.inversion.dto.InversionResponse;
 import com.montanaritech.contable.maestros.cuentabancaria.CuentaBancaria;
 import com.montanaritech.contable.maestros.cuentabancaria.CuentaBancariaRepository;
 import com.montanaritech.contable.maestros.moneda.Moneda;
@@ -66,6 +71,7 @@ class FlujoCajaServiceTest {
     @Mock private ProyectoRepository proyectoRepo;
     @Mock private FacturaVentaRepository facturaVentaRepo;
     @Mock private CobroImputacionRepository cobroImputacionRepo;
+    @Mock private InversionService inversionService;
 
     private FlujoCajaService service;
     private Moneda ars;
@@ -76,7 +82,8 @@ class FlujoCajaServiceTest {
     void setUp() {
         service = new FlujoCajaService(cuentaBancariaRepo, tarjetaCreditoRepo, movimientoBancarioRepo,
                 consumoTarjetaRepo, pagoTarjetaRepo, recalculoSaldoService, tipoCambioRepo, compromisoService,
-                vencimientoService, cuentaPorPagarService, proyectoRepo, facturaVentaRepo, cobroImputacionRepo);
+                vencimientoService, cuentaPorPagarService, proyectoRepo, facturaVentaRepo, cobroImputacionRepo,
+                inversionService);
 
         ars = new Moneda();
         ars.setId(1L);
@@ -96,6 +103,7 @@ class FlujoCajaServiceTest {
         lenient().when(cuentaPorPagarService.calcular(any(), any(), any(), any(), any(), any()))
                 .thenReturn(new CuentaPorPagarResponse(List.of(), List.of()));
         lenient().when(proyectoRepo.findByActivoTrueOrderByNombreAsc()).thenReturn(List.of());
+        lenient().when(inversionService.buscarActivasConVinculo()).thenReturn(List.of());
     }
 
     private MovimientoBancario movimiento(LocalDate fecha, BigDecimal importe, EstadoMovimientoBancario estado) {
@@ -303,6 +311,81 @@ class FlujoCajaServiceTest {
 
         BigDecimal totalIngresos = respuesta.consolidado().stream().map(PuntoFlujoCaja::ingresos).reduce(BigDecimal.ZERO, BigDecimal::add);
         assertThat(totalIngresos).isEqualByComparingTo("0");
+    }
+
+    // ---- inversiones con vínculo (F8.4: rescate planificado como ingreso proyectado) ----
+
+    private Inversion inversionConVinculo(TipoVinculoInversion tipo, Long refId) {
+        Inversion inv = new Inversion();
+        inv.setId(900L);
+        inv.setInstrumento("Fondo Fima");
+        inv.setEstado(EstadoInversion.ACTIVA);
+        inv.setActivo(true);
+        inv.setVinculoTipo(tipo);
+        inv.setVinculoRefId(refId);
+        return inv;
+    }
+
+    private InversionResponse respuestaConValuacion(Inversion inv, BigDecimal valuacion) {
+        return new InversionResponse(inv.getId(), inv.getInstrumento(), 10L, "Banco Galicia CC", null,
+                inv.getVinculoTipo(), inv.getVinculoRefId(), inv.getEstado(), inv.isActivo(),
+                BigDecimal.TEN, BigDecimal.TEN, valuacion, BigDecimal.ZERO);
+    }
+
+    @Test
+    void inversionConVinculoAComprosimoPendienteDentroDeVentanaSumaIngresoEnEsaFecha() {
+        when(cuentaBancariaRepo.findByActivoTrue()).thenReturn(List.of(cuenta));
+        when(recalculoSaldoService.recalcularCuentaBancariaHasta(eq(cuenta), any())).thenReturn(new BigDecimal("100.00"));
+
+        Inversion inv = inversionConVinculo(TipoVinculoInversion.COMPROMISO, 55L);
+        when(inversionService.buscarActivasConVinculo()).thenReturn(List.of(inv));
+        when(inversionService.aResponse(inv)).thenReturn(respuestaConValuacion(inv, new BigDecimal("12345.00")));
+
+        Compromiso compromisoVinculado = new Compromiso();
+        compromisoVinculado.setEstado(EstadoCompromiso.PENDIENTE);
+        compromisoVinculado.setActivo(true);
+        compromisoVinculado.setFechaPrevista(LocalDate.now().plusDays(3));
+        when(compromisoService.obtener(55L)).thenReturn(compromisoVinculado);
+
+        FlujoCajaResponse respuesta = service.flujoProyectado(10);
+
+        BigDecimal totalIngresos = respuesta.consolidado().stream().map(PuntoFlujoCaja::ingresos).reduce(BigDecimal.ZERO, BigDecimal::add);
+        assertThat(totalIngresos).isEqualByComparingTo("12345.00");
+    }
+
+    @Test
+    void inversionConVinculoFueraDeLaVentanaNoSeProyecta() {
+        when(cuentaBancariaRepo.findByActivoTrue()).thenReturn(List.of(cuenta));
+        when(recalculoSaldoService.recalcularCuentaBancariaHasta(eq(cuenta), any())).thenReturn(new BigDecimal("100.00"));
+
+        Inversion inv = inversionConVinculo(TipoVinculoInversion.VENCIMIENTO, 77L);
+        when(inversionService.buscarActivasConVinculo()).thenReturn(List.of(inv));
+        lenient().when(inversionService.aResponse(inv)).thenReturn(respuestaConValuacion(inv, new BigDecimal("999.00")));
+
+        Vencimiento vencimientoVinculado = new Vencimiento();
+        vencimientoVinculado.setEstado(EstadoVencimientoObligacion.PENDIENTE);
+        vencimientoVinculado.setFecha(LocalDate.now().plusDays(90));
+        when(vencimientoService.obtener(77L)).thenReturn(vencimientoVinculado);
+
+        FlujoCajaResponse respuesta = service.flujoProyectado(10);
+
+        BigDecimal totalIngresos = respuesta.consolidado().stream().map(PuntoFlujoCaja::ingresos).reduce(BigDecimal.ZERO, BigDecimal::add);
+        assertThat(totalIngresos).isEqualByComparingTo("0");
+    }
+
+    @Test
+    void inversionConVinculoAIdInexistenteGeneraAdvertenciaYNoRompe() {
+        when(cuentaBancariaRepo.findByActivoTrue()).thenReturn(List.of(cuenta));
+        when(recalculoSaldoService.recalcularCuentaBancariaHasta(eq(cuenta), any())).thenReturn(new BigDecimal("100.00"));
+
+        Inversion inv = inversionConVinculo(TipoVinculoInversion.COMPROMISO, 999L);
+        when(inversionService.buscarActivasConVinculo()).thenReturn(List.of(inv));
+        when(compromisoService.obtener(999L))
+                .thenThrow(new com.montanaritech.contable.common.error.RecursoNoEncontradoException("Compromiso 999 no encontrado"));
+
+        FlujoCajaResponse respuesta = service.flujoProyectado(10);
+
+        assertThat(respuesta.advertencias()).anyMatch(a -> a.contains("Fondo Fima"));
     }
 
     // ---- combinado ----

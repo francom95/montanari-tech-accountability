@@ -4,6 +4,7 @@ import com.montanaritech.contable.bancos.movimientobancario.EstadoMovimientoBanc
 import com.montanaritech.contable.bancos.movimientobancario.MovimientoBancarioRepository;
 import com.montanaritech.contable.bancos.tarjetacredito.ConsumoTarjetaRepository;
 import com.montanaritech.contable.bancos.tarjetacredito.PagoTarjetaRepository;
+import com.montanaritech.contable.common.error.RecursoNoEncontradoException;
 import com.montanaritech.contable.common.estado.EstadoDocumento;
 import com.montanaritech.contable.common.saldo.RecalculoSaldoService;
 import com.montanaritech.contable.compromiso.Compromiso;
@@ -17,6 +18,8 @@ import com.montanaritech.contable.facturacion.facturaventa.FacturaVenta;
 import com.montanaritech.contable.facturacion.facturaventa.FacturaVentaRepository;
 import com.montanaritech.contable.flujocaja.dto.FlujoCajaResponse;
 import com.montanaritech.contable.flujocaja.dto.PuntoFlujoCaja;
+import com.montanaritech.contable.inversion.Inversion;
+import com.montanaritech.contable.inversion.InversionService;
 import com.montanaritech.contable.maestros.cuentabancaria.CuentaBancaria;
 import com.montanaritech.contable.maestros.cuentabancaria.CuentaBancariaRepository;
 import com.montanaritech.contable.maestros.moneda.Moneda;
@@ -27,6 +30,7 @@ import com.montanaritech.contable.maestros.tarjetacredito.TarjetaCredito;
 import com.montanaritech.contable.maestros.tarjetacredito.TarjetaCreditoRepository;
 import com.montanaritech.contable.maestros.tipocambio.TipoCambio;
 import com.montanaritech.contable.maestros.tipocambio.TipoCambioRepository;
+import com.montanaritech.contable.vencimientos.EstadoVencimientoObligacion;
 import com.montanaritech.contable.vencimientos.Vencimiento;
 import com.montanaritech.contable.vencimientos.VencimientoService;
 import java.math.BigDecimal;
@@ -45,12 +49,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Flujo de caja real y proyectado (F8.3). Agregador de solo lectura sobre
- * fuentes ya cerradas — no crea ninguna entidad propia. La fórmula del real
- * queda en {@code saldo inicial + cobrado − pagado} (sin "± inversión ±
- * financiación": ninguno de los dos existe hoy — "inversión" es F8.4, que
- * depende de este paso, y "financiación" no aparece en ningún paso futuro
- * del plan; decisión confirmada con el usuario, ver outputs/F8_3_...md).
+ * Flujo de caja real y proyectado (F8.3, más inversiones F8.4). Agregador de
+ * solo lectura sobre fuentes ya cerradas — no crea ninguna entidad propia. La
+ * fórmula del real queda en {@code saldo inicial + cobrado − pagado} (sin
+ * "± financiación": no aparece en ningún paso futuro del plan; decisión
+ * confirmada con el usuario, ver outputs/F8_3_...md). El proyectado suma una
+ * 5ª fuente desde F8.4: si una {@code Inversion} activa tiene un vínculo
+ * (Compromiso/Vencimiento) pendiente dentro de la ventana, su valuación
+ * actual se proyecta como ingreso en la fecha de esa obligación — "rescate
+ * planificado como ingreso proyectado" (decisión confirmada con el usuario,
+ * ver outputs/F8_4_...md).
  */
 @Service
 @RequiredArgsConstructor
@@ -69,6 +77,7 @@ public class FlujoCajaService {
     private final ProyectoRepository proyectoRepo;
     private final FacturaVentaRepository facturaVentaRepo;
     private final CobroImputacionRepository cobroImputacionRepo;
+    private final InversionService inversionService;
 
     private record MovimientoDatado(LocalDate fecha, BigDecimal monto) {}
 
@@ -134,11 +143,13 @@ public class FlujoCajaService {
     /**
      * Flujo proyectado desde hoy: parte del saldo real de caja/banco (no
      * incluye tarjetas — su próximo pago ya entra como Vencimiento tipo
-     * TARJETA, sumarlo aparte duplicaría el egreso) y agrega 4 fuentes ya
+     * TARJETA, sumarlo aparte duplicaría el egreso) y agrega 5 fuentes ya
      * cerradas: cuotas de proyecto pendientes (emparejadas contra cobros
      * confirmados, F8.3 §1), compromisos pendientes (F8.2), vencimientos
-     * pendientes (F8.1), CxP pendientes (F4.5). Siempre granularidad DIARIO
-     * — la detección de saldo negativo es por día, no por semana/mes.
+     * pendientes (F8.1), CxP pendientes (F4.5), e inversiones con rescate
+     * planificado (F8.4 — vínculo a un Compromiso/Vencimiento pendiente).
+     * Siempre granularidad DIARIO — la detección de saldo negativo es por
+     * día, no por semana/mes.
      */
     @Transactional(readOnly = true)
     public FlujoCajaResponse flujoProyectado(int dias) {
@@ -190,6 +201,15 @@ public class FlujoCajaService {
 
         for (Proyecto proyecto : proyectoRepo.findByActivoTrueOrderByNombreAsc()) {
             movimientos.addAll(cuotasPendientes(proyecto, hoy, hasta, advertencias, tcCache));
+        }
+
+        for (Inversion inv : inversionService.buscarActivasConVinculo()) {
+            LocalDate fechaVinculo = resolverFechaVinculoPendiente(inv, advertencias);
+            if (fechaVinculo == null || fechaVinculo.isBefore(hoy) || fechaVinculo.isAfter(hasta)) {
+                continue;
+            }
+            BigDecimal valuacion = inversionService.aResponse(inv).valuacionActual();
+            movimientos.add(new MovimientoDatado(fechaVinculo, valuacion));
         }
 
         List<PuntoFlujoCaja> consolidado = construirSerie(saldoInicialArs, movimientos, hoy, hasta, Granularidad.DIARIO, false);
@@ -259,6 +279,30 @@ public class FlujoCajaService {
             resultado.add(new MovimientoDatado(cuota.getFechaEstimadaCobro(), cuota.getImporte().multiply(tc)));
         }
         return resultado;
+    }
+
+    /**
+     * Fecha de la obligación vinculada a una Inversión (F8.4), solo si sigue
+     * pendiente — si ya se resolvió/canceló, no se proyecta (evitaría un
+     * ingreso fantasma para una obligación que ya no existe como tal).
+     */
+    private LocalDate resolverFechaVinculoPendiente(Inversion inv, List<String> advertencias) {
+        try {
+            return switch (inv.getVinculoTipo()) {
+                case COMPROMISO -> {
+                    Compromiso c = compromisoService.obtener(inv.getVinculoRefId());
+                    yield (c.getEstado() == EstadoCompromiso.PENDIENTE && c.isActivo()) ? c.getFechaPrevista() : null;
+                }
+                case VENCIMIENTO -> {
+                    Vencimiento v = vencimientoService.obtener(inv.getVinculoRefId());
+                    yield v.getEstado() == EstadoVencimientoObligacion.PENDIENTE ? v.getFecha() : null;
+                }
+            };
+        } catch (RecursoNoEncontradoException e) {
+            advertencias.add("La inversión \"" + inv.getInstrumento() + "\" está vinculada a un "
+                    + inv.getVinculoTipo() + " (id " + inv.getVinculoRefId() + ") que ya no existe — se excluye de la proyección.");
+            return null;
+        }
     }
 
     /** Consumos (egreso) + pagos confirmados (ingreso a favor de la tarjeta) de una tarjeta en una ventana, nativo o ARS. */

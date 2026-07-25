@@ -33,6 +33,7 @@ import {
   FileUp,
   Scale,
   Banknote,
+  PiggyBank,
 } from "lucide-react"
 
 export type NavItem = {
@@ -88,6 +89,7 @@ export const NAV_ITEMS: NavItem[] = [
   { to: "/presupuesto/vencimientos", label: "Vencimientos", icon: CalendarClock },
   { to: "/presupuesto/pagos", label: "Presupuesto de pagos", icon: Banknote },
   { to: "/presupuesto/flujo-caja", label: "Flujo de caja", icon: TrendingUp },
+  { to: "/presupuesto/inversiones", label: "Inversiones", icon: PiggyBank },
   { to: "/pendientes", label: "Pendientes administrativos", icon: ListTodo },
   { to: "/seguridad", label: "Usuarios", icon: ShieldCheck },
   { to: "/auditoria", label: "Auditoría", icon: ScrollText },

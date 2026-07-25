@@ -1160,14 +1160,14 @@
     "semantic_hash": "aebb3a19e9f7d853a49f3a2387e82e46"
   },
   "frontend/src/routes/nav-config.ts": {
-    "mtime": 1784935107.2180362,
-    "ast_hash": "d90f2fb1cf83333f71eed15da19aecc4",
-    "semantic_hash": "d90f2fb1cf83333f71eed15da19aecc4"
+    "mtime": 1784991846.0282733,
+    "ast_hash": "7334c44d8c42ad7d866e471982f26f0c",
+    "semantic_hash": "7334c44d8c42ad7d866e471982f26f0c"
   },
   "frontend/src/routes/router.tsx": {
-    "mtime": 1784935101.8492568,
-    "ast_hash": "91dad7e48916ce56936f14784c073e9e",
-    "semantic_hash": "91dad7e48916ce56936f14784c073e9e"
+    "mtime": 1784991832.634509,
+    "ast_hash": "7704bd4608a99a417decb9ce98b43fa1",
+    "semantic_hash": "7704bd4608a99a417decb9ce98b43fa1"
   },
   "frontend/src/test/App.test.tsx": {
     "mtime": 1783307161.9333665,
@@ -4415,9 +4415,9 @@
     "semantic_hash": "91b18322d3181ad7a733376916557165"
   },
   "backend/src/main/java/com/montanaritech/contable/flujocaja/FlujoCajaService.java": {
-    "mtime": 1784936336.5558705,
-    "ast_hash": "21f86120e9b78ec25a623d4ec480d616",
-    "semantic_hash": "21f86120e9b78ec25a623d4ec480d616"
+    "mtime": 1784991342.4788852,
+    "ast_hash": "61ad6f7819435fcebff62cf5816efed8",
+    "semantic_hash": "61ad6f7819435fcebff62cf5816efed8"
   },
   "backend/src/main/java/com/montanaritech/contable/flujocaja/Granularidad.java": {
     "mtime": 1784934223.1508129,
@@ -4435,9 +4435,9 @@
     "semantic_hash": "5ede428192901627f551b088a87a88cc"
   },
   "backend/src/test/java/com/montanaritech/contable/flujocaja/FlujoCajaServiceTest.java": {
-    "mtime": 1784934849.383852,
-    "ast_hash": "3282d10e0b3aace7c2e46cc4afb42384",
-    "semantic_hash": "3282d10e0b3aace7c2e46cc4afb42384"
+    "mtime": 1784991452.3539493,
+    "ast_hash": "34228eb876ded04380958d90493daab1",
+    "semantic_hash": "34228eb876ded04380958d90493daab1"
   },
   "frontend/src/hooks/use-flujo-caja.ts": {
     "mtime": 1784935054.340261,
@@ -4458,5 +4458,135 @@
     "mtime": 1784936733.8204222,
     "ast_hash": "a66e436b6f79bcc696dd161cf8320c7f",
     "semantic_hash": "a66e436b6f79bcc696dd161cf8320c7f"
+  },
+  "backend/src/main/java/com/montanaritech/contable/inversion/EstadoInversion.java": {
+    "mtime": 1784990862.9747736,
+    "ast_hash": "bf4115fa468c664706e9ccba7eb75e8d",
+    "semantic_hash": "bf4115fa468c664706e9ccba7eb75e8d"
+  },
+  "backend/src/main/java/com/montanaritech/contable/inversion/Inversion.java": {
+    "mtime": 1784990890.360396,
+    "ast_hash": "2959874374c39c960160a3e1a2eb2f1d",
+    "semantic_hash": "2959874374c39c960160a3e1a2eb2f1d"
+  },
+  "backend/src/main/java/com/montanaritech/contable/inversion/InversionController.java": {
+    "mtime": 1784991219.956339,
+    "ast_hash": "8df741460045e6cbca2246462471bcf5",
+    "semantic_hash": "8df741460045e6cbca2246462471bcf5"
+  },
+  "backend/src/main/java/com/montanaritech/contable/inversion/InversionRepository.java": {
+    "mtime": 1784990912.8432875,
+    "ast_hash": "4b4b3c7ca40dc021fd740cf2b6ce3c2f",
+    "semantic_hash": "4b4b3c7ca40dc021fd740cf2b6ce3c2f"
+  },
+  "backend/src/main/java/com/montanaritech/contable/inversion/InversionService.java": {
+    "mtime": 1784991349.88394,
+    "ast_hash": "c36cbd307a322ad6e00b26b2c86421c2",
+    "semantic_hash": "c36cbd307a322ad6e00b26b2c86421c2"
+  },
+  "backend/src/main/java/com/montanaritech/contable/inversion/MovimientoInversion.java": {
+    "mtime": 1784990901.3342364,
+    "ast_hash": "a4f64cce857e6a150502dc168068eeb4",
+    "semantic_hash": "a4f64cce857e6a150502dc168068eeb4"
+  },
+  "backend/src/main/java/com/montanaritech/contable/inversion/MovimientoInversionController.java": {
+    "mtime": 1784991226.6924608,
+    "ast_hash": "455e4df4a01adc9e3b5a5d632d7cc125",
+    "semantic_hash": "455e4df4a01adc9e3b5a5d632d7cc125"
+  },
+  "backend/src/main/java/com/montanaritech/contable/inversion/MovimientoInversionRepository.java": {
+    "mtime": 1784990918.2263958,
+    "ast_hash": "a1ab738d695a3f87020b166b107ed0df",
+    "semantic_hash": "a1ab738d695a3f87020b166b107ed0df"
+  },
+  "backend/src/main/java/com/montanaritech/contable/inversion/MovimientoInversionService.java": {
+    "mtime": 1784991210.187895,
+    "ast_hash": "04960e88e07bfc320cea49be14d541e5",
+    "semantic_hash": "04960e88e07bfc320cea49be14d541e5"
+  },
+  "backend/src/main/java/com/montanaritech/contable/inversion/TipoMovimientoInversion.java": {
+    "mtime": 1784990878.2482178,
+    "ast_hash": "0039f0d27cbabf761d4154c6462fbf3c",
+    "semantic_hash": "0039f0d27cbabf761d4154c6462fbf3c"
+  },
+  "backend/src/main/java/com/montanaritech/contable/inversion/TipoVinculoInversion.java": {
+    "mtime": 1784990872.878278,
+    "ast_hash": "aa90c4035cafd7117dd4360bb7dc3f5f",
+    "semantic_hash": "aa90c4035cafd7117dd4360bb7dc3f5f"
+  },
+  "backend/src/main/java/com/montanaritech/contable/inversion/dto/InversionCrearRequest.java": {
+    "mtime": 1784991071.2402935,
+    "ast_hash": "0fa1159dd6aa3136ebf8c567119896b3",
+    "semantic_hash": "0fa1159dd6aa3136ebf8c567119896b3"
+  },
+  "backend/src/main/java/com/montanaritech/contable/inversion/dto/InversionEditarRequest.java": {
+    "mtime": 1784991075.6453278,
+    "ast_hash": "dedf25e442a419e5d217e81ef4412703",
+    "semantic_hash": "dedf25e442a419e5d217e81ef4412703"
+  },
+  "backend/src/main/java/com/montanaritech/contable/inversion/dto/InversionResponse.java": {
+    "mtime": 1784991081.0480382,
+    "ast_hash": "f048e9d80f6927efcf99036d1adc57f3",
+    "semantic_hash": "f048e9d80f6927efcf99036d1adc57f3"
+  },
+  "backend/src/main/java/com/montanaritech/contable/inversion/dto/MovimientoInversionCrearRequest.java": {
+    "mtime": 1784991087.1572943,
+    "ast_hash": "c2cfb19dafe3176dcbf2c4b301274a60",
+    "semantic_hash": "c2cfb19dafe3176dcbf2c4b301274a60"
+  },
+  "backend/src/main/java/com/montanaritech/contable/inversion/dto/MovimientoInversionResponse.java": {
+    "mtime": 1784991091.9538627,
+    "ast_hash": "9ff95c44c38c46572dc60374cab8f7d4",
+    "semantic_hash": "9ff95c44c38c46572dc60374cab8f7d4"
+  },
+  "backend/src/main/resources/db/migration/V38__maestros_inversion.sql": {
+    "mtime": 1784990932.9584844,
+    "ast_hash": "9c1df7be9410ab033dab3aa0122656f7",
+    "semantic_hash": "9c1df7be9410ab033dab3aa0122656f7"
+  },
+  "backend/src/test/java/com/montanaritech/contable/inversion/InversionServiceTest.java": {
+    "mtime": 1784991630.0962358,
+    "ast_hash": "70c17a01c2753d55befea7fa2d3eb2b5",
+    "semantic_hash": "70c17a01c2753d55befea7fa2d3eb2b5"
+  },
+  "backend/src/test/java/com/montanaritech/contable/inversion/MovimientoInversionServiceTest.java": {
+    "mtime": 1784991537.3296165,
+    "ast_hash": "a83dcdaaf9d839e33d5643dc422c23de",
+    "semantic_hash": "a83dcdaaf9d839e33d5643dc422c23de"
+  },
+  "frontend/src/hooks/use-inversion.ts": {
+    "mtime": 1784991747.379575,
+    "ast_hash": "51e3c5cf87137a22cf56fa8c85140594",
+    "semantic_hash": "51e3c5cf87137a22cf56fa8c85140594"
+  },
+  "frontend/src/hooks/use-movimiento-inversion.ts": {
+    "mtime": 1784991753.3314474,
+    "ast_hash": "1c69922499aaf99e3da5433ed06e57ad",
+    "semantic_hash": "1c69922499aaf99e3da5433ed06e57ad"
+  },
+  "frontend/src/pages/inversion-detalle-page.tsx": {
+    "mtime": 1784991815.3051455,
+    "ast_hash": "c139b387cc1fdfdbc5ee84076768171e",
+    "semantic_hash": "c139b387cc1fdfdbc5ee84076768171e"
+  },
+  "frontend/src/pages/inversiones-page.tsx": {
+    "mtime": 1784991918.7421694,
+    "ast_hash": "26e679e27e8cc0398e98257e7ee35dfa",
+    "semantic_hash": "26e679e27e8cc0398e98257e7ee35dfa"
+  },
+  "frontend/src/types/inversion.ts": {
+    "mtime": 1784991729.530554,
+    "ast_hash": "2c4a7d799785b6b2b1ed800a117c0733",
+    "semantic_hash": "2c4a7d799785b6b2b1ed800a117c0733"
+  },
+  "frontend/src/types/movimiento-inversion.ts": {
+    "mtime": 1784991737.1114798,
+    "ast_hash": "fff452870f5841c405cc1a7535f2bd13",
+    "semantic_hash": "fff452870f5841c405cc1a7535f2bd13"
+  },
+  "outputs/F8_4_inversiones_fondos_fima_y_similares.md": {
+    "mtime": 1784992595.5980585,
+    "ast_hash": "f29933c85cb5bc238b3098be0bbe4ea0",
+    "semantic_hash": "f29933c85cb5bc238b3098be0bbe4ea0"
   }
 }

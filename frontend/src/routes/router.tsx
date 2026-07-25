@@ -22,6 +22,8 @@ import { FlujoCajaPage } from "@/pages/flujo-caja-page"
 import { FacturasCompraPage } from "@/pages/facturas-compra-page"
 import { FacturasVentaPage } from "@/pages/facturas-venta-page"
 import { ImportacionHistoricaPage } from "@/pages/importacion-historica-page"
+import { InversionDetallePage } from "@/pages/inversion-detalle-page"
+import { InversionesPage } from "@/pages/inversiones-page"
 import { JurisdiccionesPage } from "@/pages/jurisdicciones-page"
 import { LiquidacionIibbPage } from "@/pages/liquidacion-iibb-page"
 import { LiquidacionIvaPage } from "@/pages/liquidacion-iva-page"
@@ -110,6 +112,8 @@ export const router = createBrowserRouter([
       { path: "presupuesto/vencimientos", element: <VencimientosPage /> },
       { path: "presupuesto/pagos", element: <CompromisosPage /> },
       { path: "presupuesto/flujo-caja", element: <FlujoCajaPage /> },
+      { path: "presupuesto/inversiones", element: <InversionesPage /> },
+      { path: "presupuesto/inversiones/:id", element: <InversionDetallePage /> },
       {
         path: "pendientes",
         element: <PlaceholderPage title="Pendientes administrativos" />,
