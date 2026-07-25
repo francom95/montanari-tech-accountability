@@ -1,5 +1,6 @@
 package com.montanaritech.contable.maestros.tarjetacredito;
 
+import java.math.BigDecimal;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,4 +18,7 @@ public interface TarjetaCreditoRepository extends JpaRepository<TarjetaCredito, 
 
     /** F8.1: todas las activas, sin paginar, para generar sus vencimientos. */
     List<TarjetaCredito> findByActivoTrue();
+
+    /** Búsqueda global (F9.2, término IMPORTE): saldo actual dentro de la tolerancia. */
+    Page<TarjetaCredito> findBySaldoActualBetween(BigDecimal desde, BigDecimal hasta, Pageable pageable);
 }

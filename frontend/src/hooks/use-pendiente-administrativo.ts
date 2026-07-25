@@ -41,6 +41,15 @@ export function usePendientesAdministrativos(params: {
   })
 }
 
+/** Búsqueda global (F9.2): registro puntual por id, para el filtro exacto ?id= de la lista. */
+export function usePendienteAdministrativo(id: number | undefined) {
+  return useQuery({
+    queryKey: [...QUERY_KEY, id],
+    queryFn: async () => (await http.get<PendienteAdministrativo>(`/pendientes-administrativos/${id}`)).data,
+    enabled: id !== undefined,
+  })
+}
+
 export function useCrearPendienteAdministrativo() {
   const qc = useQueryClient()
   return useMutation({

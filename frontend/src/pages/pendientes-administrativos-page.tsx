@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from "@tanstack/react-table"
 import { useMemo, useState } from "react"
 import { useForm } from "react-hook-form"
+import { Link, useSearchParams } from "react-router-dom"
 import { z } from "zod"
 
 import { Button } from "@/components/ui/button"
@@ -14,6 +15,7 @@ import {
   useCrearPendienteAdministrativo,
   useEditarPendienteAdministrativo,
   useEliminarPendienteAdministrativo,
+  usePendienteAdministrativo,
   usePendientesAdministrativos,
 } from "@/hooks/use-pendiente-administrativo"
 import { useProveedores } from "@/hooks/use-proveedor"
@@ -63,6 +65,10 @@ export function PendientesAdministrativosPage() {
   const [filtroResponsableId, setFiltroResponsableId] = useState("")
   const [filtroCategoria, setFiltroCategoria] = useState("")
   const [editando, setEditando] = useState<PendienteAdministrativo | null>(null)
+
+  const [searchParams] = useSearchParams()
+  const idFiltro = searchParams.get("id") ? Number(searchParams.get("id")) : undefined
+  const registroUnico = usePendienteAdministrativo(idFiltro)
 
   const query = usePendientesAdministrativos({
     texto, page, size: 10,
@@ -153,8 +159,10 @@ export function PendientesAdministrativosPage() {
     [cambiarEstado.isPending, eliminar.isPending]
   )
 
+  const filas = idFiltro !== undefined ? (registroUnico.data ? [registroUnico.data] : []) : (query.data?.content ?? [])
+
   const tabla = useReactTable({
-    data: query.data?.content ?? [],
+    data: filas,
     columns: columnas,
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
@@ -280,23 +288,29 @@ export function PendientesAdministrativosPage() {
       <Card>
         <CardHeader><CardTitle>Listado</CardTitle></CardHeader>
         <CardContent className="space-y-4">
-          <div className="flex flex-wrap gap-2">
-            <Input placeholder="Buscar por título…" value={texto} onChange={(e) => { setTexto(e.target.value); setPage(0) }} className="max-w-xs" />
-            <select value={filtroEstado} onChange={(e) => { setFiltroEstado(e.target.value as EstadoPendiente | ""); setPage(0) }} className={`${selectClase} w-40`}>
-              <option value="">Todos los estados</option>
-              {ESTADOS_PENDIENTE.map((e) => <option key={e} value={e}>{ESTADO_LABEL[e]}</option>)}
-            </select>
-            <select value={filtroPrioridad} onChange={(e) => { setFiltroPrioridad(e.target.value as PrioridadPendiente | ""); setPage(0) }} className={`${selectClase} w-36`}>
-              <option value="">Todas las prioridades</option>
-              {PRIORIDADES_PENDIENTE.map((v) => <option key={v} value={v}>{PRIORIDAD_LABEL[v]}</option>)}
-            </select>
-            <select value={filtroResponsableId} onChange={(e) => { setFiltroResponsableId(e.target.value); setPage(0) }} className={`${selectClase} w-40`}>
-              <option value="">Todos los responsables</option>
-              {usuariosQuery.data?.content?.map((u) => <option key={u.id} value={u.id.toString()}>{u.nombre}</option>)}
-            </select>
-            <Input placeholder="Categoría…" value={filtroCategoria} onChange={(e) => { setFiltroCategoria(e.target.value); setPage(0) }} className="max-w-40" />
-          </div>
-          {query.isLoading ? (
+          {idFiltro !== undefined ? (
+            <p className="text-sm text-muted-foreground">
+              Mostrando un único resultado (desde la búsqueda global) — <Link to="/pendientes" className="hover:underline">Ver todos</Link>
+            </p>
+          ) : (
+            <div className="flex flex-wrap gap-2">
+              <Input placeholder="Buscar por título…" value={texto} onChange={(e) => { setTexto(e.target.value); setPage(0) }} className="max-w-xs" />
+              <select value={filtroEstado} onChange={(e) => { setFiltroEstado(e.target.value as EstadoPendiente | ""); setPage(0) }} className={`${selectClase} w-40`}>
+                <option value="">Todos los estados</option>
+                {ESTADOS_PENDIENTE.map((e) => <option key={e} value={e}>{ESTADO_LABEL[e]}</option>)}
+              </select>
+              <select value={filtroPrioridad} onChange={(e) => { setFiltroPrioridad(e.target.value as PrioridadPendiente | ""); setPage(0) }} className={`${selectClase} w-36`}>
+                <option value="">Todas las prioridades</option>
+                {PRIORIDADES_PENDIENTE.map((v) => <option key={v} value={v}>{PRIORIDAD_LABEL[v]}</option>)}
+              </select>
+              <select value={filtroResponsableId} onChange={(e) => { setFiltroResponsableId(e.target.value); setPage(0) }} className={`${selectClase} w-40`}>
+                <option value="">Todos los responsables</option>
+                {usuariosQuery.data?.content?.map((u) => <option key={u.id} value={u.id.toString()}>{u.nombre}</option>)}
+              </select>
+              <Input placeholder="Categoría…" value={filtroCategoria} onChange={(e) => { setFiltroCategoria(e.target.value); setPage(0) }} className="max-w-40" />
+            </div>
+          )}
+          {(idFiltro !== undefined ? registroUnico.isLoading : query.isLoading) ? (
             <p className="text-sm text-muted-foreground">Cargando…</p>
           ) : (
             <>
@@ -321,11 +335,13 @@ export function PendientesAdministrativosPage() {
                   </tbody>
                 </table>
               </div>
-              <div className="flex items-center gap-2">
-                <Button variant="outline" size="sm" disabled={page === 0} onClick={() => setPage((p) => Math.max(0, p - 1))}>Anterior</Button>
-                <span className="text-sm text-muted-foreground">Página {page + 1} de {query.data?.totalPages || 1}</span>
-                <Button variant="outline" size="sm" disabled={page + 1 >= (query.data?.totalPages ?? 1)} onClick={() => setPage((p) => p + 1)}>Siguiente</Button>
-              </div>
+              {idFiltro === undefined && (
+                <div className="flex items-center gap-2">
+                  <Button variant="outline" size="sm" disabled={page === 0} onClick={() => setPage((p) => Math.max(0, p - 1))}>Anterior</Button>
+                  <span className="text-sm text-muted-foreground">Página {page + 1} de {query.data?.totalPages || 1}</span>
+                  <Button variant="outline" size="sm" disabled={page + 1 >= (query.data?.totalPages ?? 1)} onClick={() => setPage((p) => p + 1)}>Siguiente</Button>
+                </div>
+              )}
             </>
           )}
         </CardContent>

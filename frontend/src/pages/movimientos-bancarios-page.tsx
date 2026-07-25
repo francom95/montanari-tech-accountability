@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react"
 import { useForm } from "react-hook-form"
+import { Link, useSearchParams } from "react-router-dom"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -14,6 +15,7 @@ import {
   useCrearMovimientoBancario,
   useDescartarMovimientoBancario,
   useImputarMovimientoBancario,
+  useMovimientoBancario,
   useMovimientosBancarios,
 } from "@/hooks/use-movimiento-bancario"
 import { useMonedas } from "@/hooks/use-monedas"
@@ -61,6 +63,10 @@ export function MovimientosBancariosPage() {
   const [editando, setEditando] = useState<MovimientoBancario | null>(null)
   const [accionEnCurso, setAccionEnCurso] = useState<AccionEnCurso>(null)
   const [valorAccion, setValorAccion] = useState("")
+
+  const [searchParams] = useSearchParams()
+  const idFiltro = searchParams.get("id") ? Number(searchParams.get("id")) : undefined
+  const registroUnico = useMovimientoBancario(idFiltro)
 
   const query = useMovimientosBancarios({
     cuentaBancariaId: cuentaBancariaFiltro ? Number(cuentaBancariaFiltro) : undefined,
@@ -145,6 +151,9 @@ export function MovimientosBancariosPage() {
     setAccionEnCurso(null)
     setValorAccion("")
   }
+
+  const filas = idFiltro !== undefined ? (registroUnico.data ? [registroUnico.data] : []) : (query.data?.content ?? [])
+  const cargando = idFiltro !== undefined ? registroUnico.isLoading : query.isLoading
 
   return (
     <div className="space-y-6">
@@ -231,17 +240,23 @@ export function MovimientosBancariosPage() {
       <Card>
         <CardHeader><CardTitle>Bandeja</CardTitle></CardHeader>
         <CardContent className="space-y-4">
-          <div className="flex gap-2">
-            <select value={cuentaBancariaFiltro} onChange={(e) => { setCuentaBancariaFiltro(e.target.value); setPage(0) }} className={`${selectClase} max-w-56`}>
-              <option value="">Todas las cuentas</option>
-              {cuentasBancarias.data?.content?.map((c) => <option key={c.id} value={c.id.toString()}>{c.alias}</option>)}
-            </select>
-            <select value={estadoFiltro} onChange={(e) => { setEstadoFiltro(e.target.value as EstadoMovimientoBancario); setPage(0) }} className={`${selectClase} max-w-40`}>
-              {ESTADOS.map((e) => <option key={e} value={e}>{ESTADO_LABEL[e]}</option>)}
-            </select>
-          </div>
+          {idFiltro !== undefined ? (
+            <p className="text-sm text-muted-foreground">
+              Mostrando un único resultado (desde la búsqueda global) — <Link to="/bancos/movimientos" className="hover:underline">Ver todos</Link>
+            </p>
+          ) : (
+            <div className="flex gap-2">
+              <select value={cuentaBancariaFiltro} onChange={(e) => { setCuentaBancariaFiltro(e.target.value); setPage(0) }} className={`${selectClase} max-w-56`}>
+                <option value="">Todas las cuentas</option>
+                {cuentasBancarias.data?.content?.map((c) => <option key={c.id} value={c.id.toString()}>{c.alias}</option>)}
+              </select>
+              <select value={estadoFiltro} onChange={(e) => { setEstadoFiltro(e.target.value as EstadoMovimientoBancario); setPage(0) }} className={`${selectClase} max-w-40`}>
+                {ESTADOS.map((e) => <option key={e} value={e}>{ESTADO_LABEL[e]}</option>)}
+              </select>
+            </div>
+          )}
 
-          {query.isLoading ? (
+          {cargando ? (
             <p className="text-sm text-muted-foreground">Cargando…</p>
           ) : (
             <>
@@ -259,7 +274,7 @@ export function MovimientosBancariosPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {(query.data?.content ?? []).map((m) => (
+                    {filas.map((m) => (
                       <tr key={m.id} className="border-b border-border last:border-0 align-top">
                         <td className="py-2 pr-4">
                           {m.fecha ?? <span className="text-xs font-medium text-amber-600">Sin fecha</span>}
@@ -311,11 +326,13 @@ export function MovimientosBancariosPage() {
                   </tbody>
                 </table>
               </div>
-              <div className="flex items-center gap-2">
-                <Button variant="outline" size="sm" disabled={page === 0} onClick={() => setPage((p) => Math.max(0, p - 1))}>Anterior</Button>
-                <span className="text-sm text-muted-foreground">Página {page + 1} de {query.data?.totalPages || 1}</span>
-                <Button variant="outline" size="sm" disabled={page + 1 >= (query.data?.totalPages ?? 1)} onClick={() => setPage((p) => p + 1)}>Siguiente</Button>
-              </div>
+              {idFiltro === undefined && (
+                <div className="flex items-center gap-2">
+                  <Button variant="outline" size="sm" disabled={page === 0} onClick={() => setPage((p) => Math.max(0, p - 1))}>Anterior</Button>
+                  <span className="text-sm text-muted-foreground">Página {page + 1} de {query.data?.totalPages || 1}</span>
+                  <Button variant="outline" size="sm" disabled={page + 1 >= (query.data?.totalPages ?? 1)} onClick={() => setPage((p) => p + 1)}>Siguiente</Button>
+                </div>
+              )}
             </>
           )}
         </CardContent>

@@ -35,6 +35,15 @@ export function useVencimientos(params: VencimientoBusquedaFiltros & { page?: nu
   })
 }
 
+/** Búsqueda global (F9.2): registro puntual por id, para el filtro exacto ?id= de la lista. */
+export function useVencimiento(id: number | undefined) {
+  return useQuery({
+    queryKey: [...QUERY_KEY, id],
+    queryFn: async () => (await http.get<Vencimiento>(`/vencimientos/${id}`)).data,
+    enabled: id !== undefined,
+  })
+}
+
 export function useProximosVencimientos(dias: number) {
   return useQuery({
     queryKey: [...QUERY_KEY, "proximos", dias],

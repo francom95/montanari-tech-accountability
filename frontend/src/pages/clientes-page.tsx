@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from "@tanstack/react-table"
 import { useMemo, useState } from "react"
 import { useForm } from "react-hook-form"
+import { Link, useSearchParams } from "react-router-dom"
 import { z } from "zod"
 
 import { Button } from "@/components/ui/button"
@@ -10,6 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import {
   useCambiarEstadoCliente,
+  useCliente,
   useCrearCliente,
   useEditarCliente,
   useEliminarCliente,
@@ -39,7 +41,11 @@ export function ClientesPage() {
   const [editando, setEditando] = useState<Cliente | null>(null)
   const [descargando, setDescargando] = useState<"excel" | "pdf" | null>(null)
 
+  const [searchParams] = useSearchParams()
+  const idFiltro = searchParams.get("id") ? Number(searchParams.get("id")) : undefined
+
   const query = useClientes({ texto, page, size: 10 })
+  const registroUnico = useCliente(idFiltro)
   const jurisdicciones = useJurisdiccions({ page: 0, size: 100 })
   const cuentasContables = useCuentasContables({ activo: true, page: 0, size: 500 })
   const cuentasImputables = useMemo(() => (cuentasContables.data?.content ?? []).filter((c) => c.imputable), [cuentasContables.data])
@@ -137,8 +143,10 @@ export function ClientesPage() {
     [cambiarEstado.isPending, eliminar.isPending]
   )
 
+  const filas = idFiltro !== undefined ? (registroUnico.data ? [registroUnico.data] : []) : (query.data?.content ?? [])
+
   const tabla = useReactTable({
-    data: query.data?.content ?? [],
+    data: filas,
     columns: columnas,
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
@@ -220,8 +228,14 @@ export function ClientesPage() {
       <Card>
         <CardHeader><CardTitle>Listado</CardTitle></CardHeader>
         <CardContent className="space-y-4">
-          <Input placeholder="Buscar…" value={texto} onChange={(e) => { setTexto(e.target.value); setPage(0) }} className="max-w-xs" />
-          {query.isLoading ? (
+          {idFiltro !== undefined ? (
+            <p className="text-sm text-muted-foreground">
+              Mostrando un único resultado (desde la búsqueda global) — <Link to="/clientes" className="hover:underline">Ver todos</Link>
+            </p>
+          ) : (
+            <Input placeholder="Buscar…" value={texto} onChange={(e) => { setTexto(e.target.value); setPage(0) }} className="max-w-xs" />
+          )}
+          {(idFiltro !== undefined ? registroUnico.isLoading : query.isLoading) ? (
             <p className="text-sm text-muted-foreground">Cargando…</p>
           ) : (
             <>
@@ -241,11 +255,13 @@ export function ClientesPage() {
                   ))}
                 </tbody>
               </table>
-              <div className="flex items-center gap-2">
-                <Button variant="outline" size="sm" disabled={page === 0} onClick={() => setPage((p) => Math.max(0, p - 1))}>Anterior</Button>
-                <span className="text-sm text-muted-foreground">{page + 1} de {tabla.getPageCount()}</span>
-                <Button variant="outline" size="sm" disabled={page >= (tabla.getPageCount() || 1) - 1} onClick={() => setPage((p) => p + 1)}>Siguiente</Button>
-              </div>
+              {idFiltro === undefined && (
+                <div className="flex items-center gap-2">
+                  <Button variant="outline" size="sm" disabled={page === 0} onClick={() => setPage((p) => Math.max(0, p - 1))}>Anterior</Button>
+                  <span className="text-sm text-muted-foreground">{page + 1} de {tabla.getPageCount()}</span>
+                  <Button variant="outline" size="sm" disabled={page >= (tabla.getPageCount() || 1) - 1} onClick={() => setPage((p) => p + 1)}>Siguiente</Button>
+                </div>
+              )}
             </>
           )}
         </CardContent>

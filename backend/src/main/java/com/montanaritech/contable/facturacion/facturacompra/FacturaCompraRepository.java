@@ -2,6 +2,7 @@ package com.montanaritech.contable.facturacion.facturacompra;
 
 import com.montanaritech.contable.common.estado.EstadoDocumento;
 import com.montanaritech.contable.facturacion.TipoComprobante;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.data.domain.Page;
@@ -11,6 +12,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface FacturaCompraRepository extends JpaRepository<FacturaCompra, Long> {
+
+    /** Búsqueda global (F9.2, término CUIT): vía el CUIT del proveedor. */
+    Page<FacturaCompra> findByProveedor_Cuit(String cuit, Pageable pageable);
+
+    /** Búsqueda global (F9.2, término FECHA): fecha exacta del comprobante. */
+    Page<FacturaCompra> findByFecha(LocalDate fecha, Pageable pageable);
+
+    /** Búsqueda global (F9.2, término IMPORTE): total (ARS) dentro de la tolerancia. */
+    Page<FacturaCompra> findByTotalArsBetween(BigDecimal desde, BigDecimal hasta, Pageable pageable);
 
     @Query("""
             SELECT f FROM FacturaCompra f

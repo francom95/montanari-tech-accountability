@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useMemo, useRef, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
@@ -45,9 +45,16 @@ const VALORES_INICIALES: Valores = {
   observaciones: "", proveedoresIds: [],
 }
 
-export function EtapasTab({ proyectoId }: { proyectoId: number }) {
+export function EtapasTab({ proyectoId, etapaResaltadaId }: { proyectoId: number; etapaResaltadaId?: number }) {
   const [editando, setEditando] = useState<Etapa | null>(null)
   const etapas = useEtapas(proyectoId, { size: 50 })
+  const filaResaltadaRef = useRef<HTMLTableRowElement>(null)
+
+  useEffect(() => {
+    if (etapaResaltadaId && filaResaltadaRef.current) {
+      filaResaltadaRef.current.scrollIntoView({ behavior: "smooth", block: "center" })
+    }
+  }, [etapaResaltadaId, etapas.data])
   const proveedores = useProveedores({ page: 0, size: 100 })
   const crear = useCrearEtapa(proyectoId)
   const editar = useEditarEtapa(proyectoId)
@@ -209,7 +216,11 @@ export function EtapasTab({ proyectoId }: { proyectoId: number }) {
               </thead>
               <tbody>
                 {etapas.data?.content?.map((e) => (
-                  <tr key={e.id} className="border-b border-border last:border-0">
+                  <tr
+                    key={e.id}
+                    ref={e.id === etapaResaltadaId ? filaResaltadaRef : undefined}
+                    className={`border-b border-border last:border-0 ${e.id === etapaResaltadaId ? "bg-secondary/60" : ""}`}
+                  >
                     <td className="py-2 pr-4">{e.nombre}</td>
                     <td className="py-2 pr-4">{e.estado}</td>
                     <td className="py-2 pr-4">{e.porcentajeAvance ?? "-"}</td>

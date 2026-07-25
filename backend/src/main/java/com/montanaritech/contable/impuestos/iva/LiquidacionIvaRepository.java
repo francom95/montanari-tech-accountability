@@ -1,6 +1,8 @@
 package com.montanaritech.contable.impuestos.iva;
 
 import com.montanaritech.contable.common.estado.EstadoDocumento;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -11,6 +13,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface LiquidacionIvaRepository extends JpaRepository<LiquidacionIva, Long> {
+
+    /** Búsqueda global (F9.2, término FECHA): el período de la liquidación incluye esa fecha. */
+    Page<LiquidacionIva> findByFechaDesdeLessThanEqualAndFechaHastaGreaterThanEqual(
+            LocalDate fecha1, LocalDate fecha2, Pageable pageable);
+
+    /** Búsqueda global (F9.2, término IMPORTE): saldo a pagar dentro de la tolerancia. */
+    Page<LiquidacionIva> findBySaldoAPagarBetween(BigDecimal desde, BigDecimal hasta, Pageable pageable);
 
     @Query("""
             SELECT l FROM LiquidacionIva l

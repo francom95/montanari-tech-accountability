@@ -12,6 +12,28 @@ import org.springframework.data.repository.query.Param;
 
 public interface AsientoRepository extends JpaRepository<Asiento, Long> {
 
+    /** Búsqueda global (F9.2, término TEXTO): FULLTEXT sobre descripcion, tenant explícito porque es SQL nativo. */
+    @Query(value = """
+            SELECT * FROM asiento
+            WHERE tenant_id = :tenantId AND MATCH(descripcion) AGAINST (:texto IN NATURAL LANGUAGE MODE)
+            """,
+            countQuery = """
+            SELECT COUNT(*) FROM asiento
+            WHERE tenant_id = :tenantId AND MATCH(descripcion) AGAINST (:texto IN NATURAL LANGUAGE MODE)
+            """,
+            nativeQuery = true)
+    Page<Asiento> buscarGlobalPorTexto(@Param("tenantId") Long tenantId, @Param("texto") String texto, Pageable pageable);
+
+    /** Búsqueda global (F9.2, término FECHA). */
+    Page<Asiento> findByFecha(LocalDate fecha, Pageable pageable);
+
+    /** Búsqueda global (F9.2, término IMPORTE): cualquier línea con debe/haber dentro de la tolerancia. */
+    @Query("""
+            SELECT DISTINCT a FROM Asiento a JOIN a.lineas l
+            WHERE l.debe BETWEEN :desde AND :hasta OR l.haber BETWEEN :desde AND :hasta
+            """)
+    Page<Asiento> buscarGlobalPorImporte(@Param("desde") BigDecimal desde, @Param("hasta") BigDecimal hasta, Pageable pageable);
+
     /** Resolución por número visible para el usuario (F5.1, acción "asociar" de un movimiento bancario). */
     Optional<Asiento> findByNumero(Long numero);
 

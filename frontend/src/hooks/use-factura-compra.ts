@@ -36,6 +36,15 @@ export function useFacturasCompra(params: {
   })
 }
 
+/** Búsqueda global (F9.2): registro puntual por id, para el filtro exacto ?id= de la lista. */
+export function useFacturaCompra(id: number | undefined) {
+  return useQuery({
+    queryKey: [...QUERY_KEY, id],
+    queryFn: async () => (await http.get<FacturaCompra>(`/facturas-compra/${id}`)).data,
+    enabled: id !== undefined,
+  })
+}
+
 export function useCrearFacturaCompra() {
   const qc = useQueryClient()
   return useMutation({

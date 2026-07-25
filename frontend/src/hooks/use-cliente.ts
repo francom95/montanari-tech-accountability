@@ -12,6 +12,15 @@ export function useClientes(params: { texto?: string; activo?: boolean; page?: n
   })
 }
 
+/** Búsqueda global (F9.2): registro puntual por id, para el filtro exacto ?id= de la lista. */
+export function useCliente(id: number | undefined) {
+  return useQuery({
+    queryKey: [...QUERY_KEY, id],
+    queryFn: async () => (await http.get<Cliente>(`/clientes/${id}`)).data,
+    enabled: id !== undefined,
+  })
+}
+
 export function useCrearCliente() {
   const qc = useQueryClient()
   return useMutation({

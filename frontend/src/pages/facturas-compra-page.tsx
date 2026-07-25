@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from "@tanstack/react-table"
 import { useMemo, useState } from "react"
 import { useFieldArray, useForm, useWatch, type Control } from "react-hook-form"
+import { Link, useSearchParams } from "react-router-dom"
 import { z } from "zod"
 
 import { Button } from "@/components/ui/button"
@@ -16,6 +17,7 @@ import {
   useCrearFacturaCompra,
   useEditarFacturaCompra,
   useEliminarFacturaCompra,
+  useFacturaCompra,
   useFacturasCompra,
 } from "@/hooks/use-factura-compra"
 import { useJurisdiccions } from "@/hooks/use-jurisdiccion"
@@ -108,6 +110,9 @@ export function FacturasCompraPage() {
   const [motivoAnulacion, setMotivoAnulacion] = useState("")
 
   const query = useFacturasCompra({ texto, estado: estadoFiltro || undefined, page, size: 10 })
+  const [searchParams] = useSearchParams()
+  const idFiltro = searchParams.get("id") ? Number(searchParams.get("id")) : undefined
+  const registroUnico = useFacturaCompra(idFiltro)
   const crear = useCrearFacturaCompra()
   const editar = useEditarFacturaCompra()
   const eliminar = useEliminarFacturaCompra()
@@ -266,8 +271,10 @@ export function FacturasCompraPage() {
     [confirmar.isPending, eliminar.isPending, anular.isPending, anulando, motivoAnulacion]
   )
 
+  const filas = idFiltro !== undefined ? (registroUnico.data ? [registroUnico.data] : []) : (query.data?.content ?? [])
+
   const tabla = useReactTable({
-    data: query.data?.content ?? [],
+    data: filas,
     columns: columnas,
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
@@ -467,14 +474,20 @@ export function FacturasCompraPage() {
       <Card>
         <CardHeader><CardTitle>Listado</CardTitle></CardHeader>
         <CardContent className="space-y-4">
-          <div className="flex gap-2">
-            <Input placeholder="Buscar por número o proveedor…" value={texto} onChange={(e) => { setTexto(e.target.value); setPage(0) }} className="max-w-xs" />
-            <select value={estadoFiltro} onChange={(e) => { setEstadoFiltro(e.target.value as EstadoFacturaCompra | ""); setPage(0) }} className={`${selectClase} max-w-40`}>
-              <option value="">Todos los estados</option>
-              {ESTADOS.map((e) => <option key={e} value={e}>{ESTADO_LABEL[e]}</option>)}
-            </select>
-          </div>
-          {query.isLoading ? (
+          {idFiltro !== undefined ? (
+            <p className="text-sm text-muted-foreground">
+              Mostrando un único resultado (desde la búsqueda global) — <Link to="/facturacion/compras" className="hover:underline">Ver todos</Link>
+            </p>
+          ) : (
+            <div className="flex gap-2">
+              <Input placeholder="Buscar por número o proveedor…" value={texto} onChange={(e) => { setTexto(e.target.value); setPage(0) }} className="max-w-xs" />
+              <select value={estadoFiltro} onChange={(e) => { setEstadoFiltro(e.target.value as EstadoFacturaCompra | ""); setPage(0) }} className={`${selectClase} max-w-40`}>
+                <option value="">Todos los estados</option>
+                {ESTADOS.map((e) => <option key={e} value={e}>{ESTADO_LABEL[e]}</option>)}
+              </select>
+            </div>
+          )}
+          {(idFiltro !== undefined ? registroUnico.isLoading : query.isLoading) ? (
             <p className="text-sm text-muted-foreground">Cargando…</p>
           ) : (
             <>
@@ -494,11 +507,13 @@ export function FacturasCompraPage() {
                   ))}
                 </tbody>
               </table>
-              <div className="flex items-center gap-2">
-                <Button variant="outline" size="sm" disabled={page === 0} onClick={() => setPage((p) => Math.max(0, p - 1))}>Anterior</Button>
-                <span className="text-sm text-muted-foreground">Página {page + 1} de {query.data?.totalPages || 1}</span>
-                <Button variant="outline" size="sm" disabled={page + 1 >= (query.data?.totalPages ?? 1)} onClick={() => setPage((p) => p + 1)}>Siguiente</Button>
-              </div>
+              {idFiltro === undefined && (
+                <div className="flex items-center gap-2">
+                  <Button variant="outline" size="sm" disabled={page === 0} onClick={() => setPage((p) => Math.max(0, p - 1))}>Anterior</Button>
+                  <span className="text-sm text-muted-foreground">Página {page + 1} de {query.data?.totalPages || 1}</span>
+                  <Button variant="outline" size="sm" disabled={page + 1 >= (query.data?.totalPages ?? 1)} onClick={() => setPage((p) => p + 1)}>Siguiente</Button>
+                </div>
+              )}
             </>
           )}
         </CardContent>

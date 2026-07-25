@@ -26,6 +26,15 @@ export function usePagos(params: { estado?: EstadoPago; proveedorId?: number; fe
   })
 }
 
+/** Búsqueda global (F9.2): registro puntual por id, para el filtro exacto ?id= de la lista. */
+export function usePago(id: number | undefined) {
+  return useQuery({
+    queryKey: [...QUERY_KEY, id],
+    queryFn: async () => (await http.get<Pago>(`/pagos/${id}`)).data,
+    enabled: id !== undefined,
+  })
+}
+
 export function useSaldoFacturaCompra(facturaCompraId: number | undefined) {
   return useQuery({
     queryKey: [...QUERY_KEY, "saldo-compra", facturaCompraId],

@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useForm, useWatch } from "react-hook-form"
+import { useSearchParams } from "react-router-dom"
 import { z } from "zod"
 
 import { Button } from "@/components/ui/button"
@@ -20,6 +21,7 @@ import {
   useGenerarAutomaticosVencimientos,
   useMarcarPagadoVencimiento,
   useReprogramarVencimiento,
+  useVencimiento,
   useVencimientos,
 } from "@/hooks/use-vencimiento"
 import {
@@ -142,6 +144,13 @@ export function VencimientosPage() {
   const [nuevaFechaReprogramar, setNuevaFechaReprogramar] = useState("")
   const [cancelando, setCancelando] = useState<number | null>(null)
   const [motivoCancelacion, setMotivoCancelacion] = useState("")
+
+  const [searchParams] = useSearchParams()
+  const idFiltro = searchParams.get("id") ? Number(searchParams.get("id")) : undefined
+  const registroDestacado = useVencimiento(idFiltro)
+  useEffect(() => {
+    if (registroDestacado.data) setSeleccionado(registroDestacado.data)
+  }, [registroDestacado.data])
 
   const diasCalendario = useMemo(() => generarDiasCalendario(anioMes.anio, anioMes.mes), [anioMes])
   const primerDiaVisible = aFechaIso(diasCalendario[0])

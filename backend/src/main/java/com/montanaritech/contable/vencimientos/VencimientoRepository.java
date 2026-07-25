@@ -1,5 +1,6 @@
 package com.montanaritech.contable.vencimientos;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.data.domain.Page;
@@ -9,6 +10,24 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface VencimientoRepository extends JpaRepository<Vencimiento, Long> {
+
+    /** Búsqueda global (F9.2, término TEXTO): FULLTEXT sobre descripcion, tenant explícito porque es SQL nativo. */
+    @Query(value = """
+            SELECT * FROM vencimiento
+            WHERE tenant_id = :tenantId AND MATCH(descripcion) AGAINST (:texto IN NATURAL LANGUAGE MODE)
+            """,
+            countQuery = """
+            SELECT COUNT(*) FROM vencimiento
+            WHERE tenant_id = :tenantId AND MATCH(descripcion) AGAINST (:texto IN NATURAL LANGUAGE MODE)
+            """,
+            nativeQuery = true)
+    Page<Vencimiento> buscarGlobalPorTexto(@Param("tenantId") Long tenantId, @Param("texto") String texto, Pageable pageable);
+
+    /** Búsqueda global (F9.2, término FECHA). */
+    Page<Vencimiento> findByFecha(LocalDate fecha, Pageable pageable);
+
+    /** Búsqueda global (F9.2, término IMPORTE): importe estimado dentro de la tolerancia. */
+    Page<Vencimiento> findByImporteEstimadoBetween(BigDecimal desde, BigDecimal hasta, Pageable pageable);
 
     /** Búsqueda avanzada (F8.1), mismo molde que {@code AsientoRepository.buscar}. */
     @Query("""

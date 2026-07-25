@@ -1,4 +1,5 @@
 import { Fragment, useState } from "react"
+import { useSearchParams } from "react-router-dom"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -11,6 +12,7 @@ import {
   useCrearLiquidacionIva,
   useEliminarComponenteIva,
   useLiquidacionesIva,
+  useLiquidacionIva,
   usePrevisualizacionIva,
   useRecalcularLiquidacionIva,
   descargarLiquidacionesIvaExcel,
@@ -45,6 +47,10 @@ export function LiquidacionIvaPage() {
   const [seleccionadaId, setSeleccionadaId] = useState<number | null>(null)
   const [descargando, setDescargando] = useState<"excel" | "pdf" | null>(null)
 
+  const [searchParams] = useSearchParams()
+  const idFiltro = searchParams.get("id") ? Number(searchParams.get("id")) : undefined
+  const registroDestacado = useLiquidacionIva(idFiltro)
+
   const liquidaciones = useLiquidacionesIva({ anio })
   const previsualizacion = usePrevisualizacionIva(anio, mes)
   const crear = useCrearLiquidacionIva()
@@ -59,7 +65,9 @@ export function LiquidacionIvaPage() {
     }
   }
 
-  const seleccionada = liquidaciones.data?.content.find((l) => l.id === seleccionadaId)
+  const seleccionada = idFiltro !== undefined
+    ? registroDestacado.data
+    : liquidaciones.data?.content.find((l) => l.id === seleccionadaId)
   const yaLiquidado = liquidaciones.data?.content.some(
     (l) => l.mes === mes && l.estado !== "ANULADO",
   )

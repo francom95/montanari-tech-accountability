@@ -27,4 +27,7 @@ public interface PendienteAdministrativoRepository extends JpaRepository<Pendien
     /** F8.5: query service para que F9.1 (alertas) consuma los pendientes próximos a vencer. */
     List<PendienteAdministrativo> findByEstadoAndFechaEstimadaResolucionLessThanEqualOrderByFechaEstimadaResolucionAsc(
             EstadoPendiente estado, LocalDate limite);
+
+    /** Búsqueda global (F9.2, término FECHA). */
+    Page<PendienteAdministrativo> findByFechaEstimadaResolucion(LocalDate fecha, Pageable pageable);
 }

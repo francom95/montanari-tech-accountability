@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect, useRef, useState } from "react"
 import { useFieldArray, useForm } from "react-hook-form"
-import { Link, useParams } from "react-router-dom"
+import { Link, useParams, useSearchParams } from "react-router-dom"
 import { z } from "zod"
 
 import { Button } from "@/components/ui/button"
@@ -71,10 +71,17 @@ function proyectoAValores(p: Proyecto): Valores {
 
 type Pestaña = "datos" | "cuotas" | "etapas" | "comisiones" | "presupuesto" | "reporte"
 
+const PESTAÑAS_VALIDAS: Pestaña[] = ["datos", "cuotas", "etapas", "comisiones", "presupuesto", "reporte"]
+
 export function ProyectoDetallePage() {
   const { id } = useParams()
   const proyectoId = Number(id)
-  const [pestaña, setPestaña] = useState<Pestaña>("datos")
+  const [searchParams] = useSearchParams()
+  const tabInicial = searchParams.get("tab")
+  const etapaResaltadaId = searchParams.get("id")
+  const [pestaña, setPestaña] = useState<Pestaña>(
+    PESTAÑAS_VALIDAS.includes(tabInicial as Pestaña) ? (tabInicial as Pestaña) : "datos"
+  )
   const proyecto = useProyecto(proyectoId)
 
   return (
@@ -110,7 +117,7 @@ export function ProyectoDetallePage() {
       ) : pestaña === "datos" || pestaña === "cuotas" ? (
         <FichaProyectoForm proyecto={proyecto.data} pestaña={pestaña} />
       ) : pestaña === "etapas" ? (
-        <EtapasTab proyectoId={proyectoId} />
+        <EtapasTab proyectoId={proyectoId} etapaResaltadaId={etapaResaltadaId ? Number(etapaResaltadaId) : undefined} />
       ) : pestaña === "comisiones" ? (
         <ComisionesTab proyectoId={proyectoId} />
       ) : pestaña === "presupuesto" ? (

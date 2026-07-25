@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from "@tanstack/react-table"
 import { useMemo, useState } from "react"
 import { useFieldArray, useForm, useWatch, type Control } from "react-hook-form"
+import { Link, useSearchParams } from "react-router-dom"
 import { z } from "zod"
 
 import { Button } from "@/components/ui/button"
@@ -11,6 +12,7 @@ import { Input } from "@/components/ui/input"
 import { useCurrentUser } from "@/hooks/use-auth"
 import {
   useAnularAsiento,
+  useAsiento,
   useAsientos,
   useConfirmarAsiento,
   useCrearAsiento,
@@ -132,6 +134,9 @@ export function AsientosPage() {
     proveedorId: proveedorFiltro ? Number(proveedorFiltro) : undefined,
   }
   const query = useAsientos({ ...filtrosBusqueda, page, size: 10 })
+  const [searchParams] = useSearchParams()
+  const idFiltro = searchParams.get("id") ? Number(searchParams.get("id")) : undefined
+  const registroUnico = useAsiento(idFiltro)
 
   async function exportar(formato: "excel" | "pdf") {
     setDescargando(formato)
@@ -292,8 +297,10 @@ export function AsientosPage() {
     [confirmar.isPending, eliminar.isPending, duplicar.isPending, anular.isPending, anulando, motivoAnulacionInput]
   )
 
+  const filas = idFiltro !== undefined ? (registroUnico.data ? [registroUnico.data] : []) : (query.data?.content ?? [])
+
   const tabla = useReactTable({
-    data: query.data?.content ?? [],
+    data: filas,
     columns: columnas,
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
@@ -409,61 +416,69 @@ export function AsientosPage() {
       <Card>
         <CardHeader><CardTitle>Listado</CardTitle></CardHeader>
         <CardContent className="space-y-4">
-          <div className="flex flex-wrap gap-2">
-            <Input placeholder="Buscar por descripción o leyenda…" value={texto} onChange={(e) => { setTexto(e.target.value); setPage(0) }} className="max-w-xs" />
-            <select value={estadoFiltro} onChange={(e) => { setEstadoFiltro(e.target.value as EstadoAsiento | ""); setPage(0) }} className={`${selectClase} max-w-40`}>
-              <option value="">Todos los estados</option>
-              {ESTADOS.map((e) => <option key={e} value={e}>{ESTADO_LABEL[e]}</option>)}
-            </select>
-            <select value={origenFiltro} onChange={(e) => { setOrigenFiltro(e.target.value); setPage(0) }} className={`${selectClase} max-w-44`}>
-              <option value="">Todos los orígenes</option>
-              {ORIGENES.map((o) => <option key={o} value={o}>{o}</option>)}
-            </select>
-            <Input placeholder="N° de asiento" value={numeroFiltro} onChange={(e) => { setNumeroFiltro(e.target.value); setPage(0) }} className="max-w-32" />
-          </div>
-          <div className="flex flex-wrap items-end gap-2">
-            <label className="flex flex-col text-xs text-muted-foreground">
-              Fecha desde
-              <Input type="date" value={fechaDesdeFiltro} onChange={(e) => { setFechaDesdeFiltro(e.target.value); setPage(0) }} className={`${inputClase} w-36`} />
-            </label>
-            <label className="flex flex-col text-xs text-muted-foreground">
-              Fecha hasta
-              <Input type="date" value={fechaHastaFiltro} onChange={(e) => { setFechaHastaFiltro(e.target.value); setPage(0) }} className={`${inputClase} w-36`} />
-            </label>
-            <label className="flex flex-col text-xs text-muted-foreground">
-              Importe
-              <Input type="number" step="0.01" value={importeFiltro} onChange={(e) => { setImporteFiltro(e.target.value); setPage(0) }} className={`${inputClase} w-28`} />
-            </label>
-            <label className="flex flex-col text-xs text-muted-foreground">
-              Cuenta
-              <select value={cuentaFiltro} onChange={(e) => { setCuentaFiltro(e.target.value); setPage(0) }} className={`${selectClase} min-w-48`} disabled={cuentasParaFiltro.isLoading}>
-                <option value="">Todas</option>
-                {cuentasParaFiltro.data?.content?.map((c) => <option key={c.id} value={c.id.toString()}>{c.codigo} — {c.nombre}</option>)}
-              </select>
-            </label>
-            <label className="flex flex-col text-xs text-muted-foreground">
-              Proyecto
-              <select value={proyectoFiltro} onChange={(e) => { setProyectoFiltro(e.target.value); setPage(0) }} className={`${selectClase} min-w-36`} disabled={proyectosParaFiltro.isLoading}>
-                <option value="">Todos</option>
-                {proyectosParaFiltro.data?.content?.map((p) => <option key={p.id} value={p.id.toString()}>{p.nombre}</option>)}
-              </select>
-            </label>
-            <label className="flex flex-col text-xs text-muted-foreground">
-              Cliente
-              <select value={clienteFiltro} onChange={(e) => { setClienteFiltro(e.target.value); setPage(0) }} className={`${selectClase} min-w-36`} disabled={clientesParaFiltro.isLoading}>
-                <option value="">Todos</option>
-                {clientesParaFiltro.data?.content?.map((c) => <option key={c.id} value={c.id.toString()}>{c.nombre}</option>)}
-              </select>
-            </label>
-            <label className="flex flex-col text-xs text-muted-foreground">
-              Proveedor
-              <select value={proveedorFiltro} onChange={(e) => { setProveedorFiltro(e.target.value); setPage(0) }} className={`${selectClase} min-w-36`} disabled={proveedoresParaFiltro.isLoading}>
-                <option value="">Todos</option>
-                {proveedoresParaFiltro.data?.content?.map((p) => <option key={p.id} value={p.id.toString()}>{p.nombre}</option>)}
-              </select>
-            </label>
-          </div>
-          {query.isLoading ? (
+          {idFiltro !== undefined ? (
+            <p className="text-sm text-muted-foreground">
+              Mostrando un único resultado (desde la búsqueda global) — <Link to="/contabilidad/asientos" className="hover:underline">Ver todos</Link>
+            </p>
+          ) : (
+            <>
+              <div className="flex flex-wrap gap-2">
+                <Input placeholder="Buscar por descripción o leyenda…" value={texto} onChange={(e) => { setTexto(e.target.value); setPage(0) }} className="max-w-xs" />
+                <select value={estadoFiltro} onChange={(e) => { setEstadoFiltro(e.target.value as EstadoAsiento | ""); setPage(0) }} className={`${selectClase} max-w-40`}>
+                  <option value="">Todos los estados</option>
+                  {ESTADOS.map((e) => <option key={e} value={e}>{ESTADO_LABEL[e]}</option>)}
+                </select>
+                <select value={origenFiltro} onChange={(e) => { setOrigenFiltro(e.target.value); setPage(0) }} className={`${selectClase} max-w-44`}>
+                  <option value="">Todos los orígenes</option>
+                  {ORIGENES.map((o) => <option key={o} value={o}>{o}</option>)}
+                </select>
+                <Input placeholder="N° de asiento" value={numeroFiltro} onChange={(e) => { setNumeroFiltro(e.target.value); setPage(0) }} className="max-w-32" />
+              </div>
+              <div className="flex flex-wrap items-end gap-2">
+                <label className="flex flex-col text-xs text-muted-foreground">
+                  Fecha desde
+                  <Input type="date" value={fechaDesdeFiltro} onChange={(e) => { setFechaDesdeFiltro(e.target.value); setPage(0) }} className={`${inputClase} w-36`} />
+                </label>
+                <label className="flex flex-col text-xs text-muted-foreground">
+                  Fecha hasta
+                  <Input type="date" value={fechaHastaFiltro} onChange={(e) => { setFechaHastaFiltro(e.target.value); setPage(0) }} className={`${inputClase} w-36`} />
+                </label>
+                <label className="flex flex-col text-xs text-muted-foreground">
+                  Importe
+                  <Input type="number" step="0.01" value={importeFiltro} onChange={(e) => { setImporteFiltro(e.target.value); setPage(0) }} className={`${inputClase} w-28`} />
+                </label>
+                <label className="flex flex-col text-xs text-muted-foreground">
+                  Cuenta
+                  <select value={cuentaFiltro} onChange={(e) => { setCuentaFiltro(e.target.value); setPage(0) }} className={`${selectClase} min-w-48`} disabled={cuentasParaFiltro.isLoading}>
+                    <option value="">Todas</option>
+                    {cuentasParaFiltro.data?.content?.map((c) => <option key={c.id} value={c.id.toString()}>{c.codigo} — {c.nombre}</option>)}
+                  </select>
+                </label>
+                <label className="flex flex-col text-xs text-muted-foreground">
+                  Proyecto
+                  <select value={proyectoFiltro} onChange={(e) => { setProyectoFiltro(e.target.value); setPage(0) }} className={`${selectClase} min-w-36`} disabled={proyectosParaFiltro.isLoading}>
+                    <option value="">Todos</option>
+                    {proyectosParaFiltro.data?.content?.map((p) => <option key={p.id} value={p.id.toString()}>{p.nombre}</option>)}
+                  </select>
+                </label>
+                <label className="flex flex-col text-xs text-muted-foreground">
+                  Cliente
+                  <select value={clienteFiltro} onChange={(e) => { setClienteFiltro(e.target.value); setPage(0) }} className={`${selectClase} min-w-36`} disabled={clientesParaFiltro.isLoading}>
+                    <option value="">Todos</option>
+                    {clientesParaFiltro.data?.content?.map((c) => <option key={c.id} value={c.id.toString()}>{c.nombre}</option>)}
+                  </select>
+                </label>
+                <label className="flex flex-col text-xs text-muted-foreground">
+                  Proveedor
+                  <select value={proveedorFiltro} onChange={(e) => { setProveedorFiltro(e.target.value); setPage(0) }} className={`${selectClase} min-w-36`} disabled={proveedoresParaFiltro.isLoading}>
+                    <option value="">Todos</option>
+                    {proveedoresParaFiltro.data?.content?.map((p) => <option key={p.id} value={p.id.toString()}>{p.nombre}</option>)}
+                  </select>
+                </label>
+              </div>
+            </>
+          )}
+          {(idFiltro !== undefined ? registroUnico.isLoading : query.isLoading) ? (
             <p className="text-sm text-muted-foreground">Cargando…</p>
           ) : (
             <>
@@ -483,11 +498,13 @@ export function AsientosPage() {
                   ))}
                 </tbody>
               </table>
-              <div className="flex items-center gap-2">
-                <Button variant="outline" size="sm" disabled={page === 0} onClick={() => setPage((p) => Math.max(0, p - 1))}>Anterior</Button>
-                <span className="text-sm text-muted-foreground">Página {page + 1} de {query.data?.totalPages || 1}</span>
-                <Button variant="outline" size="sm" disabled={page + 1 >= (query.data?.totalPages ?? 1)} onClick={() => setPage((p) => p + 1)}>Siguiente</Button>
-              </div>
+              {idFiltro === undefined && (
+                <div className="flex items-center gap-2">
+                  <Button variant="outline" size="sm" disabled={page === 0} onClick={() => setPage((p) => Math.max(0, p - 1))}>Anterior</Button>
+                  <span className="text-sm text-muted-foreground">Página {page + 1} de {query.data?.totalPages || 1}</span>
+                  <Button variant="outline" size="sm" disabled={page + 1 >= (query.data?.totalPages ?? 1)} onClick={() => setPage((p) => p + 1)}>Siguiente</Button>
+                </div>
+              )}
             </>
           )}
         </CardContent>

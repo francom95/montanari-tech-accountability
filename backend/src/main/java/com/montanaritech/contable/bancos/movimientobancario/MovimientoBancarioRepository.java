@@ -1,5 +1,6 @@
 package com.montanaritech.contable.bancos.movimientobancario;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.data.domain.Page;
@@ -9,6 +10,24 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface MovimientoBancarioRepository extends JpaRepository<MovimientoBancario, Long> {
+
+    /** Búsqueda global (F9.2, término TEXTO): FULLTEXT sobre descripcion, tenant explícito porque es SQL nativo. */
+    @Query(value = """
+            SELECT * FROM movimiento_bancario
+            WHERE tenant_id = :tenantId AND MATCH(descripcion) AGAINST (:texto IN NATURAL LANGUAGE MODE)
+            """,
+            countQuery = """
+            SELECT COUNT(*) FROM movimiento_bancario
+            WHERE tenant_id = :tenantId AND MATCH(descripcion) AGAINST (:texto IN NATURAL LANGUAGE MODE)
+            """,
+            nativeQuery = true)
+    Page<MovimientoBancario> buscarGlobalPorTexto(@Param("tenantId") Long tenantId, @Param("texto") String texto, Pageable pageable);
+
+    /** Búsqueda global (F9.2, término FECHA). */
+    Page<MovimientoBancario> findByFecha(LocalDate fecha, Pageable pageable);
+
+    /** Búsqueda global (F9.2, término IMPORTE): importe (ARS) dentro de la tolerancia. */
+    Page<MovimientoBancario> findByImporteArsBetween(BigDecimal desde, BigDecimal hasta, Pageable pageable);
 
     @Query("""
             SELECT m FROM MovimientoBancario m

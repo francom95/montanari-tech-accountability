@@ -11,6 +11,23 @@ import org.springframework.data.repository.query.Param;
 
 public interface CobroRepository extends JpaRepository<Cobro, Long> {
 
+    /** Búsqueda global (F9.2, término TEXTO): sin campo de descripción propio, matchea cliente u observaciones. */
+    @Query("""
+            SELECT c FROM Cobro c
+            WHERE LOWER(c.cliente.nombre) LIKE LOWER(CONCAT('%', :texto, '%'))
+               OR LOWER(c.observaciones) LIKE LOWER(CONCAT('%', :texto, '%'))
+            """)
+    Page<Cobro> buscarGlobalPorTexto(@Param("texto") String texto, Pageable pageable);
+
+    /** Búsqueda global (F9.2, término CUIT): vía el CUIT del cliente. */
+    Page<Cobro> findByCliente_Cuit(String cuit, Pageable pageable);
+
+    /** Búsqueda global (F9.2, término FECHA). */
+    Page<Cobro> findByFecha(LocalDate fecha, Pageable pageable);
+
+    /** Búsqueda global (F9.2, término IMPORTE): total (ARS) dentro de la tolerancia. */
+    Page<Cobro> findByTotalArsBetween(BigDecimal desde, BigDecimal hasta, Pageable pageable);
+
     @Query("""
             SELECT c FROM Cobro c
             WHERE (:estado IS NULL OR c.estado = :estado)

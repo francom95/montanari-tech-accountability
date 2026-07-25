@@ -2,6 +2,7 @@ package com.montanaritech.contable.facturacion.facturaventa;
 
 import com.montanaritech.contable.common.estado.EstadoDocumento;
 import com.montanaritech.contable.facturacion.TipoComprobante;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.data.domain.Page;
@@ -11,6 +12,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface FacturaVentaRepository extends JpaRepository<FacturaVenta, Long> {
+
+    /** Búsqueda global (F9.2, término CUIT): vía el CUIT del cliente. */
+    Page<FacturaVenta> findByCliente_Cuit(String cuit, Pageable pageable);
+
+    /** Búsqueda global (F9.2, término FECHA): fecha exacta del comprobante. */
+    Page<FacturaVenta> findByFecha(LocalDate fecha, Pageable pageable);
+
+    /** Búsqueda global (F9.2, término IMPORTE): total (ARS) dentro de la tolerancia. */
+    Page<FacturaVenta> findByTotalArsBetween(BigDecimal desde, BigDecimal hasta, Pageable pageable);
 
     @Query("""
             SELECT f FROM FacturaVenta f

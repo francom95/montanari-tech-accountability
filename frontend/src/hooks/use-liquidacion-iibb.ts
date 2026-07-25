@@ -24,6 +24,15 @@ export function useLiquidacionesIibb(params: { anio?: number; page?: number; siz
   })
 }
 
+/** Búsqueda global (F9.2): registro puntual por id, para el filtro exacto ?id= de la lista. */
+export function useLiquidacionIibb(id: number | undefined) {
+  return useQuery({
+    queryKey: [...KEY, id],
+    queryFn: async () => (await http.get<LiquidacionIibb>(`${BASE}/${id}`)).data,
+    enabled: id !== undefined,
+  })
+}
+
 export function usePrevisualizacionIibb(anio?: number, mes?: number) {
   return useQuery({
     queryKey: [...KEY, "previsualizar", anio, mes],

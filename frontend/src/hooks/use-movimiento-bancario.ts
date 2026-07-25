@@ -34,6 +34,15 @@ export function useMovimientosBancarios(params: {
   })
 }
 
+/** Búsqueda global (F9.2): registro puntual por id, para el filtro exacto ?id= de la lista. */
+export function useMovimientoBancario(id: number | undefined) {
+  return useQuery({
+    queryKey: [...QUERY_KEY, id],
+    queryFn: async () => (await http.get<MovimientoBancario>(`/movimientos-bancarios/${id}`)).data,
+    enabled: id !== undefined,
+  })
+}
+
 export function useContadorPendientes(cuentaBancariaId?: number) {
   return useQuery({
     queryKey: [...QUERY_KEY, "contador", cuentaBancariaId],

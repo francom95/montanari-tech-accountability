@@ -12,6 +12,15 @@ export function useProveedores(params: { texto?: string; activo?: boolean; page?
   })
 }
 
+/** Búsqueda global (F9.2): registro puntual por id, para el filtro exacto ?id= de la lista. */
+export function useProveedor(id: number | undefined) {
+  return useQuery({
+    queryKey: [...QUERY_KEY, id],
+    queryFn: async () => (await http.get<Proveedor>(`/proveedores/${id}`)).data,
+    enabled: id !== undefined,
+  })
+}
+
 export function useCrearProveedor() {
   const qc = useQueryClient()
   return useMutation({

@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useSearchParams } from "react-router-dom"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -10,6 +11,7 @@ import {
   useCrearLiquidacionIibb,
   useEditarJurisdiccionIibb,
   useLiquidacionesIibb,
+  useLiquidacionIibb,
   usePrevisualizacionIibb,
   useRecalcularLiquidacionIibb,
   descargarLiquidacionesIibbExcel,
@@ -36,6 +38,10 @@ export function LiquidacionIibbPage() {
   const [seleccionadaId, setSeleccionadaId] = useState<number | null>(null)
   const [descargando, setDescargando] = useState<"excel" | "pdf" | null>(null)
 
+  const [searchParams] = useSearchParams()
+  const idFiltro = searchParams.get("id") ? Number(searchParams.get("id")) : undefined
+  const registroDestacado = useLiquidacionIibb(idFiltro)
+
   const liquidaciones = useLiquidacionesIibb({ anio })
   const previsualizacion = usePrevisualizacionIibb(anio, mes)
   const crear = useCrearLiquidacionIibb()
@@ -50,7 +56,9 @@ export function LiquidacionIibbPage() {
     }
   }
 
-  const seleccionada = liquidaciones.data?.content.find((l) => l.id === seleccionadaId)
+  const seleccionada = idFiltro !== undefined
+    ? registroDestacado.data
+    : liquidaciones.data?.content.find((l) => l.id === seleccionadaId)
   const yaLiquidado = liquidaciones.data?.content.some((l) => l.mes === mes && l.estado !== "ANULADO")
 
   return (
