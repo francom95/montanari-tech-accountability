@@ -35,6 +35,7 @@ import { MonedasPage } from "@/pages/monedas-page"
 import { ImportacionBancariaPage } from "@/pages/importacion-bancaria-page"
 import { MovimientosBancariosPage } from "@/pages/movimientos-bancarios-page"
 import { PagosPage } from "@/pages/pagos-page"
+import { PendientesAdministrativosPage } from "@/pages/pendientes-administrativos-page"
 import { PlaceholderPage } from "@/pages/placeholder-page"
 import { PlanDeCuentasPage } from "@/pages/plan-de-cuentas-page"
 import { ProveedoresPage } from "@/pages/proveedores-page"
@@ -114,10 +115,7 @@ export const router = createBrowserRouter([
       { path: "presupuesto/flujo-caja", element: <FlujoCajaPage /> },
       { path: "presupuesto/inversiones", element: <InversionesPage /> },
       { path: "presupuesto/inversiones/:id", element: <InversionDetallePage /> },
-      {
-        path: "pendientes",
-        element: <PlaceholderPage title="Pendientes administrativos" />,
-      },
+      { path: "pendientes", element: <PendientesAdministrativosPage /> },
       { path: "seguridad", element: <UsuariosPage /> },
       { path: "auditoria", element: <AuditoriaPage /> },
       { path: "ejemplo-formulario", element: <EjemploFormularioPage /> },

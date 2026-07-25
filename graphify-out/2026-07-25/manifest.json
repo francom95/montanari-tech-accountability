@@ -1165,9 +1165,9 @@
     "semantic_hash": "7334c44d8c42ad7d866e471982f26f0c"
   },
   "frontend/src/routes/router.tsx": {
-    "mtime": 1784995578.405055,
-    "ast_hash": "3697d6f57703c2c394a798fcf0410440",
-    "semantic_hash": "3697d6f57703c2c394a798fcf0410440"
+    "mtime": 1784991832.634509,
+    "ast_hash": "7704bd4608a99a417decb9ce98b43fa1",
+    "semantic_hash": "7704bd4608a99a417decb9ce98b43fa1"
   },
   "frontend/src/test/App.test.tsx": {
     "mtime": 1783307161.9333665,
@@ -4588,85 +4588,5 @@
     "mtime": 1784992595.5980585,
     "ast_hash": "f29933c85cb5bc238b3098be0bbe4ea0",
     "semantic_hash": "f29933c85cb5bc238b3098be0bbe4ea0"
-  },
-  "backend/src/main/java/com/montanaritech/contable/pendiente/EstadoPendiente.java": {
-    "mtime": 1784995249.8865209,
-    "ast_hash": "aa1eae4b1617c8f3e36d114dc65f8b4d",
-    "semantic_hash": "aa1eae4b1617c8f3e36d114dc65f8b4d"
-  },
-  "backend/src/main/java/com/montanaritech/contable/pendiente/PendienteAdministrativo.java": {
-    "mtime": 1784995260.9803262,
-    "ast_hash": "1a87d95ae51c97445ad49ad90182f0b4",
-    "semantic_hash": "1a87d95ae51c97445ad49ad90182f0b4"
-  },
-  "backend/src/main/java/com/montanaritech/contable/pendiente/PendienteAdministrativoController.java": {
-    "mtime": 1784995354.5269086,
-    "ast_hash": "6a99e6b7dfa9784cabd8b5808be4041c",
-    "semantic_hash": "6a99e6b7dfa9784cabd8b5808be4041c"
-  },
-  "backend/src/main/java/com/montanaritech/contable/pendiente/PendienteAdministrativoMapper.java": {
-    "mtime": 1784995321.6349223,
-    "ast_hash": "f2e458fc0b016999e0f7be028822e482",
-    "semantic_hash": "f2e458fc0b016999e0f7be028822e482"
-  },
-  "backend/src/main/java/com/montanaritech/contable/pendiente/PendienteAdministrativoRepository.java": {
-    "mtime": 1784995299.6476846,
-    "ast_hash": "5fa8b6ff158939ec43df8f13c1053f66",
-    "semantic_hash": "5fa8b6ff158939ec43df8f13c1053f66"
-  },
-  "backend/src/main/java/com/montanaritech/contable/pendiente/PendienteAdministrativoService.java": {
-    "mtime": 1784995341.1348114,
-    "ast_hash": "c639ae1f2531b733863ef75d3d4e7449",
-    "semantic_hash": "c639ae1f2531b733863ef75d3d4e7449"
-  },
-  "backend/src/main/java/com/montanaritech/contable/pendiente/PrioridadPendiente.java": {
-    "mtime": 1784995246.0147316,
-    "ast_hash": "d16b9edb263d56f126b98ac5b3816bd9",
-    "semantic_hash": "d16b9edb263d56f126b98ac5b3816bd9"
-  },
-  "backend/src/main/java/com/montanaritech/contable/pendiente/dto/PendienteAdministrativoCrearRequest.java": {
-    "mtime": 1784995305.7653313,
-    "ast_hash": "60ec3b33fd98392de0c21df033bc98dc",
-    "semantic_hash": "60ec3b33fd98392de0c21df033bc98dc"
-  },
-  "backend/src/main/java/com/montanaritech/contable/pendiente/dto/PendienteAdministrativoEditarRequest.java": {
-    "mtime": 1784995311.136245,
-    "ast_hash": "289b1b59364bc8a7120c5df4c1e4a930",
-    "semantic_hash": "289b1b59364bc8a7120c5df4c1e4a930"
-  },
-  "backend/src/main/java/com/montanaritech/contable/pendiente/dto/PendienteAdministrativoResponse.java": {
-    "mtime": 1784995315.4029965,
-    "ast_hash": "c9e7ae7af5c298677ae488c2629f6336",
-    "semantic_hash": "c9e7ae7af5c298677ae488c2629f6336"
-  },
-  "backend/src/main/resources/db/migration/V39__pendiente_administrativo.sql": {
-    "mtime": 1784995270.5294116,
-    "ast_hash": "50728de77d06c1034323cdd5b27fe98f",
-    "semantic_hash": "50728de77d06c1034323cdd5b27fe98f"
-  },
-  "backend/src/test/java/com/montanaritech/contable/pendiente/PendienteAdministrativoServiceTest.java": {
-    "mtime": 1784995423.3928955,
-    "ast_hash": "81595ae601fa8d44f783d0f5d9059638",
-    "semantic_hash": "81595ae601fa8d44f783d0f5d9059638"
-  },
-  "frontend/src/hooks/use-pendiente-administrativo.ts": {
-    "mtime": 1784995513.6512134,
-    "ast_hash": "0f72c89d3e6ce28d285ec90180f2a4e9",
-    "semantic_hash": "0f72c89d3e6ce28d285ec90180f2a4e9"
-  },
-  "frontend/src/pages/pendientes-administrativos-page.tsx": {
-    "mtime": 1784995558.4684286,
-    "ast_hash": "5c70f54a341d69b08f7ec75826578b52",
-    "semantic_hash": "5c70f54a341d69b08f7ec75826578b52"
-  },
-  "frontend/src/types/pendiente-administrativo.ts": {
-    "mtime": 1784995502.9666402,
-    "ast_hash": "a65f0fa1690bbf66841f35410affcc3c",
-    "semantic_hash": "a65f0fa1690bbf66841f35410affcc3c"
-  },
-  "outputs/F8_5_pendientes_administrativos.md": {
-    "mtime": 1784996271.2820716,
-    "ast_hash": "a08becb95c8b73fb311a59cc55169a8f",
-    "semantic_hash": "a08becb95c8b73fb311a59cc55169a8f"
   }
 }
