@@ -56,6 +56,7 @@ public class CuentaBancariaService {
         e.setSaldoInicial(req.saldoInicial());
         e.setFechaSaldoInicial(req.fechaSaldoInicial());
         e.setCuentaContable(resolverCuentaContable(req.cuentaContableId()));
+        e.setSaldoMinimoAlerta(req.saldoMinimoAlerta());
         e.setActivo(true);
         recalculoSaldoService.recalcular(e);
         return repo.save(e);
@@ -78,6 +79,7 @@ public class CuentaBancariaService {
         e.setSaldoInicial(req.saldoInicial());
         e.setFechaSaldoInicial(req.fechaSaldoInicial());
         e.setCuentaContable(resolverCuentaContable(req.cuentaContableId()));
+        e.setSaldoMinimoAlerta(req.saldoMinimoAlerta());
         recalculoSaldoService.recalcular(e);
 
         auditoria.registrar(AccionAuditoria.EDITAR, "CuentaBancaria", id, antes, mapper.aResponse(e));

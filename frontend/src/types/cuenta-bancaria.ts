@@ -15,6 +15,7 @@ export type CuentaBancaria = {
   cuentaContableId: number
   cuentaContableCodigo: string
   activo: boolean
+  saldoMinimoAlerta: string | null
 }
 
 export type CuentaBancariaCrearInput = {
@@ -26,6 +27,7 @@ export type CuentaBancariaCrearInput = {
   saldoInicial: string
   fechaSaldoInicial: string
   cuentaContableId: number
+  saldoMinimoAlerta?: string | null
 }
 
 export type CuentaBancariaEditarInput = CuentaBancariaCrearInput

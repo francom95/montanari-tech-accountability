@@ -13,5 +13,6 @@ public record CuentaBancariaEditarRequest(
         String estadoConciliacion,
         @NotNull BigDecimal saldoInicial,
         @NotNull LocalDate fechaSaldoInicial,
-        @NotNull Long cuentaContableId
+        @NotNull Long cuentaContableId,
+        BigDecimal saldoMinimoAlerta
 ) {}

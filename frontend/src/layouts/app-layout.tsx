@@ -1,4 +1,5 @@
 import { NavLink, Outlet } from "react-router-dom"
+import { AlertasBadge } from "@/components/alertas-badge"
 import { Button } from "@/components/ui/button"
 import { useCurrentUser, useLogout } from "@/hooks/use-auth"
 import { cn } from "@/lib/utils"
@@ -45,6 +46,7 @@ export function AppLayout() {
             Sistema de Gestión Contable
           </span>
           <div className="flex items-center gap-3">
+            <AlertasBadge />
             {usuarioActual && (
               <span className="text-sm text-muted-foreground">
                 {usuarioActual.nombre} · {usuarioActual.rol}

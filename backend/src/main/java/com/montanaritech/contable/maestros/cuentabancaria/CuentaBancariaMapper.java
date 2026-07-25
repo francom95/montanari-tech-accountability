@@ -11,5 +11,6 @@ public interface CuentaBancariaMapper {
     @Mapping(target = "monedaCodigo", source = "moneda.codigo")
     @Mapping(target = "cuentaContableId", source = "cuentaContable.id")
     @Mapping(target = "cuentaContableCodigo", source = "cuentaContable.codigo")
+    @Mapping(target = "saldoMinimoAlerta", source = "saldoMinimoAlerta")
     CuentaBancariaResponse aResponse(CuentaBancaria c);
 }

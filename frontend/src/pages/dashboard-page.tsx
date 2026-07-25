@@ -1,10 +1,13 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
 
+import { AlertasLista } from "@/components/alertas-lista"
+import { ConfiguracionAlertasCard } from "@/components/configuracion-alertas-card"
 import { ConfiguracionDashboardCard } from "@/components/configuracion-dashboard-card"
 import { RequireAdmin } from "@/components/require-admin"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
+import { useAlertas, useMarcarLeidaAlerta } from "@/hooks/use-alerta"
 import { useDashboard } from "@/hooks/use-dashboard"
 import type { IndicadorMonto } from "@/types/dashboard"
 
@@ -39,6 +42,8 @@ export function DashboardPage() {
   const [mes, setMes] = useState(hoy.getMonth() + 1)
 
   const dashboard = useDashboard(anio, mes)
+  const alertas = useAlertas({ estado: "ACTIVA", size: 20 })
+  const marcarLeidaAlerta = useMarcarLeidaAlerta()
 
   return (
     <div className="space-y-4">
@@ -108,19 +113,35 @@ export function DashboardPage() {
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Alertas</CardTitle>
-            </CardHeader>
-            <CardContent className="text-sm text-muted-foreground">
-              {dashboard.data.alertas.length === 0 ? (
-                <p>Sin alertas configuradas todavía — se conecta con F9.1.</p>
-              ) : (
+          {dashboard.data.alertas.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Advertencias del cálculo</CardTitle>
+              </CardHeader>
+              <CardContent className="text-sm text-muted-foreground">
                 <ul className="list-inside list-disc">
                   {dashboard.data.alertas.map((alerta) => (
                     <li key={alerta}>{alerta}</li>
                   ))}
                 </ul>
+              </CardContent>
+            </Card>
+          )}
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Alertas</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {alertas.isLoading ? (
+                <p className="text-sm text-muted-foreground">Cargando…</p>
+              ) : (
+                <AlertasLista
+                  alertas={alertas.data?.content ?? []}
+                  onMarcarLeida={(id) => marcarLeidaAlerta.mutate(id)}
+                  marcandoId={marcarLeidaAlerta.isPending ? marcarLeidaAlerta.variables : undefined}
+                  vacio="Sin alertas activas."
+                />
               )}
             </CardContent>
           </Card>
@@ -129,6 +150,7 @@ export function DashboardPage() {
 
       <RequireAdmin>
         <ConfiguracionDashboardCard />
+        <ConfiguracionAlertasCard />
       </RequireAdmin>
     </div>
   )

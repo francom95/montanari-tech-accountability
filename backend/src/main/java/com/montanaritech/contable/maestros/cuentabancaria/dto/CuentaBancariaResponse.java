@@ -16,5 +16,6 @@ public record CuentaBancariaResponse(
         BigDecimal saldoActual,
         Long cuentaContableId,
         String cuentaContableCodigo,
-        boolean activo
+        boolean activo,
+        BigDecimal saldoMinimoAlerta
 ) {}

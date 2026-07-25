@@ -83,6 +83,12 @@ public class VencimientoService {
         return repo.findByEstadoAndFechaBetweenOrderByFechaAsc(EstadoVencimientoObligacion.PENDIENTE, desde, hasta);
     }
 
+    /** F9.1: vencimientos ya vencidos (fecha estrictamente anterior a hoy), distinto de {@link #proximos} que los incluye. */
+    @Transactional(readOnly = true)
+    public List<Vencimiento> vencidos() {
+        return repo.findByEstadoAndFechaLessThanOrderByFechaAsc(EstadoVencimientoObligacion.PENDIENTE, LocalDate.now());
+    }
+
     @Transactional(readOnly = true)
     public Vencimiento obtener(Long id) {
         return repo.findById(id)

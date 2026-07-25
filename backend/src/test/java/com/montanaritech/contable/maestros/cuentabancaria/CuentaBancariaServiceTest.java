@@ -92,7 +92,7 @@ class CuentaBancariaServiceTest {
         when(monedaRepository.findById(99L)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> service.crear(new CuentaBancariaCrearRequest(
-                "Banco X", "Alias X", 99L, "CUENTA_CORRIENTE", null, new BigDecimal("500"), LocalDate.now(), 1L)))
+                "Banco X", "Alias X", 99L, "CUENTA_CORRIENTE", null, new BigDecimal("500"), LocalDate.now(), 1L, null)))
                 .isInstanceOf(RecursoNoEncontradoException.class);
     }
 
@@ -103,7 +103,7 @@ class CuentaBancariaServiceTest {
         when(repo.save(any(CuentaBancaria.class))).thenAnswer(inv -> inv.getArgument(0));
 
         CuentaBancaria creada = service.crear(new CuentaBancariaCrearRequest(
-                "Mercado Pago", "Mercado Pago", 1L, "MERCADO_PAGO", "PENDIENTE", new BigDecimal("750.50"), LocalDate.of(2026, 3, 1), 1L));
+                "Mercado Pago", "Mercado Pago", 1L, "MERCADO_PAGO", "PENDIENTE", new BigDecimal("750.50"), LocalDate.of(2026, 3, 1), 1L, null));
 
         assertThat(creada.getMoneda()).isEqualTo(ars);
         assertThat(creada.getSaldoInicial()).isEqualByComparingTo("750.50");
@@ -128,12 +128,12 @@ class CuentaBancariaServiceTest {
             return new CuentaBancariaResponse(c.getId(), c.getEntidad(), c.getAlias(), c.getMoneda().getId(),
                     c.getMoneda().getCodigo(), c.getTipo().name(), c.getEstadoConciliacion().name(),
                     c.getSaldoInicial(), c.getFechaSaldoInicial(), c.getSaldoActual(),
-                    c.getCuentaContable().getId(), c.getCuentaContable().getCodigo(), c.isActivo());
+                    c.getCuentaContable().getId(), c.getCuentaContable().getCodigo(), c.isActivo(), c.getSaldoMinimoAlerta());
         });
 
         service.editar(1L, new CuentaBancariaEditarRequest(
                 "Banco Galicia", "Banco Galicia CC", 1L, "CUENTA_CORRIENTE", "CONCILIADA",
-                new BigDecimal("3200.75"), LocalDate.of(2026, 4, 1), 1L));
+                new BigDecimal("3200.75"), LocalDate.of(2026, 4, 1), 1L, null));
 
         assertThat(entidad.getSaldoInicial()).isEqualByComparingTo("3200.75");
         assertThat(entidad.getFechaSaldoInicial()).isEqualTo(LocalDate.of(2026, 4, 1));

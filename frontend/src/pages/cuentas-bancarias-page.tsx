@@ -31,6 +31,7 @@ const esquema = z.object({
   saldoInicial: z.string().min(1, "El saldo inicial es obligatorio"),
   fechaSaldoInicial: z.string().min(1, "La fecha es obligatoria"),
   cuentaContableId: z.string().min(1, "La cuenta contable espejo es obligatoria"),
+  saldoMinimoAlerta: z.string(),
 })
 
 type Valores = z.infer<typeof esquema>
@@ -44,6 +45,7 @@ const DEFAULTS: Valores = {
   saldoInicial: "",
   fechaSaldoInicial: "",
   cuentaContableId: "",
+  saldoMinimoAlerta: "",
 }
 
 export function CuentasBancariasPage() {
@@ -73,6 +75,7 @@ export function CuentasBancariasPage() {
       saldoInicial: e.saldoInicial,
       fechaSaldoInicial: e.fechaSaldoInicial,
       cuentaContableId: String(e.cuentaContableId),
+      saldoMinimoAlerta: e.saldoMinimoAlerta ?? "",
     })
   }
 
@@ -82,7 +85,12 @@ export function CuentasBancariasPage() {
   }
 
   function onSubmit(valores: Valores) {
-    const normalizadas = { ...valores, monedaId: Number(valores.monedaId), cuentaContableId: Number(valores.cuentaContableId) }
+    const normalizadas = {
+      ...valores,
+      monedaId: Number(valores.monedaId),
+      cuentaContableId: Number(valores.cuentaContableId),
+      saldoMinimoAlerta: valores.saldoMinimoAlerta.trim() === "" ? null : valores.saldoMinimoAlerta,
+    }
     if (editando) {
       editar.mutate({ id: editando.id, valores: normalizadas }, { onSuccess: cancelarEdicion })
     } else {
@@ -197,6 +205,9 @@ export function CuentasBancariasPage() {
                   </FormControl>
                   <FormMessage />
                 </FormItem>
+              )} />
+              <FormField control={form.control} name="saldoMinimoAlerta" render={({ field }) => (
+                <FormItem><FormLabel>Saldo mínimo de alerta (opcional)</FormLabel><FormControl><Input {...field} placeholder="Sin umbral" /></FormControl><FormMessage /></FormItem>
               )} />
               <div className="flex items-end gap-2">
                 <Button type="submit" disabled={crear.isPending || editar.isPending}>{editando ? "Guardar" : "Crear"}</Button>

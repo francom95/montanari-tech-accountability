@@ -66,6 +66,10 @@ public class CuentaBancaria extends EntidadNegocio implements CuentaConSaldo {
     @Column(name = "saldo_actual", nullable = false, precision = 18, scale = 2)
     private BigDecimal saldoActual;
 
+    /** Umbral de saldo bajo (F9.1, alerta SALDO_BAJO): opcional, sin valor = sin alerta para esta cuenta. */
+    @Column(name = "saldo_minimo_alerta", precision = 18, scale = 2)
+    private BigDecimal saldoMinimoAlerta;
+
     @Column(nullable = false)
     private boolean activo = true;
 

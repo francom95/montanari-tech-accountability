@@ -6,8 +6,13 @@ import java.util.List;
 
 /**
  * Los 12 indicadores del dashboard (F7.5) para un período (anio/mes), cada
- * uno con su ruta de drill-down. {@code alertas} es un slot vacío a
- * propósito — se conecta con F9.1.
+ * uno con su ruta de drill-down. {@code alertas} quedó como lo que ya era
+ * antes de F9.1: advertencias ad-hoc del propio cálculo del período (hoy,
+ * cuentas en moneda extranjera excluidas del saldo de caja/banco) — no es
+ * el sistema real de alertas. Las alertas de F9.1 (vencimientos, saldos
+ * bajos, etc., con lectura por usuario y auto-resolución) viven en
+ * {@code GET /api/v1/alertas}; el widget de alertas del dashboard las
+ * consume directamente de ahí, sin pasar por este DTO.
  */
 public record DashboardResponse(
         int anio,
