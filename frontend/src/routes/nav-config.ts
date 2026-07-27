@@ -34,6 +34,7 @@ import {
   Scale,
   Banknote,
   PiggyBank,
+  Lock,
 } from "lucide-react"
 
 export type NavItem = {
@@ -91,6 +92,7 @@ export const NAV_ITEMS: NavItem[] = [
   { to: "/presupuesto/flujo-caja", label: "Flujo de caja", icon: TrendingUp },
   { to: "/presupuesto/inversiones", label: "Inversiones", icon: PiggyBank },
   { to: "/pendientes", label: "Pendientes administrativos", icon: ListTodo },
+  { to: "/periodos", label: "Períodos contables", icon: Lock },
   { to: "/seguridad", label: "Usuarios", icon: ShieldCheck },
   { to: "/auditoria", label: "Auditoría", icon: ScrollText },
   { to: "/ejemplo-formulario", label: "Ejemplo de formulario (F1.4)", icon: FormInput },

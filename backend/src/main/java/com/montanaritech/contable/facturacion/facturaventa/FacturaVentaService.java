@@ -21,6 +21,7 @@ import com.montanaritech.contable.maestros.moneda.Moneda;
 import com.montanaritech.contable.maestros.moneda.MonedaRepository;
 import com.montanaritech.contable.maestros.proyecto.Proyecto;
 import com.montanaritech.contable.maestros.proyecto.ProyectoRepository;
+import com.montanaritech.contable.periodo.PeriodoService;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
@@ -59,6 +60,7 @@ public class FacturaVentaService {
     private final JurisdiccionRepository jurisdiccionRepo;
     private final MonedaRepository monedaRepo;
     private final CuentaContableRepository cuentaContableRepo;
+    private final PeriodoService periodoService;
 
     @Transactional(readOnly = true)
     public Page<FacturaVenta> listar(String texto, EstadoDocumento estado, Long clienteId, Long proyectoId,
@@ -73,6 +75,14 @@ public class FacturaVentaService {
 
     @Transactional
     public FacturaVenta crearBorrador(FacturaVentaCrearRequest req) {
+        return crearBorrador(req, false, null);
+    }
+
+    /** F9.3: overload con override de período cerrado — ver {@code PeriodoService.verificarEscritura}. */
+    @Transactional
+    public FacturaVenta crearBorrador(FacturaVentaCrearRequest req, boolean confirmarPeriodoCerrado, String motivoOverridePeriodo) {
+        boolean sobrePeriodoCerrado = periodoService.verificarEscritura(req.fecha(), confirmarPeriodoCerrado, motivoOverridePeriodo);
+
         FacturaVenta f = new FacturaVenta();
         f.setCliente(resolverCliente(req.clienteId()));
         f.setProyecto(req.proyectoId() != null ? resolverProyecto(req.proyectoId()) : null);
@@ -90,12 +100,21 @@ public class FacturaVentaService {
         recalcularTotales(f);
 
         FacturaVenta guardada = repo.save(f);
-        auditoria.registrar(AccionAuditoria.CREAR, "FacturaVenta", guardada.getId(), null, mapper.aResponse(guardada));
+        auditoria.registrar(AccionAuditoria.CREAR, "FacturaVenta", guardada.getId(), null, mapper.aResponse(guardada),
+                sobrePeriodoCerrado, sobrePeriodoCerrado ? motivoOverridePeriodo : null);
         return guardada;
     }
 
     @Transactional
     public FacturaVenta editarBorrador(Long id, FacturaVentaEditarRequest req) {
+        return editarBorrador(id, req, false, null);
+    }
+
+    /** F9.3: overload con override de período cerrado — ver {@code PeriodoService.verificarEscritura}. */
+    @Transactional
+    public FacturaVenta editarBorrador(Long id, FacturaVentaEditarRequest req, boolean confirmarPeriodoCerrado, String motivoOverridePeriodo) {
+        boolean sobrePeriodoCerrado = periodoService.verificarEscritura(req.fecha(), confirmarPeriodoCerrado, motivoOverridePeriodo);
+
         FacturaVenta f = obtenerBorrador(id);
         var antes = mapper.aResponse(f);
 
@@ -113,7 +132,8 @@ public class FacturaVentaService {
         reemplazarLineas(f, req.lineas());
         recalcularTotales(f);
 
-        auditoria.registrar(AccionAuditoria.EDITAR, "FacturaVenta", id, antes, mapper.aResponse(f));
+        auditoria.registrar(AccionAuditoria.EDITAR, "FacturaVenta", id, antes, mapper.aResponse(f),
+                sobrePeriodoCerrado, sobrePeriodoCerrado ? motivoOverridePeriodo : null);
         return f;
     }
 
@@ -133,7 +153,14 @@ public class FacturaVentaService {
      */
     @Transactional
     public FacturaVenta confirmar(Long id) {
+        return confirmar(id, false, null);
+    }
+
+    /** F9.3: overload con override de período cerrado — ver {@code PeriodoService.verificarEscritura}. */
+    @Transactional
+    public FacturaVenta confirmar(Long id, boolean confirmarPeriodoCerrado, String motivoOverridePeriodo) {
         FacturaVenta f = obtener(id);
+        boolean sobrePeriodoCerrado = periodoService.verificarEscritura(f.getFecha(), confirmarPeriodoCerrado, motivoOverridePeriodo);
         var antes = mapper.aResponse(f);
         TransicionEstadoValidator.validar(f.getEstado(), EstadoDocumento.CONFIRMADO);
 
@@ -143,7 +170,8 @@ public class FacturaVentaService {
         f.setAsiento(asiento);
         f.setEstado(EstadoDocumento.CONFIRMADO);
 
-        auditoria.registrar(AccionAuditoria.CONFIRMAR, "FacturaVenta", id, antes, mapper.aResponse(f));
+        auditoria.registrar(AccionAuditoria.CONFIRMAR, "FacturaVenta", id, antes, mapper.aResponse(f),
+                sobrePeriodoCerrado, sobrePeriodoCerrado ? motivoOverridePeriodo : null);
         return f;
     }
 
@@ -154,16 +182,24 @@ public class FacturaVentaService {
      */
     @Transactional
     public FacturaVenta anular(Long id, String motivo) {
+        return anular(id, motivo, false, null);
+    }
+
+    /** F9.3: overload con override de período cerrado — ver {@code PeriodoService.verificarEscritura}. */
+    @Transactional
+    public FacturaVenta anular(Long id, String motivo, boolean confirmarPeriodoCerrado, String motivoOverridePeriodo) {
         FacturaVenta f = obtener(id);
+        boolean sobrePeriodoCerrado = periodoService.verificarEscritura(f.getFecha(), confirmarPeriodoCerrado, motivoOverridePeriodo);
         var antes = mapper.aResponse(f);
         TransicionEstadoValidator.validar(f.getEstado(), EstadoDocumento.ANULADO);
 
         if (f.getAsiento() != null) {
-            asientoService.anularPorDocumento(f.getAsiento().getId(), motivo);
+            asientoService.anularPorDocumento(f.getAsiento().getId(), motivo, sobrePeriodoCerrado, motivoOverridePeriodo);
         }
         f.setEstado(EstadoDocumento.ANULADO);
 
-        auditoria.registrar(AccionAuditoria.ANULAR, "FacturaVenta", id, antes, mapper.aResponse(f));
+        auditoria.registrar(AccionAuditoria.ANULAR, "FacturaVenta", id, antes, mapper.aResponse(f),
+                sobrePeriodoCerrado, sobrePeriodoCerrado ? motivoOverridePeriodo : null);
         return f;
     }
 

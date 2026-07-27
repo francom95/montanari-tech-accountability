@@ -43,4 +43,7 @@ public interface LiquidacionIvaRepository extends JpaRepository<LiquidacionIva, 
 
     /** F8.1: todas las confirmadas, sin acotar a un período, para generar sus vencimientos. */
     List<LiquidacionIva> findByEstado(EstadoDocumento estado);
+
+    /** F9.3: liquidaciones de un (año, mes) para el resumen de la pantalla de períodos, en cualquier estado. */
+    List<LiquidacionIva> findByAnioAndMes(Integer anio, Integer mes);
 }

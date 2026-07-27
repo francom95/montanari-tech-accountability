@@ -48,7 +48,7 @@ public class LiquidacionIibbController {
     public Page<LiquidacionResponse> listar(@RequestParam(required = false) Integer anio,
                                             @RequestParam(required = false) EstadoDocumento estado,
                                             @PageableDefault(size = 20) Pageable pageable) {
-        return service.listar(anio, estado, pageable).map(l -> mapper.aResponse(l, List.of()));
+        return service.listar(anio, estado, pageable).map(l -> mapper.aResponse(l, service.advertenciasDe(l)));
     }
 
     @GetMapping("/exportar/excel")
@@ -100,7 +100,8 @@ public class LiquidacionIibbController {
 
     @GetMapping("/{id}")
     public LiquidacionResponse obtener(@PathVariable Long id) {
-        return mapper.aResponse(service.obtener(id), List.of());
+        LiquidacionIibb l = service.obtener(id);
+        return mapper.aResponse(l, service.advertenciasDe(l));
     }
 
     @GetMapping("/previsualizar")
@@ -111,20 +112,23 @@ public class LiquidacionIibbController {
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'CARGA')")
     public LiquidacionResponse crear(@Valid @RequestBody CrearRequest req) {
-        return mapper.aResponse(service.crearBorrador(req), List.of());
+        LiquidacionIibb l = service.crearBorrador(req);
+        return mapper.aResponse(l, service.advertenciasDe(l));
     }
 
     @PostMapping("/{id}/recalcular")
     @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'CARGA')")
     public LiquidacionResponse recalcular(@PathVariable Long id) {
-        return mapper.aResponse(service.recalcular(id), List.of());
+        LiquidacionIibb l = service.recalcular(id);
+        return mapper.aResponse(l, service.advertenciasDe(l));
     }
 
     @PatchMapping("/{id}/jurisdicciones/{jurLiqId}")
     @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'CARGA')")
     public LiquidacionResponse editarJurisdiccion(@PathVariable Long id, @PathVariable Long jurLiqId,
                                                   @Valid @RequestBody EditarJurisdiccionRequest req) {
-        return mapper.aResponse(service.editarJurisdiccion(id, jurLiqId, req), List.of());
+        LiquidacionIibb l = service.editarJurisdiccion(id, jurLiqId, req);
+        return mapper.aResponse(l, service.advertenciasDe(l));
     }
 
     @PatchMapping("/{id}/jurisdicciones/{jurLiqId}/componentes/{componenteId}")
@@ -132,32 +136,37 @@ public class LiquidacionIibbController {
     public LiquidacionResponse ajustarComponente(@PathVariable Long id, @PathVariable Long jurLiqId,
                                                  @PathVariable Long componenteId,
                                                  @Valid @RequestBody AjustarComponenteRequest req) {
-        return mapper.aResponse(service.ajustarComponente(id, jurLiqId, componenteId, req), List.of());
+        LiquidacionIibb l = service.ajustarComponente(id, jurLiqId, componenteId, req);
+        return mapper.aResponse(l, service.advertenciasDe(l));
     }
 
     @PostMapping("/{id}/jurisdicciones/{jurLiqId}/componentes")
     @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'CARGA')")
     public LiquidacionResponse agregarComponente(@PathVariable Long id, @PathVariable Long jurLiqId,
                                                  @Valid @RequestBody AgregarComponenteRequest req) {
-        return mapper.aResponse(service.agregarComponente(id, jurLiqId, req), List.of());
+        LiquidacionIibb l = service.agregarComponente(id, jurLiqId, req);
+        return mapper.aResponse(l, service.advertenciasDe(l));
     }
 
     @DeleteMapping("/{id}/jurisdicciones/{jurLiqId}/componentes/{componenteId}")
     @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'CARGA')")
     public LiquidacionResponse eliminarComponente(@PathVariable Long id, @PathVariable Long jurLiqId,
                                                   @PathVariable Long componenteId) {
-        return mapper.aResponse(service.eliminarComponente(id, jurLiqId, componenteId), List.of());
+        LiquidacionIibb l = service.eliminarComponente(id, jurLiqId, componenteId);
+        return mapper.aResponse(l, service.advertenciasDe(l));
     }
 
     @PatchMapping("/{id}/confirmar")
     @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'CARGA')")
     public LiquidacionResponse confirmar(@PathVariable Long id) {
-        return mapper.aResponse(service.confirmar(id), List.of());
+        LiquidacionIibb l = service.confirmar(id);
+        return mapper.aResponse(l, service.advertenciasDe(l));
     }
 
     @PatchMapping("/{id}/anular")
     @PreAuthorize("hasRole('ADMINISTRADOR')")
     public LiquidacionResponse anular(@PathVariable Long id, @Valid @RequestBody AnularRequest req) {
-        return mapper.aResponse(service.anular(id, req.motivo()), List.of());
+        LiquidacionIibb l = service.anular(id, req.motivo());
+        return mapper.aResponse(l, service.advertenciasDe(l));
     }
 }

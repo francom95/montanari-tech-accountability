@@ -45,10 +45,14 @@ export function useFacturaVenta(id: number | undefined) {
   })
 }
 
+/** F9.3: campos opcionales de override cuando la fecha cae en un período cerrado (ver usePeriodoCerradoOverride). */
+type OverridePeriodo = { confirmarPeriodoCerrado?: boolean; motivoOverridePeriodo?: string }
+
 export function useCrearFacturaVenta() {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: async (v: FacturaVentaCrearInput) => (await http.post<FacturaVenta>("/facturas-venta", v)).data,
+    mutationFn: async ({ confirmarPeriodoCerrado, motivoOverridePeriodo, ...v }: FacturaVentaCrearInput & OverridePeriodo) =>
+      (await http.post<FacturaVenta>("/facturas-venta", v, { params: { confirmarPeriodoCerrado, motivoOverridePeriodo } })).data,
     onSuccess: async () => { await qc.invalidateQueries({ queryKey: QUERY_KEY }) },
   })
 }
@@ -56,8 +60,8 @@ export function useCrearFacturaVenta() {
 export function useEditarFacturaVenta() {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: async ({ id, valores }: { id: number; valores: FacturaVentaEditarInput }) =>
-      (await http.put<FacturaVenta>(`/facturas-venta/${id}`, valores)).data,
+    mutationFn: async ({ id, valores, confirmarPeriodoCerrado, motivoOverridePeriodo }: { id: number; valores: FacturaVentaEditarInput } & OverridePeriodo) =>
+      (await http.put<FacturaVenta>(`/facturas-venta/${id}`, valores, { params: { confirmarPeriodoCerrado, motivoOverridePeriodo } })).data,
     onSuccess: async () => { await qc.invalidateQueries({ queryKey: QUERY_KEY }) },
   })
 }
@@ -73,7 +77,8 @@ export function useEliminarFacturaVenta() {
 export function useConfirmarFacturaVenta() {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: async (id: number) => (await http.patch<FacturaVenta>(`/facturas-venta/${id}/confirmar`)).data,
+    mutationFn: async ({ id, confirmarPeriodoCerrado, motivoOverridePeriodo }: { id: number } & OverridePeriodo) =>
+      (await http.patch<FacturaVenta>(`/facturas-venta/${id}/confirmar`, null, { params: { confirmarPeriodoCerrado, motivoOverridePeriodo } })).data,
     onSuccess: async () => { await qc.invalidateQueries({ queryKey: QUERY_KEY }) },
   })
 }
@@ -81,8 +86,8 @@ export function useConfirmarFacturaVenta() {
 export function useAnularFacturaVenta() {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: async ({ id, motivo }: { id: number; motivo: string }) =>
-      (await http.patch<FacturaVenta>(`/facturas-venta/${id}/anular`, { motivo })).data,
+    mutationFn: async ({ id, motivo, confirmarPeriodoCerrado, motivoOverridePeriodo }: { id: number; motivo: string } & OverridePeriodo) =>
+      (await http.patch<FacturaVenta>(`/facturas-venta/${id}/anular`, { motivo }, { params: { confirmarPeriodoCerrado, motivoOverridePeriodo } })).data,
     onSuccess: async () => { await qc.invalidateQueries({ queryKey: QUERY_KEY }) },
   })
 }

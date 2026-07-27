@@ -45,15 +45,19 @@ public class FacturaCompraController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'CARGA')")
-    public FacturaCompraResponse crear(@Valid @RequestBody FacturaCompraCrearRequest req) {
-        FacturaCompra f = service.crearBorrador(req);
+    public FacturaCompraResponse crear(@Valid @RequestBody FacturaCompraCrearRequest req,
+            @RequestParam(required = false, defaultValue = "false") boolean confirmarPeriodoCerrado,
+            @RequestParam(required = false) String motivoOverridePeriodo) {
+        FacturaCompra f = service.crearBorrador(req, confirmarPeriodoCerrado, motivoOverridePeriodo);
         return mapper.aResponse(f, service.tributosDe(f.getId()));
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'CARGA')")
-    public FacturaCompraResponse editar(@PathVariable Long id, @Valid @RequestBody FacturaCompraEditarRequest req) {
-        FacturaCompra f = service.editarBorrador(id, req);
+    public FacturaCompraResponse editar(@PathVariable Long id, @Valid @RequestBody FacturaCompraEditarRequest req,
+            @RequestParam(required = false, defaultValue = "false") boolean confirmarPeriodoCerrado,
+            @RequestParam(required = false) String motivoOverridePeriodo) {
+        FacturaCompra f = service.editarBorrador(id, req, confirmarPeriodoCerrado, motivoOverridePeriodo);
         return mapper.aResponse(f, service.tributosDe(id));
     }
 
@@ -66,15 +70,19 @@ public class FacturaCompraController {
 
     @PatchMapping("/{id}/confirmar")
     @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'CARGA')")
-    public FacturaCompraResponse confirmar(@PathVariable Long id) {
-        FacturaCompra f = service.confirmar(id);
+    public FacturaCompraResponse confirmar(@PathVariable Long id,
+            @RequestParam(required = false, defaultValue = "false") boolean confirmarPeriodoCerrado,
+            @RequestParam(required = false) String motivoOverridePeriodo) {
+        FacturaCompra f = service.confirmar(id, confirmarPeriodoCerrado, motivoOverridePeriodo);
         return mapper.aResponse(f, service.tributosDe(id));
     }
 
     @PatchMapping("/{id}/anular")
     @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'CARGA')")
-    public FacturaCompraResponse anular(@PathVariable Long id, @Valid @RequestBody FacturaCompraAnularRequest req) {
-        FacturaCompra f = service.anular(id, req.motivo());
+    public FacturaCompraResponse anular(@PathVariable Long id, @Valid @RequestBody FacturaCompraAnularRequest req,
+            @RequestParam(required = false, defaultValue = "false") boolean confirmarPeriodoCerrado,
+            @RequestParam(required = false) String motivoOverridePeriodo) {
+        FacturaCompra f = service.anular(id, req.motivo(), confirmarPeriodoCerrado, motivoOverridePeriodo);
         return mapper.aResponse(f, service.tributosDe(id));
     }
 }

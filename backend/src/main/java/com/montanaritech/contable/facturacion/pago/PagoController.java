@@ -44,14 +44,18 @@ public class PagoController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'CARGA')")
-    public PagoResponse crear(@Valid @RequestBody PagoCrearRequest req) {
-        return aResponse(service.crearBorrador(req));
+    public PagoResponse crear(@Valid @RequestBody PagoCrearRequest req,
+            @RequestParam(required = false, defaultValue = "false") boolean confirmarPeriodoCerrado,
+            @RequestParam(required = false) String motivoOverridePeriodo) {
+        return aResponse(service.crearBorrador(req, confirmarPeriodoCerrado, motivoOverridePeriodo));
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'CARGA')")
-    public PagoResponse editar(@PathVariable Long id, @Valid @RequestBody PagoEditarRequest req) {
-        return aResponse(service.editarBorrador(id, req));
+    public PagoResponse editar(@PathVariable Long id, @Valid @RequestBody PagoEditarRequest req,
+            @RequestParam(required = false, defaultValue = "false") boolean confirmarPeriodoCerrado,
+            @RequestParam(required = false) String motivoOverridePeriodo) {
+        return aResponse(service.editarBorrador(id, req, confirmarPeriodoCerrado, motivoOverridePeriodo));
     }
 
     @DeleteMapping("/{id}")
@@ -63,20 +67,26 @@ public class PagoController {
 
     @PatchMapping("/{id}/confirmar")
     @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'CARGA')")
-    public PagoResponse confirmar(@PathVariable Long id) {
-        return aResponse(service.confirmar(id));
+    public PagoResponse confirmar(@PathVariable Long id,
+            @RequestParam(required = false, defaultValue = "false") boolean confirmarPeriodoCerrado,
+            @RequestParam(required = false) String motivoOverridePeriodo) {
+        return aResponse(service.confirmar(id, confirmarPeriodoCerrado, motivoOverridePeriodo));
     }
 
     @PatchMapping("/{id}/anular")
     @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'CARGA')")
-    public PagoResponse anular(@PathVariable Long id, @Valid @RequestBody PagoAnularRequest req) {
-        return aResponse(service.anular(id, req.motivo()));
+    public PagoResponse anular(@PathVariable Long id, @Valid @RequestBody PagoAnularRequest req,
+            @RequestParam(required = false, defaultValue = "false") boolean confirmarPeriodoCerrado,
+            @RequestParam(required = false) String motivoOverridePeriodo) {
+        return aResponse(service.anular(id, req.motivo(), confirmarPeriodoCerrado, motivoOverridePeriodo));
     }
 
     @PostMapping("/{id}/aplicar-anticipo")
     @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'CARGA')")
-    public PagoResponse aplicarAnticipo(@PathVariable Long id, @Valid @RequestBody AplicarAnticipoProveedorRequest req) {
-        service.aplicarAnticipo(id, req);
+    public PagoResponse aplicarAnticipo(@PathVariable Long id, @Valid @RequestBody AplicarAnticipoProveedorRequest req,
+            @RequestParam(required = false, defaultValue = "false") boolean confirmarPeriodoCerrado,
+            @RequestParam(required = false) String motivoOverridePeriodo) {
+        service.aplicarAnticipo(id, req, confirmarPeriodoCerrado, motivoOverridePeriodo);
         return aResponse(service.obtener(id));
     }
 

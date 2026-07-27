@@ -3,6 +3,7 @@ package com.montanaritech.contable.facturacion.cobro;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -25,6 +26,7 @@ import com.montanaritech.contable.maestros.cuentabancaria.CuentaBancaria;
 import com.montanaritech.contable.maestros.cuentabancaria.CuentaBancariaRepository;
 import com.montanaritech.contable.maestros.moneda.Moneda;
 import com.montanaritech.contable.maestros.moneda.MonedaRepository;
+import com.montanaritech.contable.periodo.PeriodoService;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -51,6 +53,7 @@ class CobroServiceTest {
     @Mock private CuentaBancariaRepository cuentaBancariaRepo;
     @Mock private FacturaVentaRepository facturaVentaRepo;
     @Mock private ComprobanteTributoRepository comprobanteTributoRepo;
+    @Mock private PeriodoService periodoService;
 
     private CobroService service;
     private Cliente cliente;
@@ -60,7 +63,9 @@ class CobroServiceTest {
     @BeforeEach
     void setUp() {
         service = new CobroService(repo, cobroImputacionRepo, aplicacionAnticipoRepo, mapper, auditoria,
-                asientoService, generator, clienteRepo, monedaRepo, cuentaBancariaRepo, facturaVentaRepo, comprobanteTributoRepo);
+                asientoService, generator, clienteRepo, monedaRepo, cuentaBancariaRepo, facturaVentaRepo, comprobanteTributoRepo,
+                periodoService);
+        lenient().when(periodoService.verificarEscritura(any(), anyBoolean(), any())).thenReturn(false);
 
         cliente = new Cliente();
         cliente.setId(1L);
@@ -162,7 +167,7 @@ class CobroServiceTest {
         Cobro anulado = service.anular(52L, "cobro duplicado");
 
         assertThat(anulado.getEstado()).isEqualTo(EstadoDocumento.ANULADO);
-        verify(asientoService).anularPorDocumento(999L, "cobro duplicado");
+        verify(asientoService).anularPorDocumento(999L, "cobro duplicado", false, null);
     }
 
     @Test

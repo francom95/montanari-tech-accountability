@@ -44,14 +44,18 @@ public class FacturaVentaController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'CARGA')")
-    public FacturaVentaResponse crear(@Valid @RequestBody FacturaVentaCrearRequest req) {
-        return mapper.aResponse(service.crearBorrador(req));
+    public FacturaVentaResponse crear(@Valid @RequestBody FacturaVentaCrearRequest req,
+            @RequestParam(required = false, defaultValue = "false") boolean confirmarPeriodoCerrado,
+            @RequestParam(required = false) String motivoOverridePeriodo) {
+        return mapper.aResponse(service.crearBorrador(req, confirmarPeriodoCerrado, motivoOverridePeriodo));
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'CARGA')")
-    public FacturaVentaResponse editar(@PathVariable Long id, @Valid @RequestBody FacturaVentaEditarRequest req) {
-        return mapper.aResponse(service.editarBorrador(id, req));
+    public FacturaVentaResponse editar(@PathVariable Long id, @Valid @RequestBody FacturaVentaEditarRequest req,
+            @RequestParam(required = false, defaultValue = "false") boolean confirmarPeriodoCerrado,
+            @RequestParam(required = false) String motivoOverridePeriodo) {
+        return mapper.aResponse(service.editarBorrador(id, req, confirmarPeriodoCerrado, motivoOverridePeriodo));
     }
 
     @DeleteMapping("/{id}")
@@ -63,13 +67,17 @@ public class FacturaVentaController {
 
     @PatchMapping("/{id}/confirmar")
     @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'CARGA')")
-    public FacturaVentaResponse confirmar(@PathVariable Long id) {
-        return mapper.aResponse(service.confirmar(id));
+    public FacturaVentaResponse confirmar(@PathVariable Long id,
+            @RequestParam(required = false, defaultValue = "false") boolean confirmarPeriodoCerrado,
+            @RequestParam(required = false) String motivoOverridePeriodo) {
+        return mapper.aResponse(service.confirmar(id, confirmarPeriodoCerrado, motivoOverridePeriodo));
     }
 
     @PatchMapping("/{id}/anular")
     @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'CARGA')")
-    public FacturaVentaResponse anular(@PathVariable Long id, @Valid @RequestBody FacturaVentaAnularRequest req) {
-        return mapper.aResponse(service.anular(id, req.motivo()));
+    public FacturaVentaResponse anular(@PathVariable Long id, @Valid @RequestBody FacturaVentaAnularRequest req,
+            @RequestParam(required = false, defaultValue = "false") boolean confirmarPeriodoCerrado,
+            @RequestParam(required = false) String motivoOverridePeriodo) {
+        return mapper.aResponse(service.anular(id, req.motivo(), confirmarPeriodoCerrado, motivoOverridePeriodo));
     }
 }

@@ -3,6 +3,7 @@ package com.montanaritech.contable.facturacion.pago;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -24,6 +25,7 @@ import com.montanaritech.contable.maestros.moneda.Moneda;
 import com.montanaritech.contable.maestros.moneda.MonedaRepository;
 import com.montanaritech.contable.maestros.proveedor.Proveedor;
 import com.montanaritech.contable.maestros.proveedor.ProveedorRepository;
+import com.montanaritech.contable.periodo.PeriodoService;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -49,6 +51,7 @@ class PagoServiceTest {
     @Mock private MonedaRepository monedaRepo;
     @Mock private CuentaBancariaRepository cuentaBancariaRepo;
     @Mock private FacturaCompraRepository facturaCompraRepo;
+    @Mock private PeriodoService periodoService;
 
     private PagoService service;
     private Proveedor proveedor;
@@ -58,7 +61,8 @@ class PagoServiceTest {
     @BeforeEach
     void setUp() {
         service = new PagoService(repo, pagoImputacionRepo, aplicacionAnticipoRepo, mapper, auditoria,
-                asientoService, generator, proveedorRepo, monedaRepo, cuentaBancariaRepo, facturaCompraRepo);
+                asientoService, generator, proveedorRepo, monedaRepo, cuentaBancariaRepo, facturaCompraRepo, periodoService);
+        lenient().when(periodoService.verificarEscritura(any(), anyBoolean(), any())).thenReturn(false);
 
         proveedor = new Proveedor();
         proveedor.setId(1L);
@@ -160,7 +164,7 @@ class PagoServiceTest {
         Pago anulado = service.anular(52L, "pago duplicado");
 
         assertThat(anulado.getEstado()).isEqualTo(EstadoDocumento.ANULADO);
-        verify(asientoService).anularPorDocumento(999L, "pago duplicado");
+        verify(asientoService).anularPorDocumento(999L, "pago duplicado", false, null);
     }
 
     @Test

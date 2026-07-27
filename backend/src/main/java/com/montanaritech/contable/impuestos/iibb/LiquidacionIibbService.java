@@ -16,8 +16,10 @@ import com.montanaritech.contable.impuestos.iibb.dto.LiquidacionIibbDtos.CrearRe
 import com.montanaritech.contable.impuestos.iibb.dto.LiquidacionIibbDtos.EditarJurisdiccionRequest;
 import com.montanaritech.contable.maestros.jurisdiccion.Jurisdiccion;
 import com.montanaritech.contable.maestros.jurisdiccion.JurisdiccionRepository;
+import com.montanaritech.contable.periodo.PeriodoService;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.List;
 import java.util.Set;
@@ -52,10 +54,19 @@ public class LiquidacionIibbService {
     private final AsientoService asientoService;
     private final LiquidacionIibbMapper mapper;
     private final AuditoriaService auditoria;
+    private final PeriodoService periodoService;
 
     @Transactional(readOnly = true)
     public Page<LiquidacionIibb> listar(Integer anio, EstadoDocumento estado, Pageable p) {
         return repo.buscar(anio, estado, p);
+    }
+
+    @Transactional(readOnly = true)
+    public List<String> advertenciasDe(LiquidacionIibb l) {
+        if (periodoService.estaCerrado(LocalDate.of(l.getAnio(), l.getMes(), 1))) {
+            return List.of();
+        }
+        return List.of("El período %02d/%d sigue abierto".formatted(l.getMes(), l.getAnio()));
     }
 
     @Transactional(readOnly = true)

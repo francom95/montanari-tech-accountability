@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { PeriodoCerradoBanner } from "@/components/periodo-cerrado-banner"
 import { descargarAdjunto, useAdjuntos, useEliminarAdjunto, useSubirAdjunto } from "@/hooks/use-adjunto"
 import { useCuentasContables } from "@/hooks/use-cuenta-contable"
 import {
@@ -22,6 +23,7 @@ import {
 } from "@/hooks/use-factura-compra"
 import { useJurisdiccions } from "@/hooks/use-jurisdiccion"
 import { useMonedas } from "@/hooks/use-monedas"
+import { usePeriodoCerradoOverride } from "@/hooks/use-periodo-cerrado-override"
 import { useProveedores } from "@/hooks/use-proveedor"
 import { useProyectos } from "@/hooks/use-proyecto"
 import { useTipoCostos } from "@/hooks/use-tipocosto"
@@ -108,6 +110,10 @@ export function FacturasCompraPage() {
   const [mostrarForm, setMostrarForm] = useState(false)
   const [anulando, setAnulando] = useState<number | null>(null)
   const [motivoAnulacion, setMotivoAnulacion] = useState("")
+  const [confirmandoOverride, setConfirmandoOverride] = useState<number | null>(null)
+  const formOverride = usePeriodoCerradoOverride()
+  const anularOverride = usePeriodoCerradoOverride()
+  const confirmarOverride = usePeriodoCerradoOverride()
 
   const query = useFacturasCompra({ texto, estado: estadoFiltro || undefined, page, size: 10 })
   const [searchParams] = useSearchParams()
@@ -196,16 +202,42 @@ export function FacturasCompraPage() {
       })),
     }
     if (editando) {
-      editar.mutate({ id: editando.id, valores: payload }, { onSuccess: cancelar })
+      editar.mutate({ id: editando.id, valores: payload }, {
+        onSuccess: cancelar,
+        onError: (error) => formOverride.capturar(error, (motivo) =>
+          editar.mutate({ id: editando.id, valores: payload, confirmarPeriodoCerrado: true, motivoOverridePeriodo: motivo }, { onSuccess: cancelar })),
+      })
     } else {
-      crear.mutate(payload, { onSuccess: cancelar })
+      crear.mutate(payload, {
+        onSuccess: cancelar,
+        onError: (error) => formOverride.capturar(error, (motivo) =>
+          crear.mutate({ ...payload, confirmarPeriodoCerrado: true, motivoOverridePeriodo: motivo }, { onSuccess: cancelar })),
+      })
     }
   }
 
   function confirmarAnulacion(id: number) {
     if (!motivoAnulacion.trim()) return
-    anular.mutate({ id, motivo: motivoAnulacion }, {
+    const motivo = motivoAnulacion
+    anular.mutate({ id, motivo }, {
       onSuccess: () => { setAnulando(null); setMotivoAnulacion("") },
+      onError: (error) => anularOverride.capturar(error, (motivoOverride) =>
+        anular.mutate({ id, motivo, confirmarPeriodoCerrado: true, motivoOverridePeriodo: motivoOverride }, {
+          onSuccess: () => { setAnulando(null); setMotivoAnulacion("") },
+        })),
+    })
+  }
+
+  function confirmarFactura(id: number) {
+    confirmar.mutate({ id }, {
+      onError: (error) => {
+        if (confirmarOverride.capturar(error, (motivo) =>
+          confirmar.mutate({ id, confirmarPeriodoCerrado: true, motivoOverridePeriodo: motivo }, {
+            onSuccess: () => setConfirmandoOverride(null),
+          }))) {
+          setConfirmandoOverride(id)
+        }
+      },
     })
   }
 
@@ -241,6 +273,18 @@ export function FacturasCompraPage() {
         cell: ({ row }) => {
           const f = row.original
           if (anulando === f.id) {
+            if (anularOverride.pendiente) {
+              return (
+                <PeriodoCerradoBanner
+                  mensaje={anularOverride.pendiente.mensaje}
+                  motivo={anularOverride.motivo}
+                  onMotivoChange={anularOverride.setMotivo}
+                  onConfirmar={anularOverride.confirmar}
+                  onCancelar={() => { anularOverride.cancelar(); setAnulando(null); setMotivoAnulacion("") }}
+                  confirmando={anular.isPending}
+                />
+              )
+            }
             return (
               <div className="flex items-center gap-2">
                 <Input autoFocus placeholder="Motivo…" value={motivoAnulacion} onChange={(e) => setMotivoAnulacion(e.target.value)} className={`${inputClase} w-40`} />
@@ -249,13 +293,25 @@ export function FacturasCompraPage() {
               </div>
             )
           }
+          if (confirmandoOverride === f.id && confirmarOverride.pendiente) {
+            return (
+              <PeriodoCerradoBanner
+                mensaje={confirmarOverride.pendiente.mensaje}
+                motivo={confirmarOverride.motivo}
+                onMotivoChange={confirmarOverride.setMotivo}
+                onConfirmar={confirmarOverride.confirmar}
+                onCancelar={() => { confirmarOverride.cancelar(); setConfirmandoOverride(null) }}
+                confirmando={confirmar.isPending}
+              />
+            )
+          }
           if (f.estado === "ANULADO") return <span className="text-xs text-muted-foreground">Anulada</span>
           return (
             <div className="flex flex-wrap gap-2">
               <Button variant="outline" size="sm" onClick={() => iniciarEdicion(f)}>{f.estado === "BORRADOR" ? "Editar" : "Ver"}</Button>
               {f.estado === "BORRADOR" && (
                 <>
-                  <Button variant="outline" size="sm" disabled={confirmar.isPending} onClick={() => confirmar.mutate(f.id)}>Confirmar</Button>
+                  <Button variant="outline" size="sm" disabled={confirmar.isPending} onClick={() => confirmarFactura(f.id)}>Confirmar</Button>
                   <Button variant="outline" size="sm" disabled={eliminar.isPending} onClick={() => eliminar.mutate(f.id)}>Eliminar</Button>
                 </>
               )}
@@ -268,7 +324,7 @@ export function FacturasCompraPage() {
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [confirmar.isPending, eliminar.isPending, anular.isPending, anulando, motivoAnulacion]
+    [confirmar.isPending, eliminar.isPending, anular.isPending, anulando, motivoAnulacion, anularOverride.pendiente, anularOverride.motivo, confirmandoOverride, confirmarOverride.pendiente, confirmarOverride.motivo]
   )
 
   const filas = idFiltro !== undefined ? (registroUnico.data ? [registroUnico.data] : []) : (query.data?.content ?? [])
@@ -432,6 +488,17 @@ export function FacturasCompraPage() {
                     <span>Percepciones: <strong>{totales.percepciones.toFixed(2)}</strong></span>
                     <span>Total: <strong>{totales.total.toFixed(2)}</strong></span>
                   </div>
+
+                  {!soloLectura && formOverride.pendiente && (
+                    <PeriodoCerradoBanner
+                      mensaje={formOverride.pendiente.mensaje}
+                      motivo={formOverride.motivo}
+                      onMotivoChange={formOverride.setMotivo}
+                      onConfirmar={formOverride.confirmar}
+                      onCancelar={formOverride.cancelar}
+                      confirmando={crear.isPending || editar.isPending}
+                    />
+                  )}
 
                   {!soloLectura && (
                     <div className="flex gap-2">

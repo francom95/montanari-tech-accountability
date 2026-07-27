@@ -43,10 +43,14 @@ export function useSaldoFacturaVenta(facturaVentaId: number | undefined) {
   })
 }
 
+/** F9.3: campos opcionales de override cuando la fecha cae en un período cerrado (ver usePeriodoCerradoOverride). */
+type OverridePeriodo = { confirmarPeriodoCerrado?: boolean; motivoOverridePeriodo?: string }
+
 export function useCrearCobro() {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: async (v: CobroCrearInput) => (await http.post<Cobro>("/cobros", v)).data,
+    mutationFn: async ({ confirmarPeriodoCerrado, motivoOverridePeriodo, ...v }: CobroCrearInput & OverridePeriodo) =>
+      (await http.post<Cobro>("/cobros", v, { params: { confirmarPeriodoCerrado, motivoOverridePeriodo } })).data,
     onSuccess: async () => { await qc.invalidateQueries({ queryKey: QUERY_KEY }) },
   })
 }
@@ -54,8 +58,8 @@ export function useCrearCobro() {
 export function useEditarCobro() {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: async ({ id, valores }: { id: number; valores: CobroEditarInput }) =>
-      (await http.put<Cobro>(`/cobros/${id}`, valores)).data,
+    mutationFn: async ({ id, valores, confirmarPeriodoCerrado, motivoOverridePeriodo }: { id: number; valores: CobroEditarInput } & OverridePeriodo) =>
+      (await http.put<Cobro>(`/cobros/${id}`, valores, { params: { confirmarPeriodoCerrado, motivoOverridePeriodo } })).data,
     onSuccess: async () => { await qc.invalidateQueries({ queryKey: QUERY_KEY }) },
   })
 }
@@ -71,7 +75,8 @@ export function useEliminarCobro() {
 export function useConfirmarCobro() {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: async (id: number) => (await http.patch<Cobro>(`/cobros/${id}/confirmar`)).data,
+    mutationFn: async ({ id, confirmarPeriodoCerrado, motivoOverridePeriodo }: { id: number } & OverridePeriodo) =>
+      (await http.patch<Cobro>(`/cobros/${id}/confirmar`, null, { params: { confirmarPeriodoCerrado, motivoOverridePeriodo } })).data,
     onSuccess: async () => { await qc.invalidateQueries({ queryKey: QUERY_KEY }) },
   })
 }
@@ -79,8 +84,8 @@ export function useConfirmarCobro() {
 export function useAnularCobro() {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: async ({ id, motivo }: { id: number; motivo: string }) =>
-      (await http.patch<Cobro>(`/cobros/${id}/anular`, { motivo })).data,
+    mutationFn: async ({ id, motivo, confirmarPeriodoCerrado, motivoOverridePeriodo }: { id: number; motivo: string } & OverridePeriodo) =>
+      (await http.patch<Cobro>(`/cobros/${id}/anular`, { motivo }, { params: { confirmarPeriodoCerrado, motivoOverridePeriodo } })).data,
     onSuccess: async () => { await qc.invalidateQueries({ queryKey: QUERY_KEY }) },
   })
 }
@@ -88,8 +93,8 @@ export function useAnularCobro() {
 export function useAplicarAnticipoCobro() {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: async ({ id, facturaVentaId, monto, fecha }: { id: number; facturaVentaId: number; monto: number; fecha: string }) =>
-      (await http.post<Cobro>(`/cobros/${id}/aplicar-anticipo`, { facturaVentaId, monto, fecha })).data,
+    mutationFn: async ({ id, facturaVentaId, monto, fecha, confirmarPeriodoCerrado, motivoOverridePeriodo }: { id: number; facturaVentaId: number; monto: number; fecha: string } & OverridePeriodo) =>
+      (await http.post<Cobro>(`/cobros/${id}/aplicar-anticipo`, { facturaVentaId, monto, fecha }, { params: { confirmarPeriodoCerrado, motivoOverridePeriodo } })).data,
     onSuccess: async () => { await qc.invalidateQueries({ queryKey: QUERY_KEY }) },
   })
 }

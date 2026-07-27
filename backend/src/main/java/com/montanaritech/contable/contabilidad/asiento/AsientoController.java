@@ -151,14 +151,18 @@ public class AsientoController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'CARGA')")
-    public AsientoResponse crear(@Valid @RequestBody AsientoCrearRequest req) {
-        return mapper.aResponse(service.crearBorrador(req));
+    public AsientoResponse crear(@Valid @RequestBody AsientoCrearRequest req,
+            @RequestParam(required = false, defaultValue = "false") boolean confirmarPeriodoCerrado,
+            @RequestParam(required = false) String motivoOverridePeriodo) {
+        return mapper.aResponse(service.crearBorrador(req, confirmarPeriodoCerrado, motivoOverridePeriodo));
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'CARGA')")
-    public AsientoResponse editar(@PathVariable Long id, @Valid @RequestBody AsientoEditarRequest req) {
-        return mapper.aResponse(service.editarBorrador(id, req));
+    public AsientoResponse editar(@PathVariable Long id, @Valid @RequestBody AsientoEditarRequest req,
+            @RequestParam(required = false, defaultValue = "false") boolean confirmarPeriodoCerrado,
+            @RequestParam(required = false) String motivoOverridePeriodo) {
+        return mapper.aResponse(service.editarBorrador(id, req, confirmarPeriodoCerrado, motivoOverridePeriodo));
     }
 
     @DeleteMapping("/{id}")
@@ -181,8 +185,10 @@ public class AsientoController {
      */
     @PutMapping("/{id}/confirmado")
     @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'CARGA')")
-    public AsientoResponse editarConfirmado(@PathVariable Long id, @Valid @RequestBody AsientoEditarConfirmadoRequest req) {
-        return mapper.aResponse(service.editarConfirmado(id, req));
+    public AsientoResponse editarConfirmado(@PathVariable Long id, @Valid @RequestBody AsientoEditarConfirmadoRequest req,
+            @RequestParam(required = false, defaultValue = "false") boolean confirmarPeriodoCerrado,
+            @RequestParam(required = false) String motivoOverridePeriodo) {
+        return mapper.aResponse(service.editarConfirmado(id, req, confirmarPeriodoCerrado, motivoOverridePeriodo));
     }
 
     @PostMapping("/{id}/duplicar")
@@ -193,7 +199,9 @@ public class AsientoController {
 
     @PatchMapping("/{id}/anular")
     @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'CARGA')")
-    public AsientoResponse anular(@PathVariable Long id, @Valid @RequestBody AsientoAnularRequest req) {
-        return mapper.aResponse(service.anular(id, req.motivo()));
+    public AsientoResponse anular(@PathVariable Long id, @Valid @RequestBody AsientoAnularRequest req,
+            @RequestParam(required = false, defaultValue = "false") boolean confirmarPeriodoCerrado,
+            @RequestParam(required = false) String motivoOverridePeriodo) {
+        return mapper.aResponse(service.anular(id, req.motivo(), confirmarPeriodoCerrado, motivoOverridePeriodo));
     }
 }

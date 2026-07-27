@@ -13,8 +13,10 @@ import com.montanaritech.contable.contabilidad.cuentacontable.CuentaContableRepo
 import com.montanaritech.contable.impuestos.iva.dto.LiquidacionIvaDtos.AgregarComponenteRequest;
 import com.montanaritech.contable.impuestos.iva.dto.LiquidacionIvaDtos.AjustarComponenteRequest;
 import com.montanaritech.contable.impuestos.iva.dto.LiquidacionIvaDtos.CrearRequest;
+import com.montanaritech.contable.periodo.PeriodoService;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.List;
 import java.util.Set;
@@ -43,10 +45,25 @@ public class LiquidacionIvaService {
     private final AsientoService asientoService;
     private final LiquidacionIvaMapper mapper;
     private final AuditoriaService auditoria;
+    private final PeriodoService periodoService;
 
     @Transactional(readOnly = true)
     public Page<LiquidacionIva> listar(Integer anio, EstadoDocumento estado, Pageable p) {
         return repo.buscar(anio, estado, p);
+    }
+
+    /**
+     * F9.3: advertencia no bloqueante para que se vea, tanto al consultar como
+     * al confirmar, que todavía se puede liquidar sobre un período abierto —
+     * sin impedirlo (a diferencia del gate de {@code AsientoService}/F4.x, acá
+     * no hay "fecha de la operación" única: la liquidación completa es del mes).
+     */
+    @Transactional(readOnly = true)
+    public List<String> advertenciasDe(LiquidacionIva l) {
+        if (periodoService.estaCerrado(LocalDate.of(l.getAnio(), l.getMes(), 1))) {
+            return List.of();
+        }
+        return List.of("El período %02d/%d sigue abierto".formatted(l.getMes(), l.getAnio()));
     }
 
     @Transactional(readOnly = true)

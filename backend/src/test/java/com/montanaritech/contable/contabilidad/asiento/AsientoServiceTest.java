@@ -3,6 +3,9 @@ package com.montanaritech.contable.contabilidad.asiento;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -29,6 +32,7 @@ import com.montanaritech.contable.maestros.tipocambio.ConfiguracionTipoCambio;
 import com.montanaritech.contable.maestros.tipocambio.ConfiguracionTipoCambioRepository;
 import com.montanaritech.contable.maestros.tipocambio.TipoCambio;
 import com.montanaritech.contable.maestros.tipocambio.TipoCambioRepository;
+import com.montanaritech.contable.periodo.PeriodoService;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -67,6 +71,7 @@ class AsientoServiceTest {
     @Mock private CuentaBancariaRepository cuentaBancariaRepo;
     @Mock private TipoCambioRepository tipoCambioRepo;
     @Mock private ConfiguracionTipoCambioRepository configuracionTipoCambioRepo;
+    @Mock private PeriodoService periodoService;
 
     private AsientoService service;
 
@@ -80,7 +85,8 @@ class AsientoServiceTest {
     void setUp() {
         service = new AsientoService(repo, mapper, auditoria, numerador, cuentaRepo, monedaRepo,
                 proyectoRepo, etapaRepo, clienteRepo, proveedorRepo, cuentaBancariaRepo, tipoCambioRepo,
-                configuracionTipoCambioRepo);
+                configuracionTipoCambioRepo, periodoService);
+        lenient().when(periodoService.verificarEscritura(any(), anyBoolean(), any())).thenReturn(false);
 
         ars = new Moneda();
         ars.setId(1L);
@@ -617,6 +623,76 @@ class AsientoServiceTest {
                 .isInstanceOf(NegocioException.class)
                 .extracting(e -> ((NegocioException) e).getCodigo())
                 .isEqualTo("SOLO_ADMIN_EDITA_LINEAS_AUTOMATICAS");
+    }
+
+    // ==================== F9.3: gating de período cerrado ====================
+
+    @Test
+    void crearBorradorConPeriodoAbiertoNoConsultaAdminYCreaNormalmente() {
+        when(periodoService.verificarEscritura(LocalDate.of(2026, 6, 5), false, null)).thenReturn(false);
+
+        Asiento a = service.crearBorrador(new AsientoCrearRequest(
+                LocalDate.of(2026, 6, 5), "Asiento en período abierto", null,
+                List.of(lineaArs(10L, new BigDecimal("100.00"), BigDecimal.ZERO),
+                        lineaArs(11L, BigDecimal.ZERO, new BigDecimal("100.00")))));
+
+        assertThat(a.getEstado()).isEqualTo(EstadoDocumento.BORRADOR);
+        verify(auditoria).registrar(any(), eq("Asiento"), any(), any(), any(), eq(false), isNull());
+    }
+
+    @Test
+    void crearBorradorConPeriodoCerradoPropagaPeriodoCerradoException() {
+        when(periodoService.verificarEscritura(LocalDate.of(2026, 6, 5), false, null))
+                .thenThrow(new com.montanaritech.contable.common.error.PeriodoCerradoException("cerrado"));
+
+        assertThatThrownBy(() -> service.crearBorrador(new AsientoCrearRequest(
+                LocalDate.of(2026, 6, 5), "Asiento en período cerrado", null,
+                List.of(lineaArs(10L, new BigDecimal("100.00"), BigDecimal.ZERO),
+                        lineaArs(11L, BigDecimal.ZERO, new BigDecimal("100.00"))))))
+                .isInstanceOf(com.montanaritech.contable.common.error.PeriodoCerradoException.class)
+                .extracting(e -> ((NegocioException) e).getCodigo())
+                .isEqualTo("PERIODO_CERRADO");
+    }
+
+    @Test
+    void crearBorradorConOverrideDeAdminAuditaSobrePeriodoCerrado() {
+        when(periodoService.verificarEscritura(LocalDate.of(2026, 6, 5), true, "corrección autorizada"))
+                .thenReturn(true);
+
+        Asiento a = service.crearBorrador(new AsientoCrearRequest(
+                LocalDate.of(2026, 6, 5), "Asiento con override", null,
+                List.of(lineaArs(10L, new BigDecimal("100.00"), BigDecimal.ZERO),
+                        lineaArs(11L, BigDecimal.ZERO, new BigDecimal("100.00")))),
+                true, "corrección autorizada");
+
+        assertThat(a.getEstado()).isEqualTo(EstadoDocumento.BORRADOR);
+        verify(auditoria).registrar(any(), eq("Asiento"), any(), any(), any(), eq(true), eq("corrección autorizada"));
+    }
+
+    @Test
+    void anularConPeriodoCerradoYCallerNoAdminPropagaPeriodoCerradoException() {
+        Asiento a = asientoConfirmadoConLineas(90L, List.of(
+                lineaArsConId(900L, bancoImputable, new BigDecimal("100.00"), BigDecimal.ZERO, false),
+                lineaArsConId(901L, ventasImputable, BigDecimal.ZERO, new BigDecimal("100.00"), false)),
+                LocalDate.of(2026, 6, 1), OrigenAsiento.MANUAL);
+        when(periodoService.verificarEscritura(a.getFecha(), false, null))
+                .thenThrow(new com.montanaritech.contable.common.error.PeriodoCerradoException("cerrado"));
+
+        assertThatThrownBy(() -> service.anular(90L, "motivo"))
+                .isInstanceOf(com.montanaritech.contable.common.error.PeriodoCerradoException.class);
+    }
+
+    @Test
+    void listarYObtenerNuncaConsultanPeriodoAunConPeriodoCerrado() {
+        Asiento a = asientoConfirmadoConLineas(91L, List.of(
+                lineaArsConId(910L, bancoImputable, new BigDecimal("100.00"), BigDecimal.ZERO, false),
+                lineaArsConId(911L, ventasImputable, BigDecimal.ZERO, new BigDecimal("100.00"), false)),
+                LocalDate.of(2026, 6, 1), OrigenAsiento.MANUAL);
+
+        Asiento obtenido = service.obtener(91L);
+
+        assertThat(obtenido).isSameAs(a);
+        verify(periodoService, never()).verificarEscritura(any(), anyBoolean(), any());
     }
 
     @Test

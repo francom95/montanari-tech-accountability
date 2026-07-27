@@ -71,8 +71,14 @@
       "input_tokens": 0,
       "output_tokens": 77745,
       "files": 48
+    },
+    {
+      "date": "2026-07-25T20:30:33.447988+00:00",
+      "input_tokens": 58000,
+      "output_tokens": 7121,
+      "files": 53
     }
   ],
-  "total_input_tokens": 842785,
-  "total_output_tokens": 614631
+  "total_input_tokens": 900785,
+  "total_output_tokens": 621752
 }

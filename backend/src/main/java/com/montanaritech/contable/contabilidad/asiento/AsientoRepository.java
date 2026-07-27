@@ -3,6 +3,7 @@ package com.montanaritech.contable.contabilidad.asiento;
 import com.montanaritech.contable.common.estado.EstadoDocumento;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,6 +37,15 @@ public interface AsientoRepository extends JpaRepository<Asiento, Long> {
 
     /** Resolución por número visible para el usuario (F5.1, acción "asociar" de un movimiento bancario). */
     Optional<Asiento> findByNumero(Long numero);
+
+    /**
+     * Fuente del motor on-demand de {@code Periodo} (F9.3, molde de
+     * {@code VencimientoService.generarAutomaticos()} de F8.1): cada (año,
+     * mes) con al menos un asiento. JPQL (no nativa), así que el filtro de
+     * tenant de Hibernate se aplica solo.
+     */
+    @Query("SELECT DISTINCT FUNCTION('YEAR', a.fecha), FUNCTION('MONTH', a.fecha) FROM Asiento a")
+    List<Object[]> findDistinctAnioMesConAsientos();
 
     /**
      * Búsqueda avanzada (F3.5): además del texto libre (descripción o leyenda

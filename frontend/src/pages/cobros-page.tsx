@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ConfiguracionCobranzaCard } from "@/components/configuracion-cobranza-card"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { PeriodoCerradoBanner } from "@/components/periodo-cerrado-banner"
 import { useClientes } from "@/hooks/use-cliente"
 import {
   useAnularCobro,
@@ -24,6 +25,7 @@ import {
 import { useCuentasBancarias } from "@/hooks/use-cuenta-bancaria"
 import { useFacturasVenta } from "@/hooks/use-factura-venta"
 import { useMonedas } from "@/hooks/use-monedas"
+import { usePeriodoCerradoOverride } from "@/hooks/use-periodo-cerrado-override"
 import type { Cobro, EstadoCobro, TipoRetencionCobro } from "@/types/cobro"
 import { TIPOS_RETENCION_COBRO } from "@/types/cobro"
 
@@ -98,6 +100,11 @@ export function CobrosPage() {
   const [facturaAnticipo, setFacturaAnticipo] = useState("")
   const [montoAnticipo, setMontoAnticipo] = useState("")
   const [fechaAnticipo, setFechaAnticipo] = useState("")
+  const [confirmandoOverride, setConfirmandoOverride] = useState<number | null>(null)
+  const formOverride = usePeriodoCerradoOverride()
+  const anularOverride = usePeriodoCerradoOverride()
+  const confirmarOverride = usePeriodoCerradoOverride()
+  const anticipoOverride = usePeriodoCerradoOverride()
 
   const [searchParams] = useSearchParams()
   const idFiltro = searchParams.get("id") ? Number(searchParams.get("id")) : undefined
@@ -155,23 +162,55 @@ export function CobrosPage() {
       tributos: valores.tributos.map((t) => ({ tipo: t.tipo as TipoRetencionCobro, importe: Number(t.importe) })),
     }
     if (editando) {
-      editar.mutate({ id: editando.id, valores: payload }, { onSuccess: cancelar })
+      editar.mutate({ id: editando.id, valores: payload }, {
+        onSuccess: cancelar,
+        onError: (error) => formOverride.capturar(error, (motivo) =>
+          editar.mutate({ id: editando.id, valores: payload, confirmarPeriodoCerrado: true, motivoOverridePeriodo: motivo }, { onSuccess: cancelar })),
+      })
     } else {
-      crear.mutate(payload, { onSuccess: cancelar })
+      crear.mutate(payload, {
+        onSuccess: cancelar,
+        onError: (error) => formOverride.capturar(error, (motivo) =>
+          crear.mutate({ ...payload, confirmarPeriodoCerrado: true, motivoOverridePeriodo: motivo }, { onSuccess: cancelar })),
+      })
     }
   }
 
   function confirmarAnulacion(id: number) {
     if (!motivoAnulacion.trim()) return
-    anular.mutate({ id, motivo: motivoAnulacion }, { onSuccess: () => { setAnulando(null); setMotivoAnulacion("") } })
+    const motivo = motivoAnulacion
+    anular.mutate({ id, motivo }, {
+      onSuccess: () => { setAnulando(null); setMotivoAnulacion("") },
+      onError: (error) => anularOverride.capturar(error, (motivoOverride) =>
+        anular.mutate({ id, motivo, confirmarPeriodoCerrado: true, motivoOverridePeriodo: motivoOverride }, {
+          onSuccess: () => { setAnulando(null); setMotivoAnulacion("") },
+        })),
+    })
+  }
+
+  function confirmarCobro(id: number) {
+    confirmar.mutate({ id }, {
+      onError: (error) => {
+        if (confirmarOverride.capturar(error, (motivo) =>
+          confirmar.mutate({ id, confirmarPeriodoCerrado: true, motivoOverridePeriodo: motivo }, {
+            onSuccess: () => setConfirmandoOverride(null),
+          }))) {
+          setConfirmandoOverride(id)
+        }
+      },
+    })
   }
 
   function confirmarAplicacionAnticipo(id: number) {
     if (!facturaAnticipo || !montoAnticipo || !fechaAnticipo) return
-    aplicarAnticipo.mutate(
-      { id, facturaVentaId: Number(facturaAnticipo), monto: Number(montoAnticipo), fecha: fechaAnticipo },
-      { onSuccess: () => { setAplicandoAnticipo(null); setFacturaAnticipo(""); setMontoAnticipo(""); setFechaAnticipo("") } }
-    )
+    const args = { id, facturaVentaId: Number(facturaAnticipo), monto: Number(montoAnticipo), fecha: fechaAnticipo }
+    aplicarAnticipo.mutate(args, {
+      onSuccess: () => { setAplicandoAnticipo(null); setFacturaAnticipo(""); setMontoAnticipo(""); setFechaAnticipo("") },
+      onError: (error) => anticipoOverride.capturar(error, (motivo) =>
+        aplicarAnticipo.mutate({ ...args, confirmarPeriodoCerrado: true, motivoOverridePeriodo: motivo }, {
+          onSuccess: () => { setAplicandoAnticipo(null); setFacturaAnticipo(""); setMontoAnticipo(""); setFechaAnticipo("") },
+        })),
+    })
   }
 
   const lineasObservadas = useWatch({ control: form.control, name: "lineas" })
@@ -201,6 +240,18 @@ export function CobrosPage() {
         cell: ({ row }) => {
           const c = row.original
           if (anulando === c.id) {
+            if (anularOverride.pendiente) {
+              return (
+                <PeriodoCerradoBanner
+                  mensaje={anularOverride.pendiente.mensaje}
+                  motivo={anularOverride.motivo}
+                  onMotivoChange={anularOverride.setMotivo}
+                  onConfirmar={anularOverride.confirmar}
+                  onCancelar={() => { anularOverride.cancelar(); setAnulando(null); setMotivoAnulacion("") }}
+                  confirmando={anular.isPending}
+                />
+              )
+            }
             return (
               <div className="flex items-center gap-2">
                 <Input autoFocus placeholder="Motivo…" value={motivoAnulacion} onChange={(e) => setMotivoAnulacion(e.target.value)} className={`${inputClase} w-40`} />
@@ -210,6 +261,18 @@ export function CobrosPage() {
             )
           }
           if (aplicandoAnticipo === c.id) {
+            if (anticipoOverride.pendiente) {
+              return (
+                <PeriodoCerradoBanner
+                  mensaje={anticipoOverride.pendiente.mensaje}
+                  motivo={anticipoOverride.motivo}
+                  onMotivoChange={anticipoOverride.setMotivo}
+                  onConfirmar={anticipoOverride.confirmar}
+                  onCancelar={() => { anticipoOverride.cancelar(); setAplicandoAnticipo(null) }}
+                  confirmando={aplicarAnticipo.isPending}
+                />
+              )
+            }
             return (
               <div className="flex flex-wrap items-center gap-2">
                 <select value={facturaAnticipo} onChange={(e) => setFacturaAnticipo(e.target.value)} className={`${selectClase} w-40`}>
@@ -225,13 +288,25 @@ export function CobrosPage() {
               </div>
             )
           }
+          if (confirmandoOverride === c.id && confirmarOverride.pendiente) {
+            return (
+              <PeriodoCerradoBanner
+                mensaje={confirmarOverride.pendiente.mensaje}
+                motivo={confirmarOverride.motivo}
+                onMotivoChange={confirmarOverride.setMotivo}
+                onConfirmar={confirmarOverride.confirmar}
+                onCancelar={() => { confirmarOverride.cancelar(); setConfirmandoOverride(null) }}
+                confirmando={confirmar.isPending}
+              />
+            )
+          }
           if (c.estado === "ANULADO") return <span className="text-xs text-muted-foreground">Anulado</span>
           return (
             <div className="flex flex-wrap gap-2">
               <Button variant="outline" size="sm" onClick={() => iniciarEdicion(c)}>{c.estado === "BORRADOR" ? "Editar" : "Ver"}</Button>
               {c.estado === "BORRADOR" && (
                 <>
-                  <Button variant="outline" size="sm" disabled={confirmar.isPending} onClick={() => confirmar.mutate(c.id)}>Confirmar</Button>
+                  <Button variant="outline" size="sm" disabled={confirmar.isPending} onClick={() => confirmarCobro(c.id)}>Confirmar</Button>
                   <Button variant="outline" size="sm" disabled={eliminar.isPending} onClick={() => eliminar.mutate(c.id)}>Eliminar</Button>
                 </>
               )}
@@ -249,7 +324,8 @@ export function CobrosPage() {
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [confirmar.isPending, eliminar.isPending, anular.isPending, anulando, motivoAnulacion, aplicandoAnticipo, facturaAnticipo, montoAnticipo, fechaAnticipo, aplicarAnticipo.isPending, facturasConfirmadas.data]
+    [confirmar.isPending, eliminar.isPending, anular.isPending, anulando, motivoAnulacion, aplicandoAnticipo, facturaAnticipo, montoAnticipo, fechaAnticipo, aplicarAnticipo.isPending, facturasConfirmadas.data,
+      anularOverride.pendiente, anularOverride.motivo, anticipoOverride.pendiente, anticipoOverride.motivo, confirmandoOverride, confirmarOverride.pendiente, confirmarOverride.motivo]
   )
 
   const filas = idFiltro !== undefined ? (registroUnico.data ? [registroUnico.data] : []) : (query.data?.content ?? [])
@@ -391,6 +467,17 @@ export function CobrosPage() {
                     <span>Retenciones: <strong>{totales.retenciones.toFixed(2)}</strong></span>
                     <span>Ingresa a fondos: <strong>{totales.fondos.toFixed(2)}</strong></span>
                   </div>
+
+                  {!soloLectura && formOverride.pendiente && (
+                    <PeriodoCerradoBanner
+                      mensaje={formOverride.pendiente.mensaje}
+                      motivo={formOverride.motivo}
+                      onMotivoChange={formOverride.setMotivo}
+                      onConfirmar={formOverride.confirmar}
+                      onCancelar={formOverride.cancelar}
+                      confirmando={crear.isPending || editar.isPending}
+                    />
+                  )}
 
                   {!soloLectura && (
                     <div className="flex gap-2">

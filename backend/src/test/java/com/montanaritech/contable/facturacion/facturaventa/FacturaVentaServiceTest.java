@@ -3,6 +3,9 @@ package com.montanaritech.contable.facturacion.facturaventa;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -23,6 +26,7 @@ import com.montanaritech.contable.maestros.jurisdiccion.JurisdiccionRepository;
 import com.montanaritech.contable.maestros.moneda.Moneda;
 import com.montanaritech.contable.maestros.moneda.MonedaRepository;
 import com.montanaritech.contable.maestros.proyecto.ProyectoRepository;
+import com.montanaritech.contable.periodo.PeriodoService;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -47,6 +51,7 @@ class FacturaVentaServiceTest {
     @Mock private JurisdiccionRepository jurisdiccionRepo;
     @Mock private MonedaRepository monedaRepo;
     @Mock private CuentaContableRepository cuentaContableRepo;
+    @Mock private PeriodoService periodoService;
 
     private FacturaVentaService service;
     private Cliente cliente;
@@ -55,7 +60,8 @@ class FacturaVentaServiceTest {
     @BeforeEach
     void setUp() {
         service = new FacturaVentaService(repo, mapper, auditoria, asientoService, generator,
-                clienteRepo, proyectoRepo, jurisdiccionRepo, monedaRepo, cuentaContableRepo);
+                clienteRepo, proyectoRepo, jurisdiccionRepo, monedaRepo, cuentaContableRepo, periodoService);
+        lenient().when(periodoService.verificarEscritura(any(), anyBoolean(), any())).thenReturn(false);
 
         cliente = new Cliente();
         cliente.setId(1L);
@@ -156,7 +162,7 @@ class FacturaVentaServiceTest {
         FacturaVenta anulada = service.anular(52L, "factura duplicada");
 
         assertThat(anulada.getEstado()).isEqualTo(EstadoDocumento.ANULADO);
-        verify(asientoService).anularPorDocumento(999L, "factura duplicada");
+        verify(asientoService).anularPorDocumento(999L, "factura duplicada", false, null);
     }
 
     @Test
@@ -170,6 +176,68 @@ class FacturaVentaServiceTest {
                 .isInstanceOf(NegocioException.class)
                 .extracting(e -> ((NegocioException) e).getCodigo())
                 .isEqualTo("TRANSICION_ESTADO_INVALIDA");
+    }
+
+    // ==================== F9.3: gating de período cerrado ====================
+
+    @Test
+    void crearBorradorConPeriodoAbiertoNoBloquea() {
+        FacturaVentaCrearRequest req = requestCrear(List.of(lineaGravada(new BigDecimal("100000.00"), new BigDecimal("21"))));
+        when(periodoService.verificarEscritura(req.fecha(), false, null)).thenReturn(false);
+
+        FacturaVenta creada = service.crearBorrador(req);
+
+        assertThat(creada.getEstado()).isEqualTo(EstadoDocumento.BORRADOR);
+        verify(auditoria).registrar(any(), eq("FacturaVenta"), any(), any(), any(), eq(false), isNull());
+    }
+
+    @Test
+    void crearBorradorConPeriodoCerradoPropagaPeriodoCerradoException() {
+        FacturaVentaCrearRequest req = requestCrear(List.of(lineaGravada(new BigDecimal("100000.00"), new BigDecimal("21"))));
+        when(periodoService.verificarEscritura(req.fecha(), false, null))
+                .thenThrow(new com.montanaritech.contable.common.error.PeriodoCerradoException("cerrado"));
+
+        assertThatThrownBy(() -> service.crearBorrador(req))
+                .isInstanceOf(com.montanaritech.contable.common.error.PeriodoCerradoException.class)
+                .extracting(e -> ((NegocioException) e).getCodigo())
+                .isEqualTo("PERIODO_CERRADO");
+    }
+
+    @Test
+    void crearBorradorConOverrideDeAdminAuditaSobrePeriodoCerrado() {
+        FacturaVentaCrearRequest req = requestCrear(List.of(lineaGravada(new BigDecimal("100000.00"), new BigDecimal("21"))));
+        when(periodoService.verificarEscritura(req.fecha(), true, "corrección autorizada")).thenReturn(true);
+
+        FacturaVenta creada = service.crearBorrador(req, true, "corrección autorizada");
+
+        assertThat(creada.getEstado()).isEqualTo(EstadoDocumento.BORRADOR);
+        verify(auditoria).registrar(any(), eq("FacturaVenta"), any(), any(), any(), eq(true), eq("corrección autorizada"));
+    }
+
+    @Test
+    void confirmarConPeriodoCerradoYSinAdminPropagaPeriodoCerradoException() {
+        FacturaVenta f = new FacturaVenta();
+        f.setId(55L);
+        f.setEstado(EstadoDocumento.BORRADOR);
+        f.setFecha(LocalDate.of(2026, 6, 15));
+        when(repo.findById(55L)).thenReturn(Optional.of(f));
+        when(periodoService.verificarEscritura(f.getFecha(), false, null))
+                .thenThrow(new com.montanaritech.contable.common.error.PeriodoCerradoException("cerrado"));
+
+        assertThatThrownBy(() -> service.confirmar(55L))
+                .isInstanceOf(com.montanaritech.contable.common.error.PeriodoCerradoException.class);
+    }
+
+    @Test
+    void listarYObtenerNuncaConsultanPeriodo() {
+        FacturaVenta f = new FacturaVenta();
+        f.setId(56L);
+        when(repo.findById(56L)).thenReturn(Optional.of(f));
+
+        FacturaVenta obtenida = service.obtener(56L);
+
+        assertThat(obtenida).isSameAs(f);
+        verify(periodoService, org.mockito.Mockito.never()).verificarEscritura(any(), anyBoolean(), any());
     }
 
     // ---- Guarda de borrador ----

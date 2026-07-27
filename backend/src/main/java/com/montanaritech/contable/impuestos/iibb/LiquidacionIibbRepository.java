@@ -39,4 +39,7 @@ public interface LiquidacionIibbRepository extends JpaRepository<LiquidacionIibb
 
     /** F8.1: todas las confirmadas, sin acotar a un período, para generar sus vencimientos. */
     List<LiquidacionIibb> findByEstado(EstadoDocumento estado);
+
+    /** F9.3: liquidaciones de un (año, mes) para el resumen de la pantalla de períodos, en cualquier estado. */
+    List<LiquidacionIibb> findByAnioAndMes(Integer anio, Integer mes);
 }

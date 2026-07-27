@@ -3,6 +3,7 @@ package com.montanaritech.contable.facturacion.facturacompra;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -28,6 +29,7 @@ import com.montanaritech.contable.maestros.proveedor.ProveedorRepository;
 import com.montanaritech.contable.maestros.proyecto.ProyectoRepository;
 import com.montanaritech.contable.maestros.tipocosto.TipoCosto;
 import com.montanaritech.contable.maestros.tipocosto.TipoCostoRepository;
+import com.montanaritech.contable.periodo.PeriodoService;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -54,6 +56,7 @@ class FacturaCompraServiceTest {
     @Mock private CuentaContableRepository cuentaContableRepo;
     @Mock private TipoCostoRepository tipoCostoRepo;
     @Mock private ComprobanteTributoRepository comprobanteTributoRepo;
+    @Mock private PeriodoService periodoService;
 
     private FacturaCompraService service;
     private Proveedor proveedor;
@@ -63,7 +66,9 @@ class FacturaCompraServiceTest {
     @BeforeEach
     void setUp() {
         service = new FacturaCompraService(repo, mapper, auditoria, asientoService, generator,
-                proveedorRepo, proyectoRepo, jurisdiccionRepo, monedaRepo, cuentaContableRepo, tipoCostoRepo, comprobanteTributoRepo);
+                proveedorRepo, proyectoRepo, jurisdiccionRepo, monedaRepo, cuentaContableRepo, tipoCostoRepo, comprobanteTributoRepo,
+                periodoService);
+        lenient().when(periodoService.verificarEscritura(any(), anyBoolean(), any())).thenReturn(false);
 
         proveedor = new Proveedor();
         proveedor.setId(1L);
@@ -197,7 +202,7 @@ class FacturaCompraServiceTest {
         FacturaCompra anulada = service.anular(52L, "factura duplicada");
 
         assertThat(anulada.getEstado()).isEqualTo(EstadoDocumento.ANULADO);
-        verify(asientoService).anularPorDocumento(999L, "factura duplicada");
+        verify(asientoService).anularPorDocumento(999L, "factura duplicada", false, null);
     }
 
     @Test

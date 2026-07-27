@@ -16,6 +16,7 @@ import com.montanaritech.contable.contabilidad.cuentacontable.CuentaContableRepo
 import com.montanaritech.contable.impuestos.iva.dto.LiquidacionIvaDtos.AgregarComponenteRequest;
 import com.montanaritech.contable.impuestos.iva.dto.LiquidacionIvaDtos.AjustarComponenteRequest;
 import com.montanaritech.contable.impuestos.iva.dto.LiquidacionIvaDtos.CrearRequest;
+import com.montanaritech.contable.periodo.PeriodoService;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -50,13 +51,15 @@ class LiquidacionIvaServiceTest {
     private AsientoService asientoService;
     @Mock
     private com.montanaritech.contable.common.audit.AuditoriaService auditoria;
+    @Mock
+    private PeriodoService periodoService;
 
     private LiquidacionIvaService service;
 
     @BeforeEach
     void setUp() {
         service = new LiquidacionIvaService(repo, calculoIvaService, cuentaContableRepository,
-                asientoGenerator, asientoService, new LiquidacionIvaMapper(), auditoria);
+                asientoGenerator, asientoService, new LiquidacionIvaMapper(), auditoria, periodoService);
 
         when(repo.findByAnioAndMesAndEstadoIn(any(), any(), any())).thenReturn(List.of());
         // el save devuelve la misma instancia con ids asignados a los componentes,

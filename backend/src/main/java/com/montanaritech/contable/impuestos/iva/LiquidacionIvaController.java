@@ -48,7 +48,7 @@ public class LiquidacionIvaController {
     public Page<LiquidacionResponse> listar(@RequestParam(required = false) Integer anio,
                                             @RequestParam(required = false) EstadoDocumento estado,
                                             @PageableDefault(size = 20) Pageable pageable) {
-        return service.listar(anio, estado, pageable).map(l -> mapper.aResponse(l, List.of()));
+        return service.listar(anio, estado, pageable).map(l -> mapper.aResponse(l, service.advertenciasDe(l)));
     }
 
     @GetMapping("/exportar/excel")
@@ -101,7 +101,8 @@ public class LiquidacionIvaController {
 
     @GetMapping("/{id}")
     public LiquidacionResponse obtener(@PathVariable Long id) {
-        return mapper.aResponse(service.obtener(id), List.of());
+        LiquidacionIva l = service.obtener(id);
+        return mapper.aResponse(l, service.advertenciasDe(l));
     }
 
     /** Cómo daría el período si se liquidara ahora, sin persistir nada. */
@@ -113,13 +114,15 @@ public class LiquidacionIvaController {
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'CARGA')")
     public LiquidacionResponse crear(@Valid @RequestBody CrearRequest req) {
-        return mapper.aResponse(service.crearBorrador(req), List.of());
+        LiquidacionIva l = service.crearBorrador(req);
+        return mapper.aResponse(l, service.advertenciasDe(l));
     }
 
     @PostMapping("/{id}/recalcular")
     @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'CARGA')")
     public LiquidacionResponse recalcular(@PathVariable Long id) {
-        return mapper.aResponse(service.recalcular(id), List.of());
+        LiquidacionIva l = service.recalcular(id);
+        return mapper.aResponse(l, service.advertenciasDe(l));
     }
 
     @PatchMapping("/{id}/componentes/{componenteId}")
@@ -127,32 +130,37 @@ public class LiquidacionIvaController {
     public LiquidacionResponse ajustarComponente(@PathVariable Long id,
                                                  @PathVariable Long componenteId,
                                                  @Valid @RequestBody AjustarComponenteRequest req) {
-        return mapper.aResponse(service.ajustarComponente(id, componenteId, req), List.of());
+        LiquidacionIva l = service.ajustarComponente(id, componenteId, req);
+        return mapper.aResponse(l, service.advertenciasDe(l));
     }
 
     @PostMapping("/{id}/componentes")
     @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'CARGA')")
     public LiquidacionResponse agregarComponente(@PathVariable Long id,
                                                  @Valid @RequestBody AgregarComponenteRequest req) {
-        return mapper.aResponse(service.agregarComponente(id, req), List.of());
+        LiquidacionIva l = service.agregarComponente(id, req);
+        return mapper.aResponse(l, service.advertenciasDe(l));
     }
 
     @DeleteMapping("/{id}/componentes/{componenteId}")
     @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'CARGA')")
     public LiquidacionResponse eliminarComponente(@PathVariable Long id, @PathVariable Long componenteId) {
-        return mapper.aResponse(service.eliminarComponente(id, componenteId), List.of());
+        LiquidacionIva l = service.eliminarComponente(id, componenteId);
+        return mapper.aResponse(l, service.advertenciasDe(l));
     }
 
     @PatchMapping("/{id}/confirmar")
     @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'CARGA')")
     public LiquidacionResponse confirmar(@PathVariable Long id) {
-        return mapper.aResponse(service.confirmar(id), List.of());
+        LiquidacionIva l = service.confirmar(id);
+        return mapper.aResponse(l, service.advertenciasDe(l));
     }
 
     /** Des-confirmar es solo de administrador (F6.1 §1.7): revierte un asiento ya confirmado. */
     @PatchMapping("/{id}/anular")
     @PreAuthorize("hasRole('ADMINISTRADOR')")
     public LiquidacionResponse anular(@PathVariable Long id, @Valid @RequestBody AnularRequest req) {
-        return mapper.aResponse(service.anular(id, req.motivo()), List.of());
+        LiquidacionIva l = service.anular(id, req.motivo());
+        return mapper.aResponse(l, service.advertenciasDe(l));
     }
 }

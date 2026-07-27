@@ -25,6 +25,7 @@ import com.montanaritech.contable.maestros.cuentabancaria.CuentaBancaria;
 import com.montanaritech.contable.maestros.cuentabancaria.CuentaBancariaRepository;
 import com.montanaritech.contable.maestros.moneda.Moneda;
 import com.montanaritech.contable.maestros.moneda.MonedaRepository;
+import com.montanaritech.contable.periodo.PeriodoService;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
@@ -57,6 +58,7 @@ public class CobroService {
     private final CuentaBancariaRepository cuentaBancariaRepo;
     private final FacturaVentaRepository facturaVentaRepo;
     private final ComprobanteTributoRepository comprobanteTributoRepo;
+    private final PeriodoService periodoService;
 
     @Transactional(readOnly = true)
     public Page<Cobro> listar(EstadoDocumento estado, Long clienteId, LocalDate fechaDesde, LocalDate fechaHasta, Pageable p) {
@@ -88,6 +90,14 @@ public class CobroService {
 
     @Transactional
     public Cobro crearBorrador(CobroCrearRequest req) {
+        return crearBorrador(req, false, null);
+    }
+
+    /** F9.3: overload con override de período cerrado — ver {@code PeriodoService.verificarEscritura}. */
+    @Transactional
+    public Cobro crearBorrador(CobroCrearRequest req, boolean confirmarPeriodoCerrado, String motivoOverridePeriodo) {
+        boolean sobrePeriodoCerrado = periodoService.verificarEscritura(req.fecha(), confirmarPeriodoCerrado, motivoOverridePeriodo);
+
         Cobro c = new Cobro();
         c.setCliente(resolverCliente(req.clienteId()));
         c.setFecha(req.fecha());
@@ -102,12 +112,21 @@ public class CobroService {
 
         Cobro guardado = repo.save(c);
         reemplazarTributos(guardado.getId(), req.tributos());
-        auditoria.registrar(AccionAuditoria.CREAR, "Cobro", guardado.getId(), null, respuestaCompleta(guardado));
+        auditoria.registrar(AccionAuditoria.CREAR, "Cobro", guardado.getId(), null, respuestaCompleta(guardado),
+                sobrePeriodoCerrado, sobrePeriodoCerrado ? motivoOverridePeriodo : null);
         return guardado;
     }
 
     @Transactional
     public Cobro editarBorrador(Long id, CobroEditarRequest req) {
+        return editarBorrador(id, req, false, null);
+    }
+
+    /** F9.3: overload con override de período cerrado — ver {@code PeriodoService.verificarEscritura}. */
+    @Transactional
+    public Cobro editarBorrador(Long id, CobroEditarRequest req, boolean confirmarPeriodoCerrado, String motivoOverridePeriodo) {
+        boolean sobrePeriodoCerrado = periodoService.verificarEscritura(req.fecha(), confirmarPeriodoCerrado, motivoOverridePeriodo);
+
         Cobro c = obtenerBorrador(id);
         var antes = respuestaCompleta(c);
 
@@ -122,7 +141,8 @@ public class CobroService {
         recalcularTotales(c);
         reemplazarTributos(id, req.tributos());
 
-        auditoria.registrar(AccionAuditoria.EDITAR, "Cobro", id, antes, respuestaCompleta(c));
+        auditoria.registrar(AccionAuditoria.EDITAR, "Cobro", id, antes, respuestaCompleta(c),
+                sobrePeriodoCerrado, sobrePeriodoCerrado ? motivoOverridePeriodo : null);
         return c;
     }
 
@@ -137,7 +157,14 @@ public class CobroService {
 
     @Transactional
     public Cobro confirmar(Long id) {
+        return confirmar(id, false, null);
+    }
+
+    /** F9.3: overload con override de período cerrado — ver {@code PeriodoService.verificarEscritura}. */
+    @Transactional
+    public Cobro confirmar(Long id, boolean confirmarPeriodoCerrado, String motivoOverridePeriodo) {
         Cobro c = obtener(id);
+        boolean sobrePeriodoCerrado = periodoService.verificarEscritura(c.getFecha(), confirmarPeriodoCerrado, motivoOverridePeriodo);
         var antes = respuestaCompleta(c);
         TransicionEstadoValidator.validar(c.getEstado(), EstadoDocumento.CONFIRMADO);
 
@@ -147,13 +174,21 @@ public class CobroService {
         c.setAsiento(asiento);
         c.setEstado(EstadoDocumento.CONFIRMADO);
 
-        auditoria.registrar(AccionAuditoria.CONFIRMAR, "Cobro", id, antes, respuestaCompleta(c));
+        auditoria.registrar(AccionAuditoria.CONFIRMAR, "Cobro", id, antes, respuestaCompleta(c),
+                sobrePeriodoCerrado, sobrePeriodoCerrado ? motivoOverridePeriodo : null);
         return c;
     }
 
     @Transactional
     public Cobro anular(Long id, String motivo) {
+        return anular(id, motivo, false, null);
+    }
+
+    /** F9.3: overload con override de período cerrado — ver {@code PeriodoService.verificarEscritura}. */
+    @Transactional
+    public Cobro anular(Long id, String motivo, boolean confirmarPeriodoCerrado, String motivoOverridePeriodo) {
         Cobro c = obtener(id);
+        boolean sobrePeriodoCerrado = periodoService.verificarEscritura(c.getFecha(), confirmarPeriodoCerrado, motivoOverridePeriodo);
         var antes = respuestaCompleta(c);
         TransicionEstadoValidator.validar(c.getEstado(), EstadoDocumento.ANULADO);
 
@@ -163,16 +198,25 @@ public class CobroService {
         }
 
         if (c.getAsiento() != null) {
-            asientoService.anularPorDocumento(c.getAsiento().getId(), motivo);
+            asientoService.anularPorDocumento(c.getAsiento().getId(), motivo, sobrePeriodoCerrado, motivoOverridePeriodo);
         }
         c.setEstado(EstadoDocumento.ANULADO);
 
-        auditoria.registrar(AccionAuditoria.ANULAR, "Cobro", id, antes, respuestaCompleta(c));
+        auditoria.registrar(AccionAuditoria.ANULAR, "Cobro", id, antes, respuestaCompleta(c),
+                sobrePeriodoCerrado, sobrePeriodoCerrado ? motivoOverridePeriodo : null);
         return c;
     }
 
     @Transactional
     public AplicacionAnticipoCliente aplicarAnticipo(Long cobroId, AplicarAnticipoRequest req) {
+        return aplicarAnticipo(cobroId, req, false, null);
+    }
+
+    /** F9.3: overload con override de período cerrado — ver {@code PeriodoService.verificarEscritura}. */
+    @Transactional
+    public AplicacionAnticipoCliente aplicarAnticipo(Long cobroId, AplicarAnticipoRequest req, boolean confirmarPeriodoCerrado, String motivoOverridePeriodo) {
+        boolean sobrePeriodoCerrado = periodoService.verificarEscritura(req.fecha(), confirmarPeriodoCerrado, motivoOverridePeriodo);
+
         Cobro anticipo = obtener(cobroId);
         if (anticipo.getEstado() != EstadoDocumento.CONFIRMADO) {
             throw new NegocioException("COBRO_NO_CONFIRMADO", "Solo se puede aplicar el anticipo de un cobro confirmado");
@@ -198,7 +242,8 @@ public class CobroService {
         aplicacion.setAsiento(asiento);
 
         AplicacionAnticipoCliente guardada = aplicacionAnticipoRepo.save(aplicacion);
-        auditoria.registrar(AccionAuditoria.CREAR, "AplicacionAnticipoCliente", guardada.getId(), null, null);
+        auditoria.registrar(AccionAuditoria.CREAR, "AplicacionAnticipoCliente", guardada.getId(), null, null,
+                sobrePeriodoCerrado, sobrePeriodoCerrado ? motivoOverridePeriodo : null);
         return guardada;
     }
 

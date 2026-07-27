@@ -7,6 +7,7 @@ import com.montanaritech.contable.common.asiento.ValidadorBalanceAsiento;
 import com.montanaritech.contable.common.audit.AccionAuditoria;
 import com.montanaritech.contable.common.audit.Auditado;
 import com.montanaritech.contable.common.audit.AuditoriaService;
+import com.montanaritech.contable.common.auth.RolActualUtil;
 import com.montanaritech.contable.common.estado.EstadoDocumento;
 import com.montanaritech.contable.common.estado.TransicionEstadoValidator;
 import com.montanaritech.contable.common.error.NegocioException;
@@ -34,6 +35,7 @@ import com.montanaritech.contable.maestros.proyecto.etapa.EtapaRepository;
 import com.montanaritech.contable.maestros.tipocambio.ConfiguracionTipoCambioRepository;
 import com.montanaritech.contable.maestros.tipocambio.TipoCambio;
 import com.montanaritech.contable.maestros.tipocambio.TipoCambioRepository;
+import com.montanaritech.contable.periodo.PeriodoService;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
@@ -47,7 +49,6 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -95,6 +96,7 @@ public class AsientoService {
     private final CuentaBancariaRepository cuentaBancariaRepo;
     private final TipoCambioRepository tipoCambioRepo;
     private final ConfiguracionTipoCambioRepository configuracionTipoCambioRepo;
+    private final PeriodoService periodoService;
 
     @Transactional(readOnly = true)
     public Page<Asiento> listar(
@@ -110,9 +112,16 @@ public class AsientoService {
         return repo.findById(id).orElseThrow(() -> new RecursoNoEncontradoException("Asiento " + id + " no encontrado"));
     }
 
-    @Auditado(accion = AccionAuditoria.CREAR, entidadTipo = "Asiento")
     @Transactional
     public Asiento crearBorrador(AsientoCrearRequest req) {
+        return crearBorrador(req, false, null);
+    }
+
+    /** F9.3: overload con override de período cerrado — ver {@code PeriodoService.verificarEscritura}. */
+    @Transactional
+    public Asiento crearBorrador(AsientoCrearRequest req, boolean confirmarPeriodoCerrado, String motivoOverridePeriodo) {
+        boolean sobrePeriodoCerrado = periodoService.verificarEscritura(req.fecha(), confirmarPeriodoCerrado, motivoOverridePeriodo);
+
         Asiento a = new Asiento();
         a.setFecha(req.fecha());
         a.setDescripcion(req.descripcion());
@@ -120,11 +129,23 @@ public class AsientoService {
         a.setEstado(EstadoDocumento.BORRADOR);
         a.setOrigen(OrigenAsiento.MANUAL);
         reemplazarLineas(a, req.lineas());
-        return repo.save(a);
+        Asiento guardado = repo.save(a);
+
+        auditoria.registrar(AccionAuditoria.CREAR, "Asiento", guardado.getId(), null, mapper.aResponse(guardado),
+                sobrePeriodoCerrado, sobrePeriodoCerrado ? motivoOverridePeriodo : null);
+        return guardado;
     }
 
     @Transactional
     public Asiento editarBorrador(Long id, AsientoEditarRequest req) {
+        return editarBorrador(id, req, false, null);
+    }
+
+    /** F9.3: overload con override de período cerrado — ver {@code PeriodoService.verificarEscritura}. */
+    @Transactional
+    public Asiento editarBorrador(Long id, AsientoEditarRequest req, boolean confirmarPeriodoCerrado, String motivoOverridePeriodo) {
+        boolean sobrePeriodoCerrado = periodoService.verificarEscritura(req.fecha(), confirmarPeriodoCerrado, motivoOverridePeriodo);
+
         Asiento a = obtenerBorrador(id);
         var antes = mapper.aResponse(a);
 
@@ -133,7 +154,8 @@ public class AsientoService {
         a.setObservaciones(req.observaciones());
         reemplazarLineas(a, req.lineas());
 
-        auditoria.registrar(AccionAuditoria.EDITAR, "Asiento", id, antes, mapper.aResponse(a));
+        auditoria.registrar(AccionAuditoria.EDITAR, "Asiento", id, antes, mapper.aResponse(a),
+                sobrePeriodoCerrado, sobrePeriodoCerrado ? motivoOverridePeriodo : null);
         return a;
     }
 
@@ -175,6 +197,14 @@ public class AsientoService {
      */
     @Transactional
     public Asiento editarConfirmado(Long id, AsientoEditarConfirmadoRequest req) {
+        return editarConfirmado(id, req, false, null);
+    }
+
+    /** F9.3: overload con override de período cerrado — ver {@code PeriodoService.verificarEscritura}. */
+    @Transactional
+    public Asiento editarConfirmado(Long id, AsientoEditarConfirmadoRequest req, boolean confirmarPeriodoCerrado, String motivoOverridePeriodo) {
+        boolean sobrePeriodoCerrado = periodoService.verificarEscritura(req.fecha(), confirmarPeriodoCerrado, motivoOverridePeriodo);
+
         Asiento a = obtenerConfirmado(id);
         var antes = mapper.aResponse(a);
         boolean esAdmin = esAdmin();
@@ -231,8 +261,19 @@ public class AsientoService {
         validarChecklistDeAsiento(a);
 
         auditoria.registrar(AccionAuditoria.EDITAR, "Asiento", id, antes, mapper.aResponse(a),
-                false, tocoLineaAutomatica ? "edición de líneas autogeneradas" : null);
+                sobrePeriodoCerrado, detalleEdicionConfirmado(sobrePeriodoCerrado, motivoOverridePeriodo, tocoLineaAutomatica));
         return a;
+    }
+
+    /** F9.3: combina el motivo del override de período con la nota de edición de líneas automáticas cuando ambos aplican. */
+    private String detalleEdicionConfirmado(boolean sobrePeriodoCerrado, String motivoOverridePeriodo, boolean tocoLineaAutomatica) {
+        if (sobrePeriodoCerrado && tocoLineaAutomatica) {
+            return "override período cerrado: %s; edición de líneas autogeneradas".formatted(motivoOverridePeriodo);
+        }
+        if (sobrePeriodoCerrado) {
+            return motivoOverridePeriodo;
+        }
+        return tocoLineaAutomatica ? "edición de líneas autogeneradas" : null;
     }
 
     /**
@@ -289,12 +330,19 @@ public class AsientoService {
      */
     @Transactional
     public Asiento anular(Long id, String motivo) {
+        return anular(id, motivo, false, null);
+    }
+
+    /** F9.3: overload con override de período cerrado — ver {@code PeriodoService.verificarEscritura}. */
+    @Transactional
+    public Asiento anular(Long id, String motivo, boolean confirmarPeriodoCerrado, String motivoOverridePeriodo) {
         Asiento a = obtener(id);
         if (!ORIGENES_ANULABLES_DIRECTO.contains(a.getOrigen())) {
             throw new NegocioException("ANULACION_VIA_DOCUMENTO",
                     "Este asiento fue generado por un comprobante: anulalo desde ahí, no directamente");
         }
-        return anularInterno(a, motivo);
+        boolean sobrePeriodoCerrado = periodoService.verificarEscritura(a.getFecha(), confirmarPeriodoCerrado, motivoOverridePeriodo);
+        return anularInterno(a, motivo, sobrePeriodoCerrado, motivoOverridePeriodo);
     }
 
     /**
@@ -306,17 +354,30 @@ public class AsientoService {
      */
     @Transactional
     public Asiento anularPorDocumento(Long id, String motivo) {
-        return anularInterno(obtener(id), motivo);
+        return anularInterno(obtener(id), motivo, false, null);
     }
 
-    private Asiento anularInterno(Asiento a, String motivo) {
+    /**
+     * F9.3: overload que solo <b>propaga</b> el resultado del override ya
+     * verificado por el servicio de documento llamante (no vuelve a
+     * verificar período — ver Javadoc de {@link #anularPorDocumento}), para
+     * que el audit log del asiento quede correctamente marcado
+     * {@code sobrePeriodoCerrado}.
+     */
+    @Transactional
+    public Asiento anularPorDocumento(Long id, String motivo, boolean sobrePeriodoCerrado, String motivoOverridePeriodo) {
+        return anularInterno(obtener(id), motivo, sobrePeriodoCerrado, motivoOverridePeriodo);
+    }
+
+    private Asiento anularInterno(Asiento a, String motivo, boolean sobrePeriodoCerrado, String motivoOverridePeriodo) {
         var antes = mapper.aResponse(a);
         TransicionEstadoValidator.validar(a.getEstado(), EstadoDocumento.ANULADO);
 
         a.setEstado(EstadoDocumento.ANULADO);
         a.setMotivoAnulacion(motivo);
 
-        auditoria.registrar(AccionAuditoria.ANULAR, "Asiento", a.getId(), antes, mapper.aResponse(a));
+        auditoria.registrar(AccionAuditoria.ANULAR, "Asiento", a.getId(), antes, mapper.aResponse(a),
+                sobrePeriodoCerrado, sobrePeriodoCerrado ? motivoOverridePeriodo : null);
         return a;
     }
 
@@ -387,9 +448,7 @@ public class AsientoService {
     }
 
     private boolean esAdmin() {
-        var autenticacion = SecurityContextHolder.getContext().getAuthentication();
-        return autenticacion != null && autenticacion.getAuthorities().stream()
-                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMINISTRADOR"));
+        return RolActualUtil.esAdmin();
     }
 
     /** Checklist de confirmación (F3.1 §3.4 ítems 2-4): 2..N líneas válidas y balance. */

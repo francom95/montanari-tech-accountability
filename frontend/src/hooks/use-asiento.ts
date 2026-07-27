@@ -47,10 +47,14 @@ export function useAsiento(id: number | undefined) {
   })
 }
 
+/** F9.3: campos opcionales de override cuando la fecha cae en un período cerrado (ver usePeriodoCerradoOverride). */
+type OverridePeriodo = { confirmarPeriodoCerrado?: boolean; motivoOverridePeriodo?: string }
+
 export function useCrearAsiento() {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: async (v: AsientoCrearInput) => (await http.post<Asiento>("/asientos", v)).data,
+    mutationFn: async ({ confirmarPeriodoCerrado, motivoOverridePeriodo, ...v }: AsientoCrearInput & OverridePeriodo) =>
+      (await http.post<Asiento>("/asientos", v, { params: { confirmarPeriodoCerrado, motivoOverridePeriodo } })).data,
     onSuccess: async () => { await qc.invalidateQueries({ queryKey: QUERY_KEY }) },
   })
 }
@@ -58,8 +62,8 @@ export function useCrearAsiento() {
 export function useEditarAsiento() {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: async ({ id, valores }: { id: number; valores: AsientoEditarInput }) =>
-      (await http.put<Asiento>(`/asientos/${id}`, valores)).data,
+    mutationFn: async ({ id, valores, confirmarPeriodoCerrado, motivoOverridePeriodo }: { id: number; valores: AsientoEditarInput } & OverridePeriodo) =>
+      (await http.put<Asiento>(`/asientos/${id}`, valores, { params: { confirmarPeriodoCerrado, motivoOverridePeriodo } })).data,
     onSuccess: async () => { await qc.invalidateQueries({ queryKey: QUERY_KEY }) },
   })
 }
@@ -67,8 +71,8 @@ export function useEditarAsiento() {
 export function useEditarAsientoConfirmado() {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: async ({ id, valores }: { id: number; valores: AsientoEditarConfirmadoInput }) =>
-      (await http.put<Asiento>(`/asientos/${id}/confirmado`, valores)).data,
+    mutationFn: async ({ id, valores, confirmarPeriodoCerrado, motivoOverridePeriodo }: { id: number; valores: AsientoEditarConfirmadoInput } & OverridePeriodo) =>
+      (await http.put<Asiento>(`/asientos/${id}/confirmado`, valores, { params: { confirmarPeriodoCerrado, motivoOverridePeriodo } })).data,
     onSuccess: async () => { await qc.invalidateQueries({ queryKey: QUERY_KEY }) },
   })
 }
@@ -100,8 +104,8 @@ export function useDuplicarAsiento() {
 export function useAnularAsiento() {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: async ({ id, motivo }: { id: number; motivo: string }) =>
-      (await http.patch<Asiento>(`/asientos/${id}/anular`, { motivo })).data,
+    mutationFn: async ({ id, motivo, confirmarPeriodoCerrado, motivoOverridePeriodo }: { id: number; motivo: string } & OverridePeriodo) =>
+      (await http.patch<Asiento>(`/asientos/${id}/anular`, { motivo }, { params: { confirmarPeriodoCerrado, motivoOverridePeriodo } })).data,
     onSuccess: async () => { await qc.invalidateQueries({ queryKey: QUERY_KEY }) },
   })
 }

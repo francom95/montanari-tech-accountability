@@ -9,7 +9,9 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { PeriodoCerradoBanner } from "@/components/periodo-cerrado-banner"
 import { useCurrentUser } from "@/hooks/use-auth"
+import { usePeriodoCerradoOverride } from "@/hooks/use-periodo-cerrado-override"
 import {
   useAnularAsiento,
   useAsiento,
@@ -119,6 +121,8 @@ export function AsientosPage() {
   const [anulando, setAnulando] = useState<number | null>(null)
   const [motivoAnulacionInput, setMotivoAnulacionInput] = useState("")
   const [descargando, setDescargando] = useState<"excel" | "pdf" | null>(null)
+  const formOverride = usePeriodoCerradoOverride()
+  const anularOverride = usePeriodoCerradoOverride()
 
   const usuario = useCurrentUser()
   const esAdmin = usuario.data?.rol === "ADMINISTRADOR"
@@ -210,21 +214,38 @@ export function AsientosPage() {
     const base = { fecha: valores.fecha, descripcion: valores.descripcion, observaciones: valores.observaciones || undefined }
 
     if (modoEdicion === "confirmado" && editando) {
-      editarConfirmado.mutate(
-        { id: editando.id, valores: { ...base, lineas: valores.lineas.map((l, i) => ({ id: l.id ?? null, ...lineasComunes[i] })) } },
-        { onSuccess: cancelar }
-      )
+      const valoresEnvio = { ...base, lineas: valores.lineas.map((l, i) => ({ id: l.id ?? null, ...lineasComunes[i] })) }
+      editarConfirmado.mutate({ id: editando.id, valores: valoresEnvio }, {
+        onSuccess: cancelar,
+        onError: (error) => formOverride.capturar(error, (motivo) =>
+          editarConfirmado.mutate({ id: editando.id, valores: valoresEnvio, confirmarPeriodoCerrado: true, motivoOverridePeriodo: motivo }, { onSuccess: cancelar })),
+      })
     } else if (editando) {
-      editar.mutate({ id: editando.id, valores: { ...base, lineas: lineasComunes } }, { onSuccess: cancelar })
+      const valoresEnvio = { ...base, lineas: lineasComunes }
+      editar.mutate({ id: editando.id, valores: valoresEnvio }, {
+        onSuccess: cancelar,
+        onError: (error) => formOverride.capturar(error, (motivo) =>
+          editar.mutate({ id: editando.id, valores: valoresEnvio, confirmarPeriodoCerrado: true, motivoOverridePeriodo: motivo }, { onSuccess: cancelar })),
+      })
     } else {
-      crear.mutate({ ...base, lineas: lineasComunes }, { onSuccess: cancelar })
+      const valoresEnvio = { ...base, lineas: lineasComunes }
+      crear.mutate(valoresEnvio, {
+        onSuccess: cancelar,
+        onError: (error) => formOverride.capturar(error, (motivo) =>
+          crear.mutate({ ...valoresEnvio, confirmarPeriodoCerrado: true, motivoOverridePeriodo: motivo }, { onSuccess: cancelar })),
+      })
     }
   }
 
   function confirmarAnulacion(id: number) {
     if (!motivoAnulacionInput.trim()) return
-    anular.mutate({ id, motivo: motivoAnulacionInput }, {
+    const motivo = motivoAnulacionInput
+    anular.mutate({ id, motivo }, {
       onSuccess: () => { setAnulando(null); setMotivoAnulacionInput("") },
+      onError: (error) => anularOverride.capturar(error, (motivoOverride) =>
+        anular.mutate({ id, motivo, confirmarPeriodoCerrado: true, motivoOverridePeriodo: motivoOverride }, {
+          onSuccess: () => { setAnulando(null); setMotivoAnulacionInput("") },
+        })),
     })
   }
 
@@ -251,6 +272,18 @@ export function AsientosPage() {
           const a = row.original
 
           if (anulando === a.id) {
+            if (anularOverride.pendiente) {
+              return (
+                <PeriodoCerradoBanner
+                  mensaje={anularOverride.pendiente.mensaje}
+                  motivo={anularOverride.motivo}
+                  onMotivoChange={anularOverride.setMotivo}
+                  onConfirmar={anularOverride.confirmar}
+                  onCancelar={() => { anularOverride.cancelar(); setAnulando(null); setMotivoAnulacionInput("") }}
+                  confirmando={anular.isPending}
+                />
+              )
+            }
             return (
               <div className="flex items-center gap-2">
                 <Input
@@ -294,7 +327,7 @@ export function AsientosPage() {
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [confirmar.isPending, eliminar.isPending, duplicar.isPending, anular.isPending, anulando, motivoAnulacionInput]
+    [confirmar.isPending, eliminar.isPending, duplicar.isPending, anular.isPending, anulando, motivoAnulacionInput, anularOverride.pendiente, anularOverride.motivo]
   )
 
   const filas = idFiltro !== undefined ? (registroUnico.data ? [registroUnico.data] : []) : (query.data?.content ?? [])
@@ -400,6 +433,17 @@ export function AsientosPage() {
                     </span>
                   </div>
                 </div>
+
+                {formOverride.pendiente && (
+                  <PeriodoCerradoBanner
+                    mensaje={formOverride.pendiente.mensaje}
+                    motivo={formOverride.motivo}
+                    onMotivoChange={formOverride.setMotivo}
+                    onConfirmar={formOverride.confirmar}
+                    onCancelar={formOverride.cancelar}
+                    confirmando={crear.isPending || editar.isPending || editarConfirmado.isPending}
+                  />
+                )}
 
                 <div className="flex gap-2">
                   <Button type="submit" disabled={crear.isPending || editar.isPending || editarConfirmado.isPending}>

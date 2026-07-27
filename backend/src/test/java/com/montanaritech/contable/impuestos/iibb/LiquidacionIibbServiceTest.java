@@ -16,6 +16,7 @@ import com.montanaritech.contable.impuestos.iibb.dto.LiquidacionIibbDtos.CrearRe
 import com.montanaritech.contable.impuestos.iibb.dto.LiquidacionIibbDtos.EditarJurisdiccionRequest;
 import com.montanaritech.contable.maestros.jurisdiccion.Jurisdiccion;
 import com.montanaritech.contable.maestros.jurisdiccion.JurisdiccionRepository;
+import com.montanaritech.contable.periodo.PeriodoService;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -51,6 +52,8 @@ class LiquidacionIibbServiceTest {
     private AsientoService asientoService;
     @Mock
     private com.montanaritech.contable.common.audit.AuditoriaService auditoria;
+    @Mock
+    private PeriodoService periodoService;
 
     private LiquidacionIibbService service;
     private Jurisdiccion caba;
@@ -59,7 +62,8 @@ class LiquidacionIibbServiceTest {
     @BeforeEach
     void setUp() {
         service = new LiquidacionIibbService(repo, calculoIibbService, jurisdiccionRepository,
-                cuentaContableRepository, asientoGenerator, asientoService, new LiquidacionIibbMapper(), auditoria);
+                cuentaContableRepository, asientoGenerator, asientoService, new LiquidacionIibbMapper(), auditoria,
+                periodoService);
 
         caba = jurisdiccion(1L, "CABA", "3.00");
         ba = jurisdiccion(2L, "BA", "4.00");
