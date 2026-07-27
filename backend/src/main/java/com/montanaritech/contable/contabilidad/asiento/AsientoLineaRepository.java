@@ -210,4 +210,19 @@ public interface AsientoLineaRepository extends JpaRepository<AsientoLinea, Long
             @Param("fechaDesde") LocalDate fechaDesde,
             @Param("fechaHasta") LocalDate fechaHasta,
             @Param("estado") EstadoDocumento estado);
+
+    /**
+     * F10.3: candidatos de vinculación para la reconstrucción histórica de
+     * Factura/Cobro/Pago (ver {@code BuscarAsientoPorComprobante}) — busca
+     * asientos ya CONFIRMADOS (ej. migrados del Libro Diario en F10.2) con
+     * al menos una línea cuya leyenda menciona el comprobante de origen
+     * (patrón {@code "FC: PPPPP-NNNNNNNN"}). {@code DISTINCT} porque el
+     * mismo asiento puede tener varias líneas con la misma leyenda.
+     */
+    @Query("""
+            SELECT DISTINCT l.asiento FROM AsientoLinea l
+            WHERE l.asiento.estado = :estado
+              AND l.leyenda LIKE CONCAT('%', :patron, '%')
+            """)
+    List<Asiento> buscarAsientosPorLeyendaConteniendo(@Param("patron") String patron, @Param("estado") EstadoDocumento estado);
 }

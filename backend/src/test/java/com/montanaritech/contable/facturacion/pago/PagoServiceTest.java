@@ -150,6 +150,46 @@ class PagoServiceTest {
                 .isEqualTo("TRANSICION_ESTADO_INVALIDA");
     }
 
+    // ---- F10.3: vincular a asiento existente (sin generar uno nuevo) ----
+
+    @Test
+    void confirmarVinculandoAsientoExistenteUsaElAsientoDadoSinLlamarAlGenerador() {
+        Pago p = new Pago();
+        p.setId(60L);
+        p.setEstado(EstadoDocumento.BORRADOR);
+        when(repo.findById(60L)).thenReturn(Optional.of(p));
+
+        Asiento existente = new Asiento();
+        existente.setId(200L);
+        existente.setEstado(EstadoDocumento.CONFIRMADO);
+        when(asientoService.obtener(200L)).thenReturn(existente);
+
+        Pago confirmado = service.confirmarVinculandoAsientoExistente(60L, 200L);
+
+        assertThat(confirmado.getEstado()).isEqualTo(EstadoDocumento.CONFIRMADO);
+        assertThat(confirmado.getAsiento()).isSameAs(existente);
+        verify(generator, org.mockito.Mockito.never()).generar(any());
+        verify(asientoService, org.mockito.Mockito.never()).registrarAutomatico(any());
+    }
+
+    @Test
+    void confirmarVinculandoAsientoExistenteRechazaAsientoNoConfirmado() {
+        Pago p = new Pago();
+        p.setId(61L);
+        p.setEstado(EstadoDocumento.BORRADOR);
+        when(repo.findById(61L)).thenReturn(Optional.of(p));
+
+        Asiento borrador = new Asiento();
+        borrador.setId(201L);
+        borrador.setEstado(EstadoDocumento.BORRADOR);
+        when(asientoService.obtener(201L)).thenReturn(borrador);
+
+        assertThatThrownBy(() -> service.confirmarVinculandoAsientoExistente(61L, 201L))
+                .isInstanceOf(NegocioException.class)
+                .extracting(e -> ((NegocioException) e).getCodigo())
+                .isEqualTo("ASIENTO_NO_CONFIRMADO");
+    }
+
     @Test
     void anularUnPagoConfirmadoAnulaSuAsientoVinculado() {
         Asiento asiento = new Asiento();

@@ -2025,9 +2025,9 @@
     "semantic_hash": "327254895030b378cc0bc331b74e6ab4"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/asiento/AsientoLineaRepository.java": {
-    "mtime": 1784842815.932115,
-    "ast_hash": "58fd791d705790c5aa4c1c9a675a549e",
-    "semantic_hash": "58fd791d705790c5aa4c1c9a675a549e"
+    "mtime": 1785173874.3543434,
+    "ast_hash": "05cd26cfcafec3576f05fac238fe73d3",
+    "semantic_hash": "05cd26cfcafec3576f05fac238fe73d3"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/asiento/AsientoMapper.java": {
     "mtime": 1784254915.8949282,
@@ -2250,9 +2250,9 @@
     "semantic_hash": "2dccbcfbb48fbf3b4766a8550c5ca331"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/cobro/CobroService.java": {
-    "mtime": 1785110981.1558595,
-    "ast_hash": "e91c2eb8a2d354582f1ba54f39946dee",
-    "semantic_hash": "e91c2eb8a2d354582f1ba54f39946dee"
+    "mtime": 1785173807.6699743,
+    "ast_hash": "24f25f7a99272b499574dd8568d527b9",
+    "semantic_hash": "24f25f7a99272b499574dd8568d527b9"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/cobro/dto/AplicarAnticipoRequest.java": {
     "mtime": 1784687075.0763855,
@@ -2400,9 +2400,9 @@
     "semantic_hash": "97252726a9f3e565e38aaa366d3f5445"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/facturacompra/FacturaCompraService.java": {
-    "mtime": 1785110876.6925118,
-    "ast_hash": "774c51739a0e641fbf4c1095857be867",
-    "semantic_hash": "774c51739a0e641fbf4c1095857be867"
+    "mtime": 1785173777.8143556,
+    "ast_hash": "cbb1ececda9f6b690e93c6dbeef105bf",
+    "semantic_hash": "cbb1ececda9f6b690e93c6dbeef105bf"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/facturacompra/dto/FacturaCompraAnularRequest.java": {
     "mtime": 1784328492.5367515,
@@ -2465,9 +2465,9 @@
     "semantic_hash": "7aa9875f0a9c57abaa617fab9e1c8bdf"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/facturaventa/FacturaVentaService.java": {
-    "mtime": 1785110814.208429,
-    "ast_hash": "f636fefc29d9c6dedc2f5b587c39e35b",
-    "semantic_hash": "f636fefc29d9c6dedc2f5b587c39e35b"
+    "mtime": 1785173741.3955255,
+    "ast_hash": "5202cb1a333ff86903f80f25b232faad",
+    "semantic_hash": "5202cb1a333ff86903f80f25b232faad"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/facturaventa/TipoIngreso.java": {
     "mtime": 1784317287.2584052,
@@ -2590,9 +2590,9 @@
     "semantic_hash": "6348f28765b0547e1453674cdeb17da7"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/pago/PagoService.java": {
-    "mtime": 1785111096.539188,
-    "ast_hash": "f84271c64e5516b98e627d673c6f84d7",
-    "semantic_hash": "f84271c64e5516b98e627d673c6f84d7"
+    "mtime": 1785173835.5124564,
+    "ast_hash": "315d1fdd750570d691c00288ab842cb5",
+    "semantic_hash": "315d1fdd750570d691c00288ab842cb5"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/pago/dto/AplicarAnticipoProveedorRequest.java": {
     "mtime": 1784687430.783033,
@@ -3235,9 +3235,9 @@
     "semantic_hash": "a15e14d496e02decf20046fdfd50813f"
   },
   "backend/src/test/java/com/montanaritech/contable/facturacion/cobro/CobroServiceTest.java": {
-    "mtime": 1785111415.1220226,
-    "ast_hash": "3917bdc66f480fc8c71a129a138b9843",
-    "semantic_hash": "3917bdc66f480fc8c71a129a138b9843"
+    "mtime": 1785173964.9840229,
+    "ast_hash": "fe3ddbb14ba47b095cd61b54a535c3fc",
+    "semantic_hash": "fe3ddbb14ba47b095cd61b54a535c3fc"
   },
   "backend/src/test/java/com/montanaritech/contable/facturacion/cuentasporcobrar/CuentaPorCobrarServiceTest.java": {
     "mtime": 1784691012.5239608,
@@ -3255,9 +3255,9 @@
     "semantic_hash": "0bedee06d0d9f8567feb564e3bead07b"
   },
   "backend/src/test/java/com/montanaritech/contable/facturacion/facturacompra/FacturaCompraServiceTest.java": {
-    "mtime": 1785111419.4054642,
-    "ast_hash": "769628415217636a7eef46d5df6797e1",
-    "semantic_hash": "769628415217636a7eef46d5df6797e1"
+    "mtime": 1785173942.7471216,
+    "ast_hash": "e42fececd874d4f9602a261a4b9c8056",
+    "semantic_hash": "e42fececd874d4f9602a261a4b9c8056"
   },
   "backend/src/test/java/com/montanaritech/contable/facturacion/facturaventa/FacturaVentaAsientoGeneratorTest.java": {
     "mtime": 1784318344.9503367,
@@ -3265,9 +3265,9 @@
     "semantic_hash": "efa266db05d0d8cb19c91e212c7fa5ce"
   },
   "backend/src/test/java/com/montanaritech/contable/facturacion/facturaventa/FacturaVentaServiceTest.java": {
-    "mtime": 1785112138.340834,
-    "ast_hash": "7aa43a283c8bd2e1af67eb9ed8ffe3ba",
-    "semantic_hash": "7aa43a283c8bd2e1af67eb9ed8ffe3ba"
+    "mtime": 1785173914.3980906,
+    "ast_hash": "ee64c8f814cad6f8fab8af5828d2b8fa",
+    "semantic_hash": "ee64c8f814cad6f8fab8af5828d2b8fa"
   },
   "backend/src/test/java/com/montanaritech/contable/facturacion/importacion/ExtractorFacturaPdfTest.java": {
     "mtime": 1784746722.4881394,
@@ -3285,9 +3285,9 @@
     "semantic_hash": "9feaaea7aac8f38d9e0ba65aeb00de64"
   },
   "backend/src/test/java/com/montanaritech/contable/facturacion/pago/PagoServiceTest.java": {
-    "mtime": 1785111427.568617,
-    "ast_hash": "5fe746fd4fa323836bce518faf5eefc5",
-    "semantic_hash": "5fe746fd4fa323836bce518faf5eefc5"
+    "mtime": 1785173993.7621603,
+    "ast_hash": "7e2128369aa2654fba6f17ffca518501",
+    "semantic_hash": "7e2128369aa2654fba6f17ffca518501"
   },
   "backend/src/test/java/com/montanaritech/contable/impuestos/atribucion/AtribucionImpuestoServiceTest.java": {
     "mtime": 1784834576.6060321,
@@ -5388,5 +5388,15 @@
     "mtime": 1785173329.060672,
     "ast_hash": "347dbda447850de0cc7136bdc197176b",
     "semantic_hash": "347dbda447850de0cc7136bdc197176b"
+  },
+  "backend/src/main/java/com/montanaritech/contable/common/asiento/BuscarAsientoPorComprobante.java": {
+    "mtime": 1785173892.402215,
+    "ast_hash": "1366e7c5130fe331165fc62e574f7c8f",
+    "semantic_hash": "1366e7c5130fe331165fc62e574f7c8f"
+  },
+  "backend/src/test/java/com/montanaritech/contable/common/asiento/BuscarAsientoPorComprobanteTest.java": {
+    "mtime": 1785174008.7260516,
+    "ast_hash": "76e3e8ab239c653995d58ac82e72b9a0",
+    "semantic_hash": "76e3e8ab239c653995d58ac82e72b9a0"
   }
 }

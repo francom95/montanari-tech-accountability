@@ -6,6 +6,7 @@ import com.montanaritech.contable.common.estado.EstadoDocumento;
 import com.montanaritech.contable.common.estado.TransicionEstadoValidator;
 import com.montanaritech.contable.common.error.NegocioException;
 import com.montanaritech.contable.common.error.RecursoNoEncontradoException;
+import com.montanaritech.contable.contabilidad.asiento.Asiento;
 import com.montanaritech.contable.contabilidad.asiento.AsientoLinea;
 import com.montanaritech.contable.contabilidad.asiento.AsientoService;
 import com.montanaritech.contable.contabilidad.cuentacontable.CuentaContable;
@@ -174,6 +175,31 @@ public class FacturaCompraService {
 
         auditoria.registrar(AccionAuditoria.CONFIRMAR, "FacturaCompra", id, antes, mapper.aResponse(f, tributosDe(id)),
                 sobrePeriodoCerrado, sobrePeriodoCerrado ? motivoOverridePeriodo : null);
+        return f;
+    }
+
+    /**
+     * F10.3: confirma la factura vinculándola a un asiento YA CONFIRMADO
+     * existente (ej. migrado del Libro Diario en F10.2) en vez de generar
+     * uno nuevo — evita duplicar un asiento que ya registra el mismo
+     * movimiento económico. El asiento debe existir y estar CONFIRMADO.
+     */
+    @Transactional
+    public FacturaCompra confirmarVinculandoAsientoExistente(Long id, Long asientoId) {
+        FacturaCompra f = obtener(id);
+        var antes = mapper.aResponse(f, tributosDe(id));
+        TransicionEstadoValidator.validar(f.getEstado(), EstadoDocumento.CONFIRMADO);
+
+        Asiento asiento = asientoService.obtener(asientoId);
+        if (asiento.getEstado() != EstadoDocumento.CONFIRMADO) {
+            throw new NegocioException("ASIENTO_NO_CONFIRMADO",
+                    "El asiento " + asientoId + " no está CONFIRMADO — no se puede vincular");
+        }
+
+        f.setAsiento(asiento);
+        f.setEstado(EstadoDocumento.CONFIRMADO);
+
+        auditoria.registrar(AccionAuditoria.CONFIRMAR, "FacturaCompra", id, antes, mapper.aResponse(f, tributosDe(id)));
         return f;
     }
 
