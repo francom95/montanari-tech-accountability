@@ -12,3 +12,8 @@ Thumbs.db
 graphify-out/cache/
 graphify-out/.graphify_python
 graphify-out/.graphify_root
+
+# F10.3 — documentación fuente real (EECC.pdf, facturas reales, resúmenes
+# bancarios con CBU/números de cuenta): nunca se versiona, solo se usa como
+# insumo local para el importador de F10.3.
+facturasyresumenes/

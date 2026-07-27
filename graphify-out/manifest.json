@@ -2040,9 +2040,9 @@
     "semantic_hash": "aea8125fb17e11955f7024da695d5154"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/asiento/AsientoService.java": {
-    "mtime": 1785110680.2963023,
-    "ast_hash": "73ec23a07659d0fd699a50271251f3c9",
-    "semantic_hash": "73ec23a07659d0fd699a50271251f3c9"
+    "mtime": 1785170079.6304736,
+    "ast_hash": "b6e2295bb276603a962803f5be1b7462",
+    "semantic_hash": "b6e2295bb276603a962803f5be1b7462"
   },
   "backend/src/main/java/com/montanaritech/contable/contabilidad/asiento/OrigenAsiento.java": {
     "mtime": 1784254800.758749,
@@ -5363,5 +5363,25 @@
     "mtime": 1785128228.3231027,
     "ast_hash": "426bf9a1ea825150cf86d2dcbf67919b",
     "semantic_hash": "426bf9a1ea825150cf86d2dcbf67919b"
+  },
+  "backend/src/main/java/com/montanaritech/contable/contabilidad/asiento/apertura/AsientoAperturaController.java": {
+    "mtime": 1785170164.5489664,
+    "ast_hash": "c78063fbe8880d06614ea975326d2769",
+    "semantic_hash": "c78063fbe8880d06614ea975326d2769"
+  },
+  "backend/src/main/java/com/montanaritech/contable/contabilidad/asiento/apertura/AsientoAperturaService.java": {
+    "mtime": 1785170148.3888676,
+    "ast_hash": "ca9438ff986934cf071044abf68578dc",
+    "semantic_hash": "ca9438ff986934cf071044abf68578dc"
+  },
+  "backend/src/main/resources/db/migration/V45__f10_3_cuentas_apertura.sql": {
+    "mtime": 1785170066.0096893,
+    "ast_hash": "8b03181e10edcbbf544e74cb60c41658",
+    "semantic_hash": "8b03181e10edcbbf544e74cb60c41658"
+  },
+  "backend/src/test/java/com/montanaritech/contable/contabilidad/asiento/apertura/AsientoAperturaServiceTest.java": {
+    "mtime": 1785170205.825827,
+    "ast_hash": "2b1ee1010a263955af34788b182f4c4d",
+    "semantic_hash": "2b1ee1010a263955af34788b182f4c4d"
   }
 }

@@ -120,6 +120,17 @@ public class AsientoService {
     /** F9.3: overload con override de período cerrado — ver {@code PeriodoService.verificarEscritura}. */
     @Transactional
     public Asiento crearBorrador(AsientoCrearRequest req, boolean confirmarPeriodoCerrado, String motivoOverridePeriodo) {
+        return crearBorrador(req, OrigenAsiento.MANUAL, confirmarPeriodoCerrado, motivoOverridePeriodo);
+    }
+
+    /**
+     * F10.3: overload con origen explícito (ej. {@code APERTURA} para el
+     * asiento de apertura) — el resto de los callers siguen pasando
+     * implícitamente {@code MANUAL} vía los overloads de arriba, cero
+     * cambio de comportamiento.
+     */
+    @Transactional
+    public Asiento crearBorrador(AsientoCrearRequest req, OrigenAsiento origen, boolean confirmarPeriodoCerrado, String motivoOverridePeriodo) {
         boolean sobrePeriodoCerrado = periodoService.verificarEscritura(req.fecha(), confirmarPeriodoCerrado, motivoOverridePeriodo);
 
         Asiento a = new Asiento();
@@ -127,7 +138,7 @@ public class AsientoService {
         a.setDescripcion(req.descripcion());
         a.setObservaciones(req.observaciones());
         a.setEstado(EstadoDocumento.BORRADOR);
-        a.setOrigen(OrigenAsiento.MANUAL);
+        a.setOrigen(origen);
         reemplazarLineas(a, req.lineas());
         Asiento guardado = repo.save(a);
 

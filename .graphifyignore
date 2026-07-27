@@ -1,0 +1,5 @@
+# F10.3: documentación fuente real (EECC.pdf, facturas de venta/compra reales,
+# resúmenes bancarios con CBU/números de cuenta) — no debe entrar al grafo de
+# conocimiento versionado (filtraría CUITs, montos y datos bancarios reales a
+# graphify-out/graph.json y GRAPH_REPORT.md).
+facturasyresumenes/
