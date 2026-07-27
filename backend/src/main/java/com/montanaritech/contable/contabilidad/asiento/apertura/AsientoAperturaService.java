@@ -7,7 +7,6 @@ import com.montanaritech.contable.contabilidad.asiento.OrigenAsiento;
 import com.montanaritech.contable.contabilidad.asiento.dto.AsientoCrearRequest;
 import com.montanaritech.contable.contabilidad.asiento.dto.AsientoLineaRequest;
 import com.montanaritech.contable.contabilidad.cuentacontable.CuentaContableRepository;
-import com.montanaritech.contable.maestros.moneda.MonedaRepository;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -36,7 +35,6 @@ public class AsientoAperturaService {
     private static final String DESCRIPCION = "Asiento de apertura — saldos iniciales al 01/09/2025 (EECC 31/08/2025)";
 
     private final CuentaContableRepository cuentaContableRepo;
-    private final MonedaRepository monedaRepo;
     private final AsientoService asientoService;
 
     /**
@@ -57,19 +55,19 @@ public class AsientoAperturaService {
                     "Banco Galicia USD al 31/08/2025 (equivalente en pesos; saldo bancario en USD pendiente de TC real)"),
             new LineaApertura("1.1.2018", new BigDecimal("10282.68"), true, "Banco Provincia al 31/08/2025"),
             // Activo — créditos por ventas
-            new LineaApertura("1.1.2004", new BigDecimal("5396077.62"), true, "Deudores por Servicios Prestados al 31/08/2025"),
+            new LineaApertura("1.1.2004.04", new BigDecimal("5396077.62"), true, "Deudores por Servicios Prestados al 31/08/2025 (sin discriminar por cliente)"),
             new LineaApertura("1.1.2013", new BigDecimal("1101150.00"), true, "Anticipo a Proveedores al 31/08/2025"),
             // Activo — otros créditos
             new LineaApertura("1.1.2019", new BigDecimal("192890.04"), true, "Retenciones de Ganancias sufridas al 31/08/2025"),
             new LineaApertura("1.1.2011", new BigDecimal("85620.22"), true, "Anticipo de Ganancias al 31/08/2025"),
             new LineaApertura("1.1.2009", new BigDecimal("159413.84"), true, "Ley 25413 crédito computable al 31/08/2025"),
             // Pasivo
-            new LineaApertura("2.1.2018", new BigDecimal("289810.10"), false, "Proveedores al 31/08/2025"),
-            new LineaApertura("2.1.2019", new BigDecimal("334.68"), false, "Seguro de Vida Obligatorio a pagar al 31/08/2025"),
-            new LineaApertura("2.1.2020", new BigDecimal("32919.00"), false, "ART a pagar al 31/08/2025"),
-            new LineaApertura("2.1.2021", new BigDecimal("2000000.00"), false, "Honorarios Directores a pagar al 31/08/2025"),
+            new LineaApertura("2.1.2020", new BigDecimal("289810.10"), false, "Proveedores al 31/08/2025"),
+            new LineaApertura("2.1.2021", new BigDecimal("334.68"), false, "Seguro de Vida Obligatorio a pagar al 31/08/2025"),
+            new LineaApertura("2.1.2022", new BigDecimal("32919.00"), false, "ART a pagar al 31/08/2025"),
+            new LineaApertura("2.1.2023", new BigDecimal("2000000.00"), false, "Honorarios Directores a pagar al 31/08/2025"),
             new LineaApertura("2.1.2008", new BigDecimal("4086555.91"), false, "IVA Débito Fiscal a pagar al 31/08/2025"),
-            new LineaApertura("2.1.2022", new BigDecimal("290500.88"), false, "Plan de Facilidades a pagar al 31/08/2025"),
+            new LineaApertura("2.1.2024", new BigDecimal("290500.88"), false, "Plan de Facilidades a pagar al 31/08/2025"),
             new LineaApertura("2.1.2010", new BigDecimal("413740.20"), false, "IIBB a pagar al 31/08/2025 (901 + 902 combinado)"),
             // Patrimonio Neto
             new LineaApertura("3.1.2001", new BigDecimal("100000.00"), false, "Capital Social al 31/08/2025"),
@@ -78,13 +76,17 @@ public class AsientoAperturaService {
             new LineaApertura("3.1.2004", new BigDecimal("494794.76"), true, "Ajuste Ejercicios Anteriores al 31/08/2025")
     );
 
-    /** Arma y guarda el BORRADOR del asiento de apertura (no lo confirma — ver Javadoc de la clase). */
+    /**
+     * Arma y guarda el BORRADOR del asiento de apertura (no lo confirma —
+     * ver Javadoc de la clase). {@code monedaIdArs} se recibe como
+     * parámetro explícito (mismo criterio que los importadores de F10.2):
+     * {@code MonedaRepository.findByCodigo("ARS")} no filtra por tenant de
+     * forma confiable cuando el código se repite entre tenants (caso real
+     * de este ambiente de desarrollo, tenant 2 también tiene una moneda
+     * "ARS"), y no vale la pena resolverlo mágicamente acá.
+     */
     @Transactional
-    public Asiento generarBorrador() {
-        Long monedaArsId = monedaRepo.findByCodigo("ARS")
-                .orElseThrow(() -> new NegocioException("MONEDA_NO_ENCONTRADA", "No se encontró la moneda ARS"))
-                .getId();
-
+    public Asiento generarBorrador(Long monedaIdArs) {
         List<AsientoLineaRequest> lineas = new ArrayList<>();
         for (LineaApertura l : LINEAS) {
             Long cuentaId = cuentaContableRepo.findByCodigo(l.codigo())
@@ -93,7 +95,7 @@ public class AsientoAperturaService {
                     .getId();
             BigDecimal debe = l.esDebe() ? l.monto() : BigDecimal.ZERO;
             BigDecimal haber = l.esDebe() ? BigDecimal.ZERO : l.monto();
-            lineas.add(new AsientoLineaRequest(cuentaId, debe, haber, monedaArsId, null, null, l.leyenda(),
+            lineas.add(new AsientoLineaRequest(cuentaId, debe, haber, monedaIdArs, null, null, l.leyenda(),
                     null, null, null, null, null));
         }
 

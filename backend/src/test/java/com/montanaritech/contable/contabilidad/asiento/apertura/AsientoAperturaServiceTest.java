@@ -14,8 +14,6 @@ import com.montanaritech.contable.contabilidad.asiento.dto.AsientoCrearRequest;
 import com.montanaritech.contable.contabilidad.asiento.dto.AsientoLineaRequest;
 import com.montanaritech.contable.contabilidad.cuentacontable.CuentaContable;
 import com.montanaritech.contable.contabilidad.cuentacontable.CuentaContableRepository;
-import com.montanaritech.contable.maestros.moneda.Moneda;
-import com.montanaritech.contable.maestros.moneda.MonedaRepository;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -32,22 +30,17 @@ import org.junit.jupiter.api.Test;
  */
 class AsientoAperturaServiceTest {
 
+    private static final Long MONEDA_ARS_ID = 1L;
+
     private CuentaContableRepository cuentaContableRepo;
-    private MonedaRepository monedaRepo;
     private AsientoService asientoService;
     private AsientoAperturaService service;
 
     @BeforeEach
     void setUp() {
         cuentaContableRepo = mock(CuentaContableRepository.class);
-        monedaRepo = mock(MonedaRepository.class);
         asientoService = mock(AsientoService.class);
-        service = new AsientoAperturaService(cuentaContableRepo, monedaRepo, asientoService);
-
-        Moneda ars = new Moneda();
-        ars.setId(1L);
-        ars.setCodigo("ARS");
-        when(monedaRepo.findByCodigo("ARS")).thenReturn(Optional.of(ars));
+        service = new AsientoAperturaService(cuentaContableRepo, asientoService);
 
         AtomicLong idSeq = new AtomicLong(100);
         when(cuentaContableRepo.findByCodigo(org.mockito.ArgumentMatchers.anyString())).thenAnswer(inv -> {
@@ -64,7 +57,7 @@ class AsientoAperturaServiceTest {
 
     @Test
     void generarBorradorArma21LineasYBalanceaAlCentavo() {
-        service.generarBorrador();
+        service.generarBorrador(MONEDA_ARS_ID);
 
         var captor = org.mockito.ArgumentCaptor.forClass(AsientoCrearRequest.class);
         verify(asientoService).crearBorrador(captor.capture(), eq(OrigenAsiento.APERTURA), eq(false), eq(null));
@@ -81,7 +74,7 @@ class AsientoAperturaServiceTest {
 
     @Test
     void cadaLineaTieneDebeXorHaberYUsaMonedaArs() {
-        service.generarBorrador();
+        service.generarBorrador(MONEDA_ARS_ID);
 
         var captor = org.mockito.ArgumentCaptor.forClass(AsientoCrearRequest.class);
         verify(asientoService).crearBorrador(captor.capture(), eq(OrigenAsiento.APERTURA), eq(false), eq(null));
