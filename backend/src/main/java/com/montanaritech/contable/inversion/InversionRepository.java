@@ -1,6 +1,7 @@
 package com.montanaritech.contable.inversion;
 
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,4 +22,7 @@ public interface InversionRepository extends JpaRepository<Inversion, Long> {
 
     /** F8.4: fuente para que F8.3 proyecte el rescate planificado de las inversiones vinculadas. */
     List<Inversion> findByActivoTrueAndEstadoAndVinculoTipoIsNotNull(EstadoInversion estado);
+
+    /** F10.2: resuelve-o-reusa la única Inversion compartida por todos los movimientos de un instrumento (ej. "Fima Premium"). */
+    Optional<Inversion> findByInstrumentoIgnoreCase(String instrumento);
 }

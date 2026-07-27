@@ -39,6 +39,16 @@ public interface AsientoRepository extends JpaRepository<Asiento, Long> {
     Optional<Asiento> findByNumero(Long numero);
 
     /**
+     * F10.2: idempotencia del importador de Libro Diario (descripcion embebe
+     * el N° de asiento original del Excel). Filtra por {@code CONFIRMADO}
+     * explícitamente: un BORRADOR huérfano (crearBorrador exitoso, confirmar
+     * fallido por checklist de negocio en un intento previo) no debe contarse
+     * como "ya migrado" — si no, el reintento lo saltea en silencio para
+     * siempre en vez de volver a intentarlo o reportarlo como rechazado.
+     */
+    boolean existsByFechaAndDescripcionAndEstado(LocalDate fecha, String descripcion, EstadoDocumento estado);
+
+    /**
      * Fuente del motor on-demand de {@code Periodo} (F9.3, molde de
      * {@code VencimientoService.generarAutomaticos()} de F8.1): cada (año,
      * mes) con al menos un asiento. JPQL (no nativa), así que el filtro de

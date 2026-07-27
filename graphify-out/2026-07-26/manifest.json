@@ -4988,5 +4988,10 @@
     "mtime": 1785114282.759635,
     "ast_hash": "dd0a9fd92e7ae354cab9d80052f8f2e4",
     "semantic_hash": "dd0a9fd92e7ae354cab9d80052f8f2e4"
+  },
+  "outputs/F10_1_mapeo_excel_sistema.md": {
+    "mtime": 1785117746.2793765,
+    "ast_hash": "00fc2a8b6a6d4a31839d68c6ff4720ca",
+    "semantic_hash": "00fc2a8b6a6d4a31839d68c6ff4720ca"
   }
 }

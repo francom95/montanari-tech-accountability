@@ -13,6 +13,9 @@ public interface ComisionProyectoRepository extends JpaRepository<ComisionProyec
 
     boolean existsByComisionistaId(Long comisionistaId);
 
+    /** F10.2: idempotencia del importador (un proyecto+comisionista es la clave natural del vínculo). */
+    boolean existsByProyectoIdAndComisionistaId(Long proyectoId, Long comisionistaId);
+
     Optional<ComisionProyecto> findByIdAndProyectoId(Long id, Long proyectoId);
 
     List<ComisionProyecto> findByProyectoIdAndActivoTrue(Long proyectoId);

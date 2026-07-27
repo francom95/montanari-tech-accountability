@@ -22,4 +22,7 @@ public interface CompromisoRepository extends JpaRepository<Compromiso, Long> {
 
     /** F8.2: query service simple para que F8.3 proyecte los compromisos de un período. */
     List<Compromiso> findByFechaPrevistaBetweenOrderByFechaPrevistaAsc(LocalDate desde, LocalDate hasta);
+
+    /** F10.2: idempotencia del importador de Compromiso (clave natural concepto+fecha). */
+    boolean existsByConceptoAndFechaPrevista(String concepto, LocalDate fechaPrevista);
 }

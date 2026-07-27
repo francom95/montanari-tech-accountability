@@ -18,4 +18,7 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
     /** Resolución por CUIT (F4.6): el importador matchea la contraparte extraída del PDF contra un cliente existente. */
     Optional<Cliente> findByCuit(String cuit);
+
+    /** F10.2: resolución por nombre desde los importadores de Proyecto/Cliente (idempotencia + FK por nombre). */
+    Optional<Cliente> findByNombreIgnoreCase(String nombre);
 }

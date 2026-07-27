@@ -1,5 +1,6 @@
 package com.montanaritech.contable.maestros.comisionista;
 
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,4 +15,7 @@ public interface ComisionistaRepository extends JpaRepository<Comisionista, Long
               AND (:activo IS NULL OR c.activo = :activo)
             """)
     Page<Comisionista> buscar(@Param("texto") String texto, @Param("activo") Boolean activo, Pageable pageable);
+
+    /** F10.2: resolución por nombre desde el importador de ComisionProyecto (rechaza la fila si no existe, no auto-crea). */
+    Optional<Comisionista> findByNombreIgnoreCase(String nombre);
 }

@@ -15,4 +15,8 @@ public interface MovimientoInversionRepository extends JpaRepository<MovimientoI
     Optional<MovimientoInversion> findFirstByInversion_IdOrderByFechaDescIdDesc(Long inversionId);
 
     long countByInversion_Id(Long inversionId);
+
+    /** F10.2: idempotencia del importador (misma inversión+fecha+tipo+cuotapartes = mismo movimiento del Excel). */
+    boolean existsByInversion_IdAndFechaAndTipoAndCuotapartes(
+            Long inversionId, java.time.LocalDate fecha, TipoMovimientoInversion tipo, java.math.BigDecimal cuotapartes);
 }

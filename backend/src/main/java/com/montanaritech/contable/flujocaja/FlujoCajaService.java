@@ -273,6 +273,10 @@ public class FlujoCajaService {
         }
         List<MovimientoDatado> resultado = new ArrayList<>();
         for (ProyectoCuota cuota : pendientes) {
+            // F10.2: cuotas migradas sin fecha pactada no se pueden ubicar en la línea de tiempo proyectada.
+            if (cuota.getFechaEstimadaCobro() == null) {
+                continue;
+            }
             if (cuota.getFechaEstimadaCobro().isBefore(desde) || cuota.getFechaEstimadaCobro().isAfter(hasta)) {
                 continue;
             }

@@ -11,6 +11,12 @@ import org.springframework.data.repository.query.Param;
 public interface ProyectoRepository extends JpaRepository<Proyecto, Long> {
     java.util.List<Proyecto> findByActivoTrueOrderByNombreAsc();
 
+    /** F10.2: idempotencia del importador de Proyecto (evita duplicar en una segunda corrida). */
+    java.util.Optional<Proyecto> findByNombreIgnoreCaseAndClienteId(String nombre, Long clienteId);
+
+    /** F10.2: resolución de Proyecto por nombre desde el importador de ComisionProyecto (la hoja no trae cliente). */
+    java.util.Optional<Proyecto> findByNombreIgnoreCase(String nombre);
+
     /** Búsqueda global (F9.2, término FECHA): fecha estimada o real de finalización. */
     Page<Proyecto> findByFechaEstimadaFinalizacionOrFechaRealFinalizacion(LocalDate fecha1, LocalDate fecha2, Pageable pageable);
 

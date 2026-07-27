@@ -33,7 +33,11 @@ public class ProyectoCuota extends EntidadNegocio {
     @Column(nullable = false)
     private Integer numero;
 
-    @Column(name = "fecha_estimada_cobro", nullable = false)
+    /**
+     * Nullable desde F10.2: la migración histórica de cuotas de proyecto
+     * (Excel) no siempre trae fecha de cobro pactada.
+     */
+    @Column(name = "fecha_estimada_cobro")
     private LocalDate fechaEstimadaCobro;
 
     @Column(nullable = false, precision = 18, scale = 2)
