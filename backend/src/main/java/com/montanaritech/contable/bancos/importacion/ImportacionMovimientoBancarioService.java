@@ -9,6 +9,7 @@ import com.montanaritech.contable.bancos.movimientobancario.OrigenImportacionMov
 import com.montanaritech.contable.bancos.movimientobancario.dto.CrearMovimientoBancarioRequest;
 import com.montanaritech.contable.common.error.NegocioException;
 import com.montanaritech.contable.common.error.RecursoNoEncontradoException;
+import com.montanaritech.contable.common.tenant.TenantContext;
 import com.montanaritech.contable.maestros.cuentabancaria.CuentaBancaria;
 import com.montanaritech.contable.maestros.cuentabancaria.CuentaBancariaRepository;
 import com.montanaritech.contable.maestros.moneda.Moneda;
@@ -142,7 +143,7 @@ public class ImportacionMovimientoBancarioService {
     }
 
     private Moneda resolverMoneda(String codigo) {
-        return monedaRepo.findByCodigo(codigo)
+        return monedaRepo.findByCodigoAndTenantId(codigo, TenantContext.getTenantId())
                 .orElseThrow(() -> new RecursoNoEncontradoException("Moneda " + codigo + " no encontrada"));
     }
 }

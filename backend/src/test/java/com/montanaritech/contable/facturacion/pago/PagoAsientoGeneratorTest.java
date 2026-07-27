@@ -60,7 +60,7 @@ class PagoAsientoGeneratorTest {
         ars = new Moneda();
         ars.setId(1L);
         ars.setCodigo("ARS");
-        lenient().when(monedaRepo.findByCodigo("ARS")).thenReturn(java.util.Optional.of(ars));
+        lenient().when(monedaRepo.findByCodigoAndTenantId("ARS", 1L)).thenReturn(java.util.Optional.of(ars));
 
         usd = new Moneda();
         usd.setId(2L);

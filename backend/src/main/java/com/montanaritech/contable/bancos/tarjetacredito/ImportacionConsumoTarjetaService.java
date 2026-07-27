@@ -8,6 +8,7 @@ import com.montanaritech.contable.bancos.tarjetacredito.dto.ConsumoImportacionRe
 import com.montanaritech.contable.common.error.NegocioException;
 import com.montanaritech.contable.common.error.RecursoNoEncontradoException;
 import com.montanaritech.contable.common.saldo.RecalculoSaldoService;
+import com.montanaritech.contable.common.tenant.TenantContext;
 import com.montanaritech.contable.maestros.moneda.Moneda;
 import com.montanaritech.contable.maestros.moneda.MonedaRepository;
 import com.montanaritech.contable.maestros.tarjetacredito.TarjetaCredito;
@@ -128,7 +129,7 @@ public class ImportacionConsumoTarjetaService {
     }
 
     private Moneda resolverMoneda(String codigo) {
-        return monedaRepository.findByCodigo(codigo)
+        return monedaRepository.findByCodigoAndTenantId(codigo, TenantContext.getTenantId())
                 .orElseThrow(() -> new RecursoNoEncontradoException("Moneda " + codigo + " no encontrada"));
     }
 }

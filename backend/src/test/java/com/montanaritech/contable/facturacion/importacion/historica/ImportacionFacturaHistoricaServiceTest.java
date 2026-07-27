@@ -70,7 +70,7 @@ class ImportacionFacturaHistoricaServiceTest {
 
     @Test
     void previsualizarFueraDelAgujeroConUnaCoincidenciaNoTieneAdvertencia() {
-        when(importacionFacturaService.previsualizar("f.pdf", new byte[0])).thenReturn(preview(LocalDate.of(2026, 2, 10)));
+        when(importacionFacturaService.previsualizar("f.pdf", new byte[0])).thenReturn(preview(LocalDate.of(2026, 6, 1)));
         Asiento a = new Asiento();
         a.setId(500L);
         when(buscarAsientoPorComprobante.buscar("00003", "00000105")).thenReturn(List.of(a));
@@ -84,7 +84,7 @@ class ImportacionFacturaHistoricaServiceTest {
 
     @Test
     void previsualizarFueraDelAgujeroSinCoincidenciaAdvierte() {
-        when(importacionFacturaService.previsualizar("f.pdf", new byte[0])).thenReturn(preview(LocalDate.of(2026, 2, 10)));
+        when(importacionFacturaService.previsualizar("f.pdf", new byte[0])).thenReturn(preview(LocalDate.of(2026, 6, 1)));
         when(buscarAsientoPorComprobante.buscar("00003", "00000105")).thenReturn(List.of());
 
         var resultado = service.previsualizar("f.pdf", new byte[0]);
@@ -95,7 +95,7 @@ class ImportacionFacturaHistoricaServiceTest {
 
     @Test
     void previsualizarFueraDelAgujeroConVariasCoincidenciasAdvierteAmbiguedad() {
-        when(importacionFacturaService.previsualizar("f.pdf", new byte[0])).thenReturn(preview(LocalDate.of(2026, 2, 10)));
+        when(importacionFacturaService.previsualizar("f.pdf", new byte[0])).thenReturn(preview(LocalDate.of(2026, 6, 1)));
         Asiento a1 = new Asiento();
         a1.setId(1L);
         Asiento a2 = new Asiento();
@@ -129,7 +129,7 @@ class ImportacionFacturaHistoricaServiceTest {
         when(buscarAsientoPorComprobante.buscar("00003", "00000105")).thenReturn(List.of(a));
         when(importacionFacturaService.confirmar(anyList())).thenReturn(List.of());
 
-        service.confirmar(List.of(confirmarReq(LocalDate.of(2026, 2, 10), 999L)));
+        service.confirmar(List.of(confirmarReq(LocalDate.of(2026, 6, 1), 999L)));
 
         ArgumentCaptor<List<FilaImportacionConfirmarRequest>> captor = ArgumentCaptor.forClass(List.class);
         verify(importacionFacturaService).confirmar(captor.capture());
@@ -142,7 +142,7 @@ class ImportacionFacturaHistoricaServiceTest {
         when(importacionFacturaService.confirmar(anyList())).thenReturn(List.of());
 
         List<FilaImportacionResultadoResponse> resultados = service.confirmar(
-                List.of(confirmarReq(LocalDate.of(2026, 2, 10), null)));
+                List.of(confirmarReq(LocalDate.of(2026, 6, 1), null)));
 
         assertThat(resultados).hasSize(1);
         assertThat(resultados.get(0).exito()).isFalse();
@@ -160,7 +160,7 @@ class ImportacionFacturaHistoricaServiceTest {
         when(importacionFacturaService.confirmar(anyList())).thenReturn(List.of());
 
         List<FilaImportacionResultadoResponse> resultados = service.confirmar(
-                List.of(confirmarReq(LocalDate.of(2026, 2, 10), null)));
+                List.of(confirmarReq(LocalDate.of(2026, 6, 1), null)));
 
         assertThat(resultados.get(0).exito()).isFalse();
         assertThat(resultados.get(0).motivoRechazo()).contains("ambigüedad");

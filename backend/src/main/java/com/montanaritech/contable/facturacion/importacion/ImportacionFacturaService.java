@@ -20,6 +20,7 @@ import com.montanaritech.contable.facturacion.importacion.dto.FilaImportacionRes
 import com.montanaritech.contable.maestros.cliente.Cliente;
 import com.montanaritech.contable.maestros.cliente.ClienteRepository;
 import com.montanaritech.contable.maestros.cliente.ClienteService;
+import com.montanaritech.contable.common.tenant.TenantContext;
 import com.montanaritech.contable.maestros.cliente.dto.ClienteCrearRequest;
 import com.montanaritech.contable.maestros.moneda.MonedaRepository;
 import com.montanaritech.contable.maestros.proveedor.Proveedor;
@@ -102,7 +103,8 @@ public class ImportacionFacturaService {
             }
         }
 
-        Long monedaId = monedaRepo.findByCodigo(campos.monedaCodigo()).map(m -> m.getId()).orElse(null);
+        Long monedaId = monedaRepo.findByCodigoAndTenantId(campos.monedaCodigo(), TenantContext.getTenantId())
+                .map(m -> m.getId()).orElse(null);
 
         return new FilaImportacionPreviewResponse(nombreArchivo, campos.tipoSugerido(), campos.tipoComprobante(),
                 campos.puntoVenta(), campos.numero(), campos.fecha(), campos.cuitContraparte(),

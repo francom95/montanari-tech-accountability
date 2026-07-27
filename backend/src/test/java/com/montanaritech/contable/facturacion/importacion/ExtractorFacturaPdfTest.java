@@ -231,9 +231,11 @@ class ExtractorFacturaPdfTest {
         assertThat(campos.monedaCodigo()).isEqualTo("USD");
         assertThat(campos.tipoCambio()).isEqualByComparingTo("1358.000000");
         assertThat(campos.cae()).isEqualTo("86161961743380");
-        // Límite real y aceptado (ver javadoc de la clase): el valor queda pegado antes de la etiqueta.
-        assertThat(campos.total()).isNull();
-        assertThat(campos.advertencias()).isNotEmpty();
+        // F10.3: Factura E pega el valor ANTES de la etiqueta ("483,00Importe Total:") — patrón dedicado.
+        assertThat(campos.total()).isEqualByComparingTo("483.00");
+        // Exportación exenta de IVA: sin desglose, neto = total a alícuota 0%.
+        assertThat(campos.netoGravado()).isEqualByComparingTo("483.00");
+        assertThat(campos.alicuotaIva()).isEqualByComparingTo("0");
     }
 
     // ---- Doc 4: Montanari -> Kakaroto M4, venta Factura A con desglose de IVA por alícuota ----

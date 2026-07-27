@@ -80,7 +80,9 @@ public class ExtractorFacturaPdf {
             Pattern.compile("Importe Total:\\s*\\$?\\s*(?:USD)?\\s*" + MONTO_DECIMAL),
             // (?<!SUB)/(?<!SUB-) para no matchear "SUBTOTAL"/"SUB-TOTAL"; MONTO_DECIMAL para no matchear
             // una cantidad de línea suelta (ej. "1") cuando "TOTAL" aparece como encabezado de columna.
-            Pattern.compile("(?i)(?<!SUB)(?<!SUB-)\\bTOTAL\\s*:?\\s*\\$?\\s*" + MONTO_DECIMAL));
+            Pattern.compile("(?i)(?<!SUB)(?<!SUB-)\\bTOTAL\\s*:?\\s*\\$?\\s*" + MONTO_DECIMAL),
+            // Factura E (exportación): PDFBox extrae el valor ANTES que la etiqueta ("491,25Importe Total:").
+            Pattern.compile(MONTO_DECIMAL + "Importe Total:"));
 
     private static final Set<BigDecimal> ALICUOTAS_CONOCIDAS = Set.of(
             new BigDecimal("0"), new BigDecimal("2.5"), new BigDecimal("5"),

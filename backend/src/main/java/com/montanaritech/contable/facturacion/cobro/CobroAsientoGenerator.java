@@ -6,6 +6,7 @@ import com.montanaritech.contable.common.asiento.CalculoImputacion;
 import com.montanaritech.contable.common.asiento.LineaAsientoGenerada;
 import com.montanaritech.contable.common.error.NegocioException;
 import com.montanaritech.contable.common.estado.EstadoDocumento;
+import com.montanaritech.contable.common.tenant.TenantContext;
 import com.montanaritech.contable.contabilidad.cuentacontable.CuentaContable;
 import com.montanaritech.contable.contabilidad.mapeocuenta.ConceptoContable;
 import com.montanaritech.contable.contabilidad.mapeocuenta.ResolutorCuentas;
@@ -250,7 +251,7 @@ public class CobroAsientoGenerator implements AsientoGenerator<Cobro> {
     }
 
     private Long monedaArsId() {
-        return monedaRepo.findByCodigo("ARS")
+        return monedaRepo.findByCodigoAndTenantId("ARS", TenantContext.getTenantId())
                 .orElseThrow(() -> new NegocioException("MONEDA_ARS_NO_CONFIGURADA", "No existe la moneda ARS"))
                 .getId();
     }

@@ -20,12 +20,16 @@ import org.springframework.stereotype.Service;
  * decisión de "¿genero un asiento nuevo, o vinculo a uno ya migrado del
  * Libro Diario en F10.2?".
  *
- * <p><b>Agujero real</b> (01/10/2025-31/12/2025, verificado en F10.1: sin
- * ningún asiento migrado): las facturas con fecha en ese rango siempre
- * generan un asiento nuevo (flujo normal de F4.6). Fuera del agujero
- * (sep/2025, ene-jul/2026) ya hay un asiento migrado para cada movimiento
- * real, así que la factura tiene que vincularse a ese asiento — nunca se
- * genera uno nuevo, para no duplicar el Libro Diario.
+ * <p><b>Agujero real</b> (01/10/2025-30/04/2026, verificado contra el
+ * Libro Diario migrado real: el detalle por comprobante — leyenda
+ * {@code "FC: PV-numero"} — solo existe en sep/2025 y may-jul/2026; todo
+ * oct/2025-abr/2026 únicamente tiene los asientos genéricos mensuales
+ * (sueldos, IVA, IIBB, comisiones bancarias), sin ningún cobro/pago/factura
+ * individual migrado). Las facturas con fecha en ese rango siempre generan
+ * un asiento nuevo (flujo normal de F4.6). Fuera del agujero (sep/2025,
+ * may-jul/2026) ya hay un asiento migrado por comprobante, así que la
+ * factura tiene que vincularse a ese asiento — nunca se genera uno nuevo,
+ * para no duplicar el Libro Diario.
  *
  * <p>El matching ({@link BuscarAsientoPorComprobante}) y la decisión de
  * agujero se recalculan siempre server-side en {@link #confirmar}, nunca
@@ -36,9 +40,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ImportacionFacturaHistoricaService {
 
-    /** F10.1: único tramo sin ningún asiento migrado del Libro Diario. */
+    /** Único tramo sin ningún comprobante individual migrado del Libro Diario (verificado real). */
     static final LocalDate AGUJERO_DESDE = LocalDate.of(2025, 10, 1);
-    static final LocalDate AGUJERO_HASTA = LocalDate.of(2025, 12, 31);
+    static final LocalDate AGUJERO_HASTA = LocalDate.of(2026, 4, 30);
 
     private final ImportacionFacturaService importacionFacturaService;
     private final BuscarAsientoPorComprobante buscarAsientoPorComprobante;

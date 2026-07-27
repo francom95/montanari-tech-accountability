@@ -12,6 +12,15 @@ public interface MonedaRepository extends JpaRepository<Moneda, Long> {
     Optional<Moneda> findByCodigo(String codigo);
 
     /**
+     * F10.3: variante explícitamente tenant-scoped para llamadas fuera del
+     * ciclo normal request→{@code TenantFilterInterceptor} (o cuando el
+     * dev DB compartido tiene el mismo código en más de un tenant) — evita
+     * depender del filtro Hibernate "fail-open" documentado en
+     * {@code EntidadNegocio}.
+     */
+    Optional<Moneda> findByCodigoAndTenantId(String codigo, Long tenantId);
+
+    /**
      * Filtros opcionales (patrón "{@code :param IS NULL OR ...}", ya usado
      * en {@code AuditoriaLogRepository} de F1.6): mismo texto busca en
      * código y nombre.

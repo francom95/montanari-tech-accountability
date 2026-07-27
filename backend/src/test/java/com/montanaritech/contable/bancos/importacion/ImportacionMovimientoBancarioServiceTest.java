@@ -65,8 +65,8 @@ class ImportacionMovimientoBancarioServiceTest {
         cuentaBancariaArs.setMoneda(ars);
 
         lenient().when(cuentaBancariaRepo.findById(10L)).thenReturn(Optional.of(cuentaBancariaArs));
-        lenient().when(monedaRepo.findByCodigo("ARS")).thenReturn(Optional.of(ars));
-        lenient().when(monedaRepo.findByCodigo("USD")).thenReturn(Optional.of(usd));
+        lenient().when(monedaRepo.findByCodigoAndTenantId("ARS", 1L)).thenReturn(Optional.of(ars));
+        lenient().when(monedaRepo.findByCodigoAndTenantId("USD", 1L)).thenReturn(Optional.of(usd));
     }
 
     private ImportacionMovimientoBancarioService servicioCon(ResumenParser... parsers) {

@@ -59,8 +59,8 @@ class ImportacionConsumoTarjetaServiceTest {
         usd.setCodigo("USD");
 
         lenient().when(tarjetaCreditoRepository.findById(5L)).thenReturn(Optional.of(tarjeta));
-        lenient().when(monedaRepository.findByCodigo("ARS")).thenReturn(Optional.of(ars));
-        lenient().when(monedaRepository.findByCodigo("USD")).thenReturn(Optional.of(usd));
+        lenient().when(monedaRepository.findByCodigoAndTenantId("ARS", 1L)).thenReturn(Optional.of(ars));
+        lenient().when(monedaRepository.findByCodigoAndTenantId("USD", 1L)).thenReturn(Optional.of(usd));
         lenient().when(consumoTarjetaRepository.save(any())).thenAnswer(inv -> {
             ConsumoTarjeta c = inv.getArgument(0);
             c.setId(100L);
