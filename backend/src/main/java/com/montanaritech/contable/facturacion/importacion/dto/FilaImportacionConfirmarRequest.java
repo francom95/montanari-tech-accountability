@@ -14,6 +14,12 @@ import java.time.LocalDate;
  * ({@code altaRapidaNombre}/{@code altaRapidaCuit}/{@code
  * altaRapidaJurisdiccionId}) para crear el cliente/proveedor en el mismo
  * paso — nunca ambos vacíos.
+ *
+ * <p>{@code asientoIdExistente} (F10.3, reconstrucción histórica): si viene
+ * seteado y {@code estadoDestino=CONFIRMADO}, la factura se confirma
+ * vinculándola a ese asiento YA CONFIRMADO en vez de generar uno nuevo
+ * ({@code FacturaVentaService.confirmarVinculandoAsientoExistente}) — nulo
+ * en el resto de los casos (flujo normal de F4.6, sin cambios).
  */
 public record FilaImportacionConfirmarRequest(
         @NotBlank String nombreArchivo,
@@ -37,5 +43,6 @@ public record FilaImportacionConfirmarRequest(
         @NotNull BigDecimal alicuotaIva,
         String tipoIngreso,
         Long tipoCostoId,
-        @NotBlank String estadoDestino
+        @NotBlank String estadoDestino,
+        Long asientoIdExistente
 ) {}

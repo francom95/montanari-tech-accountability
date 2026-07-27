@@ -2525,14 +2525,14 @@
     "semantic_hash": "d6fc1304667d65c59c00e524323ef309"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/importacion/ImportacionFacturaService.java": {
-    "mtime": 1784743653.1848285,
-    "ast_hash": "6861ad0ba871dd790c7ebc229929010c",
-    "semantic_hash": "6861ad0ba871dd790c7ebc229929010c"
+    "mtime": 1785174446.9278176,
+    "ast_hash": "db632b3c77af3e234327ad54b4cdd898",
+    "semantic_hash": "db632b3c77af3e234327ad54b4cdd898"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/importacion/dto/FilaImportacionConfirmarRequest.java": {
-    "mtime": 1784743603.733084,
-    "ast_hash": "d84adc0701c959c19ab5c960ef57e224",
-    "semantic_hash": "d84adc0701c959c19ab5c960ef57e224"
+    "mtime": 1785174412.6880805,
+    "ast_hash": "9c485ea60df3911ed098d6e913aa0a16",
+    "semantic_hash": "9c485ea60df3911ed098d6e913aa0a16"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/importacion/dto/FilaImportacionPreviewResponse.java": {
     "mtime": 1784743593.2452452,
@@ -3275,9 +3275,9 @@
     "semantic_hash": "0475c792d1b3a4dbcbc8304edbd67699"
   },
   "backend/src/test/java/com/montanaritech/contable/facturacion/importacion/ImportacionFacturaServiceTest.java": {
-    "mtime": 1784744526.7323196,
-    "ast_hash": "5acf73658f01372efabc330a8759e103",
-    "semantic_hash": "5acf73658f01372efabc330a8759e103"
+    "mtime": 1785174494.7851565,
+    "ast_hash": "d2745e400fb638b0299268d90e99cf26",
+    "semantic_hash": "d2745e400fb638b0299268d90e99cf26"
   },
   "backend/src/test/java/com/montanaritech/contable/facturacion/pago/PagoAsientoGeneratorTest.java": {
     "mtime": 1784689162.4825466,
@@ -5398,5 +5398,25 @@
     "mtime": 1785174008.7260516,
     "ast_hash": "76e3e8ab239c653995d58ac82e72b9a0",
     "semantic_hash": "76e3e8ab239c653995d58ac82e72b9a0"
+  },
+  "backend/src/main/java/com/montanaritech/contable/facturacion/importacion/historica/ImportacionFacturaHistoricaController.java": {
+    "mtime": 1785174636.8477025,
+    "ast_hash": "2054a811e82c81c7cbcefb4b01839cc9",
+    "semantic_hash": "2054a811e82c81c7cbcefb4b01839cc9"
+  },
+  "backend/src/main/java/com/montanaritech/contable/facturacion/importacion/historica/ImportacionFacturaHistoricaService.java": {
+    "mtime": 1785174615.382354,
+    "ast_hash": "705161efcf1444c60630b58949339514",
+    "semantic_hash": "705161efcf1444c60630b58949339514"
+  },
+  "backend/src/main/java/com/montanaritech/contable/facturacion/importacion/historica/dto/FilaImportacionHistoricaPreviewResponse.java": {
+    "mtime": 1785174589.4841564,
+    "ast_hash": "e81b00b1b7efc6c99f87d8bb7ffebb6d",
+    "semantic_hash": "e81b00b1b7efc6c99f87d8bb7ffebb6d"
+  },
+  "backend/src/test/java/com/montanaritech/contable/facturacion/importacion/historica/ImportacionFacturaHistoricaServiceTest.java": {
+    "mtime": 1785174666.858534,
+    "ast_hash": "9bbd7ce6b37c099b735d3837d34c05cc",
+    "semantic_hash": "9bbd7ce6b37c099b735d3837d34c05cc"
   }
 }

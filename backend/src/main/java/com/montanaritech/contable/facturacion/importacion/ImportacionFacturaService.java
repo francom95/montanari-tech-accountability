@@ -47,6 +47,13 @@ import org.springframework.transaction.annotation.Transactional;
  * propósito, este método NO lleva {@code @Transactional}: si una fila del
  * lote falla, las anteriores ya confirmadas/creadas no se revierten. Un
  * lote es "N documentos independientes", no una operación atómica.
+ *
+ * <p>F10.3 extiende {@code procesarVenta}/{@code procesarCompra} de forma
+ * aditiva: si la fila trae {@code fila.asientoIdExistente()} no nulo,
+ * confirma vinculando a ese asiento ya existente en vez de generar uno
+ * nuevo (ver {@code FilaImportacionConfirmarRequest}); el resto del flujo
+ * (extracción, resolución de cliente/proveedor, alta rápida) es el mismo
+ * de F4.6, sin cambios.
  */
 @Service
 @RequiredArgsConstructor
@@ -141,7 +148,9 @@ public class ImportacionFacturaService {
 
         if (ESTADO_CONFIRMADO.equals(fila.estadoDestino())) {
             try {
-                FacturaVenta confirmada = facturaVentaService.confirmar(creada.getId());
+                FacturaVenta confirmada = fila.asientoIdExistente() != null
+                        ? facturaVentaService.confirmarVinculandoAsientoExistente(creada.getId(), fila.asientoIdExistente())
+                        : facturaVentaService.confirmar(creada.getId());
                 Asiento asiento = confirmada.getAsiento();
                 return new FilaImportacionResultadoResponse(fila.nombreArchivo(), true, "VENTA", fila.numero(),
                         creada.getId(), ESTADO_CONFIRMADO, asiento != null ? asiento.getId() : null, null, null);
@@ -175,7 +184,9 @@ public class ImportacionFacturaService {
 
         if (ESTADO_CONFIRMADO.equals(fila.estadoDestino())) {
             try {
-                FacturaCompra confirmada = facturaCompraService.confirmar(creada.getId());
+                FacturaCompra confirmada = fila.asientoIdExistente() != null
+                        ? facturaCompraService.confirmarVinculandoAsientoExistente(creada.getId(), fila.asientoIdExistente())
+                        : facturaCompraService.confirmar(creada.getId());
                 Asiento asiento = confirmada.getAsiento();
                 return new FilaImportacionResultadoResponse(fila.nombreArchivo(), true, "COMPRA", fila.numero(),
                         creada.getId(), ESTADO_CONFIRMADO, asiento != null ? asiento.getId() : null, null, null);

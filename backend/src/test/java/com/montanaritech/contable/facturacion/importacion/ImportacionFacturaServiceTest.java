@@ -61,7 +61,7 @@ class ImportacionFacturaServiceTest {
                 altaRapidaNombre, altaRapidaCuit, altaRapidaNombre != null ? 1L : null, null,
                 LocalDate.of(2026, 7, 1), null, TipoComprobante.FACTURA_C, "00003", "00000105",
                 1L, new BigDecimal("1.000000"), null, "Importado", new BigDecimal("1450000.00"),
-                BigDecimal.ZERO, "VENTA", null, estadoDestino);
+                BigDecimal.ZERO, "VENTA", null, estadoDestino, null);
     }
 
     // ---- Venta: cliente existente ----
@@ -81,6 +81,32 @@ class ImportacionFacturaServiceTest {
         assertThat(resultado.exito()).isTrue();
         assertThat(resultado.facturaId()).isEqualTo(50L);
         assertThat(resultado.estadoFinal()).isEqualTo("BORRADOR");
+        verify(facturaVentaService, never()).confirmar(any());
+    }
+
+    // ---- F10.3: reconstrucción histórica (vincular a asiento existente) ----
+
+    @Test
+    void confirmarConAsientoIdExistenteLlamaAConfirmarVinculandoSinLlamarAlConfirmarNormal() {
+        FilaImportacionConfirmarRequest fila = new FilaImportacionConfirmarRequest("factura.pdf", "VENTA", 1L, null,
+                null, null, null, null, LocalDate.of(2026, 1, 15), null, TipoComprobante.FACTURA_C, "00003", "00000105",
+                1L, new BigDecimal("1.000000"), null, "Importado", new BigDecimal("1450000.00"),
+                BigDecimal.ZERO, "VENTA", null, "CONFIRMADO", 900L);
+
+        FacturaVenta creada = new FacturaVenta();
+        creada.setId(50L);
+        FacturaVenta confirmada = new FacturaVenta();
+        confirmada.setId(50L);
+        when(facturaVentaRepo.existsByClienteIdAndTipoComprobanteAndPuntoVentaAndNumero(
+                1L, TipoComprobante.FACTURA_C, "00003", "00000105")).thenReturn(false);
+        when(facturaVentaService.crearBorrador(any())).thenReturn(creada);
+        when(facturaVentaService.confirmarVinculandoAsientoExistente(50L, 900L)).thenReturn(confirmada);
+
+        List<FilaImportacionResultadoResponse> resultados = service.confirmar(List.of(fila));
+
+        assertThat(resultados.get(0).exito()).isTrue();
+        assertThat(resultados.get(0).estadoFinal()).isEqualTo("CONFIRMADO");
+        verify(facturaVentaService).confirmarVinculandoAsientoExistente(50L, 900L);
         verify(facturaVentaService, never()).confirmar(any());
     }
 
@@ -143,7 +169,7 @@ class ImportacionFacturaServiceTest {
         FilaImportacionConfirmarRequest fila = new FilaImportacionConfirmarRequest("compra.pdf", "COMPRA", null, 1L,
                 null, null, null, null, LocalDate.of(2026, 6, 1), null, TipoComprobante.FACTURA_A, "0001", "00000001",
                 1L, new BigDecimal("1.000000"), null, "Importado", new BigDecimal("1000.00"), BigDecimal.ZERO,
-                null, null, "BORRADOR");
+                null, null, "BORRADOR", null);
         lenient().when(facturaCompraRepo.existsByProveedorIdAndTipoComprobanteAndPuntoVentaAndNumero(any(), any(), any(), any()))
                 .thenReturn(false);
 
@@ -163,7 +189,7 @@ class ImportacionFacturaServiceTest {
         FilaImportacionConfirmarRequest filaOk = new FilaImportacionConfirmarRequest("ok.pdf", "VENTA", 2L, null,
                 null, null, null, null, LocalDate.of(2026, 7, 2), null, TipoComprobante.FACTURA_C, "00003", "00000106",
                 1L, new BigDecimal("1.000000"), null, "Importado", new BigDecimal("1000.00"), BigDecimal.ZERO,
-                "VENTA", null, "BORRADOR");
+                "VENTA", null, "BORRADOR", null);
         // Stub específico (clienteId=2, la fila OK) primero: si el stub genérico any()-throw se registrara
         // antes, esta misma llamada de configuración dispararía la excepción al armar el mock.
         when(facturaVentaRepo.existsByClienteIdAndTipoComprobanteAndPuntoVentaAndNumero(
