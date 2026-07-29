@@ -2515,9 +2515,9 @@
     "semantic_hash": "b59b9511be70396abb766bee58fa4692"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/importacion/ExtractorFacturaPdf.java": {
-    "mtime": 1785177337.1762578,
-    "ast_hash": "06275210069f02270828d60bef5d2897",
-    "semantic_hash": "06275210069f02270828d60bef5d2897"
+    "mtime": 1785267704.8255687,
+    "ast_hash": "2227d5451aa279cc78f642c288ab813e",
+    "semantic_hash": "2227d5451aa279cc78f642c288ab813e"
   },
   "backend/src/main/java/com/montanaritech/contable/facturacion/importacion/ImportacionFacturaController.java": {
     "mtime": 1784836758.7252028,
@@ -3270,9 +3270,9 @@
     "semantic_hash": "ee64c8f814cad6f8fab8af5828d2b8fa"
   },
   "backend/src/test/java/com/montanaritech/contable/facturacion/importacion/ExtractorFacturaPdfTest.java": {
-    "mtime": 1785177406.7584264,
-    "ast_hash": "c118480df1b6253c73d7bb047533a937",
-    "semantic_hash": "c118480df1b6253c73d7bb047533a937"
+    "mtime": 1785267739.5881677,
+    "ast_hash": "0e10a483568df9eca91367b04e50a545",
+    "semantic_hash": "0e10a483568df9eca91367b04e50a545"
   },
   "backend/src/test/java/com/montanaritech/contable/facturacion/importacion/ImportacionFacturaServiceTest.java": {
     "mtime": 1785174494.7851565,
@@ -5418,5 +5418,10 @@
     "mtime": 1785176488.0528033,
     "ast_hash": "355b1756b4bfd9b6efd21e8256658347",
     "semantic_hash": "355b1756b4bfd9b6efd21e8256658347"
+  },
+  "outputs/F10_3_saldos_iniciales_y_arranque_asiento_de_apertura.md": {
+    "mtime": 1785342108.3470829,
+    "ast_hash": "ab235e4682998e2264ed0939bb45c0ef",
+    "semantic_hash": "ab235e4682998e2264ed0939bb45c0ef"
   }
 }

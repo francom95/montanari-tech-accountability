@@ -67,9 +67,17 @@ public class ExtractorFacturaPdf {
     private static final Pattern IVA_CONTENIDO = Pattern.compile("IVA Contenido:\\s*\\$?\\s*([\\d.,]+)");
     private static final Pattern NETO_GRAVADO = Pattern.compile("Importe Neto Gravado:\\s*\\$?\\s*([\\d.,]+)");
     private static final Pattern IVA_ALICUOTA = Pattern.compile("IVA\\s*(\\d+(?:[.,]\\d+)?)\\s*%:?\\s*\\$?\\s*([\\d.,]+)");
-    private static final Pattern SUBTOTAL = Pattern.compile("(?i)SUB-?TOTAL:?\\s*\\$?\\s*([\\d.,]+)");
     /** A diferencia de "[\d.,]+" suelto, exige que el valor termine en decimal (",NN"/".NN") — evita matchear una cantidad de línea suelta como "1". */
     private static final String MONTO_DECIMAL = "(\\d+(?:[.,]\\d{3})*[.,]\\d{2})";
+    /**
+     * Exige formato decimal (MONTO_DECIMAL) y no dígitos sueltos: el encabezado de columna
+     * "...Imp. Bonif. Subtotal" (sin dos puntos) puede quedar pegado, en el orden lineal de
+     * PDFBox, justo antes del primer renglón de detalle — si ese renglón arranca con un
+     * porcentaje ("50% Diseño de..."), "[\d.,]+" suelto matchea el "50" y arruina neto/alícuota
+     * (caso real: Lubenfeld 14/10/2025, devolvía neto=50 en vez de 1375000). Exigir decimal hace
+     * que el matcher salte ese falso positivo y encuentre el "Subtotal: $ NNN,NN" real más abajo.
+     */
+    private static final Pattern SUBTOTAL = Pattern.compile("(?i)SUB-?TOTAL:?\\s*\\$?\\s*" + MONTO_DECIMAL);
     private static final Pattern MONTO_TOKEN = Pattern.compile("\\b\\d+(?:\\.\\d{3})*,\\d{2}\\b");
 
     /** Firma de la variante ARCA "Factura B/C sin IVA discriminado": etiquetas de totales sueltas, sin valor pegado. */

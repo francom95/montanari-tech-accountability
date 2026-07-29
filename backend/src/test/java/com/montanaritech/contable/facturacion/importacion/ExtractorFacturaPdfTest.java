@@ -93,6 +93,56 @@ class ExtractorFacturaPdfTest {
         assertThat(campos.cae()).isEqualTo("86262004442157");
     }
 
+    // ---- Doc 1b: Lubenfeld (monotributista) -> Montanari, compra Factura C, ítem con % al inicio ----
+    // Bug real F10.3: la descripción del ítem arranca con un porcentaje ("50% Diseño..."), que
+    // en el orden lineal de PDFBox queda pegado justo después del encabezado de columna suelto
+    // "...Imp. Bonif. Subtotal" (sin dos puntos) — el SUBTOTAL regex sin exigir decimal matcheaba
+    // ese "50" como si fuera el subtotal real, devolviendo neto=50/alícuota=27% en vez de
+    // neto=1375000/alícuota=0% (comprobante real 20288405167_011_00003_00000084.pdf, 14/10/2025).
+
+    @Test
+    void doc1bLubenfeldCompraFacturaCItemConPorcentajeAlInicio() {
+        String texto = """
+                ORIGINAL
+                C
+                FACTURA
+                LUBENFELD DAMIAN ALEJANDRO
+                COD. 011
+                Punto de Venta: 00003 Comp. Nro: 00000084
+                Razón Social: LUBENFELD DAMIAN ALEJANDRO Fecha de Emisión: 14/10/2025
+                Domicilio Comercial: Campichuelo 585 Piso:4 Dpto:B - Ciudad de CUIT: 20288405167
+                Buenos Aires Ingresos Brutos: 20-28840516-7
+                Condición frente al IVA: Responsable Monotributo Fecha de Inicio de Actividades: 01/02/2021
+                Período Facturado Desde: 14/10/2025 Hasta:14/10/2025 Fecha de Vto. para el pago:14/10/2025
+                CUIT: 30718334868 Apellido y Nombre / Razón Social:ST SURFING RESERVATIONS SOCIEDAD DE
+                RESPONSABILIDAD LIMITADA
+                Condición frente al IVA: IVA Responsable Inscripto Domicilio:40 965 Piso:2 - La Plata Noroeste Calle 50, Buenos Aires
+                Condición de venta: Transferencia Bancaria
+                Código Producto / Servicio Cantidad U. Medida Precio Unit. % Bonif Imp. Bonif. Subtotal
+                50% Diseño de APP SeeU + ajuste de 1,00 unidades 1375000,00 0,00 0,00 1375000,00
+                logos y tipografías
+                Subtotal: $ 1375000,00
+                Importe Otros Tributos: $ 0,00
+                Importe Total: $ 1375000,00
+                Pág. 1/1 CAE Nº: 75417884047374
+                Fecha de Vto. de CAE: 24/10/2025
+                Comprobante Autorizado
+                Esta Agencia no se responsabiliza por los datos ingresados en el detalle de la operación""";
+
+        CamposExtraidosPdf campos = extractor.extraer(texto);
+
+        assertThat(campos.tipoSugerido()).isEqualTo("COMPRA");
+        assertThat(campos.tipoComprobante()).isEqualTo(TipoComprobante.FACTURA_C);
+        assertThat(campos.puntoVenta()).isEqualTo("00003");
+        assertThat(campos.numero()).isEqualTo("00000084");
+        assertThat(campos.fecha()).isEqualTo(LocalDate.of(2025, 10, 14));
+        assertThat(campos.cuitContraparte()).isEqualTo("20-28840516-7");
+        assertThat(campos.total()).isEqualByComparingTo("1375000.00");
+        assertThat(campos.netoGravado()).isEqualByComparingTo("1375000.00");
+        assertThat(campos.alicuotaIva()).isEqualByComparingTo("0");
+        assertThat(campos.cae()).isEqualTo("75417884047374");
+    }
+
     // ---- Doc 2: Montanari -> Asociación Mutual, venta Factura B, IVA Contenido ----
 
     @Test
