@@ -25,10 +25,24 @@ public class AuthService {
     @Transactional
     public TokenPairResponse login(LoginRequest request) {
         // Lanza BadCredentialsException si no matchea -> GlobalExceptionHandler la mapea a 401.
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.email(), request.password()));
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(request.email(), request.password()));
+        } catch (RuntimeException e) {
+            // F11.2 A13: registra el intento fallido contra el usuario existente (si el email
+            // matchea alguno); entidad_id es NOT NULL, así que un email inexistente no deja
+            // registro acá (no hay entidad real a la que atribuirlo) — igual que el login
+            // exitoso, es una búsqueda global (ver findByEmailGlobalParaLogin).
+            usuarioRepository.findByEmailGlobalParaLogin(request.email()).stream().findFirst()
+                    .ifPresent(u -> auditoriaService.registrarComo(u.getId(), AccionAuditoria.LOGIN_FALLIDO,
+                            "Usuario", u.getId(), null, null, false, "Intento de login fallido"));
+            throw e;
+        }
 
-        Usuario usuario = usuarioRepository.findByEmail(request.email())
+        // F11.2 B2: búsqueda global a propósito, igual que CustomUserDetailsService —
+        // el email es único solo dentro de cada tenant, no globalmente.
+        Usuario usuario = usuarioRepository.findByEmailGlobalParaLogin(request.email()).stream()
+                .findFirst()
                 .orElseThrow(() -> new BadCredentialsException("Credenciales inválidas"));
 
         usuario.setUltimoLoginEn(Instant.now());

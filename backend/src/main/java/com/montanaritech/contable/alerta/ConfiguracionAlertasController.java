@@ -2,6 +2,8 @@ package com.montanaritech.contable.alerta;
 
 import com.montanaritech.contable.alerta.dto.ConfiguracionAlertasDtos.Request;
 import com.montanaritech.contable.alerta.dto.ConfiguracionAlertasDtos.Response;
+import com.montanaritech.contable.common.audit.AccionAuditoria;
+import com.montanaritech.contable.common.audit.AuditoriaService;
 import com.montanaritech.contable.common.error.RecursoNoEncontradoException;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ConfiguracionAlertasController {
 
     private final ConfiguracionAlertasRepository repo;
+    private final AuditoriaService auditoria;
 
     @GetMapping
     @Transactional(readOnly = true)
@@ -29,14 +32,18 @@ public class ConfiguracionAlertasController {
         return aResponse(obtenerConfiguracion());
     }
 
+    /** F11.2 A12: esta escritura de configuración no dejaba rastro de auditoría. */
     @PutMapping
     @PreAuthorize("hasRole('ADMINISTRADOR')")
     @Transactional
     public Response actualizar(@Valid @RequestBody Request req) {
         ConfiguracionAlertas config = obtenerConfiguracion();
+        Response antes = aResponse(config);
         config.setDiasAnticipacion(req.diasAnticipacion());
         config.setDiasAtrasoCxc(req.diasAtrasoCxc());
-        return aResponse(repo.save(config));
+        Response despues = aResponse(repo.save(config));
+        auditoria.registrar(AccionAuditoria.EDITAR, "ConfiguracionAlertas", config.getId(), antes, despues);
+        return despues;
     }
 
     private ConfiguracionAlertas obtenerConfiguracion() {

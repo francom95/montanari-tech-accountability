@@ -9,6 +9,7 @@ import com.montanaritech.contable.common.error.RecursoNoEncontradoException;
 import com.montanaritech.contable.contabilidad.asiento.Asiento;
 import com.montanaritech.contable.contabilidad.asiento.AsientoLinea;
 import com.montanaritech.contable.contabilidad.asiento.AsientoService;
+import com.montanaritech.contable.contabilidad.asiento.OrigenAsiento;
 import com.montanaritech.contable.contabilidad.cuentacontable.CuentaContable;
 import com.montanaritech.contable.contabilidad.cuentacontable.CuentaContableRepository;
 import com.montanaritech.contable.facturacion.facturaventa.dto.FacturaVentaCrearRequest;
@@ -188,17 +189,35 @@ public class FacturaVentaService {
         FacturaVenta f = obtener(id);
         var antes = mapper.aResponse(f);
         TransicionEstadoValidator.validar(f.getEstado(), EstadoDocumento.CONFIRMADO);
+        // F11.2 A8: antes este método no gateaba en período cerrado en absoluto.
+        boolean sobrePeriodoCerrado = periodoService.verificarEscritura(f.getFecha(), false, null);
 
         Asiento asiento = asientoService.obtener(asientoId);
         if (asiento.getEstado() != EstadoDocumento.CONFIRMADO) {
             throw new NegocioException("ASIENTO_NO_CONFIRMADO",
                     "El asiento " + asientoId + " no está CONFIRMADO — no se puede vincular");
         }
+        // F11.2 A9/A11: antes nada impedía vincular un asiento que ya respalda otro
+        // documento (quedaba huérfano si el otro se anulaba, o su relación con ESTE
+        // documento se perdía) — el UNIQUE de F11.2 A10 ya lo impide a nivel de fila
+        // propia, esto cubre el caso de un asiento ya "adoptado" por otro tipo de documento.
+        if (asiento.getOrigenTipo() != null) {
+            throw new NegocioException("ASIENTO_YA_VINCULADO",
+                    "El asiento " + asientoId + " ya está vinculado a otro documento (" + asiento.getOrigenTipo() + ")");
+        }
 
         f.setAsiento(asiento);
         f.setEstado(EstadoDocumento.CONFIRMADO);
+        // F11.2 A9: reasigna el origen del asiento a este documento para que
+        // AsientoService.anular lo proteja igual que a cualquier asiento generado
+        // automáticamente (antes, un asiento IMPORTACION/MANUAL seguía siendo anulable
+        // directo aunque ya respaldara esta factura, dejándola CONFIRMADA sin asiento real).
+        asiento.setOrigen(OrigenAsiento.FACTURA_VENTA);
+        asiento.setOrigenTipo("FacturaVenta");
+        asiento.setOrigenId(f.getId());
 
-        auditoria.registrar(AccionAuditoria.CONFIRMAR, "FacturaVenta", id, antes, mapper.aResponse(f));
+        auditoria.registrar(AccionAuditoria.CONFIRMAR, "FacturaVenta", id, antes, mapper.aResponse(f),
+                sobrePeriodoCerrado, null);
         return f;
     }
 

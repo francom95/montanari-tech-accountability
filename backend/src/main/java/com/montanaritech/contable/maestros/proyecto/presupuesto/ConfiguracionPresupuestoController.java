@@ -1,5 +1,7 @@
 package com.montanaritech.contable.maestros.proyecto.presupuesto;
 
+import com.montanaritech.contable.common.audit.AccionAuditoria;
+import com.montanaritech.contable.common.audit.AuditoriaService;
 import com.montanaritech.contable.common.error.RecursoNoEncontradoException;
 import com.montanaritech.contable.maestros.proyecto.presupuesto.dto.ConfiguracionPresupuestoDtos.Request;
 import com.montanaritech.contable.maestros.proyecto.presupuesto.dto.ConfiguracionPresupuestoDtos.Response;
@@ -27,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ConfiguracionPresupuestoController {
 
     private final ConfiguracionPresupuestoRepository repo;
+    private final AuditoriaService auditoria;
 
     @GetMapping
     @Transactional(readOnly = true)
@@ -34,11 +37,13 @@ public class ConfiguracionPresupuestoController {
         return aResponse(obtenerConfiguracion());
     }
 
+    /** F11.2 A12: esta escritura de configuración (15 alícuotas, incluida IVA e IIBB) no dejaba rastro de auditoría. */
     @PutMapping
     @PreAuthorize("hasRole('ADMINISTRADOR')")
     @Transactional
     public Response actualizar(@Valid @RequestBody Request req) {
         ConfiguracionPresupuesto config = obtenerConfiguracion();
+        Response antes = aResponse(config);
         config.setComisionVentaPorcentaje(req.comisionVentaPorcentaje());
         config.setColchonImpuestoGananciasPorcentaje(req.colchonImpuestoGananciasPorcentaje());
         config.setIibbConvenioMultilateralPorcentaje(req.iibbConvenioMultilateralPorcentaje());
@@ -54,7 +59,9 @@ public class ConfiguracionPresupuestoController {
         config.setComexUmbralTresUsd(req.comexUmbralTresUsd());
         config.setComexMontoTresUsd(req.comexMontoTresUsd());
         config.setComexPorcentajeExcedente(req.comexPorcentajeExcedente());
-        return aResponse(repo.save(config));
+        Response despues = aResponse(repo.save(config));
+        auditoria.registrar(AccionAuditoria.EDITAR, "ConfiguracionPresupuesto", config.getId(), antes, despues);
+        return despues;
     }
 
     private ConfiguracionPresupuesto obtenerConfiguracion() {

@@ -187,8 +187,16 @@ public class AsientoService {
      */
     @Transactional
     public Asiento confirmar(Long id) {
+        return confirmar(id, false, null);
+    }
+
+    /** F11.2 B5: overload con override de período cerrado — antes {@link #confirmar} no gateaba en absoluto. */
+    @Transactional
+    public Asiento confirmar(Long id, boolean confirmarPeriodoCerrado, String motivoOverridePeriodo) {
         Asiento a = obtener(id);
         var antes = mapper.aResponse(a);
+
+        boolean sobrePeriodoCerrado = periodoService.verificarEscritura(a.getFecha(), confirmarPeriodoCerrado, motivoOverridePeriodo);
 
         TransicionEstadoValidator.validar(a.getEstado(), EstadoDocumento.CONFIRMADO);
         validarChecklistDeAsiento(a);
@@ -196,7 +204,8 @@ public class AsientoService {
         a.setNumero(numerador.siguienteNumero());
         a.setEstado(EstadoDocumento.CONFIRMADO);
 
-        auditoria.registrar(AccionAuditoria.CONFIRMAR, "Asiento", id, antes, mapper.aResponse(a));
+        auditoria.registrar(AccionAuditoria.CONFIRMAR, "Asiento", id, antes, mapper.aResponse(a),
+                sobrePeriodoCerrado, motivoOverridePeriodo);
         return a;
     }
 
@@ -409,6 +418,23 @@ public class AsientoService {
      */
     @Transactional
     public Asiento registrarAutomatico(AsientoGenerado generado) {
+        return registrarAutomatico(generado, false, null);
+    }
+
+    /**
+     * F11.2 B5: overload con override de período cerrado. Antes, {@code registrarAutomatico}
+     * no gateaba en absoluto, y de los 4 llamadores que no tenían su propio chequeo previo
+     * (MovimientoBancarioService, PagoTarjetaService, LiquidacionIvaService, LiquidacionIibbService)
+     * ninguno todavía plumbea {@code confirmarPeriodoCerrado}/{@code motivoOverridePeriodo} desde su
+     * propio controller, así que hoy quedan bloqueados en período cerrado incluso para ADMIN — es
+     * la opción segura por defecto (falla cerrado) hasta que se decida exponer el override en esos
+     * 4 endpoints. FacturaVenta/FacturaCompra/Cobro/Pago ya validan su propio período antes de
+     * generar, así que para ellos este chequeo es redundante pero inofensivo (misma fecha).
+     */
+    @Transactional
+    public Asiento registrarAutomatico(AsientoGenerado generado, boolean confirmarPeriodoCerrado, String motivoOverridePeriodo) {
+        boolean sobrePeriodoCerrado = periodoService.verificarEscritura(generado.fecha(), confirmarPeriodoCerrado, motivoOverridePeriodo);
+
         Asiento a = new Asiento();
         a.setFecha(generado.fecha());
         a.setDescripcion(generado.descripcion());
@@ -444,7 +470,8 @@ public class AsientoService {
         a.setEstado(EstadoDocumento.CONFIRMADO);
 
         Asiento guardado = repo.save(a);
-        auditoria.registrar(AccionAuditoria.CONFIRMAR, "Asiento", guardado.getId(), null, mapper.aResponse(guardado));
+        auditoria.registrar(AccionAuditoria.CONFIRMAR, "Asiento", guardado.getId(), null, mapper.aResponse(guardado),
+                sobrePeriodoCerrado, motivoOverridePeriodo);
         return guardado;
     }
 

@@ -1,4 +1,6 @@
 package com.montanaritech.contable.maestros.tipocambio;
+import com.montanaritech.contable.common.audit.AccionAuditoria;
+import com.montanaritech.contable.common.audit.AuditoriaService;
 import com.montanaritech.contable.maestros.tipocambio.dto.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -16,6 +18,7 @@ public class TipoCambioController {
     private final TipoCambioService service;
     private final TipoCambioMapper mapper;
     private final ConfiguracionTipoCambioRepository configuracionRepo;
+    private final AuditoriaService auditoria;
 
     @GetMapping("/configuracion")
     public ConfiguracionTipoCambioDtos.Response obtenerConfiguracion() {
@@ -25,13 +28,17 @@ public class TipoCambioController {
         return new ConfiguracionTipoCambioDtos.Response(criterio);
     }
 
+    /** F11.2 A12: esta escritura de configuración no dejaba rastro de auditoría. */
     @PutMapping("/configuracion")
     @PreAuthorize("hasRole('ADMINISTRADOR')")
     public ConfiguracionTipoCambioDtos.Response actualizarConfiguracion(@RequestBody ConfiguracionTipoCambioDtos.Request req) {
         ConfiguracionTipoCambio config = configuracionRepo.findFirstByOrderByIdAsc().orElseGet(ConfiguracionTipoCambio::new);
+        var antes = new ConfiguracionTipoCambioDtos.Response(config.getCriterioPorDefecto());
         config.setCriterioPorDefecto(req.criterioPorDefecto());
         configuracionRepo.save(config);
-        return new ConfiguracionTipoCambioDtos.Response(config.getCriterioPorDefecto());
+        var despues = new ConfiguracionTipoCambioDtos.Response(config.getCriterioPorDefecto());
+        auditoria.registrar(AccionAuditoria.EDITAR, "ConfiguracionTipoCambio", config.getId(), antes, despues);
+        return despues;
     }
 
     @GetMapping

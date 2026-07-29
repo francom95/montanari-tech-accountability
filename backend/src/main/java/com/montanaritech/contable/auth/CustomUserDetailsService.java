@@ -23,8 +23,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Usuario usuario = usuarioRepository.findByEmail(email)
+        // F11.2 B2: búsqueda global a propósito (ver Javadoc de findByEmailGlobalParaLogin) —
+        // acá todavía no hay tenant resuelto, es lo que este método existe para determinar.
+        Usuario usuario = usuarioRepository.findByEmailGlobalParaLogin(email).stream()
                 .filter(Usuario::isActivo)
+                .findFirst()
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado o inactivo: " + email));
 
         return User.builder()

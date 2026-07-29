@@ -10,11 +10,10 @@ spring:
   jpa:
     show-sql: true
 
-app:
-  jwt:
-    # Default de conveniencia SOLO para dev local sin Docker Compose (que ya
-    # trae su propio JWT_SECRET vía .env). Nunca usar este valor en prod.
-    secret: ${JWT_SECRET:dev-only-secret-nunca-usar-en-produccion-cambiar-32bytes}
+# F11.2 A4: sin default acá — el fallback hardcodeado de baja entropía firmaba
+# JWT válidos en cualquier despliegue que arrancara con perfil dev y sin JWT_SECRET
+# seteado. application.yml (base, todos los perfiles) ya exige JWT_SECRET sin
+# default; dev ahora hereda esa misma exigencia en vez de tener la suya propia.
 
 logging:
   level:

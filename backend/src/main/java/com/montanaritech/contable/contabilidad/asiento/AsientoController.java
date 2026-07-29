@@ -174,8 +174,10 @@ public class AsientoController {
 
     @PatchMapping("/{id}/confirmar")
     @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'CARGA')")
-    public AsientoResponse confirmar(@PathVariable Long id) {
-        return mapper.aResponse(service.confirmar(id));
+    public AsientoResponse confirmar(@PathVariable Long id,
+            @RequestParam(required = false, defaultValue = "false") boolean confirmarPeriodoCerrado,
+            @RequestParam(required = false) String motivoOverridePeriodo) {
+        return mapper.aResponse(service.confirmar(id, confirmarPeriodoCerrado, motivoOverridePeriodo));
     }
 
     /**

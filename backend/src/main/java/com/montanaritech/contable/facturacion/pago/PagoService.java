@@ -9,6 +9,7 @@ import com.montanaritech.contable.common.error.RecursoNoEncontradoException;
 import com.montanaritech.contable.contabilidad.asiento.Asiento;
 import com.montanaritech.contable.contabilidad.asiento.AsientoLinea;
 import com.montanaritech.contable.contabilidad.asiento.AsientoService;
+import com.montanaritech.contable.contabilidad.asiento.OrigenAsiento;
 import com.montanaritech.contable.facturacion.facturacompra.FacturaCompra;
 import com.montanaritech.contable.facturacion.facturacompra.FacturaCompraRepository;
 import com.montanaritech.contable.facturacion.pago.dto.AplicarAnticipoProveedorRequest;
@@ -175,17 +176,36 @@ public class PagoService {
         Pago p = obtener(id);
         var antes = respuestaCompleta(p);
         TransicionEstadoValidator.validar(p.getEstado(), EstadoDocumento.CONFIRMADO);
+        // F11.2 A8: antes este método no gateaba en período cerrado en absoluto.
+        boolean sobrePeriodoCerrado = periodoService.verificarEscritura(p.getFecha(), false, null);
+        // F11.2 A16: ver el mismo chequeo en CobroService.
+        if (!p.getLineas().isEmpty()) {
+            throw new NegocioException("VINCULACION_NO_SOPORTA_IMPUTACIONES",
+                    "Este pago tiene imputaciones contra facturas: no se puede confirmar vinculando a un asiento "
+                            + "existente (el monto cancelado por imputación quedaría sin calcular). Usá confirmar() normal.");
+        }
 
         Asiento asiento = asientoService.obtener(asientoId);
         if (asiento.getEstado() != EstadoDocumento.CONFIRMADO) {
             throw new NegocioException("ASIENTO_NO_CONFIRMADO",
                     "El asiento " + asientoId + " no está CONFIRMADO — no se puede vincular");
         }
+        // F11.2 A9/A11: ver el mismo chequeo en FacturaVentaService.
+        if (asiento.getOrigenTipo() != null) {
+            throw new NegocioException("ASIENTO_YA_VINCULADO",
+                    "El asiento " + asientoId + " ya está vinculado a otro documento (" + asiento.getOrigenTipo() + ")");
+        }
 
         p.setAsiento(asiento);
         p.setEstado(EstadoDocumento.CONFIRMADO);
+        // F11.2 A9: reasigna el origen para que AsientoService.anular proteja este asiento
+        // igual que a uno generado automáticamente.
+        asiento.setOrigen(OrigenAsiento.PAGO);
+        asiento.setOrigenTipo("Pago");
+        asiento.setOrigenId(p.getId());
 
-        auditoria.registrar(AccionAuditoria.CONFIRMAR, "Pago", id, antes, respuestaCompleta(p));
+        auditoria.registrar(AccionAuditoria.CONFIRMAR, "Pago", id, antes, respuestaCompleta(p),
+                sobrePeriodoCerrado, null);
         return p;
     }
 

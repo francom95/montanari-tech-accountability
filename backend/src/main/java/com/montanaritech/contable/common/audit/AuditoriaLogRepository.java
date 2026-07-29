@@ -9,15 +9,19 @@ import org.springframework.data.repository.query.Param;
 
 public interface AuditoriaLogRepository extends JpaRepository<AuditoriaLog, Long> {
 
+    /** F11.2 B4: {@code AuditoriaLog} no extiende {@code EntidadNegocio} (ver su javadoc), así que el
+     * filtro Hibernate de tenant nunca la alcanza; el predicado va explícito acá. */
     @Query("""
             SELECT a FROM AuditoriaLog a
-            WHERE (:entidadTipo IS NULL OR a.entidadTipo = :entidadTipo)
+            WHERE a.tenantId = :tenantId
+              AND (:entidadTipo IS NULL OR a.entidadTipo = :entidadTipo)
               AND (:usuarioId IS NULL OR a.usuarioId = :usuarioId)
               AND (:accion IS NULL OR a.accion = :accion)
               AND (:desde IS NULL OR a.fechaHora >= :desde)
               AND (:hasta IS NULL OR a.fechaHora <= :hasta)
             """)
     Page<AuditoriaLog> buscar(
+            @Param("tenantId") Long tenantId,
             @Param("entidadTipo") String entidadTipo,
             @Param("usuarioId") Long usuarioId,
             @Param("accion") AccionAuditoria accion,

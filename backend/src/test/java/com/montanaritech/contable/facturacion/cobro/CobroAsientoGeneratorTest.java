@@ -247,6 +247,28 @@ class CobroAsientoGeneratorTest {
         assertBalancea(generado);
     }
 
+    // ---- F11.2 B7: dos imputaciones en la misma moneda extranjera balancean pese al redondeo ----
+
+    @Test
+    void dosImputacionesEnLaMismaMonedaExtranjeraBalancean() {
+        when(resolutorCuentas.resolver(ConceptoContable.CREDITO_POR_VENTA)).thenReturn(cuentaCxc);
+        cliente.setCuentaCxc(null);
+        BigDecimal tc = new BigDecimal("1240.180000");
+        FacturaVenta f1 = factura(30L, usd, tc, new BigDecimal("712.75"), new BigDecimal("883938.30"));
+        FacturaVenta f2 = factura(31L, usd, tc, new BigDecimal("1106.64"), new BigDecimal("1372432.80"));
+
+        // Antes del fix: Debe = round2(1819.39 × 1240.18) = 2.256.371,09, pero
+        // Haber = round2(712.75×tc) + round2(1106.64×tc) = 883.938,30 + 1.372.432,80 =
+        // 2.256.371,10 — un descuadre de $0,01 que rechazaba el asiento (ASIENTO_NO_BALANCEA).
+        Cobro c = cobro(20L, usd, tc, bancoUsd, new BigDecimal("1819.39"),
+                imputacion(f1, new BigDecimal("712.75")), imputacion(f2, new BigDecimal("1106.64")));
+
+        AsientoGenerado generado = generator.generar(c);
+
+        assertBalancea(generado);
+        assertThat(generado.lineas().get(0).debe()).isEqualByComparingTo("2256371.10");
+    }
+
     // ---- CO-4: ARS con retención de Ganancias sufrida ----
 
     @Test

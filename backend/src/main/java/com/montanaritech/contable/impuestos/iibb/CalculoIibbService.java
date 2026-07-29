@@ -7,6 +7,7 @@ import com.montanaritech.contable.contabilidad.asiento.OrigenAsiento;
 import com.montanaritech.contable.contabilidad.cuentacontable.CuentaContable;
 import com.montanaritech.contable.contabilidad.mapeocuenta.ConceptoContable;
 import com.montanaritech.contable.contabilidad.mapeocuenta.ResolutorCuentas;
+import com.montanaritech.contable.facturacion.TipoComprobante;
 import com.montanaritech.contable.facturacion.facturaventa.FacturaVenta;
 import com.montanaritech.contable.facturacion.facturaventa.FacturaVentaRepository;
 import com.montanaritech.contable.maestros.jurisdiccion.Jurisdiccion;
@@ -55,12 +56,23 @@ public class CalculoIibbService {
         List<String> advertencias = new ArrayList<>();
 
         // Ventas netas del período agrupadas por jurisdicción de destino. Las notas
-        // de crédito restan; el resto (facturas, notas de débito) suma.
+        // de crédito restan; el resto (facturas, notas de débito) suma. F11.2 B8: el
+        // neto de cada factura está en su propia moneda (netoGravado), así que hay que
+        // convertirlo a ARS con su propio tipoCambio antes de sumarlo — antes se sumaba
+        // en moneda original sin convertir, y una venta local en USD quedaba declarada
+        // por una fracción de su valor real. Las exportaciones (FACTURA_E) se excluyen
+        // por completo: están exentas de IIBB en la generalidad de las jurisdicciones
+        // argentinas (decisión confirmada con el usuario).
         Map<Long, BigDecimal> ventasPorJurisdiccion = new HashMap<>();
         BigDecimal baseTotal = BigDecimal.ZERO;
         BigDecimal sinJurisdiccion = BigDecimal.ZERO;
+        BigDecimal baseExportadaExcluida = BigDecimal.ZERO;
         for (FacturaVenta f : facturaVentaRepository.buscarConfirmadasParaBaseIibb(desde, hasta)) {
-            BigDecimal neto = f.getNetoGravado();
+            if (f.getTipoComprobante() == TipoComprobante.FACTURA_E) {
+                baseExportadaExcluida = baseExportadaExcluida.add(f.getNetoGravado().multiply(f.getTipoCambio()));
+                continue;
+            }
+            BigDecimal neto = f.getNetoGravado().multiply(f.getTipoCambio());
             if (f.getTipoComprobante().name().startsWith("NOTA_CREDITO")) {
                 neto = neto.negate();
             }
@@ -77,6 +89,10 @@ public class CalculoIibbService {
             advertencias.add(("Hay ventas por %s sin jurisdicción de destino: no se atribuyen a ninguna "
                     + "jurisdicción. Asignales la jurisdicción en la factura o ajustá el coeficiente a mano.")
                     .formatted(escalar(sinJurisdiccion).toPlainString()));
+        }
+        if (baseExportadaExcluida.signum() != 0) {
+            advertencias.add(("Se excluyeron %s de ventas de exportación (FACTURA_E) de la base de IIBB "
+                    + "por estar exentas.").formatted(escalar(baseExportadaExcluida).toPlainString()));
         }
 
         // La liquidación confirmada del mes anterior es la fuente tanto del arrastre
@@ -107,15 +123,50 @@ public class CalculoIibbService {
         if (activas.isEmpty()) {
             advertencias.add("No hay jurisdicciones activas en el maestro: cargá al menos una para liquidar IIBB.");
         }
+
+        // F11.2 A19: ventas dirigidas a una jurisdicción que existe pero está inactiva en el
+        // maestro entraban a baseTotal (arriba) sin repartirse a ninguna sub-liquidación —
+        // ni tributaban en ningún lado ni se avisaba, y de paso inflaban el denominador de
+        // los coeficientes por defecto del resto.
+        Set<Long> idsActivas = activas.stream().map(Jurisdiccion::getId).collect(java.util.stream.Collectors.toSet());
+        BigDecimal ventasAJurisdiccionInactiva = ventasPorJurisdiccion.entrySet().stream()
+                .filter(e -> !idsActivas.contains(e.getKey()))
+                .map(Map.Entry::getValue)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        if (ventasAJurisdiccionInactiva.signum() != 0) {
+            advertencias.add(("Hay ventas por %s dirigidas a jurisdicciones inactivas en el maestro: no se "
+                    + "reparten a ninguna sub-liquidación. Reactivá la jurisdicción o reasigná el destino de esas facturas.")
+                    .formatted(escalar(ventasAJurisdiccionInactiva).toPlainString()));
+        }
+
+        // F11.2 A18: la herencia del coeficiente del mes anterior es una decisión de la
+        // LIQUIDACIÓN completa, no de cada jurisdicción por separado — antes, una jurisdicción
+        // nueva (sin fila en la liquidación anterior) caía sola al criterio "participación por
+        // destino" mientras el resto conservaba el coeficiente real de CM, y la mezcla de los
+        // dos criterios no suma 1 por construcción. Si hay liquidación anterior, la jurisdicción
+        // sin coeficiente propio entra en CERO (con advertencia), nunca a un criterio distinto.
+        boolean hayLiquidacionAnterior = previa.isPresent();
+        List<String> jurisdiccionesSinCoeficienteAnterior = new ArrayList<>();
+        BigDecimal sumaCoeficientes = BigDecimal.ZERO;
         for (Jurisdiccion j : activas) {
             BigDecimal ventasDestino = escalar(ventasPorJurisdiccion.getOrDefault(j.getId(), BigDecimal.ZERO));
-            // Default: el coeficiente del mes anterior; si no hay, la participación por destino.
-            BigDecimal coeficiente = coeficienteAnterior.get(j.getId());
-            if (coeficiente == null) {
+            BigDecimal coeficiente;
+            if (hayLiquidacionAnterior) {
+                BigDecimal deLaAnterior = coeficienteAnterior.get(j.getId());
+                if (deLaAnterior != null) {
+                    coeficiente = deLaAnterior;
+                } else {
+                    coeficiente = BigDecimal.ZERO;
+                    jurisdiccionesSinCoeficienteAnterior.add(j.getNombre());
+                }
+            } else {
+                // Sin liquidación anterior alguna: todas las jurisdicciones usan el mismo
+                // criterio (participación por destino), nunca una mezcla.
                 coeficiente = baseTotal.signum() == 0
                         ? BigDecimal.ZERO
                         : ventasDestino.divide(baseTotal, 6, RoundingMode.HALF_UP);
             }
+            sumaCoeficientes = sumaCoeficientes.add(coeficiente);
             BigDecimal baseImponible = escalar(baseTotal.multiply(coeficiente));
             BigDecimal alicuota = j.getAlicuotaIIBB();
             BigDecimal impuestoDeterminado = escalar(baseImponible.multiply(alicuota).divide(BigDecimal.valueOf(100)));
@@ -123,6 +174,18 @@ public class CalculoIibbService {
                     j.getId(), j.getCodigo(), j.getNombre(),
                     ventasDestino, coeficiente, baseImponible, alicuota, impuestoDeterminado,
                     escalar(arrastrePorJurisdiccion.getOrDefault(j.getId(), BigDecimal.ZERO))));
+        }
+        if (!jurisdiccionesSinCoeficienteAnterior.isEmpty()) {
+            advertencias.add(("Las jurisdicciones %s no tenían coeficiente en la liquidación de %02d/%d: entran en 0 — "
+                    + "cargalo a mano.").formatted(String.join(", ", jurisdiccionesSinCoeficienteAnterior),
+                    anterior.getMonthValue(), anterior.getYear()));
+        }
+        // F11.2 A17: nada validaba que los coeficientes de Convenio Multilateral sumaran 1 —
+        // un typo (o una edición manual mal hecha) sobre/sub-declaraba la base total sin ningún
+        // aviso. No bloquea (mismo criterio que el resto de las advertencias de esta liquidación).
+        if (!activas.isEmpty() && sumaCoeficientes.subtract(BigDecimal.ONE).abs().compareTo(new BigDecimal("0.00005")) > 0) {
+            advertencias.add(("La suma de los coeficientes de Convenio Multilateral es %s, no 1 — revisá los "
+                    + "coeficientes de cada jurisdicción antes de confirmar.").formatted(sumaCoeficientes.toPlainString()));
         }
 
         BigDecimal deduccionesDisponibles = totalDeduccionesDelPeriodo(desde, hasta);

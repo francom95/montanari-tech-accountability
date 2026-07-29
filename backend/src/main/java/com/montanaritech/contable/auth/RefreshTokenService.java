@@ -52,7 +52,11 @@ public class RefreshTokenService {
                 .map(rt -> {
                     rt.setRevocado(true);
                     return rt.getUsuario();
-                });
+                })
+                // F11.2 A3: antes un usuario desactivado seguía renovando su sesión
+                // indefinidamente vía refresh (el chequeo de isActivo solo existía en el
+                // login por password) — el token ya se revocó arriba de todos modos.
+                .filter(Usuario::isActivo);
     }
 
     @Transactional

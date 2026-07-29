@@ -1,6 +1,7 @@
 package com.montanaritech.contable.impuestos.iibb.dto;
 
 import com.montanaritech.contable.impuestos.iibb.TipoComponenteIibb;
+import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -23,7 +24,9 @@ public final class LiquidacionIibbDtos {
 
     /** Edita el coeficiente de Convenio Multilateral y/o la alícuota de una jurisdicción. */
     public record EditarJurisdiccionRequest(
-            @NotNull @DecimalMin("0.0") BigDecimal coeficiente,
+            // F11.2 A17: el coeficiente es una participación (0..1) — nada topeaba el extremo
+            // superior, así que un valor como 5.0 se aceptaba sin más (base imponible = 5x la real).
+            @NotNull @DecimalMin("0.0") @DecimalMax("1.0") BigDecimal coeficiente,
             @NotNull @DecimalMin("0.0") BigDecimal alicuota) {
     }
 

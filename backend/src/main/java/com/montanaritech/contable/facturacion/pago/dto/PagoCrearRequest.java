@@ -16,7 +16,7 @@ public record PagoCrearRequest(
         @NotNull Long proveedorId,
         @NotNull LocalDate fecha,
         @NotNull Long monedaId,
-        @NotNull BigDecimal tipoCambio,
+        @NotNull @DecimalMin(value = "0.0", inclusive = false) BigDecimal tipoCambio,
         @NotNull Long cuentaBancariaId,
         @NotNull @DecimalMin(value = "0.01") BigDecimal total,
         String observaciones,

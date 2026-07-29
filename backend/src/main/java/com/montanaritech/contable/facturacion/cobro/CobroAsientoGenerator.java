@@ -69,6 +69,7 @@ public class CobroAsientoGenerator implements AsientoGenerator<Cobro> {
         List<ComprobanteTributo> retenciones = comprobanteTributoRepo.findByComprobanteTipoAndComprobanteIdOrderByIdAsc(
                 ComprobanteTipo.COBRO, cobro.getId());
         BigDecimal sumaRetencionesOriginal = BigDecimal.ZERO;
+        BigDecimal sumaRetencionesArs = BigDecimal.ZERO;
         List<LineaAsientoGenerada> lineasRetenciones = new ArrayList<>();
         for (ComprobanteTributo retencion : retenciones) {
             ConceptoContable concepto = switch (retencion.getTipo()) {
@@ -85,20 +86,22 @@ public class CobroAsientoGenerator implements AsientoGenerator<Cobro> {
             lineasRetenciones.add(new LineaAsientoGenerada(cuentaRetencion.getCodigo(), importeArs, BigDecimal.ZERO,
                     "Retención " + retencion.getTipo(), monedaId, retencion.getImporte(), tc, fuenteTc, null, null, clienteId, null, null));
             sumaRetencionesOriginal = sumaRetencionesOriginal.add(retencion.getImporte());
+            sumaRetencionesArs = sumaRetencionesArs.add(importeArs);
         }
+        lineas.addAll(lineasRetenciones);
 
-        // 2) Fondos (Debe) — lo efectivamente ingresado, neto de retenciones.
+        // 2) Fondos (Debe) — lo efectivamente ingresado, neto de retenciones. El monto ARS se
+        // calcula al final (ver el cierre del método, F11.2 B7) como la suma exacta de los
+        // componentes ya redondeados de fondos/recargo/anticipo menos las retenciones, en vez de
+        // redondear una vez sobre el agregado: antes, con 2+ imputaciones, round2(Σxᵢ×tc) podía
+        // no coincidir con Σround2(xᵢ×tc) y el asiento no balanceaba (ASIENTO_NO_BALANCEA).
         BigDecimal montoFondosOriginal = cobro.getTotal().subtract(sumaRetencionesOriginal);
         if (montoFondosOriginal.compareTo(BigDecimal.ZERO) < 0) {
             throw new NegocioException("RETENCIONES_EXCEDEN_TOTAL_COBRADO",
                     "Las retenciones informadas superan el total cobrado");
         }
         CuentaContable cuentaFondos = cobro.getCuentaBancaria().getCuentaContable();
-        BigDecimal montoFondosArs = CalculoImputacion.round2(montoFondosOriginal.multiply(tc));
-        lineas.add(new LineaAsientoGenerada(cuentaFondos.getCodigo(), montoFondosArs, BigDecimal.ZERO,
-                "Cobro de " + cobro.getCliente().getNombre(), monedaId, montoFondosOriginal, tc, fuenteTc,
-                null, null, null, null, cobro.getCuentaBancaria().getId()));
-        lineas.addAll(lineasRetenciones);
+        BigDecimal sumaComponentesArs = BigDecimal.ZERO;
 
         // 3) Imputaciones contra facturas (Haber CxC + dif. de cambio, F3.1 §6.3 regla del residuo).
         BigDecimal sumaImputadoOriginal = BigDecimal.ZERO;
@@ -133,6 +136,7 @@ public class CobroAsientoGenerator implements AsientoGenerator<Cobro> {
             CalculoImputacion.Resultado resultado = CalculoImputacion.calcular(
                     imputacion.getMontoImputadoOriginal(), tc, factura.getTipoCambio(), saldoOrigAntes, factura.getTotalArs(), sumaArsPrevio);
             imputacion.setMontoArsCancelado(resultado.montoCanceladoArs());
+            sumaComponentesArs = sumaComponentesArs.add(resultado.montoFondosArs());
 
             CuentaContable cuentaCxc = factura.getCliente().getCuentaCxc() != null
                     ? factura.getCliente().getCuentaCxc()
@@ -162,6 +166,7 @@ public class CobroAsientoGenerator implements AsientoGenerator<Cobro> {
                         "Recargo por mora factura " + factura.getNumero(), monedaId, recargo, tc, fuenteTc,
                         proyectoId, null, clienteId, null, null));
                 sumaImputadoOriginal = sumaImputadoOriginal.add(recargo);
+                sumaComponentesArs = sumaComponentesArs.add(recargoArs);
             }
 
             sumaImputadoOriginal = sumaImputadoOriginal.add(imputacion.getMontoImputadoOriginal());
@@ -176,7 +181,19 @@ public class CobroAsientoGenerator implements AsientoGenerator<Cobro> {
             lineas.add(new LineaAsientoGenerada(cuentaAnticipo.getCodigo(), BigDecimal.ZERO, anticipoArs,
                     "Anticipo de " + cobro.getCliente().getNombre(), monedaId, montoAnticipoNuevo, tc, fuenteTc,
                     null, null, clienteId, null, null));
+            sumaComponentesArs = sumaComponentesArs.add(anticipoArs);
         }
+
+        // F11.2 B7: el monto ARS de Fondos se deriva de la suma de los componentes ya
+        // redondeados (imputaciones + recargo + anticipo, menos retenciones) en vez de
+        // redondear el agregado en original × tc — así el asiento balancea siempre, sin
+        // depender de que las dos rutas de redondeo coincidan por casualidad. El TC
+        // "efectivo" reproduce ese monto derivado exactamente (mismo patrón que la línea de CxC).
+        BigDecimal montoFondosArs = sumaComponentesArs.subtract(sumaRetencionesArs);
+        BigDecimal tcEfectivoFondos = montoFondosOriginal.signum() == 0 ? tc : tipoCambioEfectivo(montoFondosArs, montoFondosOriginal);
+        lineas.add(0, new LineaAsientoGenerada(cuentaFondos.getCodigo(), montoFondosArs, BigDecimal.ZERO,
+                "Cobro de " + cobro.getCliente().getNombre(), monedaId, montoFondosOriginal, tcEfectivoFondos, fuenteTc,
+                null, null, null, null, cobro.getCuentaBancaria().getId()));
 
         return new AsientoGenerado(cobro.getFecha(), "Cobro - " + cobro.getCliente().getNombre(), "COBRO",
                 lineas, "Cobro", cobro.getId());

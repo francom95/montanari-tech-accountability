@@ -12,6 +12,8 @@ public enum AccionAuditoria {
     REABRIR_PERIODO,
     IMPORTAR,
     LOGIN,
+    /** F11.2 A13: antes ningún intento de login fallido quedaba registrado. */
+    LOGIN_FALLIDO,
     CAMBIO_ESTADO,
     EXPORTAR_SENSIBLE
 }

@@ -1,6 +1,7 @@
 package com.montanaritech.contable.bancos.movimientobancario.dto;
 
 import com.montanaritech.contable.bancos.movimientobancario.OrigenImportacionMovimiento;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -22,7 +23,7 @@ public record CrearMovimientoBancarioRequest(
         @NotBlank String descripcion,
         @NotNull BigDecimal importe,
         @NotNull Long monedaId,
-        @NotNull BigDecimal tipoCambio,
+        @NotNull @DecimalMin(value = "0.0", inclusive = false) BigDecimal tipoCambio,
         String referencia,
         Long cuentaContableSugeridaId,
         String observaciones,

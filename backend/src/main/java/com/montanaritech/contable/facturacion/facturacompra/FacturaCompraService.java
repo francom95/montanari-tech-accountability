@@ -9,6 +9,7 @@ import com.montanaritech.contable.common.error.RecursoNoEncontradoException;
 import com.montanaritech.contable.contabilidad.asiento.Asiento;
 import com.montanaritech.contable.contabilidad.asiento.AsientoLinea;
 import com.montanaritech.contable.contabilidad.asiento.AsientoService;
+import com.montanaritech.contable.contabilidad.asiento.OrigenAsiento;
 import com.montanaritech.contable.contabilidad.cuentacontable.CuentaContable;
 import com.montanaritech.contable.contabilidad.cuentacontable.CuentaContableRepository;
 import com.montanaritech.contable.facturacion.comprobantetributo.ComprobanteTipo;
@@ -189,17 +190,30 @@ public class FacturaCompraService {
         FacturaCompra f = obtener(id);
         var antes = mapper.aResponse(f, tributosDe(id));
         TransicionEstadoValidator.validar(f.getEstado(), EstadoDocumento.CONFIRMADO);
+        // F11.2 A8: antes este método no gateaba en período cerrado en absoluto.
+        boolean sobrePeriodoCerrado = periodoService.verificarEscritura(f.getFecha(), false, null);
 
         Asiento asiento = asientoService.obtener(asientoId);
         if (asiento.getEstado() != EstadoDocumento.CONFIRMADO) {
             throw new NegocioException("ASIENTO_NO_CONFIRMADO",
                     "El asiento " + asientoId + " no está CONFIRMADO — no se puede vincular");
         }
+        // F11.2 A9/A11: ver el mismo chequeo en FacturaVentaService.
+        if (asiento.getOrigenTipo() != null) {
+            throw new NegocioException("ASIENTO_YA_VINCULADO",
+                    "El asiento " + asientoId + " ya está vinculado a otro documento (" + asiento.getOrigenTipo() + ")");
+        }
 
         f.setAsiento(asiento);
         f.setEstado(EstadoDocumento.CONFIRMADO);
+        // F11.2 A9: reasigna el origen para que AsientoService.anular proteja este asiento
+        // igual que a uno generado automáticamente.
+        asiento.setOrigen(OrigenAsiento.FACTURA_COMPRA);
+        asiento.setOrigenTipo("FacturaCompra");
+        asiento.setOrigenId(f.getId());
 
-        auditoria.registrar(AccionAuditoria.CONFIRMAR, "FacturaCompra", id, antes, mapper.aResponse(f, tributosDe(id)));
+        auditoria.registrar(AccionAuditoria.CONFIRMAR, "FacturaCompra", id, antes, mapper.aResponse(f, tributosDe(id)),
+                sobrePeriodoCerrado, null);
         return f;
     }
 

@@ -2,6 +2,7 @@ package com.montanaritech.contable.facturacion.facturaventa.dto;
 
 import com.montanaritech.contable.facturacion.TipoComprobante;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -24,7 +25,7 @@ public record FacturaVentaCrearRequest(
         @NotBlank String numero,
         Long jurisdiccionDestinoId,
         @NotNull Long monedaId,
-        @NotNull BigDecimal tipoCambio,
+        @NotNull @DecimalMin(value = "0.0", inclusive = false) BigDecimal tipoCambio,
         String observaciones,
         @NotEmpty @Valid List<FacturaVentaLineaRequest> lineas
 ) {}

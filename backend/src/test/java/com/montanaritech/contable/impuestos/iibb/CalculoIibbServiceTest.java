@@ -96,6 +96,36 @@ class CalculoIibbServiceTest {
         assertThat(de(c, "CABA").baseImponible()).isEqualByComparingTo("500000.00");
     }
 
+    /** F11.2 B8: una venta local en USD se convierte a ARS antes de sumarse a la base
+     * (antes se sumaba el neto en USD tal cual, sub-declarando la base ~1400 veces). */
+    @Test
+    void unaVentaLocalEnUsdSeConvierteAArsAntesDeSumarALaBase() {
+        when(facturaVentaRepository.buscarConfirmadasParaBaseIibb(any(), any()))
+                .thenReturn(List.of(ventaUsd("725.00", new BigDecimal("1450.00"), caba, TipoComprobante.FACTURA_A)));
+
+        CalculoIibb c = service.calcular(2026, 3);
+
+        assertThat(c.baseTotal()).isEqualByComparingTo("1051250.00");
+        assertThat(de(c, "CABA").baseImponible()).isEqualByComparingTo("1051250.00");
+    }
+
+    /** F11.2 B8: las facturas de exportación (FACTURA_E) quedan afuera de la base por
+     * completo, sin importar la moneda — antes entraban sin convertir, distorsionando
+     * el denominador de los coeficientes por defecto de todas las jurisdicciones. */
+    @Test
+    void lasFacturasDeExportacionQuedanExcluidasDeLaBaseYAvisan() {
+        when(facturaVentaRepository.buscarConfirmadasParaBaseIibb(any(), any()))
+                .thenReturn(List.of(
+                        venta("600000.00", caba, false),
+                        ventaUsd("3909.25", new BigDecimal("1500.00"), null, TipoComprobante.FACTURA_E)));
+
+        CalculoIibb c = service.calcular(2026, 3);
+
+        assertThat(c.baseTotal()).isEqualByComparingTo("600000.00");
+        assertThat(de(c, "CABA").baseImponible()).isEqualByComparingTo("600000.00");
+        assertThat(c.advertencias()).anyMatch(a -> a.contains("exportación") && a.contains("5863875.00"));
+    }
+
     @Test
     void lasVentasSinJurisdiccionNoSeAtribuyenYAvisan() {
         when(facturaVentaRepository.buscarConfirmadasParaBaseIibb(any(), any()))
@@ -132,6 +162,68 @@ class CalculoIibbServiceTest {
         assertThat(de(c, "BA").saldoAFavorAnterior()).isEqualByComparingTo("0.00");
     }
 
+    /** F11.2 A17: un coeficiente cargado a mano que no suma 1 entre todas las jurisdicciones
+     * sobre/sub-declara la base imponible total sin ningún aviso — ahora avisa. */
+    @Test
+    void laSumaDeCoeficientesQueNoDaUnoAvisa() {
+        LiquidacionIibb previa = new LiquidacionIibb();
+        LiquidacionIibbJurisdiccion ljCaba = new LiquidacionIibbJurisdiccion();
+        ljCaba.setJurisdiccion(caba);
+        ljCaba.setCoeficiente(new BigDecimal("0.700000"));
+        LiquidacionIibbJurisdiccion ljBa = new LiquidacionIibbJurisdiccion();
+        ljBa.setJurisdiccion(ba);
+        ljBa.setCoeficiente(new BigDecimal("0.700000"));
+        previa.getJurisdicciones().add(ljCaba);
+        previa.getJurisdicciones().add(ljBa);
+        when(liquidacionIibbRepository.findFirstByAnioAndMesAndEstado(2026, 2,
+                com.montanaritech.contable.common.estado.EstadoDocumento.CONFIRMADO)).thenReturn(Optional.of(previa));
+
+        CalculoIibb c = service.calcular(2026, 3);
+
+        assertThat(de(c, "CABA").coeficiente()).isEqualByComparingTo("0.700000");
+        assertThat(de(c, "BA").coeficiente()).isEqualByComparingTo("0.700000");
+        assertThat(c.advertencias()).anyMatch(a -> a.contains("1.400000"));
+    }
+
+    /** F11.2 A18: una jurisdicción nueva (sin fila en la liquidación anterior) entra en CERO,
+     * nunca al criterio de participación por destino — antes se mezclaban los dos criterios
+     * y la suma de coeficientes no daba 1 por construcción. */
+    @Test
+    void unaJurisdiccionNuevaSinCoeficienteAnteriorEntraEnCeroNoPorDestino() {
+        LiquidacionIibb previa = new LiquidacionIibb();
+        LiquidacionIibbJurisdiccion ljCaba = new LiquidacionIibbJurisdiccion();
+        ljCaba.setJurisdiccion(caba);
+        ljCaba.setCoeficiente(new BigDecimal("0.600000"));
+        previa.getJurisdicciones().add(ljCaba);
+        when(liquidacionIibbRepository.findFirstByAnioAndMesAndEstado(2026, 2,
+                com.montanaritech.contable.common.estado.EstadoDocumento.CONFIRMADO)).thenReturn(Optional.of(previa));
+        // BA no tenía fila en la liquidación anterior, pero sí tiene ventas este mes.
+        when(facturaVentaRepository.buscarConfirmadasParaBaseIibb(any(), any()))
+                .thenReturn(List.of(venta("900000.00", caba, false), venta("100000.00", ba, false)));
+
+        CalculoIibb c = service.calcular(2026, 3);
+
+        assertThat(de(c, "CABA").coeficiente()).isEqualByComparingTo("0.600000");
+        assertThat(de(c, "BA").coeficiente()).isEqualByComparingTo("0");
+        assertThat(c.advertencias()).anyMatch(a -> a.contains("BA") && a.contains("02/2026"));
+    }
+
+    /** F11.2 A19: una venta a una jurisdicción que existe pero está desactivada en el maestro
+     * entraba a la base sin repartirse a ninguna sub-liquidación, sin avisar. */
+    @Test
+    void unaVentaAJurisdiccionInactivaEngordaLaBaseYAvisa() {
+        Jurisdiccion cordobaInactiva = jurisdiccion(3L, "COR", "3.50");
+        cordobaInactiva.setActivo(false);
+        when(facturaVentaRepository.buscarConfirmadasParaBaseIibb(any(), any()))
+                .thenReturn(List.of(venta("600000.00", caba, false), venta("400000.00", cordobaInactiva, false)));
+
+        CalculoIibb c = service.calcular(2026, 3);
+
+        assertThat(c.baseTotal()).isEqualByComparingTo("1000000.00");
+        assertThat(de(c, "CABA").baseImponible()).isEqualByComparingTo("600000.00");
+        assertThat(c.advertencias()).anyMatch(a -> a.contains("inactivas") && a.contains("400000.00"));
+    }
+
     @Test
     void elPeriodoCubreElMesCompleto() {
         CalculoIibb c = service.calcular(2028, 2);
@@ -158,8 +250,18 @@ class CalculoIibbServiceTest {
     private FacturaVenta venta(String neto, Jurisdiccion jur, boolean notaCredito) {
         FacturaVenta f = new FacturaVenta();
         f.setNetoGravado(new BigDecimal(neto));
+        f.setTipoCambio(BigDecimal.ONE);
         f.setJurisdiccionDestino(jur);
         f.setTipoComprobante(notaCredito ? TipoComprobante.NOTA_CREDITO_A : TipoComprobante.FACTURA_A);
+        return f;
+    }
+
+    private FacturaVenta ventaUsd(String neto, BigDecimal tipoCambio, Jurisdiccion jur, TipoComprobante tipo) {
+        FacturaVenta f = new FacturaVenta();
+        f.setNetoGravado(new BigDecimal(neto));
+        f.setTipoCambio(tipoCambio);
+        f.setJurisdiccionDestino(jur);
+        f.setTipoComprobante(tipo);
         return f;
     }
 }

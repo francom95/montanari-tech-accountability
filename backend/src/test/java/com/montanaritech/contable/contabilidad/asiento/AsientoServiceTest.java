@@ -702,6 +702,40 @@ class AsientoServiceTest {
     }
 
     @Test
+    void confirmarConPeriodoCerradoPropagaPeriodoCerradoException() {
+        Asiento a = asientoBorradorConLineas(List.of(
+                lineaArs(10L, new BigDecimal("100.00"), BigDecimal.ZERO),
+                lineaArs(11L, BigDecimal.ZERO, new BigDecimal("100.00"))),
+                LocalDate.of(2026, 6, 5));
+        when(periodoService.verificarEscritura(a.getFecha(), false, null))
+                .thenThrow(new com.montanaritech.contable.common.error.PeriodoCerradoException("cerrado"));
+
+        assertThatThrownBy(() -> service.confirmar(a.getId()))
+                .isInstanceOf(com.montanaritech.contable.common.error.PeriodoCerradoException.class);
+    }
+
+    /** F11.2 B5: antes {@code registrarAutomatico} (el único punto de entrada de los generadores
+     * automáticos) no gateaba en período cerrado en absoluto — ni siquiera para rechazar. */
+    @Test
+    void registrarAutomaticoConPeriodoCerradoPropagaPeriodoCerradoException() {
+        when(periodoService.verificarEscritura(LocalDate.of(2026, 6, 5), false, null))
+                .thenThrow(new com.montanaritech.contable.common.error.PeriodoCerradoException("cerrado"));
+
+        com.montanaritech.contable.common.asiento.AsientoGenerado generado = new com.montanaritech.contable.common.asiento.AsientoGenerado(
+                LocalDate.of(2026, 6, 5), "Generado automático", "FACTURA_VENTA",
+                List.of(new com.montanaritech.contable.common.asiento.LineaAsientoGenerada(
+                                "1.1.2001", new BigDecimal("100.00"), BigDecimal.ZERO, "Fondos",
+                                1L, new BigDecimal("100.00"), BigDecimal.ONE, "MANUAL", null, null, null, null, null),
+                        new com.montanaritech.contable.common.asiento.LineaAsientoGenerada(
+                                "4.1.2001", BigDecimal.ZERO, new BigDecimal("100.00"), "Venta",
+                                1L, new BigDecimal("100.00"), BigDecimal.ONE, "MANUAL", null, null, null, null, null)),
+                "FacturaVenta", 5L);
+
+        assertThatThrownBy(() -> service.registrarAutomatico(generado))
+                .isInstanceOf(com.montanaritech.contable.common.error.PeriodoCerradoException.class);
+    }
+
+    @Test
     void listarYObtenerNuncaConsultanPeriodoAunConPeriodoCerrado() {
         Asiento a = asientoConfirmadoConLineas(91L, List.of(
                 lineaArsConId(910L, bancoImputable, new BigDecimal("100.00"), BigDecimal.ZERO, false),

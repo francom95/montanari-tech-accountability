@@ -1,5 +1,7 @@
 package com.montanaritech.contable.dashboard;
 
+import com.montanaritech.contable.common.audit.AccionAuditoria;
+import com.montanaritech.contable.common.audit.AuditoriaService;
 import com.montanaritech.contable.common.error.RecursoNoEncontradoException;
 import com.montanaritech.contable.dashboard.dto.ConfiguracionDashboardDtos.Request;
 import com.montanaritech.contable.dashboard.dto.ConfiguracionDashboardDtos.Response;
@@ -30,6 +32,7 @@ public class ConfiguracionDashboardController {
 
     private final ConfiguracionDashboardRepository repo;
     private final CacheManager cacheManager;
+    private final AuditoriaService auditoria;
 
     @GetMapping
     @Transactional(readOnly = true)
@@ -37,11 +40,13 @@ public class ConfiguracionDashboardController {
         return aResponse(obtenerConfiguracion());
     }
 
+    /** F11.2 A12: esta escritura de configuración no dejaba rastro de auditoría. */
     @PutMapping
     @PreAuthorize("hasRole('ADMINISTRADOR')")
     @Transactional
     public Response actualizar(@Valid @RequestBody Request req) {
         ConfiguracionDashboard config = obtenerConfiguracion();
+        Response antes = aResponse(config);
         config.setDiaVencimientoIva(req.diaVencimientoIva());
         config.setDiaVencimientoIibb(req.diaVencimientoIibb());
         config.setVentanaObligacionesDias(req.ventanaObligacionesDias());
@@ -50,6 +55,7 @@ public class ConfiguracionDashboardController {
         if (cache != null) {
             cache.clear();
         }
+        auditoria.registrar(AccionAuditoria.EDITAR, "ConfiguracionDashboard", config.getId(), antes, resp);
         return resp;
     }
 

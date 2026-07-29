@@ -54,6 +54,10 @@ public class PagoAsientoGenerator implements AsientoGenerator<Pago> {
 
         List<LineaAsientoGenerada> lineas = new ArrayList<>();
         BigDecimal sumaImputadoOriginal = BigDecimal.ZERO;
+        // F11.2 B7: el monto ARS de Fondos se deriva de la suma de los componentes ya
+        // redondeados (imputaciones + anticipo) en vez de redondear el agregado — ver el
+        // mismo fix y su explicación en CobroAsientoGenerator.
+        BigDecimal sumaComponentesArs = BigDecimal.ZERO;
 
         for (PagoImputacion imputacion : pago.getLineas()) {
             FacturaCompra factura = imputacion.getFacturaCompra();
@@ -86,6 +90,7 @@ public class PagoAsientoGenerator implements AsientoGenerator<Pago> {
             CalculoImputacion.Resultado resultado = CalculoImputacion.calcular(
                     imputacion.getMontoImputadoOriginal(), tc, factura.getTipoCambio(), saldoOrigAntes, factura.getTotalArs(), sumaArsPrevio);
             imputacion.setMontoArsCancelado(resultado.montoCanceladoArs());
+            sumaComponentesArs = sumaComponentesArs.add(resultado.montoFondosArs());
 
             CuentaContable cuentaCxp = factura.getProveedor().getCuentaCxp() != null
                     ? factura.getProveedor().getCuentaCxp()
@@ -118,12 +123,14 @@ public class PagoAsientoGenerator implements AsientoGenerator<Pago> {
             lineas.add(new LineaAsientoGenerada(cuentaAnticipo.getCodigo(), anticipoArs, BigDecimal.ZERO,
                     "Anticipo a " + pago.getProveedor().getNombre(), monedaId, montoAnticipoNuevo, tc, fuenteTc,
                     null, null, null, proveedorId, null));
+            sumaComponentesArs = sumaComponentesArs.add(anticipoArs);
         }
 
         CuentaContable cuentaFondos = pago.getCuentaBancaria().getCuentaContable();
-        BigDecimal montoFondosArs = CalculoImputacion.round2(pago.getTotal().multiply(tc));
+        BigDecimal montoFondosArs = sumaComponentesArs;
+        BigDecimal tcEfectivoFondos = pago.getTotal().signum() == 0 ? tc : tipoCambioEfectivo(montoFondosArs, pago.getTotal());
         lineas.add(new LineaAsientoGenerada(cuentaFondos.getCodigo(), BigDecimal.ZERO, montoFondosArs,
-                "Pago a " + pago.getProveedor().getNombre(), monedaId, pago.getTotal(), tc, fuenteTc,
+                "Pago a " + pago.getProveedor().getNombre(), monedaId, pago.getTotal(), tcEfectivoFondos, fuenteTc,
                 null, null, null, null, pago.getCuentaBancaria().getId()));
 
         return new AsientoGenerado(pago.getFecha(), "Pago - " + pago.getProveedor().getNombre(), "PAGO",

@@ -1,6 +1,7 @@
 package com.montanaritech.contable.common.audit;
 
 import com.montanaritech.contable.common.audit.dto.AuditoriaLogResponse;
+import com.montanaritech.contable.common.tenant.TenantContext;
 import java.time.Instant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -32,7 +33,7 @@ public class AuditoriaController {
             @RequestParam(required = false) Instant hasta,
             @PageableDefault(size = 50, sort = "fechaHora", direction = Sort.Direction.DESC) Pageable pageable
     ) {
-        return auditoriaLogRepository.buscar(entidadTipo, usuarioId, accion, desde, hasta, pageable)
+        return auditoriaLogRepository.buscar(TenantContext.getTenantId(), entidadTipo, usuarioId, accion, desde, hasta, pageable)
                 .map(auditoriaLogMapper::aResponse);
     }
 }

@@ -9,6 +9,7 @@ import com.montanaritech.contable.common.error.RecursoNoEncontradoException;
 import com.montanaritech.contable.contabilidad.asiento.Asiento;
 import com.montanaritech.contable.contabilidad.asiento.AsientoLinea;
 import com.montanaritech.contable.contabilidad.asiento.AsientoService;
+import com.montanaritech.contable.contabilidad.asiento.OrigenAsiento;
 import com.montanaritech.contable.facturacion.comprobantetributo.ComprobanteTipo;
 import com.montanaritech.contable.facturacion.comprobantetributo.ComprobanteTributo;
 import com.montanaritech.contable.facturacion.comprobantetributo.ComprobanteTributoRepository;
@@ -195,17 +196,39 @@ public class CobroService {
         Cobro c = obtener(id);
         var antes = respuestaCompleta(c);
         TransicionEstadoValidator.validar(c.getEstado(), EstadoDocumento.CONFIRMADO);
+        // F11.2 A8: antes este método no gateaba en período cerrado en absoluto.
+        boolean sobrePeriodoCerrado = periodoService.verificarEscritura(c.getFecha(), false, null);
+        // F11.2 A16: este camino nunca corre CobroAsientoGenerator, así que ninguna
+        // imputación tendría montoArsCancelado seteado (quedaba NULL, causando NPE al
+        // calcular el saldo pendiente de la factura más adelante) — se rechaza en vez de
+        // persistir un cobro con imputaciones a medio calcular.
+        if (!c.getLineas().isEmpty()) {
+            throw new NegocioException("VINCULACION_NO_SOPORTA_IMPUTACIONES",
+                    "Este cobro tiene imputaciones contra facturas: no se puede confirmar vinculando a un asiento "
+                            + "existente (el monto cancelado por imputación quedaría sin calcular). Usá confirmar() normal.");
+        }
 
         Asiento asiento = asientoService.obtener(asientoId);
         if (asiento.getEstado() != EstadoDocumento.CONFIRMADO) {
             throw new NegocioException("ASIENTO_NO_CONFIRMADO",
                     "El asiento " + asientoId + " no está CONFIRMADO — no se puede vincular");
         }
+        // F11.2 A9/A11: ver el mismo chequeo en FacturaVentaService.
+        if (asiento.getOrigenTipo() != null) {
+            throw new NegocioException("ASIENTO_YA_VINCULADO",
+                    "El asiento " + asientoId + " ya está vinculado a otro documento (" + asiento.getOrigenTipo() + ")");
+        }
 
         c.setAsiento(asiento);
         c.setEstado(EstadoDocumento.CONFIRMADO);
+        // F11.2 A9: reasigna el origen para que AsientoService.anular proteja este asiento
+        // igual que a uno generado automáticamente.
+        asiento.setOrigen(OrigenAsiento.COBRO);
+        asiento.setOrigenTipo("Cobro");
+        asiento.setOrigenId(c.getId());
 
-        auditoria.registrar(AccionAuditoria.CONFIRMAR, "Cobro", id, antes, respuestaCompleta(c));
+        auditoria.registrar(AccionAuditoria.CONFIRMAR, "Cobro", id, antes, respuestaCompleta(c),
+                sobrePeriodoCerrado, null);
         return c;
     }
 

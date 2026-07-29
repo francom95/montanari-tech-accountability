@@ -1,5 +1,7 @@
 package com.montanaritech.contable.facturacion.cobro;
 
+import com.montanaritech.contable.common.audit.AccionAuditoria;
+import com.montanaritech.contable.common.audit.AuditoriaService;
 import com.montanaritech.contable.common.estado.EstadoDocumento;
 import com.montanaritech.contable.facturacion.cobro.dto.AplicarAnticipoRequest;
 import com.montanaritech.contable.facturacion.cobro.dto.CobroAnularRequest;
@@ -28,6 +30,7 @@ public class CobroController {
     private final CobroService service;
     private final CobroMapper mapper;
     private final ConfiguracionCobranzaRepository configuracionCobranzaRepo;
+    private final AuditoriaService auditoria;
 
     @GetMapping("/configuracion-cobranza")
     public ConfiguracionCobranzaDtos.Response obtenerConfiguracionCobranza() {
@@ -35,14 +38,19 @@ public class CobroController {
         return new ConfiguracionCobranzaDtos.Response(c.getDiasGraciaMora(), c.getTasaMoraDiariaPorcentaje());
     }
 
+    /** F11.2 A12: esta escritura de configuración (fija la tasa de mora, con impacto contable real vía
+     * CobroAsientoGenerator) no dejaba rastro de auditoría. */
     @PutMapping("/configuracion-cobranza")
     @PreAuthorize("hasRole('ADMINISTRADOR')")
     public ConfiguracionCobranzaDtos.Response actualizarConfiguracionCobranza(@Valid @RequestBody ConfiguracionCobranzaDtos.Request req) {
         ConfiguracionCobranza c = configuracionCobranzaRepo.findFirstByOrderByIdAsc().orElseGet(ConfiguracionCobranza::new);
+        var antes = new ConfiguracionCobranzaDtos.Response(c.getDiasGraciaMora(), c.getTasaMoraDiariaPorcentaje());
         c.setDiasGraciaMora(req.diasGraciaMora());
         c.setTasaMoraDiariaPorcentaje(req.tasaMoraDiariaPorcentaje());
         configuracionCobranzaRepo.save(c);
-        return new ConfiguracionCobranzaDtos.Response(c.getDiasGraciaMora(), c.getTasaMoraDiariaPorcentaje());
+        var despues = new ConfiguracionCobranzaDtos.Response(c.getDiasGraciaMora(), c.getTasaMoraDiariaPorcentaje());
+        auditoria.registrar(AccionAuditoria.EDITAR, "ConfiguracionCobranza", c.getId(), antes, despues);
+        return despues;
     }
 
     @GetMapping
