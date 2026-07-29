@@ -40,6 +40,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -222,10 +223,15 @@ public class AsientoService {
 
         Map<Long, AsientoLinea> existentesPorId = a.getLineas().stream()
                 .collect(Collectors.toMap(EntidadNegocio::getId, l -> l));
-        Set<Long> idsEnRequest = req.lineas().stream()
+        List<Long> idsNoNulos = req.lineas().stream()
                 .map(AsientoLineaEditarRequest::id)
                 .filter(Objects::nonNull)
-                .collect(Collectors.toSet());
+                .toList();
+        Set<Long> idsEnRequest = new HashSet<>(idsNoNulos);
+        if (idsEnRequest.size() != idsNoNulos.size()) {
+            throw new NegocioException("LINEA_ID_DUPLICADO",
+                    "El request repite el id de una línea existente; cada línea solo puede aparecer una vez");
+        }
 
         boolean tocoLineaAutomatica = false;
         for (AsientoLinea existente : a.getLineas()) {

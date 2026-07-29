@@ -74,6 +74,9 @@ public class CobroAsientoGenerator implements AsientoGenerator<Cobro> {
             ConceptoContable concepto = switch (retencion.getTipo()) {
                 case RETENCION_GANANCIAS -> ConceptoContable.RETENCION_GANANCIAS_SUFRIDA;
                 case RETENCION_IVA -> ConceptoContable.RETENCION_IVA_SUFRIDA;
+                // F11.1 A15: mismo mapeo que la percepción de IIBB en factura de compra
+                // (FacturaCompraAsientoGenerator) — ambas son "sufridas" de la cuenta 1.1.2008.
+                case RETENCION_IIBB, SIRCREB -> ConceptoContable.PERCEPCION_IIBB_SUFRIDA;
                 default -> throw new NegocioException("TRIBUTO_NO_APLICABLE_A_COBRO",
                         "El tributo %s no genera línea de asiento en un cobro".formatted(retencion.getTipo()));
             };

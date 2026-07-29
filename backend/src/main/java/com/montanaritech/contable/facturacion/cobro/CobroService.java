@@ -44,7 +44,11 @@ public class CobroService {
 
     private static final Set<com.montanaritech.contable.facturacion.comprobantetributo.TipoTributo> TRIBUTOS_APLICABLES_A_COBRO =
             Set.of(com.montanaritech.contable.facturacion.comprobantetributo.TipoTributo.RETENCION_GANANCIAS,
-                    com.montanaritech.contable.facturacion.comprobantetributo.TipoTributo.RETENCION_IVA);
+                    com.montanaritech.contable.facturacion.comprobantetributo.TipoTributo.RETENCION_IVA,
+                    // F11.1 A15: la retención de IIBB/SIRCREB sufrida en un cobro no se podía
+                    // registrar (el asiento generado no la mapeaba y esta guarda la rechazaba antes).
+                    com.montanaritech.contable.facturacion.comprobantetributo.TipoTributo.RETENCION_IIBB,
+                    com.montanaritech.contable.facturacion.comprobantetributo.TipoTributo.SIRCREB);
     private static final String MONEDA_LIBRO = "ARS";
 
     private final CobroRepository repo;

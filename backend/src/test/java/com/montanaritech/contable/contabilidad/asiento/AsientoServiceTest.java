@@ -532,6 +532,25 @@ class AsientoServiceTest {
     }
 
     @Test
+    void editarConfirmadoConIdDeLineaRepetidoFalla() {
+        Asiento a = asientoConfirmadoConLineas(86L, List.of(
+                lineaArsConId(860L, bancoImputable, new BigDecimal("1000.00"), BigDecimal.ZERO, false),
+                lineaArsConId(861L, ventasImputable, BigDecimal.ZERO, new BigDecimal("1000.00"), false)),
+                LocalDate.of(2026, 6, 1), OrigenAsiento.MANUAL);
+
+        AsientoEditarConfirmadoRequest req = new AsientoEditarConfirmadoRequest(
+                a.getFecha(), "Descripción editada", null,
+                List.of(editarLineaArs(860L, 10L, new BigDecimal("1000.00"), BigDecimal.ZERO),
+                        editarLineaArs(860L, 10L, new BigDecimal("1000.00"), BigDecimal.ZERO),
+                        editarLineaArs(861L, 11L, BigDecimal.ZERO, new BigDecimal("2000.00"))));
+
+        assertThatThrownBy(() -> service.editarConfirmado(86L, req))
+                .isInstanceOf(NegocioException.class)
+                .extracting(e -> ((NegocioException) e).getCodigo())
+                .isEqualTo("LINEA_ID_DUPLICADO");
+    }
+
+    @Test
     void editarConfirmadoConLineasManualesBalanceadasActualizaSinTocarNumero() {
         Asiento a = asientoConfirmadoConLineas(81L, List.of(
                 lineaArsConId(810L, bancoImputable, new BigDecimal("100.00"), BigDecimal.ZERO, false),

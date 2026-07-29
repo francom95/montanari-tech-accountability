@@ -274,6 +274,34 @@ class CobroAsientoGeneratorTest {
         assertBalancea(generado);
     }
 
+    // ---- F11.1 A15: retención de IIBB/SIRCREB sufrida en un cobro ----
+
+    @Test
+    void arsConRetencionDeSircrebSufridaMapeaAPercepcionIibbSufrida() {
+        CuentaContable cuentaIibb = cuenta(21L, "1.1.2008");
+        when(resolutorCuentas.resolver(ConceptoContable.PERCEPCION_IIBB_SUFRIDA)).thenReturn(cuentaIibb);
+        FacturaVenta f = factura(20L, ars, new BigDecimal("1.000000"), new BigDecimal("121000.00"), new BigDecimal("121000.00"));
+
+        Cobro c = cobro(12L, ars, new BigDecimal("1.000000"), bancoArs, new BigDecimal("121000.00"),
+                imputacion(f, new BigDecimal("121000.00")));
+
+        ComprobanteTributo retencion = new ComprobanteTributo();
+        retencion.setTipo(TipoTributo.SIRCREB);
+        retencion.setImporte(new BigDecimal("1210.00"));
+        when(comprobanteTributoRepo.findByComprobanteTipoAndComprobanteIdOrderByIdAsc(ComprobanteTipo.COBRO, 12L))
+                .thenReturn(List.of(retencion));
+
+        AsientoGenerado generado = generator.generar(c);
+
+        assertThat(generado.lineas()).hasSize(3);
+        assertThat(generado.lineas().get(0).cuentaCodigo()).isEqualTo("1.1.2001");
+        assertThat(generado.lineas().get(0).debe()).isEqualByComparingTo("119790.00");
+        assertThat(generado.lineas().get(1).cuentaCodigo()).isEqualTo("1.1.2008");
+        assertThat(generado.lineas().get(1).debe()).isEqualByComparingTo("1210.00");
+        assertThat(generado.lineas().get(2).haber()).isEqualByComparingTo("121000.00");
+        assertBalancea(generado);
+    }
+
     // ---- CO-5: cobro 100% anticipo (sin facturas) ----
 
     @Test
