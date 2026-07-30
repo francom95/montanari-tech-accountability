@@ -5503,5 +5503,80 @@
     "mtime": 1785426720.4400957,
     "ast_hash": "f35b77d94458ae97f45dfb9626c80ed3",
     "semantic_hash": "f35b77d94458ae97f45dfb9626c80ed3"
+  },
+  "docs/manual-usuario/00_indice.md": {
+    "mtime": 1785428589.20492,
+    "ast_hash": "0a1506db3d9136c0a5e62c2872fe8814",
+    "semantic_hash": "0a1506db3d9136c0a5e62c2872fe8814"
+  },
+  "docs/manual-usuario/01_facturas_venta_compra.md": {
+    "mtime": 1785428613.4759893,
+    "ast_hash": "459e3389769667e839881932342228f1",
+    "semantic_hash": "459e3389769667e839881932342228f1"
+  },
+  "docs/manual-usuario/02_cobros_y_pagos.md": {
+    "mtime": 1785428637.004102,
+    "ast_hash": "dc22b1f8183466b853a01d1944c17372",
+    "semantic_hash": "dc22b1f8183466b853a01d1944c17372"
+  },
+  "docs/manual-usuario/03_resumenes_bancarios_y_bandeja.md": {
+    "mtime": 1785428661.4788997,
+    "ast_hash": "44f5338c00c20b30d060852c7e7e0e51",
+    "semantic_hash": "44f5338c00c20b30d060852c7e7e0e51"
+  },
+  "docs/manual-usuario/04_conciliacion_bancaria.md": {
+    "mtime": 1785428675.3131325,
+    "ast_hash": "2e1aa546a24f18168d40695ad703852f",
+    "semantic_hash": "2e1aa546a24f18168d40695ad703852f"
+  },
+  "docs/manual-usuario/05_liquidacion_iva_e_iibb.md": {
+    "mtime": 1785428698.8984947,
+    "ast_hash": "c9ab5c7aab4fd0dd90fee1b718e0de65",
+    "semantic_hash": "c9ab5c7aab4fd0dd90fee1b718e0de65"
+  },
+  "docs/manual-usuario/06_cierre_de_periodos.md": {
+    "mtime": 1785428710.2939143,
+    "ast_hash": "8b499ce8b3fe7835de61887b6a570025",
+    "semantic_hash": "8b499ce8b3fe7835de61887b6a570025"
+  },
+  "docs/manual-usuario/07_vencimientos_y_alertas.md": {
+    "mtime": 1785428728.9971187,
+    "ast_hash": "39fe9d899cf7faadd997e8e80ee3e3aa",
+    "semantic_hash": "39fe9d899cf7faadd997e8e80ee3e3aa"
+  },
+  "docs/manual-usuario/08_presupuestos_y_rentabilidad.md": {
+    "mtime": 1785428746.7244303,
+    "ast_hash": "a9a5e553be37aa7cb9ae5d320dc976c2",
+    "semantic_hash": "a9a5e553be37aa7cb9ae5d320dc976c2"
+  },
+  "docs/manual-usuario/09_busqueda_lupita.md": {
+    "mtime": 1785428757.7254066,
+    "ast_hash": "dc2f2c6deaaf8c49bdefc5745c41fe4d",
+    "semantic_hash": "dc2f2c6deaaf8c49bdefc5745c41fe4d"
+  },
+  "docs/manual-usuario/10_pendientes_administrativos.md": {
+    "mtime": 1785428768.0741801,
+    "ast_hash": "8c436a4bb894a565a3c23e0d659f99c9",
+    "semantic_hash": "8c436a4bb894a565a3c23e0d659f99c9"
+  },
+  "docs/manual-usuario/11_exportaciones.md": {
+    "mtime": 1785428781.2833645,
+    "ast_hash": "4fdc39308985b54abf425cb5be880598",
+    "semantic_hash": "4fdc39308985b54abf425cb5be880598"
+  },
+  "docs/manual-usuario/12_preguntas_frecuentes.md": {
+    "mtime": 1785428808.459928,
+    "ast_hash": "bbf67513d348c57ef235105385ff1f3f",
+    "semantic_hash": "bbf67513d348c57ef235105385ff1f3f"
+  },
+  "outputs/F11_4_documentacion_de_usuario.md": {
+    "mtime": 1785429030.6973636,
+    "ast_hash": "edeb3b48dba6756c172d96b806997267",
+    "semantic_hash": "edeb3b48dba6756c172d96b806997267"
+  },
+  "docs/manual-usuario/Manual_de_Usuario_Montanari_Tech.pdf": {
+    "mtime": 1785428930.9540658,
+    "ast_hash": "a81b57608e773a3cf929d73bf0bb2748",
+    "semantic_hash": "a81b57608e773a3cf929d73bf0bb2748"
   }
 }
