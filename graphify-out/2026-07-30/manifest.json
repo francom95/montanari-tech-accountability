@@ -5578,5 +5578,10 @@
     "mtime": 1785428930.9540658,
     "ast_hash": "a81b57608e773a3cf929d73bf0bb2748",
     "semantic_hash": "a81b57608e773a3cf929d73bf0bb2748"
+  },
+  "docs/GUIA_DE_PRUEBAS_Y_ESTADO.md": {
+    "mtime": 1785430598.0893815,
+    "ast_hash": "2409f6da6d7d9088f90d7cd8ffc16672",
+    "semantic_hash": "2409f6da6d7d9088f90d7cd8ffc16672"
   }
 }

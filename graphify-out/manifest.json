@@ -305,9 +305,9 @@
     "semantic_hash": "e84523a71e3b99990121739bd488679b"
   },
   "backend/src/main/java/com/montanaritech/contable/config/SecurityConfig.java": {
-    "mtime": 1783307001.4229598,
-    "ast_hash": "3ca60e7fc700bfc8f298953950d3d06c",
-    "semantic_hash": "3ca60e7fc700bfc8f298953950d3d06c"
+    "mtime": 1785431137.563006,
+    "ast_hash": "41b44a77dc184234bb6e38e4c0630561",
+    "semantic_hash": "41b44a77dc184234bb6e38e4c0630561"
   },
   "backend/src/main/java/com/montanaritech/contable/config/WebMvcConfig.java": {
     "mtime": 1785354376.114645,
@@ -1295,14 +1295,14 @@
     "semantic_hash": "2d0cfe83abe72b97cb8b2cf34231ed23"
   },
   "backend/src/main/resources/application-dev.yml": {
-    "mtime": 1785359977.1446104,
-    "ast_hash": "4517c0d251d69f1e5f81947b51a542be",
-    "semantic_hash": "4517c0d251d69f1e5f81947b51a542be"
+    "mtime": 1785431145.7198143,
+    "ast_hash": "d85c14eb35864d577448e3bd33cde63c",
+    "semantic_hash": "d85c14eb35864d577448e3bd33cde63c"
   },
   "backend/src/main/resources/application-prod.yml": {
-    "mtime": 1785425090.0346854,
-    "ast_hash": "485ebf1bd8593397815365d45e1333d9",
-    "semantic_hash": "485ebf1bd8593397815365d45e1333d9"
+    "mtime": 1785431189.3925757,
+    "ast_hash": "48a97d1c586b75391efdd4ebf1b0f742",
+    "semantic_hash": "48a97d1c586b75391efdd4ebf1b0f742"
   },
   "backend/src/main/resources/application.yml": {
     "mtime": 1784742709.216088,
@@ -1310,9 +1310,9 @@
     "semantic_hash": "e9eb68f94154ff239541b5208018aa99"
   },
   "docker-compose.yml": {
-    "mtime": 1784860685.2933133,
-    "ast_hash": "b44693d2d71a76f7380a9161ed81642c",
-    "semantic_hash": "b44693d2d71a76f7380a9161ed81642c"
+    "mtime": 1785431201.5880492,
+    "ast_hash": "16c2319091cbd2278faadee50dc726a1",
+    "semantic_hash": "16c2319091cbd2278faadee50dc726a1"
   },
   "frontend/README.md": {
     "mtime": 1783302969.074891,
@@ -5490,14 +5490,14 @@
     "semantic_hash": "59bf1739fe20511342ff99654bf609e6"
   },
   "docker-compose.prod.yml": {
-    "mtime": 1785425007.7017336,
-    "ast_hash": "0c0c12ef5b715db12dcb98378644ecda",
-    "semantic_hash": "0c0c12ef5b715db12dcb98378644ecda"
+    "mtime": 1785431212.5171244,
+    "ast_hash": "0d4f9b772a720c059ebed1eda2ac2fd2",
+    "semantic_hash": "0d4f9b772a720c059ebed1eda2ac2fd2"
   },
   "docs/RUNBOOK.md": {
-    "mtime": 1785425758.9856389,
-    "ast_hash": "190573d702afd435fc63cc8da27a4da0",
-    "semantic_hash": "190573d702afd435fc63cc8da27a4da0"
+    "mtime": 1785431237.3816254,
+    "ast_hash": "cdc4299c51814788a96a3f04fb8cb275",
+    "semantic_hash": "cdc4299c51814788a96a3f04fb8cb275"
   },
   "outputs/F11_3_despliegue_productivo.md": {
     "mtime": 1785426720.4400957,
@@ -5583,5 +5583,10 @@
     "mtime": 1785430598.0893815,
     "ast_hash": "2409f6da6d7d9088f90d7cd8ffc16672",
     "semantic_hash": "2409f6da6d7d9088f90d7cd8ffc16672"
+  },
+  "backend/src/main/java/com/montanaritech/contable/config/CorsConfig.java": {
+    "mtime": 1785431181.5854218,
+    "ast_hash": "cfa96109a51061579d41e63306f9a9eb",
+    "semantic_hash": "cfa96109a51061579d41e63306f9a9eb"
   }
 }

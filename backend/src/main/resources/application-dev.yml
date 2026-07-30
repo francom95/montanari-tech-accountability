@@ -15,6 +15,13 @@ spring:
 # seteado. application.yml (base, todos los perfiles) ya exige JWT_SECRET sin
 # default; dev ahora hereda esa misma exigencia en vez de tener la suya propia.
 
+app:
+  cors:
+    # Origen del frontend en dev (docker-compose.yml expone 5173; `npm run dev`
+    # sin Docker usa el mismo puerto salvo que se cambie PORT en vite.config.ts).
+    # Lista separada por comas si hace falta más de un origen.
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173}
+
 logging:
   level:
     com.montanaritech: DEBUG

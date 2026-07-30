@@ -12,6 +12,15 @@ spring:
   jpa:
     show-sql: false
 
+app:
+  cors:
+    # Opcional en prod: nginx.prod.conf sirve el frontend y proxya /api/ bajo
+    # el mismo dominio, así que el browser nunca hace una llamada cross-origin
+    # en la topología estándar y esto no hace falta. Completar solo si el API
+    # se va a llamar desde otro origen (ej. un subdominio separado, una app
+    # mobile). Lista separada por comas.
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:}
+
 logging:
   level:
     root: INFO

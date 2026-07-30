@@ -29,7 +29,7 @@ Archivos clave: `docker-compose.prod.yml`, `frontend/nginx.prod.conf`, `backend/
 ## 3. Deploy desde cero
 
 1. Clonar el repo en el VPS.
-2. Copiar `.env.example` a `.env` y completar TODOS los valores reales (`DB_*`, `MYSQL_ROOT_PASSWORD`, `JWT_SECRET` — generar uno nuevo con `python3 -c "import secrets; print(secrets.token_urlsafe(48))"`, nunca reusar el placeholder del `.env.example`). Agregar además `BACKUP_DIR`, `DAILY_RETENTION_DAYS`, `MONTHLY_RETENTION_MONTHS`, `LOG_RETENTION_DAYS` si se quiere cambiar algún default.
+2. Copiar `.env.example` a `.env` y completar TODOS los valores reales (`DB_*`, `MYSQL_ROOT_PASSWORD`, `JWT_SECRET` — generar uno nuevo con `python3 -c "import secrets; print(secrets.token_urlsafe(48))"`, nunca reusar el placeholder del `.env.example`). Agregar además `BACKUP_DIR`, `DAILY_RETENTION_DAYS`, `MONTHLY_RETENTION_MONTHS`, `LOG_RETENTION_DAYS` si se quiere cambiar algún default. `CORS_ALLOWED_ORIGINS` normalmente se deja vacío en prod (nginx sirve frontend y API bajo el mismo dominio, así que el browser nunca hace una llamada cross-origin) — completar solo si el API se va a llamar desde otro origen.
 3. Crear `./certs/fullchain.pem` y `./certs/privkey.pem` (los dos nombres exactos que espera `frontend/nginx.prod.conf`) con el certificado provisto por el equipo. `chmod 600 ./certs/privkey.pem`.
 4. `docker compose -f docker-compose.prod.yml up -d --build`
 5. Verificar que los 3 servicios estén `healthy`: `docker compose -f docker-compose.prod.yml ps`
