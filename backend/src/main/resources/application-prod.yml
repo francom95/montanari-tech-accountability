@@ -16,3 +16,12 @@ logging:
   level:
     root: INFO
     com.montanaritech: INFO
+
+management:
+  endpoint:
+    health:
+      # Defensa en profundidad: el control real es de red (backend sin
+      # puerto publicado en docker-compose.prod.yml + nginx.prod.conf nunca
+      # proxya /actuator/**), pero esto evita depender del plumbing de
+      # autorización de Spring para el rol de actuator (hoy no cableado).
+      show-details: never

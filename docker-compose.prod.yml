@@ -1,0 +1,86 @@
+services:
+  mysql:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?falta MYSQL_ROOT_PASSWORD en .env}
+      MYSQL_DATABASE: ${DB_NAME:?falta DB_NAME en .env}
+      MYSQL_USER: ${DB_USERNAME:?falta DB_USERNAME en .env}
+      MYSQL_PASSWORD: ${DB_PASSWORD:?falta DB_PASSWORD en .env}
+    # Sin `ports:` — a diferencia de docker-compose.yml (dev), mysql en prod
+    # solo es alcanzable dentro de la red interna del compose (por el backend
+    # y por ops/backup/*.sh vía `docker exec`), nunca expuesto al host.
+    volumes:
+      - mysql_data:/var/lib/mysql
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD:?falta MYSQL_ROOT_PASSWORD en .env}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  backend:
+    build:
+      context: ./backend
+    restart: always
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_NAME: ${DB_NAME:?falta DB_NAME en .env}
+      DB_USERNAME: ${DB_USERNAME:?falta DB_USERNAME en .env}
+      DB_PASSWORD: ${DB_PASSWORD:?falta DB_PASSWORD en .env}
+      JWT_SECRET: ${JWT_SECRET:?falta JWT_SECRET en .env}
+      JWT_ACCESS_TTL_MINUTES: ${JWT_ACCESS_TTL_MINUTES:-15}
+      JWT_REFRESH_TTL_DAYS: ${JWT_REFRESH_TTL_DAYS:-7}
+      ADJUNTOS_DIR: /data/adjuntos
+      LOG_DIR: /app/logs
+      LOG_RETENTION_DAYS: ${LOG_RETENTION_DAYS:-30}
+    # Sin `ports:` — solo nginx (servicio frontend) le habla como
+    # `backend:8080` dentro de la red del compose. Esto es, junto con el
+    # nginx de prod nunca proxyando /actuator, lo que saca Actuator de
+    # internet (ver frontend/nginx.prod.conf).
+    volumes:
+      - adjuntos_data:/data/adjuntos
+      - backend_logs:/app/logs
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+      start_period: 30s
+
+  frontend:
+    build:
+      context: ./frontend
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./certs:/etc/nginx/certs:ro
+      - ./frontend/nginx.prod.conf:/etc/nginx/conf.d/default.conf:ro
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
+
+volumes:
+  mysql_data:
+  adjuntos_data:
+  backend_logs:

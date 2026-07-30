@@ -1300,9 +1300,9 @@
     "semantic_hash": "4517c0d251d69f1e5f81947b51a542be"
   },
   "backend/src/main/resources/application-prod.yml": {
-    "mtime": 1783298887.283082,
-    "ast_hash": "78adba6bb33b62d005e19a9ab08b925d",
-    "semantic_hash": "78adba6bb33b62d005e19a9ab08b925d"
+    "mtime": 1785425090.0346854,
+    "ast_hash": "485ebf1bd8593397815365d45e1333d9",
+    "semantic_hash": "485ebf1bd8593397815365d45e1333d9"
   },
   "backend/src/main/resources/application.yml": {
     "mtime": 1784742709.216088,
@@ -5458,5 +5458,50 @@
     "mtime": 1785360948.1973636,
     "ast_hash": "b77a1af276c3708211dba8e28aa0e97e",
     "semantic_hash": "b77a1af276c3708211dba8e28aa0e97e"
+  },
+  "ops/backup/backup.sh": {
+    "mtime": 1785425235.6521485,
+    "ast_hash": "d6627bc5653bc221682cffda59e667d7",
+    "semantic_hash": "d6627bc5653bc221682cffda59e667d7"
+  },
+  "ops/backup/offsite_hook.sh": {
+    "mtime": 1785425256.67395,
+    "ast_hash": "3faa41483fa707916c5ee44b823dd974",
+    "semantic_hash": "3faa41483fa707916c5ee44b823dd974"
+  },
+  "ops/backup/prune_backups.sh": {
+    "mtime": 1785425248.0402744,
+    "ast_hash": "566187bd8b81c029d86f6aff4927a86a",
+    "semantic_hash": "566187bd8b81c029d86f6aff4927a86a"
+  },
+  "ops/backup/restore.sh": {
+    "mtime": 1785425269.6555188,
+    "ast_hash": "89bfa10a2982fe94a76e5d7b4a2cb5c6",
+    "semantic_hash": "89bfa10a2982fe94a76e5d7b4a2cb5c6"
+  },
+  "ops/backup/verify_restore.sh": {
+    "mtime": 1785425822.558229,
+    "ast_hash": "dded033870ba9b918a4f1c9693079f0d",
+    "semantic_hash": "dded033870ba9b918a4f1c9693079f0d"
+  },
+  "ops/smoke_test.sh": {
+    "mtime": 1785426256.5247443,
+    "ast_hash": "59bf1739fe20511342ff99654bf609e6",
+    "semantic_hash": "59bf1739fe20511342ff99654bf609e6"
+  },
+  "docker-compose.prod.yml": {
+    "mtime": 1785425007.7017336,
+    "ast_hash": "0c0c12ef5b715db12dcb98378644ecda",
+    "semantic_hash": "0c0c12ef5b715db12dcb98378644ecda"
+  },
+  "docs/RUNBOOK.md": {
+    "mtime": 1785425758.9856389,
+    "ast_hash": "190573d702afd435fc63cc8da27a4da0",
+    "semantic_hash": "190573d702afd435fc63cc8da27a4da0"
+  },
+  "outputs/F11_3_despliegue_productivo.md": {
+    "mtime": 1785426720.4400957,
+    "ast_hash": "f35b77d94458ae97f45dfb9626c80ed3",
+    "semantic_hash": "f35b77d94458ae97f45dfb9626c80ed3"
   }
 }
