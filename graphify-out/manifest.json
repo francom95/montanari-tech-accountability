@@ -5588,5 +5588,10 @@
     "mtime": 1785431181.5854218,
     "ast_hash": "cfa96109a51061579d41e63306f9a9eb",
     "semantic_hash": "cfa96109a51061579d41e63306f9a9eb"
+  },
+  "docs/Plan_de_Pruebas_Contadora.pdf": {
+    "mtime": 1785601380.2092562,
+    "ast_hash": "d89a82d8b8a35129893293a126784cb7",
+    "semantic_hash": "d89a82d8b8a35129893293a126784cb7"
   }
 }

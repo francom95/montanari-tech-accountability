@@ -846,5 +846,12 @@
   "844": "4. Conciliación bancaria",
   "845": "PagoCrearRequest",
   "846": "PagoEditarRequest",
-  "847": "Manual de usuario — Sistema de Gestión Contable Montanari Tech"
+  "847": "Manual de usuario — Sistema de Gestión Contable Montanari Tech",
+  "848": "TipoCosto.java",
+  "849": "ConfiguracionCobranzaDtos.java",
+  "850": "FacturaCompraCrearRequest",
+  "851": "FacturaCompraEditarRequest",
+  "852": "FacturaVentaCrearRequest",
+  "853": "FacturaVentaEditarRequest",
+  "854": "TipoCambioMapper"
 }
